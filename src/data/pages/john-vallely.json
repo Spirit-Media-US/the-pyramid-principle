@@ -6,6 +6,10 @@
     "slug": "john-vallely"
   },
   {
+    "type": "shape-divider",
+    "fill": "#fafafa"
+  },
+  {
     "type": "hero-intro",
     "id": "brxe-63667e",
     "eyebrow": "John Vallely",
@@ -20,16 +24,30 @@
         "height": 700,
         "width": 562
       }
-    }
-  },
-  {
-    "type": "highlight-cards",
-    "id": "brxe-55ba7b",
-    "items": [
-      "JOHN VALLELY BATTLED THE BEST 2X NCAA CHAMPION AT UCLA",
-      "JOHN VALLELY BATTLED THE BIGGEST FIGHT AGAINST BANK OF AMERICA",
-      "John Battled the most brutal cancer as a survivor and warrior",
-      "HIS COACH’S PROVEN LIFE PRINCIPLES GUIDED HIM AND GAVE HIM THE STRENGTH TO FIGHT WITH UNDYING FAITH"
+    },
+    "highlightCards": [
+      {
+        "lines": [
+          "JOHN VALLELY BATTLED THE BEST",
+          "2X NCAA CHAMPION AT UCLA"
+        ]
+      },
+      {
+        "lines": [
+          "JOHN VALLELY BATTLED THE BIGGEST",
+          "FIGHT AGAINST BANK OF AMERICA"
+        ]
+      },
+      {
+        "lines": [
+          "John Battled the most brutal cancer as a survivor and warrior"
+        ]
+      },
+      {
+        "lines": [
+          "HIS COACH’S PROVEN LIFE PRINCIPLES GUIDED HIM AND GAVE HIM THE STRENGTH TO FIGHT WITH UNDYING FAITH"
+        ]
+      }
     ]
   },
   {

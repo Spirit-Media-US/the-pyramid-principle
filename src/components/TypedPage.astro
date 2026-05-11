@@ -36,32 +36,90 @@ function decodeText(s: string): string {
 {blocks.map(b => {
   if (b.type === '_meta') return null;
 
+  // ── shape-divider — decorative SVG triangle (full width, ~200px) ──
+  // Bricks uses this as a slanted edge at the top of a section. Reusable.
+  if (b.type === 'shape-divider') {
+    const fill = b.fill || '#fafafa';
+    return (
+      <svg class="jv-shape-divider"
+           xmlns="http://www.w3.org/2000/svg"
+           preserveAspectRatio="none"
+           viewBox="0 0 1200 200"
+           aria-hidden="true"
+           style={`fill: ${fill};`}>
+        <polygon fill-rule="evenodd" points="0 200 1200 0 1200 200"></polygon>
+      </svg>
+    );
+  }
+
+  // ── hero-intro — verified 2-col hero matching live #brxe-63667e ──
+  // Left col: eyebrow row + H1 + mobile-only image + body + 4 highlight cards
+  // Right col: desktop-only sidebar image
   if (b.type === 'hero-intro') {
     const heroImg = imgUrl(b.image, 700);
     const heroMobile = imgUrl(b.image, 400);
+    const imgWidth = b.image?.dims?.width || 562;
+    const imgHeight = b.image?.dims?.height || 700;
+    const cards = (b.highlightCards || []) as { lines: string[] }[];
     return (
-      <section class="jv-hero">
+      <section class="jv-hero" id={b.id}>
         <div class="jv-hero-grid">
-          <div class="jv-hero-content">
-            <p class="jv-eyebrow">{b.eyebrow}</p>
+          <div class="jv-hero-left">
+            <div class="jv-eyebrow-row">
+              <span class="jv-eyebrow-divider" aria-hidden="true"></span>
+              <h6 class="jv-eyebrow">{b.eyebrow}</h6>
+            </div>
             <h1 class="jv-h1">{b.h1}</h1>
+            {b.image && b.image.sanityUrl && (
+              <img class="jv-hero-img-mobile"
+                   src={heroMobile}
+                   width={imgWidth} height={imgHeight}
+                   alt={b.eyebrow}
+                   loading="lazy" decoding="async" />
+            )}
             <p class="jv-body">{decodeText(b.body)}</p>
+            <div class="jv-highlight-stack">
+              {cards.map(c => (
+                <div class="jv-highlight-card">
+                  {c.lines.map((line, i) => (
+                    <>
+                      {i > 0 && <br />}
+                      {line}
+                    </>
+                  ))}
+                </div>
+              ))}
+            </div>
           </div>
           {b.image && b.image.sanityUrl && (
-            <img class="jv-hero-img"
-                 src={heroImg}
-                 srcset={`${heroMobile} 400w, ${heroImg} 700w`}
-                 sizes="(max-width: 768px) 100vw, 500px"
-                 width={b.image.dims?.width || 562}
-                 height={b.image.dims?.height || 700}
-                 alt={b.eyebrow}
-                 loading="lazy" decoding="async" />
+            <div class="jv-hero-right">
+              <img class="jv-hero-img-desktop"
+                   src={heroImg}
+                   srcset={`${heroMobile} 400w, ${heroImg} 700w`}
+                   sizes="(max-width: 1024px) 100vw, 562px"
+                   width={imgWidth} height={imgHeight}
+                   alt={b.eyebrow}
+                   loading="lazy" decoding="async" />
+            </div>
           )}
         </div>
       </section>
     );
   }
 
+  // ── standalone highlight-card (reusable block; can appear at top level) ──
+  if (b.type === 'highlight-card') {
+    const lines = b.lines || (b.text ? [b.text] : []);
+    return (
+      <div class="jv-highlight-card jv-highlight-card-standalone">
+        {lines.map((line: string, i: number) => (
+          <>{i > 0 && <br />}{line}</>
+        ))}
+      </div>
+    );
+  }
+
+  // ── legacy block: highlight-cards (array form, kept for back-compat) ──
   if (b.type === 'highlight-cards') {
     return (
       <section class="jv-highlights">
@@ -237,46 +295,144 @@ function decodeText(s: string): string {
 </script>
 
 <style is:global>
-  /* ── John Vallely page typed-block styles ── */
-  /* Hero intro */
-  .jv-hero { background: var(--color-bg-section); padding: 48px 0; }
+  /* ── Decorative SVG shape divider ── */
+  .jv-shape-divider {
+    display: block;
+    width: 100%;
+    height: 80px;
+  }
+  @media (min-width: 768px) {
+    .jv-shape-divider { height: 200px; }
+  }
+
+  /* ── John Vallely hero (verified live DOM #brxe-63667e) ── */
+  .jv-hero { background: #fff; padding: 40px 20px; }
+  @media (min-width: 768px) { .jv-hero { padding: 80px 0; } }
   .jv-hero-grid {
     max-width: var(--container-max);
     margin-inline: auto;
     padding: 0 var(--section-padding-x-mobile);
-    display: grid; grid-template-columns: 1fr; gap: 32px; align-items: center;
+    display: grid; grid-template-columns: 1fr;
+    gap: 40px;
+    align-items: flex-start;
   }
   @media (min-width: 768px) { .jv-hero-grid { padding: 0 var(--section-padding-x-desktop); } }
-  @media (min-width: 1024px) { .jv-hero-grid { grid-template-columns: 1.5fr 1fr; gap: 48px; } }
+  @media (min-width: 1024px) { .jv-hero-grid { grid-template-columns: 1fr 1fr; gap: 65px; } }
+
+  .jv-hero-left { display: flex; flex-direction: column; min-width: 0; }
+  .jv-hero-right {
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+  @media (min-width: 1024px) { .jv-hero-right { display: flex; } }
+
+  /* Eyebrow row: [— short divider] H6 inline, vertically centered */
+  .jv-eyebrow-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .jv-eyebrow-divider {
+    flex-shrink: 0;
+    width: 40px;
+    height: 0;
+    border-top: 1px solid rgb(97, 97, 97);
+  }
   .jv-eyebrow {
-    font-family: var(--font-heading); font-weight: 700; text-transform: uppercase;
-    letter-spacing: 0.04em; font-size: 0.875rem; color: var(--color-author-blue); margin: 0 0 12px;
-  }
-  .jv-h1 {
-    font-family: var(--font-display); font-weight: 400;
-    font-size: clamp(2.5rem, 6vw, 4rem); line-height: 1; letter-spacing: 0.01em;
-    text-transform: uppercase; color: var(--color-ink); margin: 0 0 24px;
-  }
-  .jv-body { margin: 0 0 16px; font-size: 1rem; line-height: 1.65; color: var(--color-text); }
-  .jv-hero-img {
-    width: 100%; max-width: 500px; height: auto; display: block; justify-self: center; border-radius: 8px;
+    margin: 0;
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 15px;
+    color: rgb(97, 97, 97);
+    line-height: 1.3;
   }
 
-  /* Highlight cards (left-border callouts) */
-  .jv-highlights { background: #fff; padding: 48px 0; }
-  .jv-highlights-grid {
-    max-width: var(--container-max); margin-inline: auto;
-    padding: 0 var(--section-padding-x-mobile);
-    display: grid; grid-template-columns: 1fr; gap: 16px;
+  /* H1: Bebas Neue, 50px mobile / 60px desktop, color #000 (per source) */
+  .jv-h1 {
+    margin: 0 0 10px;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 50px;
+    line-height: 1;
+    letter-spacing: 0.01em;
+    text-transform: none;
+    color: #000;
   }
-  @media (min-width: 768px) {
-    .jv-highlights-grid { padding: 0 var(--section-padding-x-desktop); grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (min-width: 768px) { .jv-h1 { font-size: 60px; } }
+
+  /* Mobile-only hero image */
+  .jv-hero-img-mobile {
+    display: block;
+    width: 100%;
+    max-width: 460px;
+    height: auto;
+    margin: 20px auto;
+    border-radius: 5px;
   }
+  @media (min-width: 1024px) { .jv-hero-img-mobile { display: none; } }
+
+  /* Desktop sidebar image (right column) */
+  .jv-hero-img-desktop {
+    width: 100%;
+    max-width: 562px;
+    height: auto;
+    display: block;
+    border-radius: 5px;
+  }
+
+  /* Body P: DM Sans 18px desktop, 16px mobile */
+  .jv-body {
+    margin: 10px 0 20px;
+    font-family: var(--font-heading);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--color-text);
+  }
+  @media (min-width: 768px) { .jv-body { font-size: 18px; line-height: 1.7; } }
+
+  /* Highlight card stack — 4 callouts, 10px gap between */
+  .jv-highlight-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 10px 0 0;
+  }
+  /* Highlight card — verified live DOM #brxe-kdqabc:
+     bg #fff, border-left 5px solid #2774AE (UCLA blue), padding 0 0 0 40px,
+     box-shadow rgb(224,224,224) 1px 1px 2px 1px. Inner text: Montserrat,
+     color #696969, font-size 16px, line-height 27.2px, margin 20px 0 (top/bot). */
   .jv-highlight-card {
-    background: var(--color-bg-section); border-left: 4px solid var(--color-author-blue);
-    padding: 20px 24px; font-family: var(--font-heading); font-weight: 700;
-    font-size: 0.95rem; line-height: 1.4; color: var(--color-ink);
-    text-transform: uppercase; letter-spacing: 0.02em;
+    background: #fff;
+    border-left: 5px solid var(--color-author-blue);
+    padding: 20px 20px 20px 40px;
+    box-shadow: rgb(224, 224, 224) 1px 1px 2px 1px;
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.7;
+    color: rgb(105, 105, 105); /* #696969 */
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+  /* Mobile variant per source: 1px solid #e0e0e0 border all around with
+     asymmetric border-radius, lighter bg, no left-only border, color #424242 */
+  @media (max-width: 478px) {
+    .jv-highlight-card {
+      background: #f5f5f5;
+      border: 1px solid #e0e0e0;
+      border-left: 1px solid #e0e0e0;
+      border-top-left-radius: 25px;
+      border-bottom-right-radius: 25px;
+      box-shadow: none;
+      color: #424242;
+      padding: 20px;
+    }
   }
 
   /* Common */
