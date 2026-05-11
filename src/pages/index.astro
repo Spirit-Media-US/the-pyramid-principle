@@ -37,10 +37,11 @@ const RETAILERS = [
   { file: 'Walmart-Logo.wine_-1024x683.png',                                                                    name: 'Walmart',         href: 'https://www.walmart.com/' },
 ];
 
-// Hand-rendered blocks 0..32 cover: hero (0-22), Heart-Gripping +
-// pills + Give-Courage banner (23-27), press-carousel (28), "The Story"
-// two-column section (29-32). StructuredPage takes 33+.
-const CUSTOM_BLOCK_COUNT = 33;
+// Hand-rendered blocks 0..39: hero (0-22), Heart-Gripping section (23-27),
+// press-carousel (28), "The Story" two-column (29-32), "Based on the Life
+// of John Vallely with Paul Weissenstein" three-column section (33-39).
+// StructuredPage takes 40+.
+const CUSTOM_BLOCK_COUNT = 40;
 const restBlocks = data.blocks.slice(CUSTOM_BLOCK_COUNT);
 
 // Block 27 — Give Courage banner image (links to /give-courage/)
@@ -60,6 +61,19 @@ const STORY_PARAGRAPHS = [
   "1969 and John Vallely is living his dream. He is chosen to play basketball on the number one college team in the country, with the number one player in the country, for the number one coach of all time! It doesn't get any better than that! What John doesn't realize is the lessons he is learning from Coach Wooden, one of the greatest teachers of all time, will carry him through the incredible trials and triumphs of his life. It's one thing to be a champion on the court, it's something else to be a champion at life.",
   "Fast forward 15 years and John is married to his college sweetheart, Karen, with two beautiful children, Eric, 13 and Erin, 9, and still living his dream as a successful businessman in his hometown of Newport Beach, California. The dream is suddenly shattered when the small bump on Erin's side turns out to be much more serious than just another soccer injury. Pediatric cancer, the hideous villain that has ravaged the lives of so many children before her, has now come for Erin. With his world suddenly torn apart, John turns to his lifelong mentor and friend, Coach Wooden to help him face the greatest trial of his life. By following the principles of Coach Wooden's legendary Pyramid of Success, John finds strength and a new purpose. With the grace of God, he builds a legacy by helping countless children conquer this horrific disease, through his involvement with The Pediatric Cancer Research Foundation, and “Dribble for Victory Over Cancer.”",
 ];
+
+// Block 33 — H6 eyebrow text inside the blue ribbon band
+const BASED_EYEBROW = data.blocks[33].text || 'A Heart-Gripping Story of Heroic Love and Legacy';
+// Block 34 — H2 (left col)
+const BASED_H2 = data.blocks[34].text || 'Based on the Life of John Vallely with Paul Weissenstein';
+// Block 35 — H4 (center col)
+const BASED_H4 = data.blocks[35].text || 'A Battle-Tested Hall-of-Famer Discovers UCLA Coach John Wooden’s True Meaning of Success';
+// Block 36 — body P (center col)
+const BASED_BODY = data.blocks[36].text || '';
+// Blocks 37/38/39 — collage images (verified order from live DOM)
+const BASED_IMG_TOP = 'valley_110.jpg';        // 875x700 source, top of collage
+const BASED_IMG_BL  = 'wooden-large-retina.jpg'; // 720x720 source, bottom-left
+const BASED_IMG_BR  = 'valley_109.jpg';         // 562x700 source, bottom-right
 ---
 <Layout title={data.title} description={data.description} ogImage={heroDesktop}>
   <Fragment slot="head">
@@ -220,6 +234,55 @@ const STORY_PARAGRAPHS = [
         <h2 class="story-heading">{STORY_H2}</h2>
         <div class="story-divider" aria-hidden="true"></div>
         {STORY_PARAGRAPHS.map(p => (<p class="story-p">{p}</p>))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Blocks 33-39 — "Based on the Life of John Vallely with Paul
+       Weissenstein" three-column section.
+       Verified via Playwright DOM walk of #brxe-czxbbc on 2026-05-11:
+       - Section bg #F5F5F5, padding 40px 0
+       - Container 1: full-width UCLA-blue eyebrow band (padding 40px 8px)
+         centered: [123×1 light-gray divider] + H6 light-gray on blue,
+         Montserrat 20px 700 uppercase
+       - Container 2: 3 horizontal columns
+         · LEFT: H2 Bebas Neue 55px (fadeInDown)
+         · CENTER: H4 Bebas Neue 26px 700 + body P DM Sans 18px gray (fadeInUp)
+         · RIGHT: image collage — valley_110 on top, wooden BL + valley_109 BR (fadeInDown)
+       - Image radii: 10px on valley_110/wooden, 22px on valley_109
+       - Body P is wrapped in a bare <a> in the source — render as plain text. -->
+  <section class="based-on-section">
+    <div class="based-eyebrow-band">
+      <div class="based-eyebrow-divider" aria-hidden="true"></div>
+      <h6 class="based-eyebrow">{BASED_EYEBROW}</h6>
+    </div>
+
+    <div class="based-main">
+      <div class="based-col based-col-h2" data-anim="fadeInDown">
+        <h2 class="based-h2">{BASED_H2}</h2>
+      </div>
+      <div class="based-col based-col-text" data-anim="fadeInUp">
+        <h4 class="based-h4">{BASED_H4}</h4>
+        <p class="based-p">{BASED_BODY}</p>
+      </div>
+      <div class="based-col based-col-images" data-anim="fadeInDown">
+        <div class="based-collage">
+          <img class="based-img based-img-top"
+               src={srcW(BASED_IMG_TOP, 700)}
+               width="875" height="700"
+               alt="John Vallely on the basketball court"
+               loading="lazy" decoding="async" />
+          <img class="based-img based-img-bl"
+               src={srcW(BASED_IMG_BL, 400)}
+               width="720" height="720"
+               alt="Coach John Wooden"
+               loading="lazy" decoding="async" />
+          <img class="based-img based-img-br"
+               src={srcW(BASED_IMG_BR, 350)}
+               width="562" height="700"
+               alt="John Vallely portrait"
+               loading="lazy" decoding="async" />
+        </div>
       </div>
     </div>
   </section>
@@ -496,11 +559,122 @@ const STORY_PARAGRAPHS = [
   }
   .story-p:last-child { margin-bottom: 0; }
 
+  /* ── "Based on the Life..." section ── */
+  .based-on-section {
+    background: var(--color-bg-section);
+    padding: 40px 0;
+  }
+
+  /* Container 1 — UCLA blue eyebrow band */
+  .based-eyebrow-band {
+    background: var(--color-author-blue);
+    padding: 28px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  @media (min-width: 768px) {
+    .based-eyebrow-band { padding: 40px 8px; gap: 10px; flex-wrap: nowrap; }
+  }
+  .based-eyebrow-divider {
+    width: 80px;
+    height: 0;
+    border-top: 1px solid var(--color-bg-section);
+    flex-shrink: 0;
+  }
+  @media (min-width: 768px) {
+    .based-eyebrow-divider { width: 123px; }
+  }
+  .based-eyebrow {
+    margin: 0;
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    text-transform: uppercase;
+    color: var(--color-bg-section); /* light gray on blue */
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+    text-align: center;
+  }
+  @media (min-width: 768px) {
+    .based-eyebrow { font-size: 20px; text-align: left; }
+  }
+
+  /* Container 2 — 3-column main content */
+  .based-main {
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding: 40px var(--section-padding-x-mobile);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  @media (min-width: 768px) {
+    .based-main { padding: 40px var(--section-padding-x-desktop); }
+  }
+  @media (min-width: 1024px) {
+    .based-main {
+      grid-template-columns: 1fr 1fr 500px;
+      gap: 24px;
+    }
+  }
+  .based-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 5vw, 3.4rem); /* ~55px desktop */
+    font-weight: 700;
+    color: var(--color-ink);
+    line-height: 1.1;
+    margin: 0;
+    text-transform: none;
+  }
+  .based-h4 {
+    font-family: var(--font-display);
+    font-size: clamp(1.35rem, 2vw, 1.65rem); /* ~26px desktop */
+    font-weight: 700;
+    color: var(--color-ink);
+    margin: 0 0 16px;
+    padding-left: 20px;
+    line-height: 1.2;
+    text-transform: none;
+  }
+  .based-p {
+    font-family: var(--font-heading); /* DM Sans */
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  /* Image collage — valley_110 spans top; wooden + valley_109 below it */
+  .based-collage {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "top top"
+      "bl br";
+    gap: 0;
+  }
+  .based-img { display: block; width: 100%; height: auto; object-fit: cover; }
+  .based-img-top { grid-area: top; aspect-ratio: 5 / 4; border-radius: 10px; }
+  .based-img-bl  { grid-area: bl;  aspect-ratio: 1 / 1; border-radius: 10px; }
+  .based-img-br  {
+    grid-area: br;
+    aspect-ratio: 9 / 11;
+    border-radius: 22px;
+    margin-top: -13px; /* live source has this 13px overlap upward */
+  }
+
   /* ── On-enter reveal animations ──
      Elements with data-anim start hidden; .is-revealed plays the anim. */
   [data-anim] { opacity: 0; }
   [data-anim].is-revealed { animation: fadeIn 1s ease-out forwards; }
   [data-anim="fadeInRight"].is-revealed { animation-name: fadeInRight; }
+  [data-anim="fadeInDown"].is-revealed  { animation-name: fadeInDown; }
+  [data-anim="fadeInUp"].is-revealed    { animation-name: fadeInUp; }
   [data-anim="zoomIn"].is-revealed       { animation-name: zoomIn; }
 
   @media (prefers-reduced-motion: reduce) {
@@ -513,6 +687,14 @@ const STORY_PARAGRAPHS = [
   }
   @keyframes fadeInRight {
     from { opacity: 0; transform: translate3d(40px, 0, 0); }
+    to   { opacity: 1; transform: translate3d(0, 0, 0); }
+  }
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translate3d(0, -32px, 0); }
+    to   { opacity: 1; transform: translate3d(0, 0, 0); }
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translate3d(0, 32px, 0); }
     to   { opacity: 1; transform: translate3d(0, 0, 0); }
   }
   @keyframes zoomIn {
