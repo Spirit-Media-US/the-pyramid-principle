@@ -37,11 +37,12 @@ const RETAILERS = [
   { file: 'Walmart-Logo.wine_-1024x683.png',                                                                    name: 'Walmart',         href: 'https://www.walmart.com/' },
 ];
 
-// Hand-rendered blocks 0..48: hero (0-22), Heart-Gripping section (23-27),
+// Hand-rendered blocks 0..67: hero (0-22), Heart-Gripping section (23-27),
 // press-carousel (28), "The Story" two-column (29-32), "Based on the Life
-// of John Vallely with Paul Weissenstein" three-column (33-39), and
-// "Free Resources + Cori Close endorsement" (40-48). StructuredPage takes 49+.
-const CUSTOM_BLOCK_COUNT = 49;
+// of John Vallely with Paul Weissenstein" three-column (33-39),
+// "Free Resources + Cori Close endorsement" (40-48), and "Highlights from
+// The Book" three-column with icon-boxes (49-67). StructuredPage takes 68+.
+const CUSTOM_BLOCK_COUNT = 68;
 const restBlocks = data.blocks.slice(CUSTOM_BLOCK_COUNT);
 
 // Block 27 — Give Courage banner image (links to /give-courage/)
@@ -86,6 +87,20 @@ const CORI_H2          = data.blocks[45].text || "UCLA's Coach Cori Close Applau
 const CORI_QUOTE       = data.blocks[46].text || '';
 const CORI_ATTRIBUTION = data.blocks[47].text || '— Coach Cori Close';
 const ORDER_CTA        = data.blocks[48]; // CTA "Order Today!"
+
+// ── Blocks 49-67 — "Highlights from The Book" three-column section ──
+// Block 49: decorative book image (rendered in col 3)
+// Block 50: H2 "Highlights from The Book"
+// Blocks 51-57: 7 paragraphs (col 1)
+// Block 58: CTA "Order Today!" (col 1 button)
+// Blocks 59-66: 8 paragraphs (col 2)
+// Block 67: CTA "Order Today!" (col 2 button — DOM has 0x0, but spec asks for it)
+const HIGHLIGHTS_DECOR = 'image-e1726579729174.png';
+const HIGHLIGHTS_H2 = data.blocks[50].text || 'Highlights from The Book';
+const HIGHLIGHTS_COL1 = data.blocks.slice(51, 58).map(b => b.text);
+const HIGHLIGHTS_COL1_CTA = data.blocks[58]; // CTA
+const HIGHLIGHTS_COL2 = data.blocks.slice(59, 67).map(b => b.text);
+const HIGHLIGHTS_COL2_CTA = data.blocks[67]; // CTA
 ---
 <Layout title={data.title} description={data.description} ogImage={heroDesktop}>
   <Fragment slot="head">
@@ -349,6 +364,62 @@ const ORDER_CTA        = data.blocks[48]; // CTA "Order Today!"
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="margin-right: 8px;"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0 0 20 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
           {ORDER_CTA.text}
         </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Blocks 49-67 — "Highlights from The Book" three-column section.
+       Verified DOM walk of #brxe-oidcwt:
+       - Section bg transparent (white shows through)
+       - Container is a flex row with wrap, padding 80px 0, gap 50px column
+       - Row 1: full-width block with H2 + 100x2 divider (left-aligned)
+       - Row 2: 3 cols ~375px each
+         · Col 1: 7 icon-boxes + Order Today button (fadeInLeft)
+         · Col 2: 8 icon-boxes + Order Today button (DOM has 0x0; spec asks for both, rendering it)
+         · Col 3: decorative book image (fadeIn)
+       - Icon-box: book glyph (color rgb(33,150,243), ~25px) + content P (DM Sans 18px, color #616161)
+       Verbatim: 'John Valley' (sic) typo preserved on items 5+6 of col 2. -->
+  <section class="highlights-section">
+    <div class="highlights-container">
+      <div class="highlights-head">
+        <h2 class="highlights-h2">{HIGHLIGHTS_H2}</h2>
+        <div class="highlights-divider" aria-hidden="true"></div>
+      </div>
+
+      <div class="highlights-grid">
+        <div class="highlights-col" data-anim="fadeInLeft">
+          {HIGHLIGHTS_COL1.map(text => (
+            <div class="icon-box">
+              <svg class="icon-book" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+              <p class="icon-box-text">{text}</p>
+            </div>
+          ))}
+          <a class="pill-cta highlights-cta" href="/#pre-order-now">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="margin-right: 8px;"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0 0 20 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+            {HIGHLIGHTS_COL1_CTA.text}
+          </a>
+        </div>
+
+        <div class="highlights-col" data-anim="fadeInLeft">
+          {HIGHLIGHTS_COL2.map(text => (
+            <div class="icon-box">
+              <svg class="icon-book" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+              <p class="icon-box-text">{text}</p>
+            </div>
+          ))}
+          <a class="pill-cta highlights-cta" href="/#pre-order-now">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="margin-right: 8px;"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0 0 20 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+            {HIGHLIGHTS_COL2_CTA.text}
+          </a>
+        </div>
+
+        <div class="highlights-col highlights-col-image" data-anim="fadeIn">
+          <img src={srcW(HIGHLIGHTS_DECOR, 400)}
+               width="309" height="438"
+               alt=""
+               role="presentation"
+               loading="lazy" decoding="async" />
+        </div>
       </div>
     </div>
   </section>
@@ -865,11 +936,96 @@ const ORDER_CTA        = data.blocks[48]; // CTA "Order Today!"
     margin: 0;
   }
 
+  /* ── Highlights from The Book section ── */
+  .highlights-section {
+    background: #fff;
+    padding: 0;
+  }
+  .highlights-container {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding: 64px var(--section-padding-x-mobile);
+  }
+  @media (min-width: 768px) {
+    .highlights-container { padding: 80px var(--section-padding-x-desktop); }
+  }
+  .highlights-head {
+    margin-bottom: 32px;
+  }
+  .highlights-h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    line-height: 1.05;
+    color: var(--color-ink);
+    margin: 0 0 14px;
+    text-transform: none;
+  }
+  .highlights-divider {
+    width: 100px;
+    height: 2px;
+    border-top: 2px solid var(--color-brand-yellow);
+  }
+  .highlights-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  @media (min-width: 768px) {
+    .highlights-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+  }
+  @media (min-width: 1024px) {
+    .highlights-grid { grid-template-columns: 1fr 1fr 1fr; gap: 50px; }
+  }
+  .highlights-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .highlights-col-image {
+    align-items: center;
+    justify-content: center;
+  }
+  .highlights-col-image img {
+    max-width: 309px;
+    width: 100%;
+    height: auto;
+  }
+  /* Icon box — book glyph (blue) + paragraph */
+  .icon-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 5px 0 0;
+  }
+  .icon-book {
+    flex-shrink: 0;
+    color: rgb(33, 150, 243); /* live DOM ti-book color */
+    width: 22px;
+    height: 22px;
+    margin-top: 4px;
+  }
+  .icon-box-text {
+    margin: 0;
+    font-family: var(--font-heading); /* DM Sans */
+    font-size: 18px;
+    line-height: 1.45;
+    color: var(--color-text);
+  }
+  .highlights-cta {
+    margin-top: 16px;
+    align-self: flex-start;
+  }
+
   /* ── On-enter reveal animations ──
      Elements with data-anim start hidden; .is-revealed plays the anim. */
   [data-anim] { opacity: 0; }
   [data-anim].is-revealed { animation: fadeIn 1s ease-out forwards; }
   [data-anim="fadeInRight"].is-revealed { animation-name: fadeInRight; }
+  [data-anim="fadeInLeft"].is-revealed  { animation-name: fadeInLeft; }
   [data-anim="fadeInDown"].is-revealed  { animation-name: fadeInDown; }
   [data-anim="fadeInUp"].is-revealed    { animation-name: fadeInUp; }
   [data-anim="slideInLeft"].is-revealed  { animation-name: slideInLeft; }
@@ -886,6 +1042,10 @@ const ORDER_CTA        = data.blocks[48]; // CTA "Order Today!"
   }
   @keyframes fadeInRight {
     from { opacity: 0; transform: translate3d(40px, 0, 0); }
+    to   { opacity: 1; transform: translate3d(0, 0, 0); }
+  }
+  @keyframes fadeInLeft {
+    from { opacity: 0; transform: translate3d(-40px, 0, 0); }
     to   { opacity: 1; transform: translate3d(0, 0, 0); }
   }
   @keyframes fadeInDown {
