@@ -1,0 +1,149 @@
+# Design Tokens — The Pyramid Principle
+
+Extracted from https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/ on 2026-05-11
+Source builder: **Bricks** (WordPress)
+Measurements taken at desktop `1280×800` and mobile `375×812` via Playwright computed styles.
+
+## Colors
+
+Values are raw `color()`/`rgb()` strings from `getComputedStyle`. Convert to hex during Phase 3 `global.css` write-up.
+
+| Token | Desktop | Mobile | Used on |
+|-------|---------|--------|---------|
+| bodyBg     | rgba(0, 0, 0, 0)     | rgba(0, 0, 0, 0)     | body background |
+| bodyText   | rgb(97, 97, 97)   | rgb(97, 97, 97)   | default body text |
+| h1Color    | rgb(29, 29, 31)    | rgb(29, 29, 31)    | page H1 |
+| h2Color    | rgb(255, 209, 0)    | rgb(255, 209, 0)    | section H2 |
+| linkColor  | rgb(255, 255, 255)  | rgb(255, 255, 255)  | inline links |
+| buttonBg   | rgba(0, 0, 0, 0)   | rgba(0, 0, 0, 0)   | primary CTA bg |
+| buttonText | rgb(33, 33, 33) | rgb(33, 33, 33) | primary CTA text |
+| headerBg   | rgba(0, 0, 0, 0)   | rgba(0, 0, 0, 0)   | top header |
+| footerBg   | rgba(0, 0, 0, 0)   | rgba(0, 0, 0, 0)   | footer |
+| footerText | rgb(97, 97, 97) | rgb(97, 97, 97) | footer text |
+| navLinkColor | rgb(33, 33, 33) | rgb(33, 33, 33) | nav links |
+
+## Typography — Desktop
+
+| Element | Font Family | Size | Weight | Line Height | Letter Spacing |
+|---------|-------------|------|--------|-------------|----------------|
+| h1 | "Bebas Neue" | 60px | 700 | 60px | normal |
+| h2 | "DM Sans" | 16px | 700 | 16px | normal |
+| h3 | "DM Sans" | 15px | 700 | 18px | normal |
+| body | "Open Sans" | 16px | 400 | 27.2px | normal |
+| navLink | "Open Sans" | 16px | 400 | 27.2px | normal |
+| button | "DM Sans" | 18px | 400 | 20.7px | normal |
+| footerText | "Open Sans" | 16px | 400 | 27.2px | normal |
+
+## Typography — Mobile
+
+| Element | Font Family | Size | Weight | Line Height | Letter Spacing |
+|---------|-------------|------|--------|-------------|----------------|
+| h1 | "Bebas Neue" | 50px | 700 | 50px | normal |
+| h2 | "DM Sans" | 16px | 700 | 16px | normal |
+| h3 | "DM Sans" | 12px | 700 | 14.4px | normal |
+| body | "Open Sans" | 14px | 400 | 23.8px | normal |
+| navLink | "Open Sans" | 14px | 400 | 23.8px | normal |
+| button | "DM Sans" | 18px | 400 | 20.7px | normal |
+| footerText | "Open Sans" | 14px | 400 | 23.8px | normal |
+
+## Spacing & Layout
+
+| Element | Desktop padding | Mobile padding | Desktop margin | Mobile margin |
+|---------|-----------------|----------------|----------------|---------------|
+| headerBox | 0px | 0px | 0px | 0px |
+| footerBox | 0px | 0px | 0px | 0px |
+| mainBox | 0px | 0px | 0px | 0px |
+| hero | 0px | 0px | 0px | 0px |
+
+## Decorations
+
+| Element | Border radius (desktop) | Box shadow (desktop) | Transition (desktop) |
+|---------|------------------------|----------------------|----------------------|
+| button | 0px | none | transform 0.1s cubic-bezier(0, 0, 0.2, 1) |
+| hero | 0px | none | all |
+
+## Navigation
+
+| Viewport | Type | Details |
+|----------|------|---------|
+| Desktop  | Two-row horizontal | Row 1 (yellow bar `#FFD100`): centered tagline `"A GIFT OF COURAGE!"`. Row 2: logo wordmark left (red + yellow `THE PYRAMID PRINCIPLE`), horizontal links right — Home, [Author], The Pyramid Success, Retailers, Give Courage. Social icons (IG, FB, X, LinkedIn, TikTok, YouTube) above the yellow bar. |
+| Mobile   | Stacked hamburger | Yellow tagline bar + logo + hamburger trigger; collapsed nav opens vertical list. Header rendered height = 177px (vs 133px desktop). |
+
+> Screenshots captured at /tmp/the-pyramid-principle-images/\_screenshot-home-{desktop,mobile}.png. Mobile homepage is ~12,000px tall (long-scroll landing page).
+
+## Brand palette read (from screenshots + computed styles)
+
+| Role | Color | Where it appears |
+|------|-------|------------------|
+| Brand yellow | `rgb(255, 209, 0)` / `#FFD100` | Top tagline bar, "GIVE THE GIFT OF COURAGE" CTA banner, H2 accents, logo highlight |
+| Brand red | (TBD — sample from screenshot in Phase 3) | Logo wordmark "THE PYRAMID PRINCIPLE", section headings |
+| Near-black | `rgb(29, 29, 31)` / `#1D1D1F` | H1 headings |
+| Body gray | `rgb(97, 97, 97)` / `#616161` | Body text, footer text |
+| Dark text on light | `rgb(33, 33, 33)` / `#212121` | Nav links, button text on light bg |
+| White | `rgb(255, 255, 255)` | Text on dark/red sections (linkColor capture is misleading — `<a>` color is white because the sampled `<a>` was inside a dark section) |
+| First section bg | `rgb(245, 245, 245)` / `#F5F5F5` | Light gray background under the hero |
+
+## LCP element by page (mobile 375)
+
+| Page | LCP tag | LCP src / text | Natural dims |
+|------|---------|----------------|--------------|
+| home | IMG | 3D-Book-1-886x1024.png | 374×433 |
+| john-vallely | IMG | valley_109.jpg | 375×467 |
+| paul-weissenstein | IMG | image-1.png | 375×371 |
+| coach-john-wooden | IMG | American-basketball-coach-John-Wooden-1993.webp | 351×450 |
+| retailers | H1 | Order your stock today through Ingram Book Distributors | — |
+| the-pyramid-success | H1 | The Pyramid Success | — |
+| give-courage | H2 | Help GIVE THE GIFTOF COURAGE TO | — |
+| media-center | H2 | Generosity Campaign Launched To Share a Gift of Courage with 400,000 Families Fi | — |
+| reviews | H1 |  Thanks for Sharing Your Review! | — |
+
+> Per performance-gate.md §6: if mobile LCP resolves to `picture > img` AND mobile Perf < 95, apply the text-first mobile remediation. Otherwise leave the hero as a photo LCP.
+
+
+## Bricks-aware layout & button measurements (supplemental — preferred over the earlier "Spacing & Layout" table)
+
+> The original spacing capture used bare `header`/`main`/`footer` selectors which Bricks leaves at `0px`. These values come from `.brxe-section` / `.brxe-button` / Bricks header & footer wrappers and are what Phase 3 should use.
+
+### Hero / section spacing
+
+| Token | Desktop | Mobile |
+|-------|---------|--------|
+| First section background | rgb(245, 245, 245) | rgb(245, 245, 245) |
+| First section padding   | `0px` | `0px` |
+| Distinct section paddings (desktop) | `0px`, `40px 0px`, `0px 40px`, `20px 0px` |   |
+| Distinct section paddings (mobile)  |   | `0px`, `0px 20px 20px`, `0px 20px`, `30px 20px 20px`, `20px 0px` |
+
+### Header (top of page)
+
+| | Desktop | Mobile |
+|---|---------|--------|
+| tag/classes | `HEADER`  | `HEADER` |
+| padding | `0px` | `0px` |
+| backgroundColor | rgba(0, 0, 0, 0) | rgba(0, 0, 0, 0) |
+| rendered height | 133.140625px | 177.015625px |
+
+### Footer
+
+| | Desktop | Mobile |
+|---|---------|--------|
+| padding | `0px` | `0px` |
+| backgroundColor | rgba(0, 0, 0, 0) | rgba(0, 0, 0, 0) |
+| color | rgb(97, 97, 97) | rgb(97, 97, 97) |
+
+### Real `.brxe-button` measurements (use these in Phase 3, not the typography-table button row)
+
+| # | Text | Desktop bg / text | Padding | Radius | Size / weight |
+|---|------|--------------------|---------|--------|---------------|
+| 1 |  | rgba(0, 0, 0, 0) / rgb(33, 33, 33) | `0px` | `0px` | 18px / 400 |
+| 2 |  | rgba(0, 0, 0, 0) / rgb(0, 0, 0) | `0px` | `0px` | 18px / 400 |
+| 3 |  | rgba(0, 0, 0, 0) / rgb(255, 255, 255) | `0px 30px` | `0px` | 18px / 400 |
+
+### Container max-widths (first 5 `.brxe-container` / direct section children)
+
+| # | Desktop maxWidth | Desktop padding | Mobile maxWidth | Mobile padding |
+|---|------------------|-----------------|-----------------|----------------|
+| 1 | `100%` | `0px` | `100%` | `10px 20px 0px` |
+| 2 | `100%` | `0px` | `100%` | `0px 20px` |
+| 3 | `100%` | `80px 0px` | `100%` | `0px 20px 40px` |
+| 4 | `100%` | `0px` | `100%` | `0px` |
+| 5 | `100%` | `0px` | `100%` | `0px` |
