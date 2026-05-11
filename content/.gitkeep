@@ -1,0 +1,5 @@
+Phase 2 output lands here:
+- site-inventory.md  (URL map)
+- design-tokens.md   (Colors / Typography Desktop+Mobile / Spacing / Decorations / Navigation)
+- images.md          (image inventory with Sanity/R2/YouTube destinations)
+- pages/*.md         (one file per page)
