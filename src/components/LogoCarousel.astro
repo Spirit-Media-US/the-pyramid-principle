@@ -58,6 +58,12 @@ const { slides, ariaLabel = 'Logo carousel', altPattern = 'Logo', fullBleed = tr
     margin-left: calc(50% - 50vw);
     margin-right: calc(50% - 50vw);
     background: var(--color-bg-section); /* #F5F5F5 */
+    /* Vertical padding so the gray section bg shows above + below each
+       white slide, framing it as a card floating in a gray strip. */
+    padding: 16px 0;
+  }
+  @media (min-width: 768px) {
+    .press-carousel-section.lc-full-bleed { padding: 24px 0; }
   }
 
   /* Slide — white background; Splide's gap:3px config produces a 3px
