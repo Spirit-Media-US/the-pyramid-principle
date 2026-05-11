@@ -71,17 +71,25 @@ Values are raw `color()`/`rgb()` strings from `getComputedStyle`. Convert to hex
 
 > Screenshots captured at /tmp/the-pyramid-principle-images/\_screenshot-home-{desktop,mobile}.png. Mobile homepage is ~12,000px tall (long-scroll landing page).
 
-## Brand palette read (from screenshots + computed styles)
+## Brand palette read (DOM enumeration of every rendered color, homepage desktop)
 
-| Role | Color | Where it appears |
-|------|-------|------------------|
-| Brand yellow | `rgb(255, 209, 0)` / `#FFD100` | Top tagline bar, "GIVE THE GIFT OF COURAGE" CTA banner, H2 accents, logo highlight |
-| Brand red | (TBD — sample from screenshot in Phase 3) | Logo wordmark "THE PYRAMID PRINCIPLE", section headings |
-| Near-black | `rgb(29, 29, 31)` / `#1D1D1F` | H1 headings |
-| Body gray | `rgb(97, 97, 97)` / `#616161` | Body text, footer text |
-| Dark text on light | `rgb(33, 33, 33)` / `#212121` | Nav links, button text on light bg |
-| White | `rgb(255, 255, 255)` | Text on dark/red sections (linkColor capture is misleading — `<a>` color is white because the sampled `<a>` was inside a dark section) |
-| First section bg | `rgb(245, 245, 245)` / `#F5F5F5` | Light gray background under the hero |
+The logo wordmark is the file `TPP-Logo-2-1024x502.png` rendered in solid yellow — there is **no brand red** despite first-glance screenshot impression. Confirmed by direct sampling of every visible element on the live page.
+
+| Role | Color | Hex | Frequency | Used on |
+|------|-------|-----|-----------|---------|
+| **Brand yellow (primary)** | `rgb(255, 209, 0)` | `#FFD100` | 19 elements | Logo wordmark, top tagline bar, "GIVE THE GIFT OF COURAGE" banner, nav-active highlight, H2 accents |
+| **John-Vallely blue (UCLA)** | `rgb(39, 116, 174)` | `#2774AE` | 9 elements | "John Vallely / Paul Weissenstein / Coach Wooden" list — UCLA blue accent |
+| **Give-Courage pink** | `rgb(249, 153, 203)` | `#F999CB` | 1 element | "Give Courage" link accent (matches pediatric cancer ribbon palette) |
+| **Spirit Media gold** | `rgb(202, 169, 73)` | `#CAA949` | 1 element | Footer "Contact Spirit Media" link |
+| Near-black (H1) | `rgb(29, 29, 31)` | `#1D1D1F` | 20 elements | H1 headings |
+| Dark on light (nav/links) | `rgb(33, 33, 33)` | `#212121` | 21 elements | Nav links, button text on light bg |
+| Body gray | `rgb(97, 97, 97)` | `#616161` | 244 elements | Body paragraphs, footer text — dominant text color |
+| Muted text | `rgb(66, 66, 66)` | `#424242` | 3 elements | "Limited Time Only!" announcement text |
+| First section bg | `rgb(245, 245, 245)` | `#F5F5F5` | 30 sections | Light gray background under hero / between sections |
+| Alt section bg | `rgb(247, 247, 247)` | `#F7F7F7` | 2 sections | Slight tint variant for striping |
+| Border / divider | `rgb(230, 231, 232)` | `#E6E7E8` | 1 element | Card / divider line |
+| White | `rgb(255, 255, 255)` | `#FFFFFF` | 55 elements | Text on the yellow bar + dark/red CTA banner backgrounds |
+| Black accent | `rgb(0, 0, 0)` | `#000000` | 15 elements | "Skip to main content" link, occasional emphasis |
 
 ## LCP element by page (mobile 375)
 
