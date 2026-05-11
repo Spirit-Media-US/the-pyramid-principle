@@ -60,7 +60,27 @@ Then run: `git checkout dev && git pull origin dev`
 - [ ] Build Astro pages from approved Stitch designs
 - [ ] Hero must ship with all 8 perf-gate traits from the first build (not Phase 7)
 
-### Phases 4-9
+### Phase 4 — Wire Sanity CMS (pending)
+
+**Phase 4 to-dos accumulated during Phase 3 build:**
+
+- [ ] **Latest Blog grid (homepage section 9)** — currently hardcoded with 6 cards (blocks 71-89 of home.json). Swap for a GROQ query against the Sanity blog schema:
+      ```
+      *[_type == "blogPost"] | order(publishedAt desc) [0...6]
+      ```
+      All 6 "Read full article" `<a>` tags carry `data-pending-blog="true"` so they're auditable. The slugs they point to don't exist yet — they 404 on dev preview until the blog routes are created. Jufrey's list: 8 blogs total scope, 2 more beyond the 6 surfaced on the homepage.
+- [ ] **Sponsor Copies CTA** — homepage section 2 currently links to `/give-courage/` (rewritten from the source's `/victory-over-cancer/`). In Phase 8 cutover, preserve a 301 redirect `/victory-over-cancer/ → /give-courage/`.
+- [ ] **Carousel data** — `home.json` block 28 (`press-carousel`) carries 11 slides hardcoded with file + href. In Phase 4 a `pressCoverage` Sanity document type should drive this; replace the StructuredPage routing to query Sanity instead.
+- [ ] **All hand-rendered home sections** read directly from `home.json` indices in `index.astro`. Phase 4 should restructure each section into Sanity schema types (`homepageHero`, `homepageHeartGripping`, `homepageStory`, `homepageBasedOn`, etc.) so the client can edit copy/images via Studio.
+- [ ] **Editorial corrections logged for Phase 5 CAR**:
+  - `<a href=pacdora.com>` wrap dropped on (a) Free Resources YouTube, (b) Wooden quote image — both packaging-design tool URLs, almost certainly client miswires.
+  - `home.json` block 47 (Coach Cori Close attribution): source `<h2>` → reclassified to `<p>` + `<cite>` role.
+  - `home.json` block 69 (Wooden quote): source `<h2>` → reclassified to `<blockquote>`.
+  - `home.json` block 70 (Wooden attribution): source `<h2>` → reclassified to `<p>` + `<cite>` role.
+  - "John Valley" (sic) typo preserved on Highlights items 5+6 of col 2 (live source has it).
+  - Live source uses `Libre Baskerville` (quote) + `Abel` (cite) on the Wooden section. Both self-hosted from R2. Live H6 "A Heart-Gripping Story of Heroic Love and Legacy" uses Montserrat 20px 700.
+
+### Phases 5-9
 - [ ] Pending
 
 ## DNS Pattern

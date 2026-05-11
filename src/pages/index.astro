@@ -37,13 +37,19 @@ const RETAILERS = [
   { file: 'Walmart-Logo.wine_-1024x683.png',                                                                    name: 'Walmart',         href: 'https://www.walmart.com/' },
 ];
 
-// Hand-rendered blocks 0..70: hero (0-22), Heart-Gripping section (23-27),
-// press-carousel (28), "The Story" two-column (29-32), "Based on the Life
-// of John Vallely with Paul Weissenstein" three-column (33-39),
-// "Free Resources + Cori Close endorsement" (40-48), "Highlights from
-// The Book" three-column (49-67), Wooden quote two-column (68-70).
-// StructuredPage takes 71+.
-const CUSTOM_BLOCK_COUNT = 71;
+// Hand-rendered blocks 0..89 — every block on the homepage. StructuredPage
+// would render anything past this; restBlocks is empty.
+// Section breakdown:
+//   0-22  hero
+//   23-27 Heart-Gripping + 3 pills + Give-Courage banner
+//   28    press-carousel (Splide)
+//   29-32 The Story (2-col)
+//   33-39 Based on the Life (3-col)
+//   40-48 Free Resources + Cori Close endorsement
+//   49-67 Highlights from The Book (3-col with icon-boxes)
+//   68-70 Wooden quote in 1px-bordered card
+//   71-89 Latest Blog grid (6 cards)
+const CUSTOM_BLOCK_COUNT = 90;
 const restBlocks = data.blocks.slice(CUSTOM_BLOCK_COUNT);
 
 // Block 27 — Give Courage banner image (links to /give-courage/)
@@ -111,6 +117,29 @@ const HIGHLIGHTS_COL2_CTA = data.blocks[67]; // CTA
 const WOODEN_IMG  = '289468.0-1024x683.jpg';
 const WOODEN_QUOTE = data.blocks[69].text || '"Things turn out best for those who make the best of the way things turn out."';
 const WOODEN_CITE  = data.blocks[70].text || '~ Coach John Wooden';
+
+// ── Blocks 71-89 — Latest Blog grid ──
+// Hardcoded for Phase 3. Phase 4 todo: replace with GROQ query
+//   *[_type == "blogPost"] | order(publishedAt desc) [0...6]
+// once Sanity blog schema is wired. Tracked in CLAUDE.md.
+//
+// Each card pulls from 3 consecutive home.json blocks (img + h3 + cta).
+// Card 1 → 72/73/74, Card 2 → 75/76/77, ... Card 6 → 87/88/89.
+const LATEST_BLOG_H2 = data.blocks[71].text || 'Latest Blog';
+const BLOG_CARDS = [0, 1, 2, 3, 4, 5].map(i => {
+  const base = 72 + i * 3;
+  return {
+    img:  data.blocks[base].src.split('/').pop(),
+    title: data.blocks[base + 1].text,
+    href: data.blocks[base + 2].href, // will be rewritten below
+  };
+});
+
+// Rewrite each blog href from cloudways → local slug
+function blogHref(originalHref: string): string {
+  const m = originalHref.match(/cloudwaysapps\.com\/tpp(\/[^?#]+)/);
+  return m ? m[1] : originalHref;
+}
 ---
 <Layout title={data.title} description={data.description} ogImage={heroDesktop}>
   <Fragment slot="head">
@@ -468,6 +497,41 @@ const WOODEN_CITE  = data.blocks[70].text || '~ Coach John Wooden';
       <div class="wooden-quote-col" data-anim="slideInRight">
         <blockquote class="wooden-quote">{WOODEN_QUOTE}</blockquote>
         <p class="wooden-cite"><cite>{WOODEN_CITE}</cite></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Blocks 71-89 — Latest Blog grid (6 cards) ──
+       Verified DOM: each card flex-column, gap 20px, no border/shadow/radius
+       on the card itself; image top, H3 title (DM Sans 18px 600 #1D1D1F),
+       "Read full article" button with bg #FFD100, 10px radius, 1px border
+       rgba(33,33,33,.26), subtle yellow shadow.
+       Phase 3: 6 cards hardcoded from home.json. Phase 4: swap for GROQ query
+       *[_type == 'blogPost'] | order(publishedAt desc) [0...6]. Blog routes
+       don't exist yet — data-pending-blog='true' marks them auditable. -->
+  <section class="latest-blog-section">
+    <div class="latest-blog-container">
+      <div class="latest-blog-head">
+        <h2 class="latest-blog-h2">{LATEST_BLOG_H2}</h2>
+        <div class="latest-blog-divider" aria-hidden="true"></div>
+      </div>
+
+      <div class="blog-grid" data-anim="zoomIn">
+        {BLOG_CARDS.map(card => (
+          <article class="blog-card">
+            <img class="blog-card-img"
+                 src={srcW(card.img, 600)}
+                 srcset={`${srcW(card.img, 400)} 400w, ${srcW(card.img, 700)} 700w`}
+                 sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                 width="600" height="400"
+                 alt={card.title}
+                 loading="lazy" decoding="async" />
+            <h3 class="blog-card-h3">{card.title}</h3>
+            <a class="blog-card-cta" href={blogHref(card.href)} data-pending-blog="true">
+              Read full article
+            </a>
+          </article>
+        ))}
       </div>
     </div>
   </section>
@@ -1173,6 +1237,111 @@ const WOODEN_CITE  = data.blocks[70].text || '~ Coach John Wooden';
     letter-spacing: normal;
   }
   .wooden-cite cite { font-style: normal; }
+
+  /* ── Latest Blog grid (6 cards) ── */
+  .latest-blog-section {
+    background: #fff;
+    padding: 0;
+  }
+  .latest-blog-container {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding: 64px var(--section-padding-x-mobile);
+  }
+  @media (min-width: 768px) {
+    .latest-blog-container { padding: 80px var(--section-padding-x-desktop); }
+  }
+  .latest-blog-head {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .latest-blog-h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    line-height: 1.05;
+    color: var(--color-ink);
+    margin: 0 0 14px;
+    text-transform: none;
+  }
+  .latest-blog-divider {
+    width: 100px;
+    height: 2px;
+    border-top: 2px solid var(--color-brand-yellow);
+    margin: 0 auto;
+  }
+
+  .blog-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  @media (min-width: 640px) {
+    .blog-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
+  }
+  @media (min-width: 1024px) {
+    .blog-grid { grid-template-columns: 1fr 1fr 1fr; gap: 28px; }
+  }
+
+  /* Verified card style: bg transparent (no fill), padding 0, gap 20px,
+     no border / shadow / radius on the card. Image and title are bare. */
+  .blog-card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: #fff;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .blog-card:hover {
+    transform: translateY(-2px);
+  }
+  .blog-card-img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  .blog-card-h3 {
+    margin: 0;
+    font-family: var(--font-heading); /* DM Sans per DOM */
+    font-weight: 600;
+    font-size: 1.125rem; /* 18px per DOM */
+    line-height: 1.35;
+    color: var(--color-ink); /* #1D1D1F */
+    /* Clamp at 3 lines so cards stay roughly equal-height */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  /* "Read full article" — verified DOM: bg #FFD100, padding 8px 16px,
+     border 1px solid rgba(33,33,33,.26), border-radius 10px,
+     subtle yellow shadow. Closer to a rounded rect than a full pill. */
+  .blog-card-cta {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    background: var(--color-brand-yellow);
+    color: var(--color-ink);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.875rem;
+    letter-spacing: 0.02em;
+    padding: 8px 16px;
+    border: 1px solid rgba(33, 33, 33, 0.26);
+    border-radius: 10px;
+    box-shadow: rgba(112, 94, 0, 0.47) 0px 2px 3px 1px;
+    transition: background 0.15s ease, box-shadow 0.15s ease;
+    text-decoration: none;
+  }
+  .blog-card-cta:hover {
+    background: #e6bd00;
+    box-shadow: rgba(112, 94, 0, 0.6) 0px 3px 5px 1px;
+    text-decoration: none;
+    color: var(--color-ink);
+  }
 
   /* ── On-enter reveal animations ──
      Elements with data-anim start hidden; .is-revealed plays the anim. */
