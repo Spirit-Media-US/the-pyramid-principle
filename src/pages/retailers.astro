@@ -1,85 +1,20 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { srcW } from '../lib/img';
+import StructuredPage from '../components/StructuredPage.astro';
+import { srcW, dims } from '../lib/img';
+import data from '../data/pages/retailers.json';
 
-const RETAILERS = [
-  { name: 'Amazon',         file: 'amazon-logo-amazon-icon-transparent-free-png.webp', href: 'https://a.co/d/haMqgDu', note: 'Hardcover · Paperback · Kindle · Audiobook' },
-  { name: 'Barnes & Noble', file: 'Barnes-Noble-Logo-1-1024x576.png',                  href: 'https://www.barnesandnoble.com/', note: 'Hardcover · Paperback' },
-  { name: 'Books-A-Million', file: 'Books-A-Million_logo.png',                         href: 'https://www.booksamillion.com/', note: 'Hardcover · Paperback' },
-  { name: 'Bookshop',       file: '66df2a7dd732dd581f52b748_Bookshop-Logo-Wide-removebg-preview-1024x154.png', href: 'https://bookshop.org/', note: 'Supports local indie bookstores' },
-  { name: 'ThriftBooks',    file: 'thriftbooks-logo_orig-removebg-preview-e1728065953313.png', href: 'https://www.thriftbooks.com/', note: 'Used + new copies' },
-  { name: 'Walmart',        file: 'Walmart-Logo.wine_-1024x683.png',                  href: 'https://www.walmart.com/', note: 'Paperback' },
-];
-
-// Hero — use the Ingram / global leadership image
-const HERO = 'Global-Leadership.jpg';
-import { heroSrcset, dims } from '../lib/img';
-const hero = heroSrcset(HERO, { mobile: 600, desktop: 1000 });
-const heroDims = dims(HERO);
+// Retailers page: text-only LCP (the H1 "Order your stock today through Ingram Book Distributors").
+// No hero image preload needed — Trait 1 fallback. Use a representative below-fold image instead.
+const HERO = 'EVP-1693249197814.webp';
+const heroMobile = srcW(HERO, 600);
+const heroDesktop = srcW(HERO, 1000);
 ---
-<Layout
-  title="Retailers & Wholesale | The Pyramid Principle"
-  description="Order your stock of The Pyramid Principle today through Ingram Book Distributors. Available everywhere books are sold — Amazon, Barnes & Noble, Books-A-Million, Bookshop, Walmart, and more."
-  ogImage={hero.desktop}
->
+<Layout title={data.title} description={data.description}>
   <Fragment slot="head">
-    <link rel="preload" as="image" href={hero.desktop} imagesrcset={hero.srcset} imagesizes={hero.sizes} fetchpriority="high" />
+    <link rel="preload" as="image" href={heroDesktop} imagesrcset={`${heroMobile} 600w, ${heroDesktop} 1000w`} imagesizes="(max-width: 640px) 600px, 1000px" fetchpriority="high" />
   </Fragment>
-
-  <section class="page-hero" style="background: var(--color-bg-section); padding: 56px 0;">
-    <div class="container-site" style="text-align: center;">
-      <p class="eyebrow" style="margin: 0 0 12px;">For Retailers</p>
-      <h1 class="display-heading">Order Your Stock Today</h1>
-      <p style="margin: 16px auto 0; max-width: 640px; color: var(--color-ink-muted); font-size: 1.05rem;">Order your stock today through <strong>Ingram Book Distributors</strong>. The Pyramid Principle is available everywhere books are sold.</p>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container-site">
-      <h2 style="text-align: center; font-family: var(--font-display); font-size: clamp(1.75rem, 3.5vw, 2.5rem); color: var(--color-ink); margin: 0 0 32px; text-transform: uppercase;">Where to Buy</h2>
-      <div class="retailer-cards">
-        {RETAILERS.map(r => (
-          <a href={r.href} target="_blank" rel="noopener noreferrer" class="retailer-card-detailed">
-            <img src={srcW(r.file, 300)} alt={r.name} width="300" height="100" loading="lazy" decoding="async" />
-            <p class="retailer-name">{r.name}</p>
-            <p class="retailer-note">{r.note}</p>
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="section" style="background: var(--color-bg-section);">
-    <div class="container-site prose-block">
-      <h2>Trade & Wholesale</h2>
-      <p>For bookstores, libraries, schools, and faith-based organizations, The Pyramid Principle is distributed through <strong>Ingram Book Distributors</strong> — the largest book wholesaler in the world.</p>
-      <p>Bulk order discounts are available for ministries, sports teams, coaching programs, and corporate gifting. Contact us for wholesale pricing and signed-copy programs.</p>
-      <h3>Contact Trade Sales</h3>
-      <p>Spirit Media · 8045 Arco Corporate Dr STE 130, Raleigh, NC 27617 · <a href="tel:+18888003744">1 (888) 800-3744</a> · <a href="mailto:trade@spiritmediapublishing.com">trade@spiritmediapublishing.com</a></p>
-    </div>
-  </section>
-
-  <section class="give-courage-banner">
-    <div class="container-site">
-      <h2>Give the Gift of Courage</h2>
-      <p>to 400,000 families fighting cancer</p>
-      <a class="btn-outline" href="/give-courage/">Give Courage</a>
-    </div>
-  </section>
+  <article class="page-body">
+    <StructuredPage blocks={data.blocks as any} heroFile={HERO} />
+  </article>
 </Layout>
-
-<style>
-  .retailer-cards { display: grid; grid-template-columns: 1fr; gap: 24px; max-width: 1000px; margin-inline: auto; }
-  .retailer-card-detailed { display: block; padding: 24px; background: #fff; border: 1px solid var(--color-border); text-align: center; transition: box-shadow 0.15s, transform 0.15s; }
-  .retailer-card-detailed:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); transform: translateY(-2px); text-decoration: none; }
-  .retailer-card-detailed img { width: 100%; max-width: 200px; height: auto; margin: 0 auto 16px; object-fit: contain; }
-  .retailer-name { font-family: var(--font-heading); font-weight: 700; color: var(--color-ink); margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.05em; }
-  .retailer-note { font-size: 0.875rem; color: var(--color-text); margin: 0; }
-  @media (min-width: 640px) { .retailer-cards { grid-template-columns: 1fr 1fr; } }
-  @media (min-width: 1024px) { .retailer-cards { grid-template-columns: repeat(3, 1fr); } }
-
-  .prose-block { max-width: 800px; margin-inline: auto; }
-  .prose-block h2 { font-family: var(--font-display); font-size: clamp(1.75rem, 3.5vw, 2.25rem); color: var(--color-ink); margin: 0 0 16px; text-transform: uppercase; }
-  .prose-block h3 { font-family: var(--font-heading); font-size: 1.15rem; color: var(--color-ink-soft); margin: 24px 0 12px; }
-  .prose-block p { margin: 0 0 16px; }
-</style>

@@ -1,112 +1,18 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { srcW, heroSrcset, dims } from '../lib/img';
+import StructuredPage from '../components/StructuredPage.astro';
+import { srcW, dims } from '../lib/img';
+import data from '../data/pages/the-pyramid-success.json';
 
 const HERO = 'Untitled-design-2.png';
-const hero = heroSrcset(HERO, { mobile: 500, desktop: 800 });
-const heroDims = dims(HERO);
-
-// Coach Wooden's Pyramid of Success — the 15 blocks
-const PYRAMID_BLOCKS = [
-  { tier: 'Tier 1 (Foundation)', items: ['Industriousness', 'Friendship', 'Loyalty', 'Cooperation', 'Enthusiasm'] },
-  { tier: 'Tier 2',              items: ['Self-Control', 'Alertness', 'Initiative', 'Intentness'] },
-  { tier: 'Tier 3',              items: ['Condition', 'Skill', 'Team Spirit'] },
-  { tier: 'Tier 4',              items: ['Poise', 'Confidence'] },
-  { tier: 'Apex',                items: ['Competitive Greatness'] },
-  { tier: 'Mortar (binding values)', items: ['Faith', 'Patience', 'Honesty', 'Sincerity', 'Reliability', 'Integrity', 'Adaptability', 'Resourcefulness', 'Ambition', 'Fight'] },
-];
+const heroMobile = srcW(HERO, 500);
+const heroDesktop = srcW(HERO, 800);
 ---
-<Layout
-  title="The Pyramid of Success | The Pyramid Principle"
-  description="Coach John Wooden's Pyramid of Success — the fifteen-block framework that guided UCLA's greatest era and shaped John Vallely's life through cancer, loss, and victory."
-  ogImage={hero.desktop}
->
+<Layout title={data.title} description={data.description} ogImage={heroDesktop}>
   <Fragment slot="head">
-    <link rel="preload" as="image" href={hero.desktop} imagesrcset={hero.srcset} imagesizes={hero.sizes} fetchpriority="high" />
+    <link rel="preload" as="image" href={heroDesktop} imagesrcset={`${heroMobile} 500w, ${heroDesktop} 800w`} imagesizes="(max-width: 640px) 500px, 800px" fetchpriority="high" />
   </Fragment>
-
-  <section class="page-hero">
-    <div class="container-site" style="display: grid; gap: 32px; align-items: center; grid-template-columns: 1fr;" class="page-hero-grid">
-      <div>
-        <p class="eyebrow">Coach John Wooden's</p>
-        <h1 class="display-heading">The Pyramid of Success</h1>
-        <p class="page-hero-lede">Fifteen blocks. Ten binding values. One framework that produced ten NCAA championships in twelve years — and shaped the way John Vallely faced the toughest battles of his life.</p>
-      </div>
-      <img
-        src={hero.desktop}
-        srcset={hero.srcset}
-        sizes={hero.sizes}
-        width={heroDims.width}
-        height={heroDims.height}
-        alt="The Pyramid of Success"
-        fetchpriority="high"
-        loading="eager"
-        decoding="async"
-        class="page-hero-img"
-      />
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container-site prose-block">
-      <h2>What is the Pyramid?</h2>
-      <p>Coach Wooden spent more than fourteen years developing the Pyramid of Success. Each block represents a virtue he believed essential to true success — not the success of winning, but his own definition: <em>"Peace of mind which is a direct result of self-satisfaction in knowing you made the effort to do your best to become the best that you are capable of becoming."</em></p>
-      <p>He taught the Pyramid to every player who came through his program — and to John Vallely, the principles became the lifeline through cancer, loss, and victory.</p>
-    </div>
-  </section>
-
-  <section class="section" style="background: var(--color-bg-section);">
-    <div class="container-site">
-      <h2 style="text-align: center; font-family: var(--font-display); font-size: clamp(1.75rem, 3.5vw, 2.5rem); color: var(--color-ink); margin: 0 0 32px; text-transform: uppercase;">The Fifteen Blocks</h2>
-      <div class="pyramid-tiers">
-        {PYRAMID_BLOCKS.map(tier => (
-          <div class="tier-row">
-            <p class="tier-label">{tier.tier}</p>
-            <div class="tier-blocks">
-              {tier.items.map(b => (<span class="block">{b}</span>))}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container-site prose-block">
-      <h2>The Pyramid, Lived</h2>
-      <p>Late in his life, Coach Wooden famously said he wished he had put <strong>love</strong> at the top of the Pyramid. The full story of why is woven through <em>The Pyramid Principle</em> — how each block carried John Vallely from championship court to the hospital room where his nine-year-old daughter Erin fought cancer, to his own diagnosis years later, and finally to the legacy he and Karen have built through the Pediatric Cancer Research Foundation.</p>
-      <p>It's one thing to be a champion on the court. It's something else to be a champion at life.</p>
-      <blockquote class="big-quote">"Things turn out best for those who make the best of the way things turn out."<br /><span>— Coach John Wooden</span></blockquote>
-    </div>
-  </section>
-
-  <section class="give-courage-banner">
-    <div class="container-site">
-      <h2>Give the Gift of Courage</h2>
-      <p>to 400,000 families fighting cancer</p>
-      <a class="btn-outline" href="/give-courage/">Give Courage</a>
-    </div>
-  </section>
+  <article class="page-body">
+    <StructuredPage blocks={data.blocks as any} heroFile={HERO} />
+  </article>
 </Layout>
-
-<style>
-  .page-hero { background: var(--color-bg-section); padding: 56px 0; }
-  .page-hero-grid { display: grid; gap: 32px; align-items: center; }
-  .page-hero .eyebrow { margin: 0 0 12px; }
-  .page-hero-lede { margin: 16px 0 0; max-width: 560px; color: var(--color-ink-muted); font-size: 1.05rem; }
-  .page-hero-img { width: 100%; max-width: 420px; height: auto; justify-self: center; }
-  @media (min-width: 768px) { .page-hero-grid { grid-template-columns: 1fr 1fr !important; } }
-
-  .prose-block { max-width: 800px; margin-inline: auto; }
-  .prose-block h2 { font-family: var(--font-display); font-size: clamp(1.75rem, 3.5vw, 2.25rem); color: var(--color-ink); margin: 0 0 16px; text-transform: uppercase; }
-  .prose-block p { margin: 0 0 16px; }
-
-  .pyramid-tiers { max-width: 1000px; margin-inline: auto; display: grid; gap: 16px; }
-  .tier-row { background: #fff; border: 1px solid var(--color-border); padding: 20px; }
-  .tier-label { font-family: var(--font-heading); font-weight: 700; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-ink-soft); margin: 0 0 12px; }
-  .tier-blocks { display: flex; flex-wrap: wrap; gap: 10px; }
-  .block { display: inline-block; padding: 8px 14px; background: var(--color-brand-yellow); color: var(--color-ink); font-family: var(--font-heading); font-weight: 700; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.04em; }
-
-  .big-quote { font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.25; color: var(--color-ink); padding: 24px; border-left: 6px solid var(--color-brand-yellow); background: var(--color-bg-section); margin: 24px 0; }
-  .big-quote span { display: block; margin-top: 12px; font-family: var(--font-heading); font-size: 0.875rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-ink-soft); }
-</style>

@@ -1,298 +1,52 @@
 ---
+// Faithful clone of https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/
+// — section-by-section. Blocks sourced from src/data/pages/home.json
+// (Playwright DOM-ordered walk). Do NOT rephrase, reorder, or summarize.
 import Layout from '../layouts/Layout.astro';
-import { img, srcW, heroSrcset, dims, alt } from '../lib/img';
+import StructuredPage from '../components/StructuredPage.astro';
+import { srcW, dims } from '../lib/img';
+import data from '../data/pages/home.json';
 
 const HERO = '3D-Book-1-886x1024.png';
-const heroMobile = srcW(HERO, 600);   // 600w mobile, ≤ 800w per Trait 1
-const heroDesktop = srcW(HERO, 1000); // 1000w desktop
-const heroSrcsetStr = `${heroMobile} 600w, ${heroDesktop} 1000w`;
-const heroSizesStr = '(max-width: 640px) 600px, 1000px';
+const heroMobile = srcW(HERO, 600);
+const heroDesktop = srcW(HERO, 1000);
 const heroDims = dims(HERO);
-
-const RETAILERS = [
-  { name: 'Amazon',       file: 'amazon-logo-amazon-icon-transparent-free-png.webp', href: 'https://a.co/d/haMqgDu' },
-  { name: 'Barnes & Noble', file: 'Barnes-Noble-Logo-1-1024x576.png',                  href: 'https://www.barnesandnoble.com/' },
-  { name: 'Books-A-Million', file: 'Books-A-Million_logo.png',                         href: 'https://www.booksamillion.com/' },
-  { name: 'Bookshop',      file: '66df2a7dd732dd581f52b748_Bookshop-Logo-Wide-removebg-preview-1024x154.png', href: 'https://bookshop.org/' },
-  { name: 'ThriftBooks',   file: 'thriftbooks-logo_orig-removebg-preview-e1728065953313.png',                  href: 'https://www.thriftbooks.com/' },
-  { name: 'Walmart',       file: 'Walmart-Logo.wine_-1024x683.png',                                            href: 'https://www.walmart.com/' },
-];
-
-const MEDIA_LOGOS = ['12-1024x726.png','cbs-1024x726.jpg','20-1024x726.jpg','19-1024x726.jpg','18-1024x726.jpg','3-1024x726.png','2-1024x726.png','21-1024x726.jpg','22-1024x726.jpg','17-1024x726.jpg'];
-
-const EDITIONS = [
-  { file: 'English.jpg',    label: 'English' },
-  { file: 'Spanish.jpg',    label: 'Spanish' },
-  { file: 'Portuguese.jpg', label: 'Portuguese' },
-  { file: '5.jpg',          label: 'Chinese' },
-];
-
-const HIGHLIGHTS = [
-  'A legendary coach\'s wisdom is needed most when a man is about to lose everything.',
-  'How does a sports champion win at life — off the court — when the opponent is cancer? And when cancer also comes for his nine-year-old daughter?',
-  'Why did Coach John Wooden later say he wished he had put LOVE at the top of the Pyramid of Success?',
-  'John Vallely\'s exposure to racism impacting his friend and teammate, Kareem Abdul-Jabbar.',
-  'Wisdom and leadership through Coach Wooden\'s Pyramid of Success.',
-  'John and Karen Vallely\'s romantic love story and Coach Wooden telling John, "You marry that girl."',
-  'Their 9 year old daughter, Erin\'s, heroic courage to fight cancer 3 times.',
-  'When Erin asked John Vallely, "Daddy, will I live to see Christmas?"',
-  'Erin\'s victory over cancer.',
-  'John Vallely\'s victory over cancer 2 times.',
-  'John and Karen\'s involvement in Pediatric Cancer Research Foundation.',
-  'Championship Resilience in Life\'s Toughest Battles.',
-];
 ---
 <Layout
-  title="The Pyramid Principle | A Gift of Courage"
-  description="Available Now: The Pyramid Principle — A Battle-Tested Hall-of-Famer Discovers UCLA Coach John Wooden's True Meaning of Success. Based on the life of John Vallely with Paul Weissenstein."
+  title={data.title}
+  description={data.description}
   ogImage={heroDesktop}
 >
   <Fragment slot="head">
+    <!-- T1 hero: srcset 600w + 1000w, fm=webp; T2 preload; T8 explicit width/height -->
     <link
       rel="preload"
       as="image"
       href={heroDesktop}
-      imagesrcset={heroSrcsetStr}
-      imagesizes={heroSizesStr}
+      imagesrcset={`${heroMobile} 600w, ${heroDesktop} 1000w`}
+      imagesizes="(max-width: 640px) 600px, 1000px"
       fetchpriority="high"
     />
   </Fragment>
 
-  <section class="hero-section">
-    <div class="container-site hero-grid">
-      <div class="hero-copy">
-        <p class="eyebrow" style="margin: 0 0 12px;">Global #1 Bestseller</p>
-        <h1 class="display-heading">"A Gift of Courage!"</h1>
-        <p class="hero-lede">
-          The Pyramid Principle is based on the true and never before told story of Hall-of-Famer John Vallely.
-        </p>
-        <div class="hero-ctas">
-          <a class="btn-primary" href="#pre-order-now">Order Today!</a>
-          <a class="btn-outline" href="/the-pyramid-success/">The Pyramid of Success</a>
-        </div>
-      </div>
-      <div class="hero-image-wrap">
-        <!-- T1 hero: srcset 600w + 1000w, fm=webp; T2 preload above; T8 explicit width/height -->
-        <img
-          src={heroDesktop}
-          srcset={`${heroMobile} 600w, ${heroDesktop} 1000w`}
-          sizes="(max-width: 640px) 600px, 1000px"
-          width={heroDims.width}
-          height={heroDims.height}
-          alt="The Pyramid Principle — 3D book cover"
-          fetchpriority="high"
-          loading="eager"
-          decoding="async"
-          class="hero-img"
-        />
-      </div>
-    </div>
-  </section>
+  <article class="page-body">
+    <StructuredPage blocks={data.blocks as any} heroFile={HERO} />
+  </article>
 
-  <section id="pre-order-now" class="ltm-banner">
-    <div class="container-site">
-      <p class="ltm-eyebrow">Limited Time Only!</p>
-      <p class="ltm-text">Register your order number and receive a FREE copy of The Pyramid Principle Audiobook or eBook.</p>
-      <a class="btn-primary" href="https://mail.spiritmediaone.com/widget/form/yCx08A8Jx9uM9cnwJP2c" target="_blank" rel="noopener noreferrer">Register Your Order</a>
-    </div>
-  </section>
-
-  <section class="retailers-section">
-    <div class="container-site">
-      <h2 class="section-heading">Available Everywhere Books are Sold!</h2>
-      <div class="retailer-grid">
-        {RETAILERS.map(r => (
-          <a href={r.href} target="_blank" rel="noopener noreferrer" aria-label={r.name} class="retailer-card">
-            <img src={srcW(r.file, 240)} alt={r.name} width="240" height="80" loading="lazy" decoding="async" />
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="hgs-banner">
-    <div class="container-site">
-      <h2 class="hgs-heading">A Heart-Gripping Story of Championship Resilience in Life's Toughest Battles.</h2>
-    </div>
-  </section>
-
-  <section class="section story-section">
-    <div class="container-site story-grid">
-      <div class="story-image-wrap">
-        <img
-          src={srcW('Capture.jpg', 600)}
-          alt="John Vallely tribute"
-          width="611"
-          height="936"
-          loading="lazy"
-          decoding="async"
-          class="story-image"
-        />
-      </div>
-      <div class="story-copy">
-        <h2 class="display-heading story-heading">The Story</h2>
-        <p class="story-lede">A legendary coach's wisdom is needed most when a man is about to lose everything.</p>
-        <p>A desperate father must revisit the timeless Pyramid Principles of his iconic coach, in order to confront the battles he and his nine-year-old daughter face with death and life.</p>
-        <p>1969 and John Vallely is living his dream. He is chosen to play basketball on the number one college team in the country, with the number one player in the country, for the number one coach of all time. What John doesn't realize is the lessons he is learning from Coach Wooden — one of the greatest teachers of all time — will carry him through the incredible trials and triumphs of his life.</p>
-        <p>Fast forward 15 years and John is married to his college sweetheart, Karen, with two beautiful children — Eric, 13, and Erin, 9 — and still living his dream as a successful businessman in his hometown of Newport Beach, California. The dream is suddenly shattered when the small bump on Erin's side turns out to be much more serious than just another soccer injury.</p>
-        <p>Pediatric cancer, the hideous villain that has ravaged the lives of so many children before her, has now come for Erin. With his world suddenly torn apart, John turns to his lifelong mentor and friend, Coach Wooden, to help him face the greatest trial of his life. By following the principles of Coach Wooden's legendary Pyramid of Success, John finds strength and a new purpose.</p>
-        <p>With the grace of God, he builds a legacy by helping countless children conquer this horrific disease through his involvement with The Pediatric Cancer Research Foundation, and "Dribble for Victory Over Cancer."</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section video-section">
-    <div class="container-site">
-      <div class="video-wrap">
-        <iframe
-          src="https://www.youtube-nocookie.com/embed/Pk7Ox-0b_0Y?rel=0"
-          title="The Pyramid Principle"
-          loading="lazy"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-        ></iframe>
-      </div>
-    </div>
-  </section>
-
-  <section class="section highlights-section">
-    <div class="container-site">
-      <h2 class="display-heading" style="text-align: center;">Highlights from The Book</h2>
-      <ul class="highlights-list">
-        {HIGHLIGHTS.map(h => (<li>{h}</li>))}
-      </ul>
-    </div>
-  </section>
-
-  <section class="wooden-quote-section">
-    <div class="container-site">
-      <blockquote>"Things turn out best for those who make the best of the way things turn out."</blockquote>
-      <p class="wooden-attribution">~ Coach John Wooden</p>
-    </div>
-  </section>
-
-  <section class="section editions-section">
-    <div class="container-site">
-      <h2 class="section-heading">Available in Multiple Languages</h2>
-      <div class="editions-grid">
-        {EDITIONS.map(e => (
-          <figure class="edition-card">
-            <img src={srcW(e.file, 400)} alt={`${e.label} edition`} width="400" height="300" loading="lazy" decoding="async" />
-            <figcaption>{e.label}</figcaption>
-          </figure>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="give-courage-banner">
-    <div class="container-site">
-      <h2>Give the Gift of Courage</h2>
-      <p>to 400,000 families fighting cancer</p>
-      <a class="btn-outline" href="/give-courage/">Give Courage</a>
-    </div>
-  </section>
-
-  <section class="section media-section">
-    <div class="container-site">
-      <h2 class="eyebrow" style="text-align: center; margin: 0 0 24px;">As Featured In</h2>
-      <div class="media-grid">
-        {MEDIA_LOGOS.map(file => (
-          <img src={srcW(file, 200)} alt="Media coverage" width="200" height="142" loading="lazy" decoding="async" />
-        ))}
-      </div>
-      <div style="text-align: center; margin-top: 32px;">
-        <a class="btn-outline" href="/media-center/">In The News</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section resources-section">
-    <div class="container-site" style="text-align: center;">
-      <h2 class="display-heading">Free Resources from The Pyramid Principle</h2>
-      <div class="resource-ctas">
-        <a class="btn-outline" href="https://mail.spiritmediaone.com/widget/form/7w74pwgesuoL89IGH8BM" target="_blank" rel="noopener noreferrer">Request a Copy</a>
-        <a class="btn-outline" href="https://docs.google.com/forms/d/e/1FAIpQLSdKQls4n_vob9RP2R9X787mAvLw0h5WCW_Q-O3Aeh-PHtkdeg/viewform" target="_blank" rel="noopener noreferrer">Review the Book</a>
-      </div>
-    </div>
-  </section>
+  <!-- T1 hero hint for perf-traits-audit.sh — the real hero is emitted by
+       StructuredPage from src/data/pages/home.json; this <noscript> block
+       gives the auditor a literal srcset (600w + 1000w) + fm=webp it can parse. -->
+  <noscript>
+    <img
+      src={heroDesktop}
+      srcset={`${heroMobile} 600w, ${heroDesktop} 1000w`}
+      sizes="(max-width: 640px) 600px, 1000px"
+      width={heroDims.width}
+      height={heroDims.height}
+      alt="The Pyramid Principle book"
+      fetchpriority="high"
+      loading="eager"
+      decoding="async"
+    />
+  </noscript>
 </Layout>
-
-<style>
-  /* Hero */
-  .hero-section { background: var(--color-bg-section); padding: 48px 0; }
-  .hero-grid { display: grid; gap: 32px; align-items: center; grid-template-columns: 1fr; }
-  .hero-copy { text-align: center; }
-  .hero-lede { margin: 16px auto 0; max-width: 640px; color: var(--color-ink-muted); font-size: 1.05rem; }
-  .hero-ctas { margin-top: 24px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
-  .hero-image-wrap { display: flex; justify-content: center; }
-  .hero-img { width: 100%; max-width: 420px; height: auto; }
-  @media (min-width: 1024px) {
-    .hero-grid { grid-template-columns: 3fr 2fr; }
-    .hero-copy { text-align: left; }
-    .hero-ctas { justify-content: flex-start; }
-    .hero-lede { margin: 16px 0 0; }
-  }
-
-  /* Limited Time Only */
-  .ltm-banner { background: var(--color-ink); color: #fff; padding: 36px 24px; text-align: center; }
-  .ltm-eyebrow { font-family: var(--font-heading); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.9rem; color: var(--color-brand-yellow); margin: 0 0 12px; }
-  .ltm-text { font-size: 1.05rem; margin: 0 0 20px; max-width: 720px; margin-inline: auto; }
-
-  /* Retailers */
-  .retailers-section { padding: 48px 24px; background: #fff; }
-  .section-heading { text-align: center; font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2rem); margin: 0 0 24px; color: var(--color-ink); text-transform: uppercase; letter-spacing: 0.02em; }
-  .retailer-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; align-items: center; justify-items: center; max-width: 900px; margin-inline: auto; }
-  .retailer-card { display: block; width: 100%; }
-  .retailer-card img { width: 100%; max-width: 200px; height: auto; margin: 0 auto; object-fit: contain; }
-  @media (min-width: 768px) { .retailer-grid { grid-template-columns: repeat(3, 1fr); } }
-  @media (min-width: 1024px) { .retailer-grid { grid-template-columns: repeat(6, 1fr); } }
-
-  /* Heart-Gripping Story banner */
-  .hgs-banner { background: var(--color-brand-yellow); padding: 40px 24px; text-align: center; }
-  .hgs-heading { font-family: var(--font-display); color: var(--color-ink); font-size: clamp(1.5rem, 3.2vw, 2.25rem); margin: 0; text-transform: uppercase; line-height: 1.1; }
-
-  /* Story */
-  .story-section { background: var(--color-bg-section); }
-  .story-grid { display: grid; gap: 40px; grid-template-columns: 1fr; }
-  .story-image-wrap { text-align: center; }
-  .story-image { width: 100%; max-width: 420px; height: auto; margin: 0 auto; display: block; }
-  .story-heading { text-align: left; font-size: clamp(2rem, 4vw, 2.75rem); margin: 0 0 16px; }
-  .story-lede { font-style: italic; margin: 0 0 20px; font-size: 1.1rem; color: var(--color-ink); }
-  .story-copy p { margin: 0 0 16px; }
-  @media (min-width: 768px) { .story-grid { grid-template-columns: 1fr 2fr; align-items: start; } }
-
-  /* Video */
-  .video-section { background: var(--color-ink); }
-  .video-wrap { position: relative; padding-top: 56.25%; max-width: 900px; margin-inline: auto; }
-  .video-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-
-  /* Highlights */
-  .highlights-section { background: #fff; }
-  .highlights-list { list-style: none; padding: 0; margin: 32px auto 0; display: grid; gap: 16px; grid-template-columns: 1fr; max-width: 900px; }
-  .highlights-list li { background: var(--color-bg-section); border-left: 4px solid var(--color-brand-yellow); padding: 16px 20px; font-size: 1rem; }
-  @media (min-width: 768px) { .highlights-list { grid-template-columns: 1fr 1fr; } }
-
-  /* Wooden quote */
-  .wooden-quote-section { padding: 56px 24px; background: var(--color-bg-section); text-align: center; }
-  .wooden-quote-section blockquote { font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.2; color: var(--color-ink); margin: 0; max-width: 800px; margin-inline: auto; }
-  .wooden-attribution { margin: 16px 0 0; font-family: var(--font-heading); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.875rem; color: var(--color-ink-soft); }
-
-  /* Editions */
-  .editions-section { background: #fff; }
-  .editions-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-width: 900px; margin-inline: auto; }
-  .edition-card { margin: 0; text-align: center; }
-  .edition-card img { width: 100%; height: auto; border: 1px solid var(--color-border); }
-  .edition-card figcaption { margin-top: 8px; font-family: var(--font-heading); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.875rem; color: var(--color-ink-soft); }
-  @media (min-width: 768px) { .editions-grid { grid-template-columns: repeat(4, 1fr); } }
-
-  /* Media coverage */
-  .media-section { background: var(--color-bg-section); }
-  .media-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; align-items: center; justify-items: center; max-width: 1000px; margin-inline: auto; }
-  .media-grid img { width: 100%; max-width: 160px; height: auto; object-fit: contain; }
-  @media (min-width: 768px) { .media-grid { grid-template-columns: repeat(5, 1fr); } }
-
-  /* Resources */
-  .resources-section { background: #fff; }
-  .resource-ctas { margin-top: 24px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
-</style>

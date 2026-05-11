@@ -1,77 +1,19 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { srcW, heroSrcset, dims } from '../lib/img';
+import StructuredPage from '../components/StructuredPage.astro';
+import { srcW, dims } from '../lib/img';
+import data from '../data/pages/coach-john-wooden.json';
 
 const HERO = 'USATSI_8741865.webp';
-const hero = heroSrcset(HERO, { mobile: 600, desktop: 1000 });
+const heroMobile = srcW(HERO, 600);
+const heroDesktop = srcW(HERO, 1000);
 const heroDims = dims(HERO);
 ---
-<Layout
-  title="Coach John Wooden | The Pyramid Principle"
-  description="College basketball's most winningest coach ever. Architect of the Pyramid of Success. Mentor to John Vallely and the heart of The Pyramid Principle."
-  ogImage={hero.desktop}
->
+<Layout title={data.title} description={data.description} ogImage={heroDesktop}>
   <Fragment slot="head">
-    <link rel="preload" as="image" href={hero.desktop} imagesrcset={hero.srcset} imagesizes={hero.sizes} fetchpriority="high" />
+    <link rel="preload" as="image" href={heroDesktop} imagesrcset={`${heroMobile} 600w, ${heroDesktop} 1000w`} imagesizes="(max-width: 640px) 600px, 1000px" fetchpriority="high" />
   </Fragment>
-
-  <section class="page-hero">
-    <div class="container-site page-hero-grid">
-      <div>
-        <p class="eyebrow">College's Most Winningest Coach Ever</p>
-        <h1 class="display-heading">Coach John Wooden</h1>
-        <p class="page-hero-lede">10 NCAA championships in 12 years at UCLA. Architect of the Pyramid of Success. Mentor and friend to John Vallely — and the heart of <em>The Pyramid Principle</em>.</p>
-      </div>
-      <img
-        src={hero.desktop}
-        srcset={hero.srcset}
-        sizes={hero.sizes}
-        width={heroDims.width}
-        height={heroDims.height}
-        alt="Coach John Wooden"
-        fetchpriority="high"
-        loading="eager"
-        decoding="async"
-        class="page-hero-img"
-      />
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container-site prose-block">
-      <h2>The Wizard of Westwood</h2>
-      <p>John Robert Wooden (1910–2010) is widely regarded as the greatest coach in the history of college basketball. As head coach at UCLA, he led the Bruins to ten NCAA championships in a twelve-year span — a record that may never be broken.</p>
-      <p>But Coach Wooden's lasting legacy isn't measured in titles. It's measured in lives. His Pyramid of Success — a fifteen-block framework for personal and competitive excellence — has guided generations of athletes, coaches, leaders, and parents toward what he called "peace of mind which is a direct result of self-satisfaction in knowing you made the effort to do your best to become the best that you are capable of becoming."</p>
-
-      <h2>The Pyramid of Success</h2>
-      <p>Coach Wooden spent more than fourteen years developing the Pyramid of Success, refining each block until it represented a virtue he believed essential to true success. He taught the Pyramid to every player who came through his program — and to John Vallely, the principles became the lifeline through cancer, loss, and victory.</p>
-      <p>Late in his life, Coach Wooden famously said he wished he had put <strong>love</strong> at the top of the Pyramid. The full story of why is told in <em>The Pyramid Principle</em>.</p>
-
-      <h2>A blockquote that shaped a generation</h2>
-      <blockquote class="wooden-quote">"Things turn out best for those who make the best of the way things turn out."<br /><span>— Coach John Wooden</span></blockquote>
-    </div>
-  </section>
-
-  <section class="give-courage-banner">
-    <div class="container-site">
-      <h2>Give the Gift of Courage</h2>
-      <p>to 400,000 families fighting cancer</p>
-      <a class="btn-outline" href="/give-courage/">Give Courage</a>
-    </div>
-  </section>
+  <article class="page-body">
+    <StructuredPage blocks={data.blocks as any} heroFile={HERO} />
+  </article>
 </Layout>
-
-<style>
-  .page-hero { background: var(--color-bg-section); padding: 56px 0; }
-  .page-hero-grid { display: grid; gap: 32px; align-items: center; grid-template-columns: 1fr; }
-  .page-hero .eyebrow { margin: 0 0 12px; }
-  .page-hero-lede { margin: 16px 0 0; max-width: 560px; color: var(--color-ink-muted); font-size: 1.05rem; }
-  .page-hero-img { width: 100%; max-width: 480px; height: auto; justify-self: center; }
-  @media (min-width: 768px) { .page-hero-grid { grid-template-columns: 1fr 1fr; } }
-
-  .prose-block { max-width: 800px; margin-inline: auto; }
-  .prose-block h2 { font-family: var(--font-display); font-size: clamp(1.75rem, 3.5vw, 2.25rem); color: var(--color-ink); margin: 32px 0 16px; text-transform: uppercase; line-height: 1.1; }
-  .prose-block p { margin: 0 0 16px; }
-  .wooden-quote { font-family: var(--font-display); font-size: clamp(1.25rem, 2.8vw, 1.75rem); line-height: 1.25; color: var(--color-ink); padding: 24px; border-left: 6px solid var(--color-brand-yellow); background: var(--color-bg-section); margin: 24px 0; }
-  .wooden-quote span { display: block; margin-top: 12px; font-family: var(--font-heading); font-size: 0.875rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-ink-soft); }
-</style>

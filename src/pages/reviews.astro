@@ -1,71 +1,20 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import StructuredPage from '../components/StructuredPage.astro';
 import { srcW } from '../lib/img';
+import data from '../data/pages/reviews.json';
 
-// Reviews collected from the live page (when extracted, these came through as carousel
-// images). Below are sourced from the H2/H3 + body text extracts in content/pages/reviews.md.
-const REVIEWS = [
-  { stars: 5, text: '"A heart-gripping story of championship resilience. The Pyramid Principle isn\'t just a book — it\'s a roadmap for facing the hardest battles of life with grace."', author: 'Amazon Reviewer' },
-  { stars: 5, text: '"John Vallely took his family\'s pain and turned it into great purpose to relieve it for someone else. This is the rarest kind of legacy."', author: 'Cori Close, UCLA Head Women\'s Basketball Coach' },
-  { stars: 5, text: '"A masterful retelling of how Coach Wooden\'s Pyramid of Success becomes a lifeline through cancer, loss, and unimaginable trial. You cannot put it down."', author: 'Reader on Goodreads' },
-  { stars: 5, text: '"Faith. Family. The Pyramid. This book carried me through my own son\'s diagnosis and gave me a language for hope I didn\'t have before."', author: 'Reader from PCRF community' },
-  { stars: 5, text: '"Every coach, every parent, every leader should read this. The principles are simple. The story is unforgettable."', author: 'Pastor / mentor' },
-];
+// H1 is text LCP; first content image is the Goodreads logo. Still preload one
+// for srcset pattern matching.
+const HERO = 'goodreads-logo-black-and-white-1-1024x221.png';
+const heroMobile = srcW(HERO, 600);
+const heroDesktop = srcW(HERO, 1000);
 ---
-<Layout
-  title="Reviews | The Pyramid Principle"
-  description="Reader reviews and endorsements for The Pyramid Principle by John Vallely with Paul Weissenstein."
->
-  <section class="page-hero" style="background: var(--color-bg-section); padding: 56px 0; text-align: center;">
-    <div class="container-site">
-      <p class="eyebrow" style="margin: 0 0 12px;">Reader Reviews</p>
-      <h1 class="display-heading">Thanks for Sharing Your Review</h1>
-      <p style="margin: 16px auto 0; max-width: 640px; color: var(--color-ink-muted); font-size: 1.05rem;">Every review helps us reach families fighting cancer. Read what others are saying — then add your own.</p>
-      <div style="margin-top: 24px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;">
-        <a class="btn-primary" href="https://a.co/d/haMqgDu" target="_blank" rel="noopener noreferrer">Review on Amazon</a>
-        <a class="btn-outline" href="https://docs.google.com/forms/d/e/1FAIpQLSdKQls4n_vob9RP2R9X787mAvLw0h5WCW_Q-O3Aeh-PHtkdeg/viewform" target="_blank" rel="noopener noreferrer">Submit a Review</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container-site">
-      <div class="reviews-grid">
-        {REVIEWS.map(r => (
-          <article class="review-card">
-            <div class="stars" aria-label={`${r.stars} of 5 stars`}>
-              {Array.from({ length: r.stars }).map(() => (<span>★</span>))}
-            </div>
-            <blockquote>{r.text}</blockquote>
-            <p class="review-author">— {r.author}</p>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="section" style="background: var(--color-bg-section); text-align: center;">
-    <div class="container-site">
-      <h2 style="font-family: var(--font-display); font-size: clamp(1.75rem, 3.5vw, 2.5rem); color: var(--color-ink); margin: 0 0 16px; text-transform: uppercase;">Share Your Story</h2>
-      <p style="margin: 0 auto 24px; max-width: 640px;">If The Pyramid Principle has impacted you or your family, we'd love to hear about it. Your review helps us reach families fighting cancer.</p>
-      <a class="btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLSdKQls4n_vob9RP2R9X787mAvLw0h5WCW_Q-O3Aeh-PHtkdeg/viewform" target="_blank" rel="noopener noreferrer">Submit a Review</a>
-    </div>
-  </section>
-
-  <section class="give-courage-banner">
-    <div class="container-site">
-      <h2>Give the Gift of Courage</h2>
-      <p>to 400,000 families fighting cancer</p>
-      <a class="btn-outline" href="/give-courage/">Give Courage</a>
-    </div>
-  </section>
+<Layout title={data.title} description={data.description}>
+  <Fragment slot="head">
+    <link rel="preload" as="image" href={heroDesktop} imagesrcset={`${heroMobile} 600w, ${heroDesktop} 1000w`} imagesizes="(max-width: 640px) 600px, 1000px" fetchpriority="high" />
+  </Fragment>
+  <article class="page-body">
+    <StructuredPage blocks={data.blocks as any} heroFile={HERO} />
+  </article>
 </Layout>
-
-<style>
-  .reviews-grid { display: grid; grid-template-columns: 1fr; gap: 24px; max-width: 1100px; margin-inline: auto; }
-  .review-card { background: #fff; border: 1px solid var(--color-border); padding: 24px; }
-  .stars { color: var(--color-brand-yellow); font-size: 1.25rem; letter-spacing: 0.1em; margin-bottom: 12px; }
-  .review-card blockquote { font-size: 1.05rem; color: var(--color-ink); margin: 0 0 16px; line-height: 1.6; font-style: italic; }
-  .review-author { font-family: var(--font-heading); font-weight: 700; font-size: 0.875rem; color: var(--color-ink-soft); letter-spacing: 0.05em; text-transform: uppercase; margin: 0; }
-  @media (min-width: 768px) { .reviews-grid { grid-template-columns: 1fr 1fr; } }
-</style>

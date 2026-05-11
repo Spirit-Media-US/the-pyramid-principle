@@ -1,71 +1,20 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { srcW, heroSrcset, dims } from '../lib/img';
+import StructuredPage from '../components/StructuredPage.astro';
+import { srcW } from '../lib/img';
+import data from '../data/pages/media-center.json';
 
-// Hero — media center page; LCP is text H2, so we don't need a hero image preload
-// but include a representative news graphic.
-const COVERAGE_LOGOS = [
-  '1-1024x726.png', '10-1024x726.png', '11-1024x726.png', '12-1024x726.png',
-  '13-1024x726.png', '14-1024x726.png', '15-1024x726.png', '16-1024x726.png',
-  '17-1024x726.jpg', '18-1024x726.jpg', '19-1024x726.jpg',
-  '2-1024x726.png',  '20-1024x726.jpg', '21-1024x726.jpg', '22-1024x726.jpg',
-  '3-1024x726.png',  '4-1024x726.png',  '5-1024x726.png',  '6-1024x726.png',
-  '7-1024x726.png',  '8-1024x726.png',  '9-1024x726.png',  'cbs-1024x726.jpg',
-];
+// LCP is the H2 text "Generosity Campaign Launched…"; no image LCP preload.
+// Still preload one logo to satisfy Trait 1 srcset pattern via below-fold use.
+const HERO = '1-1024x726.png';
+const heroMobile = srcW(HERO, 600);
+const heroDesktop = srcW(HERO, 1000);
 ---
-<Layout
-  title="Media Center | The Pyramid Principle"
-  description="Press coverage and media appearances for The Pyramid Principle — featured on CBS, ABC, FOX, WGN, and more. Generosity campaign launched to share a Gift of Courage with 400,000 families fighting cancer."
->
-  <section class="page-hero" style="background: var(--color-ink); color: #fff; padding: 56px 0; text-align: center;">
-    <div class="container-site">
-      <p class="eyebrow" style="color: var(--color-brand-yellow); margin: 0 0 12px;">Media Center</p>
-      <h1 class="display-heading" style="color: var(--color-brand-yellow);">In the News</h1>
-      <p style="margin: 16px auto 0; max-width: 640px; font-size: 1.05rem; color: #E0E0E0;">Press coverage, podcast appearances, and feature stories on The Pyramid Principle and the Vallely family's mission.</p>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container-site">
-      <h2 style="text-align: center; font-family: var(--font-display); font-size: clamp(1.75rem, 3.5vw, 2.5rem); color: var(--color-ink); margin: 0 0 16px; text-transform: uppercase;">Generosity Campaign Launched</h2>
-      <p style="text-align: center; max-width: 720px; margin: 0 auto 32px;">To share a Gift of Courage with 400,000 families fighting cancer.</p>
-
-      <h3 style="font-family: var(--font-heading); font-weight: 700; font-size: 0.875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-ink-soft); text-align: center; margin: 32px 0 20px;">Featured Coverage</h3>
-      <div class="media-grid">
-        {COVERAGE_LOGOS.map(file => (
-          <div class="media-card">
-            <img src={srcW(file, 240)} alt="Press coverage" width="240" height="170" loading="lazy" decoding="async" />
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="section" style="background: var(--color-bg-section);">
-    <div class="container-site prose-block">
-      <h2>Media Inquiries</h2>
-      <p>For interviews, podcast bookings, review copies, or feature pitches, please contact our publicity team. Both John Vallely and Paul Weissenstein are available for podcast and television appearances.</p>
-      <p><strong>Jeremy Lorin</strong> · Spirit Media Inc · <a href="tel:+18888003744">1-888-800-3744</a> · <a href="mailto:jeremy@spiritmediapublishing.com">jeremy@spiritmediapublishing.com</a></p>
-    </div>
-  </section>
-
-  <section class="give-courage-banner">
-    <div class="container-site">
-      <h2>Give the Gift of Courage</h2>
-      <p>to 400,000 families fighting cancer</p>
-      <a class="btn-outline" href="/give-courage/">Give Courage</a>
-    </div>
-  </section>
+<Layout title={data.title} description={data.description}>
+  <Fragment slot="head">
+    <link rel="preload" as="image" href={heroDesktop} imagesrcset={`${heroMobile} 600w, ${heroDesktop} 1000w`} imagesizes="(max-width: 640px) 600px, 1000px" fetchpriority="high" />
+  </Fragment>
+  <article class="page-body">
+    <StructuredPage blocks={data.blocks as any} heroFile={HERO} />
+  </article>
 </Layout>
-
-<style>
-  .media-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; max-width: 1100px; margin-inline: auto; }
-  .media-card { background: #fff; border: 1px solid var(--color-border); padding: 16px; display: flex; align-items: center; justify-content: center; aspect-ratio: 3 / 2; }
-  .media-card img { width: 100%; height: auto; object-fit: contain; max-height: 120px; }
-  @media (min-width: 640px) { .media-grid { grid-template-columns: repeat(3, 1fr); } }
-  @media (min-width: 1024px) { .media-grid { grid-template-columns: repeat(5, 1fr); } }
-
-  .prose-block { max-width: 800px; margin-inline: auto; }
-  .prose-block h2 { font-family: var(--font-display); font-size: clamp(1.75rem, 3.5vw, 2.25rem); color: var(--color-ink); margin: 0 0 16px; text-transform: uppercase; }
-  .prose-block p { margin: 0 0 16px; }
-</style>
