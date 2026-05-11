@@ -1,0 +1,74 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { srcW, heroSrcset, dims } from '../lib/img';
+
+const HERO = 'image-1.png';
+const hero = heroSrcset(HERO, { mobile: 600, desktop: 900 });
+const heroDims = dims(HERO);
+---
+<Layout
+  title="Paul Weissenstein | The Pyramid Principle"
+  description="Paul Weissenstein — America's Favorite Strength Coach. Co-author of The Pyramid Principle with John Vallely. Bringing Coach Wooden's wisdom to a new generation of athletes."
+  ogImage={hero.desktop}
+>
+  <Fragment slot="head">
+    <link rel="preload" as="image" href={hero.desktop} imagesrcset={hero.srcset} imagesizes={hero.sizes} fetchpriority="high" />
+  </Fragment>
+
+  <section class="page-hero">
+    <div class="container-site page-hero-grid">
+      <div>
+        <p class="eyebrow">America's Favorite Strength Coach</p>
+        <h1 class="display-heading">Paul Weissenstein</h1>
+        <p class="page-hero-lede">Co-author of <em>The Pyramid Principle</em>. Strength coach, mentor, and longtime collaborator with John Vallely in bringing Coach Wooden's wisdom to a new generation of athletes.</p>
+      </div>
+      <img
+        src={hero.desktop}
+        srcset={hero.srcset}
+        sizes={hero.sizes}
+        width={heroDims.width}
+        height={heroDims.height}
+        alt="Paul Weissenstein"
+        fetchpriority="high"
+        loading="eager"
+        decoding="async"
+        class="page-hero-img"
+      />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container-site prose-block">
+      <h2>About Paul</h2>
+      <p>Paul Weissenstein is a Hall-of-Fame strength coach who has spent decades guiding athletes, students, and ministry leaders. As co-author of <em>The Pyramid Principle</em>, he carries Coach John Wooden's principles forward — translating them into language that today's young athletes can hold onto when life gets hardest.</p>
+      <p>Paul partners with John Vallely on speaking engagements, book events, and the ongoing mission to share <em>A Gift of Courage</em> with families fighting cancer.</p>
+
+      <h2>Schedule Paul as a guest on your show</h2>
+      <p>An interview with Paul Weissenstein will bring value to your audience — particularly for shows focused on coaching, mentorship, faith, and the lasting impact of Coach Wooden's Pyramid of Success.</p>
+      <h3>Media Contact</h3>
+      <p>Jeremy Lorin · Spirit Media Inc · <a href="tel:+18888003744">1-888-800-3744</a> · <a href="mailto:jeremy@spiritmediapublishing.com">jeremy@spiritmediapublishing.com</a></p>
+    </div>
+  </section>
+
+  <section class="give-courage-banner">
+    <div class="container-site">
+      <h2>Give the Gift of Courage</h2>
+      <p>to 400,000 families fighting cancer</p>
+      <a class="btn-outline" href="/give-courage/">Give Courage</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-hero { background: var(--color-bg-section); padding: 56px 0; }
+  .page-hero-grid { display: grid; gap: 32px; align-items: center; grid-template-columns: 1fr; }
+  .page-hero .eyebrow { color: var(--color-author-blue); margin: 0 0 12px; }
+  .page-hero-lede { margin: 16px 0 0; max-width: 560px; color: var(--color-ink-muted); font-size: 1.05rem; }
+  .page-hero-img { width: 100%; max-width: 420px; height: auto; justify-self: center; }
+  @media (min-width: 768px) { .page-hero-grid { grid-template-columns: 1fr 1fr; } }
+
+  .prose-block { max-width: 800px; margin-inline: auto; }
+  .prose-block h2 { font-family: var(--font-display); font-size: clamp(1.75rem, 3.5vw, 2.25rem); color: var(--color-ink); margin: 32px 0 16px; text-transform: uppercase; line-height: 1.1; }
+  .prose-block h3 { font-family: var(--font-heading); font-size: 1.15rem; color: var(--color-ink-soft); margin: 24px 0 12px; }
+  .prose-block p { margin: 0 0 16px; }
+</style>

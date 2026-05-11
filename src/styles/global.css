@@ -1,44 +1,210 @@
 @import "tailwindcss";
 
-/* ─── Design Tokens ───────────────────────────────────────────
-   Replace these with site-specific values.
-   See existing sites for examples:
-   - artsbyjustin: warm/gallery palette
-   - spirit-media-publishing: brand blues
-   - FHB: parchment/ink palette
+/* ─── @font-face — self-hosted from R2 (Trait 4) ──────────────
+   Top-level @font-face per CSS spec (cannot live inside @layer).
 ──────────────────────────────────────────────────────────────── */
-:root {
-  --font-sans: system-ui, sans-serif;
-  --font-serif: Georgia, serif;
+@font-face {
+  font-family: 'Bebas Neue';
+  src: url('https://assets.spiritmediapublishing.com/fonts/bebas-neue/bebas-neue-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: optional;
+}
+@font-face {
+  font-family: 'DM Sans';
+  src: url('https://assets.spiritmediapublishing.com/fonts/dm-sans/dm-sans-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: optional;
+}
+@font-face {
+  font-family: 'DM Sans';
+  src: url('https://assets.spiritmediapublishing.com/fonts/dm-sans/dm-sans-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: optional;
+}
+@font-face {
+  font-family: 'Open Sans';
+  src: url('https://assets.spiritmediapublishing.com/fonts/open-sans/open-sans-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: optional;
+}
+@font-face {
+  font-family: 'Open Sans';
+  src: url('https://assets.spiritmediapublishing.com/fonts/open-sans/open-sans-600.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: optional;
+}
+@font-face {
+  font-family: 'Open Sans';
+  src: url('https://assets.spiritmediapublishing.com/fonts/open-sans/open-sans-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: optional;
+}
+
+/* ─── Design tokens — from content/design-tokens.md ──────────── */
+@theme {
+  /* Brand palette — verified by DOM enumeration of every visible color */
+  --color-brand-yellow: #FFD100;
+  --color-brand-yellow-soft: #FFE066;
+  --color-author-blue: #2774AE;
+  --color-cause-pink: #F999CB;
+  --color-publisher-gold: #CAA949;
+
+  --color-ink: #1D1D1F;
+  --color-ink-soft: #212121;
+  --color-ink-muted: #424242;
+  --color-text: #616161;
   --color-bg: #ffffff;
-  --color-text: #1a1a1a;
-  --color-border: #e5e5e5;
-  --color-accent: #2563eb;
+  --color-bg-section: #F5F5F5;
+  --color-bg-alt: #F7F7F7;
+  --color-border: #E6E7E8;
+
+  --font-display: 'Bebas Neue', Impact, 'Arial Narrow', sans-serif;
+  --font-heading: 'DM Sans', system-ui, sans-serif;
+  --font-body: 'Open Sans', system-ui, sans-serif;
+
+  --container-max: 1200px;
+  --section-padding-y-desktop: 60px;
+  --section-padding-y-mobile: 40px;
+  --section-padding-x-desktop: 40px;
+  --section-padding-x-mobile: 20px;
 }
 
-/* ─── 100 Club cascade rule ────────────────────────────────────
-   When you add hand-rolled critical CSS via <style is:inline> in
-   Layout.astro, wrap the whole block in @layer base { ... }.
-   Unlayered CSS outranks every Tailwind @layer rule (theme/base/
-   components/utilities), which silently strips responsive utilities
-   like lg:grid-cols-N below the fold.
+/* ─── Base layer — outranked by tailwind utilities ───────────── */
+@layer base {
+  html { scroll-behavior: smooth; }
 
-   Two at-rules stay at the top level (CSS spec forbids them inside
-   @layer): font-face declarations and keyframes.
+  body {
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
 
-   Diagnostic notes:
-   /home/deploy/.claude/projects/-home-deploy/memory/reference_100club_cascade_rules.md
-──────────────────────────────────────────────────────────────── */
+  h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); color: var(--color-ink); }
+  h1 { font-family: var(--font-display); font-weight: 400; line-height: 1; letter-spacing: 0.01em; }
 
-.container-site {
-  width: 100%;
-  max-width: 1200px;
-  margin-inline: auto;
-  padding-inline: 24px;
+  a { color: inherit; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  img { max-width: 100%; height: auto; display: block; }
+
+  ::selection { background: var(--color-brand-yellow); color: var(--color-ink); }
 }
 
-body {
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  font-family: var(--font-sans);
+/* ─── Components — small reusable patterns ─────────────────── */
+@layer components {
+  .container-site {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding-inline: var(--section-padding-x-mobile);
+  }
+  @media (min-width: 768px) {
+    .container-site { padding-inline: var(--section-padding-x-desktop); }
+  }
+
+  .section { padding-block: var(--section-padding-y-mobile); }
+  @media (min-width: 768px) {
+    .section { padding-block: var(--section-padding-y-desktop); }
+  }
+
+  .display-heading {
+    font-family: var(--font-display);
+    color: var(--color-ink);
+    font-size: clamp(2.5rem, 6vw, 3.75rem);
+    line-height: 1;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+  }
+
+  .eyebrow {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    color: var(--color-ink-soft);
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 30px;
+    background: var(--color-brand-yellow);
+    color: var(--color-ink);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1rem;
+    border: 2px solid var(--color-brand-yellow);
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .btn-primary:hover {
+    background: transparent;
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 30px;
+    background: transparent;
+    color: var(--color-ink);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1rem;
+    border: 2px solid var(--color-ink);
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .btn-outline:hover {
+    background: var(--color-ink);
+    color: var(--color-brand-yellow);
+    text-decoration: none;
+  }
+
+  .tagline-bar {
+    background: var(--color-brand-yellow);
+    color: var(--color-ink);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.875rem;
+    padding: 10px 16px;
+    text-align: center;
+  }
+
+  .give-courage-banner {
+    background: var(--color-brand-yellow);
+    padding: 28px 24px;
+    text-align: center;
+  }
+  .give-courage-banner h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    color: var(--color-ink);
+    margin: 0 0 8px;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+  .give-courage-banner p {
+    color: var(--color-ink);
+    font-weight: 600;
+    margin: 0 0 16px;
+  }
 }

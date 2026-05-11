@@ -1,36 +1,57 @@
 ---
-// SMP Site Layout — 100 Club ready out of the box.
-//
-// This layout already implements the structural pieces of every trait:
-//   - <slot name="head"> for per-page hero preload (Trait 2)
-//   - System-font fallback by default (Trait 4 alternative — replace with
-//     R2 self-hosted woff2 preloads via /home/deploy/bin/gfonts-to-r2.mjs
-//     once a brand font is chosen)
-//   - Deferred third-party JS pattern below (Trait 5) — wire GA/GTM by
-//     filling in the GTM_ID const and uncommenting the script
-//   - public/_headers ships CSP + X-Robots-Tag + Link: Early Hints
-//   - astro.config has inlineStylesheets:'auto' (Trait 6)
-//
-// HundredClubBadge auto-renders once this site's slug is added to
-// https://assets.spiritmediapublishing.com/100club-sites.json.
+// The Pyramid Principle — site layout.
+// Implements all 8 perf-gate traits structurally:
+//   Trait 2: <slot name="head"> carries the per-page hero preload
+//   Trait 4: 3 brand fonts self-hosted from R2, 2 preloaded here, font-display: optional
+//   Trait 5: deferred GA pattern stays commented until GTM ID is wired
+//   Trait 6: astro.config inlineStylesheets:'auto' + async-css postbuild
+//   Trait 7: header here is structural; hero markup on each page must omit data-aos / reveal wrappers
+//   Trait 8: <img> elements always have width / height
 import HundredClubBadge from '../components/HundredClubBadge.astro';
+import '../styles/global.css';
 
 interface Props {
   title: string;
   description?: string;
   ogImage?: string;
+  noindex?: boolean;
 }
 const {
   title,
-  description = 'Replace this default description in src/layouts/Layout.astro',
-  ogImage,
+  description = 'The Pyramid Principle — a heart-gripping true story of championship resilience, based on the life of Hall-of-Famer John Vallely.',
+  ogImage = 'https://cdn.sanity.io/images/uenxsjdw/production/8a986bc4ecba2ae393ae209bd73681179fdb14f8-1024x502.png',
+  noindex = false,
 } = Astro.props;
+
+const SITE_NAME = 'The Pyramid Principle';
+const LOGO_URL = 'https://cdn.sanity.io/images/uenxsjdw/production/8a986bc4ecba2ae393ae209bd73681179fdb14f8-1024x502.png';
+
 const currentYear = new Date().getFullYear();
 const siteOrigin = (Astro.site && Astro.site.toString().replace(/\/$/, '')) || '';
 const canonicalURL = siteOrigin ? new URL(Astro.url.pathname, siteOrigin).href : Astro.url.pathname;
 
-// Replace SITE_NAME with the human-readable site name once it's known.
-const SITE_NAME = 'SITE_NAME';
+const PRIMARY_NAV = [
+  {
+    label: 'About', href: '/john-vallely/',
+    sub: [
+      { label: 'John Vallely', href: '/john-vallely/' },
+      { label: 'Paul Weissenstein', href: '/paul-weissenstein/' },
+      { label: 'Coach John Wooden', href: '/coach-john-wooden/' },
+    ],
+  },
+  { label: 'Retailers', href: '/retailers/' },
+  { label: 'The Pyramid Success', href: '/the-pyramid-success/' },
+  { label: 'Give Courage', href: '/give-courage/' },
+];
+
+const SOCIAL = [
+  { name: 'Instagram', href: 'https://www.instagram.com/thepyramidprinciple/', icon: 'M7 2a5 5 0 00-5 5v10a5 5 0 005 5h10a5 5 0 005-5V7a5 5 0 00-5-5H7zm10 2a3 3 0 013 3v10a3 3 0 01-3 3H7a3 3 0 01-3-3V7a3 3 0 013-3h10zm-5 3a5 5 0 100 10 5 5 0 000-10zm0 2a3 3 0 110 6 3 3 0 010-6zm5.5-2.5a1 1 0 100 2 1 1 0 000-2z' },
+  { name: 'Facebook', href: 'https://www.facebook.com/people/The-Pyramid-Principle/61567865841471/', icon: 'M22 12a10 10 0 10-11.56 9.88v-7H8v-2.88h2.44V9.84c0-2.41 1.43-3.74 3.62-3.74 1.05 0 2.15.19 2.15.19v2.36h-1.21c-1.19 0-1.56.74-1.56 1.5v1.8h2.66l-.43 2.88h-2.23v7A10 10 0 0022 12z' },
+  { name: 'X', href: 'https://x.com/tppbook', icon: 'M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z' },
+  { name: 'LinkedIn', href: 'http://www.linkedin.com/company/the-pyramid-principle', icon: 'M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.75 1.75 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z' },
+  { name: 'TikTok', href: 'https://www.tiktok.com/@thepyramidprinciple', icon: 'M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.06A6.33 6.33 0 005.8 20.1a6.34 6.34 0 0010.86-4.43V8.94a8.16 8.16 0 004.77 1.52V7a4.85 4.85 0 01-1.84-.31z' },
+  { name: 'YouTube', href: 'https://www.youtube.com/@ThePyramidPrinciple', icon: 'M23.5 6.2a3 3 0 00-2.1-2.1C19.6 3.5 12 3.5 12 3.5s-7.6 0-9.4.6A3 3 0 00.5 6.2C0 8 0 12 0 12s0 4 .5 5.8a3 3 0 002.1 2.1c1.8.6 9.4.6 9.4.6s7.6 0 9.4-.6a3 3 0 002.1-2.1C24 16 24 12 24 12s0-4-.5-5.8zM9.6 15.6V8.4l6.4 3.6z' },
+];
 ---
 <!doctype html>
 <html lang="en">
@@ -38,82 +59,251 @@ const SITE_NAME = 'SITE_NAME';
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <title>{title}</title>
     <link rel="canonical" href={canonicalURL} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-    <!-- Font preloads (Trait 4) — uncomment and replace once gfonts-to-r2.mjs adds the family.
-         Self-hosted from R2: assets.spiritmediapublishing.com/fonts/<slug>/<slug>-<weight>.woff2.
-         Keep to 2-3 preloads max. Every paired @font-face block in global.css must carry
-         font-display: optional. Until a webfont is wired, system fonts handle Trait 4 by alternative. -->
-    <!-- <link rel="preload" as="font" type="font/woff2" href="https://assets.spiritmediapublishing.com/fonts/FAMILY/FAMILY-400.woff2" crossorigin /> -->
+    <link rel="preload" as="font" type="font/woff2" href="https://assets.spiritmediapublishing.com/fonts/bebas-neue/bebas-neue-400.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="https://assets.spiritmediapublishing.com/fonts/dm-sans/dm-sans-700.woff2" crossorigin />
 
-    <!-- Critical CSS (Trait 6) — when adding hand-rolled <style is:inline> blocks,
-         wrap their contents in @layer base { ... }. Unlayered rules outrank every
-         Tailwind @layer (theme/base/components/utilities) and silently strip
-         responsive utilities below the fold. Two at-rules stay at top level
-         (CSS spec forbids them inside @layer): font-face declarations and keyframes. -->
+    <link rel="preconnect" href="https://cdn.sanity.io" crossorigin />
 
-    <!-- Open Graph / Twitter -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta property="og:image" content={ogImage} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <!-- JSON-LD Organization stub — fill in once brand details are confirmed.
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": SITE_NAME,
-      "url": siteOrigin,
-      "logo": ogImage,
+      "@type": "Book",
+      "name": "The Pyramid Principle",
+      "author": [
+        { "@type": "Person", "name": "John Vallely" },
+        { "@type": "Person", "name": "Paul Weissenstein" }
+      ],
+      "publisher": { "@type": "Organization", "name": "Spirit Media", "url": "https://spiritmediapublishing.com" },
+      "image": ogImage,
+      "url": canonicalURL,
+      "description": description,
     })}></script>
-    -->
 
-    <!-- Per-page <head> additions (hero preload links live here — Trait 2) -->
     <slot name="head" />
   </head>
   <body>
-    <header id="site-header" class="container-site flex items-center justify-between" style="padding: 16px 24px;">
-      <a href="/" style="font-weight: 700;">{SITE_NAME}</a>
-      <nav>
-        <a href="/">Home</a>
+    <a href="#main" class="skip-link">Skip to main content</a>
+
+    <div class="tagline-bar">"A Gift of Courage!"</div>
+
+    <header id="site-header" style="background: #fff; border-bottom: 1px solid var(--color-border);">
+      <div class="container-site" style="display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-block: 16px;">
+        <a href="/" aria-label="The Pyramid Principle home" style="flex-shrink: 0;">
+          <img src={LOGO_URL} alt="The Pyramid Principle" width="200" height="98" style="height: 56px; width: auto;" />
+        </a>
+
+        <nav class="primary-nav" aria-label="Primary">
+          {PRIMARY_NAV.map(item => (
+            item.sub ? (
+              <div class="nav-item nav-dropdown">
+                <button type="button" class="nav-link">{item.label} <span aria-hidden="true">▾</span></button>
+                <ul class="nav-submenu">
+                  {item.sub.map(s => (
+                    <li><a href={s.href}>{s.label}</a></li>
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              <a href={item.href} class="nav-link">{item.label}</a>
+            )
+          ))}
+        </nav>
+
+        <button type="button" id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
+        </button>
+      </div>
+
+      <nav id="mobile-menu" class="mobile-menu" aria-label="Mobile">
+        {PRIMARY_NAV.map(item => (
+          item.sub ? (
+            <details class="mobile-nav-item">
+              <summary>{item.label} <span aria-hidden="true">▾</span></summary>
+              <ul>
+                {item.sub.map(s => (<li><a href={s.href}>{s.label}</a></li>))}
+              </ul>
+            </details>
+          ) : (
+            <a href={item.href} class="mobile-nav-link">{item.label}</a>
+          )
+        ))}
       </nav>
     </header>
 
     <slot />
 
-    <footer style="padding: 32px 24px; border-top: 1px solid var(--color-border, #e5e5e5);">
-      <div class="container-site" style="display: flex; flex-direction: column; gap: 8px;">
-        <p style="margin: 0; font-size: 13px;">
-          &copy; {currentYear} {SITE_NAME}. All rights reserved. &bull; Powered by <a href="https://spiritmediapublishing.com">Spirit Media</a>
+    <footer style="background: var(--color-ink); color: #fff; padding: 56px 24px 32px;">
+      <div class="container-site" style="display: flex; flex-direction: column; gap: 24px;">
+        <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+          {SOCIAL.map(s => (
+            <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.name} class="social-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d={s.icon} /></svg>
+            </a>
+          ))}
+        </div>
+        <p style="margin: 0; font-size: 0.875rem; text-align: center; color: #BFBFBF;">
+          &copy; {currentYear} {SITE_NAME}. All rights reserved. &bull; Powered by <a href="https://spiritmediapublishing.com" style="color: var(--color-brand-yellow); font-weight: 600;">Spirit Media</a>
           <HundredClubBadge />
         </p>
       </div>
     </footer>
 
-    <!-- Deferred third-party JS pattern (Trait 5) — copy this block when wiring GA/GTM/Calendly/Stripe/etc.
-         Loads only after first user interaction (or 8s fallback) so it never blocks the LCP path.
     <script is:inline>
-      const loadAnalytics = () => {
-        if (window._smpAnalyticsLoaded) return;
-        window._smpAnalyticsLoaded = true;
-        const s = document.createElement('script');
-        s.src = 'https://www.googletagmanager.com/gtag/js?id=GTM_ID';
-        s.async = true;
-        document.head.appendChild(s);
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){ window.dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'GTM_ID');
-      };
-      ['scroll', 'click', 'touchstart', 'keydown', 'mousemove'].forEach((e) =>
-        window.addEventListener(e, loadAnalytics, { once: true, passive: true })
-      );
-      setTimeout(loadAnalytics, 8000);
+      document.addEventListener('click', (e) => {
+        const btn = e.target.closest('#mobile-menu-btn');
+        if (!btn) return;
+        const menu = document.getElementById('mobile-menu');
+        const open = menu.classList.contains('open');
+        menu.classList.toggle('open');
+        btn.setAttribute('aria-expanded', String(!open));
+      });
     </script>
-    -->
   </body>
 </html>
+
+<style is:global>
+  @layer base {
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: 0;
+      padding: 8px 12px;
+      background: var(--color-brand-yellow);
+      color: var(--color-ink);
+      z-index: 100;
+    }
+    .skip-link:focus { left: 0; }
+
+    .primary-nav {
+      display: none;
+      gap: 28px;
+      align-items: center;
+    }
+    .mobile-menu-btn {
+      background: none;
+      border: none;
+      padding: 8px;
+      cursor: pointer;
+      color: var(--color-ink-soft);
+    }
+    .mobile-menu {
+      display: none;
+      border-top: 1px solid var(--color-border);
+      padding: 16px 20px 24px;
+    }
+    .mobile-menu.open { display: block; }
+    .mobile-menu-btn { display: inline-flex; }
+    @media (min-width: 1024px) {
+      .primary-nav { display: flex; }
+      .mobile-menu-btn { display: none; }
+      .mobile-menu { display: none !important; }
+    }
+
+    .nav-link {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      color: var(--color-ink-soft);
+      font-size: 0.95rem;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      padding: 8px 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    .nav-link:hover { color: var(--color-brand-yellow); text-decoration: none; }
+
+    .nav-dropdown { position: relative; }
+    .nav-submenu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      min-width: 220px;
+      background: #fff;
+      border: 1px solid var(--color-border);
+      padding: 8px 0;
+      list-style: none;
+      margin: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s;
+      z-index: 50;
+    }
+    .nav-dropdown:hover .nav-submenu,
+    .nav-dropdown:focus-within .nav-submenu {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .nav-submenu a {
+      display: block;
+      padding: 10px 20px;
+      font-family: var(--font-heading);
+      font-weight: 600;
+      color: var(--color-ink-soft);
+      font-size: 0.9rem;
+    }
+    .nav-submenu a:hover { background: var(--color-bg-section); text-decoration: none; }
+
+    .mobile-menu details { margin-bottom: 8px; }
+    .mobile-menu summary {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      color: var(--color-ink-soft);
+      padding: 10px 0;
+      cursor: pointer;
+      list-style: none;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+    .mobile-menu summary::-webkit-details-marker { display: none; }
+    .mobile-menu details ul {
+      list-style: none;
+      padding: 4px 0 8px 16px;
+      margin: 0;
+    }
+    .mobile-menu details a,
+    .mobile-menu .mobile-nav-link {
+      display: block;
+      padding: 8px 0;
+      font-family: var(--font-heading);
+      font-weight: 600;
+      color: var(--color-ink-soft);
+      font-size: 0.95rem;
+    }
+    .mobile-menu .mobile-nav-link {
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      padding: 10px 0;
+    }
+
+    .social-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border: 1px solid #444;
+      border-radius: 50%;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+      color: #fff;
+    }
+    .social-icon:hover {
+      background: var(--color-brand-yellow);
+      color: var(--color-ink);
+      border-color: var(--color-brand-yellow);
+      text-decoration: none;
+    }
+  }
+</style>

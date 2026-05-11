@@ -1,0 +1,81 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { srcW, heroSrcset, dims } from '../lib/img';
+
+const HERO = '58e232679973e0ada741fbaf881dcad8-transformed-1024x537.jpeg';
+const hero = heroSrcset(HERO, { mobile: 600, desktop: 1200 });
+const heroDims = dims(HERO);
+---
+<Layout
+  title="Give Courage | The Pyramid Principle"
+  description="Join generous partners in sharing courage with families fighting cancer. Every contribution to A Gift of Courage benefits cancer research through the Pediatric Cancer Research Foundation."
+  ogImage={hero.desktop}
+>
+  <Fragment slot="head">
+    <link rel="preload" as="image" href={hero.desktop} imagesrcset={hero.srcset} imagesizes={hero.sizes} fetchpriority="high" />
+  </Fragment>
+
+  <section class="page-hero">
+    <img
+      src={hero.desktop}
+      srcset={hero.srcset}
+      sizes={hero.sizes}
+      width={heroDims.width}
+      height={heroDims.height}
+      alt="Families fighting cancer"
+      fetchpriority="high"
+      loading="eager"
+      decoding="async"
+      class="page-hero-img"
+    />
+    <div class="container-site page-hero-text">
+      <p class="eyebrow">A Gift of Courage</p>
+      <h1 class="display-heading">A portion of the proceeds benefits cancer research</h1>
+      <p class="page-hero-lede">Join generous partners in sharing courage with families fighting cancer. Together, let's empower them with victory over cancer.</p>
+      <a class="btn-primary" href="https://aGiftofCourage.org" target="_blank" rel="noopener noreferrer" style="margin-top: 24px;">Give Courage at aGiftofCourage.org</a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container-site prose-block">
+      <h2>The Mission</h2>
+      <p>Pediatric cancer doesn't pause for anything. The families fighting it shouldn't have to fight alone. Every copy of <em>The Pyramid Principle</em> sold contributes to cancer research, and every contribution through <strong>A Gift of Courage</strong> goes directly to lifting spirits, bringing courage, and empowering victory over cancer.</p>
+      <p>Our partner: the <strong>Pediatric Cancer Research Foundation (PCRF)</strong> — John and Karen Vallely's longtime cause, founded in the aftermath of their daughter Erin's battle.</p>
+      <p><strong>All gifts are tax deductible.</strong> Every contribution makes a real difference.</p>
+
+      <h2>How Your Gift Helps</h2>
+      <ul class="give-list">
+        <li><strong>Research</strong> — funds groundbreaking pediatric oncology studies.</li>
+        <li><strong>Family support</strong> — helps cover treatment travel, lodging, and incidentals for families in crisis.</li>
+        <li><strong>Books & resources</strong> — sponsors copies of <em>The Pyramid Principle</em> for fighting families, sharing John's story of resilience.</li>
+        <li><strong>Awareness</strong> — funds the Dribble for Victory Over Cancer campaign.</li>
+      </ul>
+
+      <h2>Sponsor Copies for Families Fighting Cancer</h2>
+      <p>Many partners choose to sponsor cases of books delivered directly to cancer wards, hospitals, and family support programs. If you'd like to sponsor copies, please reach out via the Spirit Media contact line.</p>
+    </div>
+  </section>
+
+  <section class="section" style="background: var(--color-bg-section);">
+    <div class="container-site" style="text-align: center;">
+      <h2 style="font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3rem); color: var(--color-ink); margin: 0 0 16px; text-transform: uppercase; line-height: 1;">Give the Gift of Courage</h2>
+      <p style="margin: 0 0 24px; color: var(--color-ink-muted); font-size: 1.1rem;">To 400,000 families fighting cancer.</p>
+      <a class="btn-primary" href="https://aGiftofCourage.org" target="_blank" rel="noopener noreferrer">Give Courage Now</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-hero { position: relative; min-height: 480px; display: flex; align-items: flex-end; padding-bottom: 0; overflow: hidden; }
+  .page-hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+  .page-hero-text { position: relative; z-index: 1; background: rgba(255,255,255,0.92); padding: 32px 24px; max-width: 720px; margin: 32px 24px; }
+  .page-hero-text .eyebrow { margin: 0 0 12px; }
+  .page-hero-text h1 { font-size: clamp(2rem, 4.5vw, 3.25rem); }
+  .page-hero-lede { margin: 16px 0 0; color: var(--color-ink-muted); font-size: 1.05rem; }
+
+  .prose-block { max-width: 800px; margin-inline: auto; }
+  .prose-block h2 { font-family: var(--font-display); font-size: clamp(1.75rem, 3.5vw, 2.25rem); color: var(--color-ink); margin: 32px 0 16px; text-transform: uppercase; }
+  .prose-block p { margin: 0 0 16px; }
+  .give-list { padding-left: 0; list-style: none; display: grid; gap: 12px; margin: 0 0 16px; }
+  .give-list li { padding: 16px 20px; background: var(--color-bg-section); border-left: 4px solid var(--color-cause-pink); }
+</style>
