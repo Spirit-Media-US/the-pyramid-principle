@@ -114,7 +114,6 @@
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/09/58e232679973e0ada741fbaf881dcad8-transformed-1024x537.jpeg |  | 1024×537 |
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/check-2-768x461.jpg |  | 768×461 |
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/10/join-the-movement-1024x955.png |  | 1024×955 |
-| https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/10/TPP-Logo-2-1024x502.png |  | 1024×502 |
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/10/image-2-2.png |  | 533×82 |
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/Banner-THE-GIFT-OF-COURAGE-1024x258.jpg | A Gift of Courage Banner | 1024×258 |
 

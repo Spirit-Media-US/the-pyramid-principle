@@ -83,9 +83,7 @@
 |-----|-----|--------------|
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/10/TPP-Logo-2-1024x502.png |  | 1024×502 |
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/09/image-1.png |  | 151×150 |
-| https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/09/image-1.png |  | 720×714 |
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/10/3D-Book-1-886x1024.png |  | 886×1024 |
-| https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/10/TPP-Logo-2-1024x502.png |  | 1024×502 |
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/10/image-2-2.png |  | 533×82 |
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/Banner-THE-GIFT-OF-COURAGE-1024x258.jpg | A Gift of Courage Banner | 1024×258 |
 

@@ -107,7 +107,6 @@
 |-----|-----|--------------|
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/10/TPP-Logo-2-1024x502.png |  | 1024×502 |
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/09/valley_109.jpg |  | 120×150 |
-| https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/09/valley_109.jpg |  | 562×700 |
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/E26-Cover-Black-White-Faith-Love-and-Competitive-Greatness-The-John-Vallely-Story-1-1024x1024.png |  | 1024×1024 |
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/image-11.png |  | 720×720 |
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/10/220px-Kareem_Abdul-Jabbar_May_2014.jpg |  | 220×305 |
@@ -119,7 +118,6 @@
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/09/valley_110.jpg |  | 875×700 |
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/09/VipsCafe_24-9-1024x685.jpg |  | 1024×685 |
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/09/VipsCafe_24-2-scaled.jpg |  | 1280×1015 |
-| https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/10/TPP-Logo-2-1024x502.png |  | 1024×502 |
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/10/image-2-2.png |  | 533×82 |
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/Banner-THE-GIFT-OF-COURAGE-1024x258.jpg | A Gift of Courage Banner | 1024×258 |
 

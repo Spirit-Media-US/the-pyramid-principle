@@ -1,8 +1,16 @@
 # Image Inventory — The Pyramid Principle
 
 Extracted 2026-05-11 from https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/
-Total unique image URLs: **170**
+Total unique image URLs: **171** (170 `<img>` assets + 1 disambiguated Capture.jpg from a separate uploads/11/ folder)
 Downloaded to: `/tmp/the-pyramid-principle-images/` (NOT committed to repo)
+
+## Accessibility finding — empty alt text on 129 of 171 images
+
+The WP source has `alt=""` on **129 of the 171 image rows** below. **41 rows** are CSS `background-image` declarations (which legitimately do not carry alt). Only **one image** in the entire site has a real alt: `Banner-THE-GIFT-OF-COURAGE-1024x258.jpg` → `"A Gift of Courage Banner"`.
+
+Spot-checked against the live HTML for 3 images (`TPP-Logo-2`, `3D-Book-1`, `JohnValley24-100`) — the extractor captured what's actually present on the live pages. This is a **pre-existing accessibility gap in the original WP site**, not an extractor miss.
+
+**Action for Phase 4:** ask the client to fill in alt text in Sanity Studio as part of image upload, OR have the SMP team write descriptive alt for hero/feature images and leave decorative carousel slides as `alt=""` per WCAG 1.1.1 best practice. Either way, blank-alt images uploaded as-is will fail the Pre-Launch QA scan (Phase 5, scan #2 — "Missing alt text").
 
 ## Migration Plan
 

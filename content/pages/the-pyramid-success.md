@@ -167,7 +167,6 @@
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/10/s-l1200.webp |  | 968×1200 |
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/10/UCLA-60s-Road-Lynn-Shackleford.jpg |  | 534×777 |
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/10/UCLA-60s-Road-Lynn-Shackleford-Houston.jpg |  | 511×776 |
-| https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/10/TPP-Logo-2-1024x502.png |  | 1024×502 |
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/10/image-2-2.png |  | 533×82 |
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/Banner-THE-GIFT-OF-COURAGE-1024x258.jpg | A Gift of Courage Banner | 1024×258 |
 

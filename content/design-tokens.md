@@ -6,21 +6,9 @@ Measurements taken at desktop `1280×800` and mobile `375×812` via Playwright c
 
 ## Colors
 
-Values are raw `color()`/`rgb()` strings from `getComputedStyle`. Convert to hex during Phase 3 `global.css` write-up.
+The authoritative color table is **["Brand palette read"](#brand-palette-read-dom-enumeration-of-every-rendered-color-homepage-desktop)** further down — it enumerates every distinct color actually rendered on the live homepage (frequency-counted).
 
-| Token | Desktop | Mobile | Used on |
-|-------|---------|--------|---------|
-| bodyBg     | rgba(0, 0, 0, 0)     | rgba(0, 0, 0, 0)     | body background |
-| bodyText   | rgb(97, 97, 97)   | rgb(97, 97, 97)   | default body text |
-| h1Color    | rgb(29, 29, 31)    | rgb(29, 29, 31)    | page H1 |
-| h2Color    | rgb(255, 209, 0)    | rgb(255, 209, 0)    | section H2 |
-| linkColor  | rgb(255, 255, 255)  | rgb(255, 255, 255)  | inline links |
-| buttonBg   | rgba(0, 0, 0, 0)   | rgba(0, 0, 0, 0)   | primary CTA bg |
-| buttonText | rgb(33, 33, 33) | rgb(33, 33, 33) | primary CTA text |
-| headerBg   | rgba(0, 0, 0, 0)   | rgba(0, 0, 0, 0)   | top header |
-| footerBg   | rgba(0, 0, 0, 0)   | rgba(0, 0, 0, 0)   | footer |
-| footerText | rgb(97, 97, 97) | rgb(97, 97, 97) | footer text |
-| navLinkColor | rgb(33, 33, 33) | rgb(33, 33, 33) | nav links |
+> Earlier drafts of this file had a `bodyBg`/`headerBg`/`footerBg`/`linkColor` table at the top sampled from bare `body`/`header`/`footer`/`a` selectors. Bricks leaves those wrappers transparent (`rgba(0, 0, 0, 0)`) and paints colors on `.brxe-section` / `.brxe-block` children instead — same selector trap as the spacing capture. The `linkColor` reading of `rgb(255, 255, 255)` was the first `<a>` on the page (the "Skip to main content" link sitting on a dark band), not a brand link color. Removed to avoid contradicting the verified palette.
 
 ## Typography — Desktop
 
@@ -66,8 +54,8 @@ Values are raw `color()`/`rgb()` strings from `getComputedStyle`. Convert to hex
 
 | Viewport | Type | Details |
 |----------|------|---------|
-| Desktop  | Two-row horizontal | Row 1 (yellow bar `#FFD100`): centered tagline `"A GIFT OF COURAGE!"`. Row 2: logo wordmark left (red + yellow `THE PYRAMID PRINCIPLE`), horizontal links right — Home, [Author], The Pyramid Success, Retailers, Give Courage. Social icons (IG, FB, X, LinkedIn, TikTok, YouTube) above the yellow bar. |
-| Mobile   | Stacked hamburger | Yellow tagline bar + logo + hamburger trigger; collapsed nav opens vertical list. Header rendered height = 177px (vs 133px desktop). |
+| Desktop  | Two-row horizontal | Row 1 (yellow bar `#FFD100`): centered tagline `"A GIFT OF COURAGE!"`. Row 2: logo wordmark left (solid yellow `THE PYRAMID PRINCIPLE`, see `TPP-Logo-2-1024x502.png`), horizontal links right — **About** (dropdown: John Vallely, Paul Weissenstein, Coach John Wooden), **Retailers**, **The Pyramid Success**, **Give Courage**. Social icons (Instagram, Facebook, X, LinkedIn, TikTok, YouTube) above the yellow bar. Nav verified via Playwright DOM read of `.brxe-nav-nested` items 2026-05-11. |
+| Mobile   | Stacked hamburger | Yellow tagline bar + logo + hamburger trigger; collapsed nav opens vertical list with same items. Header rendered height = 177px (vs 133px desktop). |
 
 > Screenshots captured at /tmp/the-pyramid-principle-images/\_screenshot-home-{desktop,mobile}.png. Mobile homepage is ~12,000px tall (long-scroll landing page).
 

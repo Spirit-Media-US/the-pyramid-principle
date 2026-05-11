@@ -176,33 +176,12 @@
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/22-1024x726.jpg |  | 212×150 |
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/17-1024x726.jpg |  | 212×150 |
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/15-1024x726.png |  | 1024×726 |
-| https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/12-1024x726.png |  | 1024×726 |
-| https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/cbs-1024x726.jpg |  | 1024×726 |
-| https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/20-1024x726.jpg |  | 1024×726 |
-| https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/19-1024x726.jpg |  | 1024×726 |
-| https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/18-1024x726.jpg |  | 212×150 |
-| https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/3-1024x726.png |  | 212×150 |
-| https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/2-1024x726.png |  | 212×150 |
-| https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/21-1024x726.jpg |  | 212×150 |
-| https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/22-1024x726.jpg |  | 212×150 |
-| https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/17-1024x726.jpg |  | 212×150 |
-| https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/15-1024x726.png |  | 212×150 |
-| https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/12-1024x726.png |  | 212×150 |
-| https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/cbs-1024x726.jpg |  | 212×150 |
-| https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/20-1024x726.jpg |  | 212×150 |
-| https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/19-1024x726.jpg |  | 212×150 |
-| https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/18-1024x726.jpg |  | 212×150 |
-| https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/3-1024x726.png |  | 212×150 |
-| https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/2-1024x726.png |  | 212×150 |
-| https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/21-1024x726.jpg |  | 212×150 |
-| https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/22-1024x726.jpg |  | 212×150 |
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/09/Untitled-design-3.png |  | 305×85 |
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/09/Capture.jpg |  | 611×936 |
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/09/valley_110.jpg |  | 875×700 |
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/09/wooden-large-retina.jpg |  | 720×720 |
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/09/valley_109.jpg |  | 562×700 |
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/09/image-e1726579729174.png |  | 106×150 |
-| https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/09/image-e1726579729174.png |  | 309×438 |
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/289468.0-1024x683.jpg |  | 1024×683 |
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2025/02/TPP-Blog-1-1.png |  | 630×480 |
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/09/English.jpg |  | 800×600 |
@@ -210,9 +189,7 @@
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/09/Portuguese.jpg |  | 800×600 |
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/09/Spanish.jpg |  | 800×600 |
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/09/5.jpg |  | 800×600 |
-| https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/10/TPP-Logo-2-1024x502.png |  | 1024×502 |
 | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/10/image-2-2.png |  | 533×82 |
-| https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/Banner-THE-GIFT-OF-COURAGE-1024x258.jpg | A Gift of Courage Banner | 1024×258 |
 
 ## LCP element (mobile)
 

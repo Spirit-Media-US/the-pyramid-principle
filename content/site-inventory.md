@@ -28,8 +28,22 @@ Found in WP page-sitemap.xml but explicitly excluded:
 - `/tpp/free-resources/` — stub page, title reuses "John Vallely"
 - `/tpp/pediatric-cancer-research-foundation-copy/` — WIP, "-copy" suffix
 
-Redirect (preserved as 301 in Phase 8 cutover):
-- `/tpp/victory-over-cancer/` → `/give-courage/`
+Redirects (preserve as 301s in Phase 8 cutover):
+- `/tpp/victory-over-cancer/` → `/give-courage/` (verified 2026-05-11, HTTP 301)
+
+## Broken-link finding — `/in-the-news/`
+
+The WP footer contains a "SOCIAL FEEDS" link pointing to `/tpp/in-the-news#social-feeds`. On the live site:
+- `/tpp/in-the-news/` returns **HTTP 301 → `/tpp/`** (homepage, NOT `/media-center/`)
+- The homepage has no element with `id="social-feeds"`, so the redirect lands the user on the homepage with a useless hash fragment
+- `/media-center/` does not contain a `#social-feeds` anchor either
+
+**This is a pre-existing bug in the WP source**, not an extractor miss. Options for the migrated site:
+1. **Drop the link entirely** — cleanest. The page it pointed to doesn't exist and the hash anchor doesn't exist.
+2. **Repoint to `/media-center/`** — closest semantic match (Media Center is the news / press page).
+3. **Add a `#social-feeds` section to `/media-center/`** if the client confirms they want a social-feeds embed there.
+
+Recommend option 2 in Phase 3 build with option 3 as a Phase 6 enhancement if the client wants live social feeds. Flag for Kevin / client confirmation in the Phase 5 CAR report.
 
 ## Source path prefix
 
