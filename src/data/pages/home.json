@@ -151,81 +151,54 @@
       "naturalHeight": 258
     },
     {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/12-1024x726.png",
-      "alt": "",
-      "naturalWidth": 212,
-      "naturalHeight": 150
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/cbs-1024x726.jpg",
-      "alt": "",
-      "naturalWidth": 212,
-      "naturalHeight": 150
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/20-1024x726.jpg",
-      "alt": "",
-      "naturalWidth": 212,
-      "naturalHeight": 150
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/19-1024x726.jpg",
-      "alt": "",
-      "naturalWidth": 212,
-      "naturalHeight": 150
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/18-1024x726.jpg",
-      "alt": "",
-      "naturalWidth": 212,
-      "naturalHeight": 150
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/3-1024x726.png",
-      "alt": "",
-      "naturalWidth": 212,
-      "naturalHeight": 150
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/2-1024x726.png",
-      "alt": "",
-      "naturalWidth": 212,
-      "naturalHeight": 150
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/21-1024x726.jpg",
-      "alt": "",
-      "naturalWidth": 212,
-      "naturalHeight": 150
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/22-1024x726.jpg",
-      "alt": "",
-      "naturalWidth": 212,
-      "naturalHeight": 150
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/17-1024x726.jpg",
-      "alt": "",
-      "naturalWidth": 212,
-      "naturalHeight": 150
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/15-1024x726.png",
-      "alt": "",
-      "naturalWidth": 1024,
-      "naturalHeight": 726
+      "tag": "press-carousel",
+      "ariaLabel": "Press coverage",
+      "slides": [
+        {
+          "file": "15-1024x726.png",
+          "href": "https://www.wkrn.com/business/press-releases/cision/20241113CL55766/coach-cori-close-applauds-the-pyramid-principle-by-john-vallely/"
+        },
+        {
+          "file": "12-1024x726.png",
+          "href": "https://wgntv.com/business/press-releases/cision/20241113CL55766/coach-cori-close-applauds-the-pyramid-principle-by-john-vallely/"
+        },
+        {
+          "file": "cbs-1024x726.jpg",
+          "href": "https://www.cbs17.com/business/press-releases/cision/20241113CL55766/coach-cori-close-applauds-the-pyramid-principle-by-john-vallely/"
+        },
+        {
+          "file": "20-1024x726.jpg",
+          "href": "https://www.cbs17.com/business/press-releases/cision/20241113CL55766/coach-cori-close-applauds-the-pyramid-principle-by-john-vallely/"
+        },
+        {
+          "file": "19-1024x726.jpg",
+          "href": "https://fox8.com/business/press-releases/cision/20241113CL55766/coach-cori-close-applauds-the-pyramid-principle-by-john-vallely/"
+        },
+        {
+          "file": "18-1024x726.jpg",
+          "href": "https://www.wfla.com/business/press-releases/cision/20241113CL55766/coach-cori-close-applauds-the-pyramid-principle-by-john-vallely/"
+        },
+        {
+          "file": "3-1024x726.png",
+          "href": "https://ktla.com/business/press-releases/cision/20241113CL55766/coach-cori-close-applauds-the-pyramid-principle-by-john-vallely/"
+        },
+        {
+          "file": "2-1024x726.png",
+          "href": "https://www.benzinga.com/pressreleases/24/11/n41943157/coach-cori-close-applauds-the-pyramid-principle-by-john-vallely"
+        },
+        {
+          "file": "21-1024x726.jpg",
+          "href": "https://finance.yahoo.com/news/coach-cori-close-applauds-pyramid-151700437.html"
+        },
+        {
+          "file": "22-1024x726.jpg",
+          "href": "https://booklife.com/project/the-pyramid-principle-97087"
+        },
+        {
+          "file": "17-1024x726.jpg",
+          "href": "https://www.si.com/college/ucla/men-s-basketball/ucla-legend-john-vallely-details-signifcance-of-john-wooden-s-teachings-in-new-book"
+        }
+      ]
     },
     {
       "tag": "img",

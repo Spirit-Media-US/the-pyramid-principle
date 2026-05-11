@@ -1,288 +1,160 @@
 ---
-// Reusable logo carousel — hand-rolled vanilla JS, no framework.
-// Features per user spec:
-//   - 5 visible on desktop (>=1024px), 3 on tablet (>=640px), 2 on mobile
-//   - Left/right chevron arrows at the strip edges, vertically centered
-//   - Autoplay every `autoplay` ms (default 4500); pause on hover + offscreen
-//   - Seamless forward loop via cloned tail slides; backward wraps to end
-//   - Vertical dividers between cells (white bg, 1px light gray dividers)
-//   - Touch/swipe support via native overflow-x: scroll on viewport
-//   - Lazy-loaded images (loading="lazy") — only hero gets fetchpriority
-//   - JS deferred until DOMContentLoaded — not above-the-fold
+// LogoCarousel — Splide.js carousel matching the original Bricks
+// SplideExtensions config exactly. Used by StructuredPage when it encounters
+// a `press-carousel` block, and reusable for future logo strips.
+//
+// Splide config (matches the live source):
+//   type:           'loop'
+//   perPage:        5  (desktop)
+//   perMove:        1  (desktop)
+//   gap:            '3px'
+//   height:         '310px'  (desktop)
+//   speed:          400  (transition ms)
+//   autoplay:       true
+//   interval:       3000
+//   pauseOnHover:   false
+//   pauseOnFocus:   false
+//   arrows:         true
+//   pagination:     false
+//   direction:      'ltr'
+//   mediaQuery:     'max'
+//   breakpoints:    { 478: { perPage: 2, perMove: 2, height: '180px' } }
+//
+// Splide is loaded via dynamic import on first user interaction (or 8s
+// fallback) — Trait 5 deferred third-party pattern. Hero paints first.
 import { srcW } from '../lib/img';
 
-interface Props {
-  logos: string[];
-  autoplay?: number;   // ms between auto-advance; 0 = no autoplay
-  ariaLabel?: string;
-  altPattern?: string; // alt prefix; e.g. "Press coverage"
-  fullBleed?: boolean; // breaks out of parent container to span 100vw
-}
-const { logos, autoplay = 4500, ariaLabel = 'Logo carousel', altPattern = 'Logo', fullBleed = false } = Astro.props;
+interface Slide { file: string; href: string; }
 
-// Number of clone slides at the end to enable seamless forward looping.
-// Must be >= the max visible count across viewports (6 on desktop here).
-const CLONE_TAIL_COUNT = 6;
-const cloneTail = logos.slice(0, CLONE_TAIL_COUNT);
+interface Props {
+  slides: Slide[];
+  ariaLabel?: string;
+  altPattern?: string;
+  fullBleed?: boolean;
+}
+const { slides, ariaLabel = 'Logo carousel', altPattern = 'Logo', fullBleed = true } = Astro.props;
 ---
-<div class:list={['logo-carousel', fullBleed && 'lc-full-bleed']} data-autoplay={autoplay} aria-roledescription="carousel" aria-label={ariaLabel}>
-  <button type="button" class="lc-prev" aria-label="Previous slides">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
-  </button>
-  <div class="lc-viewport">
-    <ul class="lc-track" role="list">
-      {logos.map((file, i) => (
-        <li class="lc-slide" data-i={i}>
-          <img src={srcW(file, 300)} alt={`${altPattern} ${i + 1}`} width="200" height="140" loading="lazy" decoding="async" />
-        </li>
-      ))}
-      {cloneTail.map((file, i) => (
-        <li class="lc-slide lc-clone" aria-hidden="true">
-          <img src={srcW(file, 300)} alt="" width="200" height="140" loading="lazy" decoding="async" />
+<section class:list={['splide', 'press-carousel-section', fullBleed && 'lc-full-bleed']} aria-roledescription="carousel" aria-label={ariaLabel}>
+  <div class="splide__track">
+    <ul class="splide__list">
+      {slides.map((s, i) => (
+        <li class="splide__slide">
+          <a href={s.href} target="_blank" rel="noopener noreferrer">
+            <img src={srcW(s.file, 400)} alt={`${altPattern} ${i + 1}`} width="200" height="142" loading="lazy" decoding="async" />
+          </a>
         </li>
       ))}
     </ul>
   </div>
-  <button type="button" class="lc-next" aria-label="Next slides">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
-  </button>
-</div>
+</section>
 
 <style>
-  .logo-carousel {
-    position: relative;
-    background: #fff;
-    padding: 40px 56px;
-    max-width: var(--container-max, 1200px);
-    margin-inline: auto;
-  }
-
-  /* Full-bleed variant — breaks out of any parent container max-width to
-     span the entire viewport width. "Logo wall" presentation: white bg,
-     no cell dividers, generous whitespace, arrows at viewport edges. */
-  .logo-carousel.lc-full-bleed {
-    max-width: none;
+  /* Full-bleed breakout — section spans 100vw regardless of parent container */
+  .press-carousel-section.lc-full-bleed {
     width: 100vw;
     margin-left: calc(50% - 50vw);
     margin-right: calc(50% - 50vw);
-    padding: 48px 64px;
+    background: #fff;
+  }
+
+  /* Splide slide cell — generous whitespace, no borders, logos centered.
+     The Bricks original uses height: 310px desktop / 180px mobile (controlled
+     by Splide via inline track height). We add slide-internal padding for
+     the "logo wall" breathing room. */
+  .splide__slide {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: #fff;
   }
   @media (min-width: 640px) {
-    .logo-carousel.lc-full-bleed { padding: 56px 72px; }
+    .splide__slide { padding: 32px; }
   }
-
-  .lc-viewport {
-    overflow-x: auto;
-    overflow-y: hidden;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
+  @media (min-width: 1024px) {
+    .splide__slide { padding: 40px 48px; }
   }
-  .lc-viewport::-webkit-scrollbar { display: none; }
-
-  .lc-track {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    align-items: stretch;
-  }
-
-  /* Default (contained) slide: thin divider, modest padding */
-  .lc-slide {
-    flex: 0 0 auto;
-    width: 50%;
+  .splide__slide a {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 12px 16px;
-    border-right: 1px solid var(--color-border);
-    background: #fff;
-    min-height: 140px;
+    width: 100%;
+    height: 100%;
   }
-  .lc-slide:last-child { border-right: 0; }
-  @media (min-width: 640px) { .lc-slide { width: calc(100% / 3); } }
-  @media (min-width: 1024px) { .lc-slide { width: 20%; } }
-  .lc-slide img {
+  .splide__slide img {
     max-width: 100%;
-    max-height: 100px;
+    max-height: 100%;
     width: auto;
     height: auto;
     object-fit: contain;
   }
 
-  /* Full-bleed slide: NO dividers, breezy padding, taller cells */
-  .lc-full-bleed .lc-slide {
-    width: 50%;                /* mobile: 2 visible */
-    padding: 24px 32px;
-    min-height: 160px;
-    border-right: 0;
-  }
-  @media (min-width: 640px) {
-    .lc-full-bleed .lc-slide { width: calc(100% / 3); padding: 28px 40px; min-height: 170px; }
-  }
-  @media (min-width: 1024px) {
-    .lc-full-bleed .lc-slide { width: calc(100% / 6); padding: 32px 48px; min-height: 180px; }
-  }
-  .lc-full-bleed .lc-slide img {
-    max-height: 110px;
-  }
-  @media (min-width: 1024px) {
-    .lc-full-bleed .lc-slide img { max-height: 120px; }
-  }
-
-  .lc-prev, .lc-next {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
-    border: none;
-    background: rgba(255, 255, 255, 0.92);
-    color: var(--color-ink-soft);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  /* Splide arrows — override default look to match SMP design tokens */
+  .splide__arrow {
+    background: rgba(255, 255, 255, 0.95);
+    width: 44px;
+    height: 44px;
     border-radius: 999px;
-    z-index: 2;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
-    transition: background 0.15s ease, color 0.15s ease;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.14);
+    opacity: 1;
+    transition: background 0.15s ease;
   }
-  .lc-prev { left: 8px; }
-  .lc-next { right: 8px; }
-  .lc-prev:hover, .lc-next:hover {
-    background: var(--color-brand-yellow);
-    color: var(--color-ink);
-  }
-  .lc-prev:focus-visible, .lc-next:focus-visible {
-    outline: 2px solid var(--color-ink);
-    outline-offset: 2px;
-  }
+  .splide__arrow:hover { background: var(--color-brand-yellow); }
+  .splide__arrow svg { fill: var(--color-ink-soft); width: 18px; height: 18px; }
+  .splide__arrow:hover svg { fill: var(--color-ink); }
+  .splide__arrow--prev { left: 12px; }
+  .splide__arrow--next { right: 12px; }
   @media (min-width: 640px) {
-    .lc-prev, .lc-next { width: 44px; height: 44px; }
-    .lc-prev { left: 16px; }
-    .lc-next { right: 16px; }
+    .splide__arrow--prev { left: 20px; }
+    .splide__arrow--next { right: 20px; }
   }
+  .splide__arrow:disabled { opacity: 0.4; }
 </style>
 
 <script>
-  // LogoCarousel — runs after DOMContentLoaded; not above-the-fold so no
-  // need for the interaction-defer pattern reserved for third-party JS.
-  class LogoCarousel {
-    constructor(root: HTMLElement) {
-      this.root = root;
-      this.viewport = root.querySelector('.lc-viewport') as HTMLElement;
-      this.track = root.querySelector('.lc-track') as HTMLElement;
-      this.slides = Array.from(root.querySelectorAll('.lc-slide')) as HTMLElement[];
-      this.realCount = this.slides.filter(s => !s.classList.contains('lc-clone')).length;
-      this.cloneCount = this.slides.length - this.realCount;
-      this.prevBtn = root.querySelector('.lc-prev') as HTMLButtonElement;
-      this.nextBtn = root.querySelector('.lc-next') as HTMLButtonElement;
-      this.autoplayMs = parseInt(root.dataset.autoplay || '0');
-      this.index = 0;
-      this.isJumping = false;
-      this.bind();
-      if (this.autoplayMs > 0) this.start();
-    }
-
-    root: HTMLElement;
-    viewport: HTMLElement;
-    track: HTMLElement;
-    slides: HTMLElement[];
-    realCount: number;
-    cloneCount: number;
-    prevBtn: HTMLButtonElement;
-    nextBtn: HTMLButtonElement;
-    autoplayMs: number;
-    index: number;
-    isJumping: boolean;
-    timer: number | undefined;
-
-    slideWidth(): number {
-      return this.slides[0]?.getBoundingClientRect().width || 0;
-    }
-
-    scrollTo(index: number, smooth = true) {
-      const x = index * this.slideWidth();
-      this.viewport.scrollTo({ left: x, behavior: smooth ? 'smooth' : 'auto' });
-    }
-
-    go(dir: number) {
-      if (this.isJumping) return;
-      this.index += dir;
-      if (this.index >= this.realCount) {
-        // Forward past end: smooth-scroll into clones, then instant-reset
-        this.scrollTo(this.index, true);
-        this.isJumping = true;
-        window.setTimeout(() => {
-          this.index = 0;
-          this.scrollTo(0, false);
-          this.isJumping = false;
-        }, 450);
-      } else if (this.index < 0) {
-        // Backward past start: instant-jump to end, then smooth-scroll back
-        this.index = this.realCount - 1;
-        this.scrollTo(this.index, true);
-      } else {
-        this.scrollTo(this.index, true);
-      }
-    }
-
-    start() {
-      this.stop();
-      this.timer = window.setInterval(() => this.go(1), this.autoplayMs);
-    }
-    stop() {
-      if (this.timer) { window.clearInterval(this.timer); this.timer = undefined; }
-    }
-    restart() {
-      this.stop();
-      if (this.autoplayMs > 0) this.start();
-    }
-
-    bind() {
-      this.prevBtn?.addEventListener('click', () => { this.go(-1); this.restart(); });
-      this.nextBtn?.addEventListener('click', () => { this.go(1); this.restart(); });
-      this.root.addEventListener('mouseenter', () => this.stop());
-      this.root.addEventListener('mouseleave', () => this.autoplayMs > 0 && this.start());
-      // Pause autoplay when offscreen — saves cycles + respects prefers-reduced-motion
-      if ('IntersectionObserver' in window) {
-        new IntersectionObserver((entries) => {
-          for (const e of entries) {
-            if (e.isIntersecting && this.autoplayMs > 0) this.start();
-            else this.stop();
-          }
-        }, { threshold: 0.1 }).observe(this.root);
-      }
-      // Track manual swipe to keep `index` in sync with user's scroll position
-      let scrollTimer: number | undefined;
-      this.viewport.addEventListener('scroll', () => {
-        if (this.isJumping) return;
-        if (scrollTimer) window.clearTimeout(scrollTimer);
-        scrollTimer = window.setTimeout(() => {
-          const w = this.slideWidth();
-          if (w > 0) {
-            this.index = Math.round(this.viewport.scrollLeft / w);
-            if (this.index >= this.realCount) this.index = this.realCount - 1;
-          }
-        }, 140);
-      }, { passive: true });
+  // Deferred Splide load — Trait 5 pattern. Splide initializes on first user
+  // interaction OR 8s fallback, so the hero paints before this fires.
+  async function initSplide() {
+    if ((window as any)._splideLoaded) return;
+    (window as any)._splideLoaded = true;
+    const carousels = document.querySelectorAll<HTMLElement>('.press-carousel-section');
+    if (carousels.length === 0) return;
+    const [{ default: Splide }] = await Promise.all([
+      import('@splidejs/splide'),
+      import('@splidejs/splide/css'),
+    ]);
+    for (const el of carousels) {
+      new Splide(el, {
+        type:         'loop',
+        perPage:      5,
+        perMove:      1,
+        gap:          '3px',
+        height:       '310px',
+        speed:        400,
+        autoplay:     true,
+        interval:     3000,
+        pauseOnHover: false,
+        pauseOnFocus: false,
+        arrows:       true,
+        pagination:   false,
+        direction:    'ltr',
+        mediaQuery:   'max',
+        breakpoints: {
+          478: {
+            perPage: 2,
+            perMove: 2,
+            height:  '180px',
+          },
+        },
+      }).mount();
     }
   }
 
-  function init() {
-    const prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    document.querySelectorAll<HTMLElement>('.logo-carousel').forEach(el => {
-      if (prefersReduce) el.dataset.autoplay = '0';
-      new LogoCarousel(el);
-    });
+  // Defer until first user interaction; 8s setTimeout fallback so autoplay
+  // eventually starts even on idle pages.
+  const events = ['scroll', 'click', 'touchstart', 'keydown', 'mousemove'];
+  for (const e of events) {
+    window.addEventListener(e, initSplide, { once: true, passive: true });
   }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init, { once: true });
-  } else {
-    init();
-  }
+  window.setTimeout(initSplide, 8000);
 </script>

@@ -7,6 +7,7 @@
 // width/height + literal srcset for Trait 1/2/8. All other images get lazy.
 import { img, srcW, dims } from '../lib/img';
 import sanityMap from '../data/sanity-images.json';
+import LogoCarousel from './LogoCarousel.astro';
 
 interface Block {
   tag: string;
@@ -18,6 +19,9 @@ interface Block {
   items?: string[];
   naturalWidth?: number;
   naturalHeight?: number;
+  // press-carousel block extras
+  slides?: { file: string; href: string }[];
+  ariaLabel?: string;
 }
 
 interface Props {
@@ -97,6 +101,12 @@ function isHeroImg(b: Block): boolean {
     const isExternal = /^https?:\/\//.test(href) && !href.includes('thepyramidprinciple');
     return (
       <a class="page-cta" href={href} target={isExternal ? '_blank' : undefined} rel={isExternal ? 'noopener noreferrer' : undefined}>{b.text}</a>
+    );
+  }
+
+  if (b.tag === 'press-carousel') {
+    return (
+      <LogoCarousel slides={b.slides || []} ariaLabel={b.ariaLabel || 'Press coverage'} altPattern="Press coverage" fullBleed={true} />
     );
   }
 
