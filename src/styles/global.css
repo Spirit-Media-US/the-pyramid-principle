@@ -317,6 +317,32 @@
     color: var(--color-ink);
   }
 
+  /* Light-gray pill variant — used on the yellow Free Resources banner
+     for contrast (live source renders these buttons with bg #F5F5F5
+     against the yellow band). Same shape as .pill-cta. */
+  .pill-cta-gray {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-bg-section); /* #F5F5F5 */
+    color: var(--color-ink);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 12px 28px;
+    border-radius: 999px;
+    border: none;
+    transition: background 0.15s ease;
+    text-decoration: none;
+  }
+  .pill-cta-gray:hover {
+    background: #fff;
+    text-decoration: none;
+    color: var(--color-ink);
+  }
+
   /* Square rectangular CTA — for the "Limited Time" hero in-flow CTA only.
      Use .yellow-cta when you want the squared button shape. */
   .page-img {

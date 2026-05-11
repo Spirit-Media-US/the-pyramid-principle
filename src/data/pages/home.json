@@ -292,8 +292,9 @@
       "text": "\"John Vallely took his family's pain and turned it into great purpose to relieve it for someone else\""
     },
     {
-      "tag": "h2",
-      "text": "- Coach Cori Close"
+      "tag": "p",
+      "text": "— Coach Cori Close",
+      "role": "cite"
     },
     {
       "tag": "cta",
