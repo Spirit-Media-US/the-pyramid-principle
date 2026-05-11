@@ -648,24 +648,42 @@ const BASED_IMG_BR  = 'valley_109.jpg';         // 562x700 source, bottom-right
     margin: 0;
   }
 
-  /* Image collage — valley_110 spans top; wooden + valley_109 below it */
+  /* Image collage — verified from live #brxe-gowkvu computed styles
+     (2026-05-11): display:flex, flex-wrap:wrap, gap:15px, width:500px.
+     valley_110 (100% wide) on row 1; wooden + valley_109 share row 2.
+     - valley_110: border-radius: 10px, no border
+     - wooden:     border-radius: 10px, no border
+     - valley_109: border-radius: 22px, 10px solid section-bg "frame" border
+     Mobile: stack vertically with the same 15px gap. */
   .based-collage {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto;
-    grid-template-areas:
-      "top top"
-      "bl br";
-    gap: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    width: 100%;
+    max-width: 500px;
+    margin-inline: auto;
   }
-  .based-img { display: block; width: 100%; height: auto; object-fit: cover; }
-  .based-img-top { grid-area: top; aspect-ratio: 5 / 4; border-radius: 10px; }
-  .based-img-bl  { grid-area: bl;  aspect-ratio: 1 / 1; border-radius: 10px; }
-  .based-img-br  {
-    grid-area: br;
-    aspect-ratio: 9 / 11;
+  .based-img { display: block; height: auto; object-fit: cover; }
+  .based-img-top {
+    width: 100%;
+    aspect-ratio: 5 / 4;
+    border-radius: 10px;
+  }
+  .based-img-bl {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 10px;
+  }
+  .based-img-br {
+    width: 100%;
+    aspect-ratio: 225 / 275;
     border-radius: 22px;
-    margin-top: -13px; /* live source has this 13px overlap upward */
+    border: 10px solid var(--color-bg-section);
+  }
+  @media (min-width: 480px) {
+    /* Row 2 splits 50/50 with the 15px gap accounted for */
+    .based-img-bl,
+    .based-img-br { width: calc((100% - 15px) / 2); }
   }
 
   /* ── On-enter reveal animations ──
