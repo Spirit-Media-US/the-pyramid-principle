@@ -1069,60 +1069,69 @@ const WOODEN_CITE  = data.blocks[70].text || '~ Coach John Wooden';
     align-self: flex-start;
   }
 
-  /* ── Wooden quote + image section ── */
+  /* ── Wooden quote + image section ──
+     Verified live original: card has 1px solid #E0E0E0 on all 4 sides,
+     border-radius: 15px, padding: 50px 30px, margin: 0 70px 80px (centered).
+     Section bg is white; card has no fill (transparent — white shows through). */
   .wooden-section {
     background: #fff;
-    padding: 0;
+    padding: 0 20px 80px;
+  }
+  @media (min-width: 768px) {
+    .wooden-section { padding: 0 70px 80px; }
   }
   .wooden-container {
     width: 100%;
-    max-width: var(--container-max);
+    max-width: 1140px;
     margin-inline: auto;
-    padding: 50px var(--section-padding-x-mobile);
-    border-top: 1px solid var(--color-border);
+    padding: 32px 24px;
+    border: 1px solid #E0E0E0;
+    border-radius: 15px;
+    background: #fff;
     display: grid;
     grid-template-columns: 1fr;
     gap: 32px;
     align-items: center;
   }
   @media (min-width: 768px) {
-    .wooden-container { padding: 50px var(--section-padding-x-desktop); }
+    .wooden-container { padding: 50px 30px; }
   }
   @media (min-width: 1024px) {
-    .wooden-container { grid-template-columns: 1fr 1fr; gap: 48px; }
+    /* 593:485 ratio per live source (~55:45) */
+    .wooden-container { grid-template-columns: 1.22fr 1fr; gap: 24px; }
   }
   .wooden-image-col {
     display: flex;
     flex-direction: column;
     gap: 24px;
     align-items: flex-start;
+    min-width: 0;
   }
-  /* Photo + offset blue rectangle backdrop (Bricks renders the rectangle
-     via .brxe-divider.horizontal — we replicate as a ::before pseudo.
-     The photo (z-index 1) overlaps the bottom-right of the blue rect
-     (z-index 0), classic "card with backing" composition. */
+  /* Photo + offset blue rectangle backdrop. Offsets sized so the composition
+     stays contained inside the card padding (left ~40px, top ~40px) — no
+     bleed past the card border. */
   .wooden-img-frame {
     position: relative;
     width: 100%;
-    max-width: 540px;
-    margin-top: 65px;  /* room for the blue rect to extend above */
-    margin-left: 65px; /* room for the blue rect to extend left */
+    max-width: 480px;
+    margin-top: 40px;
+    margin-left: 40px;
   }
   @media (max-width: 768px) {
-    .wooden-img-frame { margin-top: 30px; margin-left: 30px; }
+    .wooden-img-frame { margin-top: 24px; margin-left: 24px; max-width: 100%; }
   }
   .wooden-img-frame::before {
     content: "";
     position: absolute;
-    top: -65px;
-    left: -65px;
+    top: -40px;
+    left: -40px;
     width: 100%;
     height: 100%;
     background: var(--color-author-blue); /* UCLA blue rgb(39,116,174) */
     z-index: 0;
   }
   @media (max-width: 768px) {
-    .wooden-img-frame::before { top: -30px; left: -30px; }
+    .wooden-img-frame::before { top: -24px; left: -24px; }
   }
   .wooden-img {
     position: relative;
@@ -1143,8 +1152,11 @@ const WOODEN_CITE  = data.blocks[70].text || '~ Coach John Wooden';
     flex-direction: column;
     gap: 20px;
     padding: 30px 0;
+    min-width: 0; /* allow text to wrap inside grid column instead of overflowing */
   }
-  /* Verified live DOM: Libre Baskerville 55px italic, color #1D1D1F */
+  /* Verified live DOM: Libre Baskerville 55px italic, color #1D1D1F.
+     max-width:100% + overflow-wrap keep the heading wrapping inside its
+     grid column instead of overflowing the card. */
   .wooden-quote {
     margin: 0;
     padding: 0;
@@ -1152,10 +1164,12 @@ const WOODEN_CITE  = data.blocks[70].text || '~ Coach John Wooden';
     font-family: 'Libre Baskerville', Georgia, 'Times New Roman', serif;
     font-weight: 400;
     font-style: italic;
-    font-size: clamp(1.875rem, 4vw, 3.4375rem); /* ~55px desktop, scales down on mobile */
+    font-size: clamp(1.5rem, 3.5vw, 3rem); /* slightly downsized to fit card column */
     line-height: 1.3;
     color: var(--color-ink);
     text-align: left;
+    max-width: 100%;
+    overflow-wrap: break-word;
   }
   /* Verified live DOM: Abel 30px regular, color #616161 (body gray) */
   .wooden-cite {
