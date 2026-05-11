@@ -89,58 +89,49 @@
     "heading": "A heart-gripping story of championship resilience",
     "tiles": [
       {
-        "templateId": "1509",
-        "youtubeId": "lfSEgefu5O8",
-        "poster": null,
-        "posterCdn": "https://i.ytimg.com/vi/lfSEgefu5O8/maxresdefault.jpg"
+        "videoId": "lfSEgefu5O8",
+        "label": "Video 1",
+        "poster": "https://i.ytimg.com/vi/lfSEgefu5O8/hqdefault.jpg"
       },
       {
-        "templateId": "1534",
-        "youtubeId": "9zOvZV8f9pQ",
-        "poster": null,
-        "posterCdn": "https://i.ytimg.com/vi/9zOvZV8f9pQ/maxresdefault.jpg"
+        "videoId": "9zOvZV8f9pQ",
+        "label": "Video 2",
+        "poster": "https://i.ytimg.com/vi/9zOvZV8f9pQ/maxresdefault.jpg"
       },
       {
-        "templateId": "1541",
-        "youtubeId": "aXvkH0lt6d0",
-        "poster": null,
-        "posterCdn": "https://i.ytimg.com/vi/aXvkH0lt6d0/maxresdefault.jpg"
+        "videoId": "aXvkH0lt6d0",
+        "label": "Video 3",
+        "poster": "https://i.ytimg.com/vi/aXvkH0lt6d0/maxresdefault.jpg"
       },
       {
-        "templateId": "1545",
-        "youtubeId": "2Jof-F0PqFU",
-        "poster": null,
-        "posterCdn": "https://i.ytimg.com/vi/2Jof-F0PqFU/maxresdefault.jpg"
+        "videoId": "2Jof-F0PqFU",
+        "label": "Video 4",
+        "poster": "https://i.ytimg.com/vi/2Jof-F0PqFU/maxresdefault.jpg"
       },
       {
-        "templateId": "1548",
-        "youtubeId": "GkTA5ePOaAg",
-        "poster": null,
-        "posterCdn": "https://i.ytimg.com/vi/GkTA5ePOaAg/maxresdefault.jpg"
+        "videoId": "GkTA5ePOaAg",
+        "label": "Video 5",
+        "poster": "https://i.ytimg.com/vi/GkTA5ePOaAg/maxresdefault.jpg"
       },
       {
-        "templateId": "1552",
-        "youtubeId": "TCTOkcqDyiE",
-        "poster": null,
-        "posterCdn": "https://i.ytimg.com/vi/TCTOkcqDyiE/maxresdefault.jpg"
+        "videoId": "TCTOkcqDyiE",
+        "label": "Video 6",
+        "poster": "https://i.ytimg.com/vi/TCTOkcqDyiE/maxresdefault.jpg"
       },
       {
-        "templateId": "1555",
-        "youtubeId": "BDDFnMR7ogo",
-        "poster": null,
-        "posterCdn": "https://i.ytimg.com/vi/BDDFnMR7ogo/maxresdefault.jpg"
+        "videoId": "BDDFnMR7ogo",
+        "label": "Video 7",
+        "poster": "https://i.ytimg.com/vi/BDDFnMR7ogo/maxresdefault.jpg"
       },
       {
-        "templateId": "1558",
-        "youtubeId": "UGHu9ErBqvo",
-        "poster": null,
-        "posterCdn": "https://i.ytimg.com/vi/UGHu9ErBqvo/maxresdefault.jpg"
+        "videoId": "UGHu9ErBqvo",
+        "label": "Video 8",
+        "poster": "https://i.ytimg.com/vi/UGHu9ErBqvo/maxresdefault.jpg"
       },
       {
-        "templateId": "1561",
-        "youtubeId": "VsL68tGphGI",
-        "poster": null,
-        "posterCdn": "https://i.ytimg.com/vi/VsL68tGphGI/maxresdefault.jpg"
+        "videoId": "VsL68tGphGI",
+        "label": "Video 9",
+        "poster": "https://i.ytimg.com/vi/VsL68tGphGI/maxresdefault.jpg"
       }
     ]
   },

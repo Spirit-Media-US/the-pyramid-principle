@@ -152,26 +152,31 @@ function decodeText(s: string): string {
     );
   }
 
+  // ── video-popup-grid — verified live #brxe-glibgo ──
+  // 9 tiles, 4-per-row desktop (24% wide), 2-per-row mobile (49% wide).
+  // Tile is a <button> (not <a>) with full-bleed YouTube poster as bg-image,
+  // play icon centered. Click opens a shared <dialog> modal with autoplay iframe.
+  // Modal JS deferred per Trait 5.
   if (b.type === 'video-popup-grid') {
     return (
       <section class="jv-videos">
         <div class="jv-videos-container">
           <h2 class="jv-section-h2 jv-videos-h2">{b.heading}</h2>
           <div class="jv-video-grid">
-            {b.tiles.map((t: any) => (
-              <a class="jv-video-tile"
-                 href={`https://www.youtube-nocookie.com/embed/${t.youtubeId}?rel=0&autoplay=1`}
-                 data-youtube-id={t.youtubeId}
-                 target="_blank" rel="noopener noreferrer"
-                 aria-label="Play video">
-                <img class="jv-video-poster"
-                     src={t.posterCdn}
-                     width="640" height="360"
-                     alt="" loading="lazy" decoding="async" />
-                <span class="jv-play-icon" aria-hidden="true">
-                  <svg width="60" height="60" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
-                </span>
-              </a>
+            {b.tiles.map((t: any, i: number) => (
+              <div class="jv-video-tile-wrap">
+                <button
+                  type="button"
+                  class="jv-video-tile"
+                  data-youtube-id={t.videoId}
+                  aria-label={`Play ${t.label || `video ${i + 1}`} of ${b.tiles.length}`}
+                  style={`background-image: url(${t.poster});`}
+                >
+                  <span class="jv-play-icon" aria-hidden="true">
+                    <svg width="60" height="60" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+                  </span>
+                </button>
+              </div>
             ))}
           </div>
         </div>
@@ -250,48 +255,56 @@ function decodeText(s: string): string {
   return null;
 })}
 
-<!-- Deferred YouTube lightbox — click .jv-video-tile opens an inline modal -->
-<dialog id="yt-lightbox" class="yt-lightbox" aria-label="Video player">
-  <button type="button" class="yt-lightbox-close" aria-label="Close">&times;</button>
-  <div class="yt-lightbox-frame" id="yt-lightbox-frame"></div>
+<!-- Shared YouTube modal — one element used by all 9 video tiles.
+     <dialog> for free focus-trap + Esc-to-close + accessibility tree. -->
+<dialog id="yt-modal" class="yt-modal" role="dialog" aria-modal="true" aria-label="Video player">
+  <button type="button" class="yt-modal-close" aria-label="Close video">&times;</button>
+  <div class="yt-modal-frame" id="yt-modal-frame"></div>
 </dialog>
 
 <script>
-  // YouTube lightbox — deferred until first interaction (no above-the-fold cost)
-  function initLightbox() {
-    if ((window as any)._ytLightbox) return;
-    (window as any)._ytLightbox = true;
-    const dialog = document.getElementById('yt-lightbox') as HTMLDialogElement | null;
-    const frame = document.getElementById('yt-lightbox-frame');
-    const closeBtn = dialog?.querySelector('.yt-lightbox-close');
-    if (!dialog || !frame) return;
-    document.querySelectorAll<HTMLAnchorElement>('.jv-video-tile').forEach(tile => {
-      tile.addEventListener('click', (e) => {
+  // Video modal — Trait 5 deferred. Loads on first user interaction OR 8s
+  // fallback. Removes the iframe from DOM on close so playback fully stops.
+  function initVideoModal() {
+    if ((window as any)._ytModal) return;
+    (window as any)._ytModal = true;
+    const modal = document.getElementById('yt-modal') as HTMLDialogElement | null;
+    const frame = document.getElementById('yt-modal-frame');
+    const closeBtn = modal?.querySelector('.yt-modal-close') as HTMLElement | null;
+    if (!modal || !frame) return;
+
+    function open(videoId: string) {
+      if (!frame || !modal) return;
+      frame.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+      if (typeof modal.showModal === 'function') modal.showModal();
+      else modal.setAttribute('open', '');
+    }
+    function close() {
+      if (!frame || !modal) return;
+      frame.innerHTML = ''; // removing the iframe fully stops playback
+      if (typeof modal.close === 'function') modal.close();
+      else modal.removeAttribute('open');
+    }
+
+    document.querySelectorAll<HTMLButtonElement>('.jv-video-tile').forEach(tile => {
+      tile.addEventListener('click', () => {
         const id = tile.dataset.youtubeId;
-        if (!id) return;
-        e.preventDefault();
-        frame.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?rel=0&autoplay=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%;height:100%;border:0;"></iframe>`;
-        if (typeof dialog.showModal === 'function') dialog.showModal();
-        else dialog.setAttribute('open', '');
+        if (id) open(id);
       });
     });
-    closeBtn?.addEventListener('click', () => {
-      frame.innerHTML = '';
-      if (typeof dialog.close === 'function') dialog.close();
-      else dialog.removeAttribute('open');
+    closeBtn?.addEventListener('click', close);
+    // Click on backdrop (outside the modal box) closes
+    modal.addEventListener('click', (e) => {
+      const rect = (modal as HTMLDialogElement).getBoundingClientRect();
+      if (e.clientX < rect.left || e.clientX > rect.right || e.clientY < rect.top || e.clientY > rect.bottom) close();
     });
-    dialog.addEventListener('click', (e) => {
-      if (e.target === dialog) {
-        frame.innerHTML = '';
-        if (typeof dialog.close === 'function') dialog.close();
-        else dialog.removeAttribute('open');
-      }
-    });
+    // Esc closes (native <dialog> behavior fires `cancel` instead of `close`)
+    modal.addEventListener('cancel', (e) => { e.preventDefault(); close(); });
   }
-  ['scroll', 'click', 'touchstart', 'keydown', 'mousemove'].forEach(e =>
-    window.addEventListener(e, initLightbox, { once: true, passive: true })
-  );
-  window.setTimeout(initLightbox, 8000);
+
+  const evs = ['scroll', 'click', 'touchstart', 'keydown', 'mousemove'];
+  for (const e of evs) window.addEventListener(e, initVideoModal, { once: true, passive: true });
+  window.setTimeout(initVideoModal, 8000);
 </script>
 
 <style is:global>
@@ -468,35 +481,88 @@ function decodeText(s: string): string {
     border-radius: 8px; display: block;
   }
 
-  /* Video popup grid */
-  .jv-videos { background: var(--color-bg-section); padding: 64px 0; }
-  .jv-videos-container {
-    max-width: var(--container-max); margin-inline: auto;
+  /* ── Video popup grid (verified #brxe-glibgo + #brxe-ztzinx + #brxe-wdrhlk) ──
+     Container: flex-wrap row, column-gap 15px (none on mobile), row-gap 20px.
+     Section margin-top 100px desktop / -40px mobile (overlaps prior section).
+     Tile: 24% wide desktop / 49% mobile, 380px desktop / 300px mobile tall,
+     border-radius 20px, box-shadow rgba(66,66,66,.67) 0 0 20px 0,
+     full-bleed YouTube poster as bg-image, play icon centered. */
+  .jv-videos {
+    background: #fff;
+    margin: -40px 0 40px;
     padding: 0 var(--section-padding-x-mobile);
   }
-  @media (min-width: 768px) { .jv-videos-container { padding: 0 var(--section-padding-x-desktop); } }
-  .jv-videos-h2 { text-align: center; }
+  @media (min-width: 768px) {
+    .jv-videos { margin: 100px 0 0; padding: 0 var(--section-padding-x-desktop); }
+  }
+  .jv-videos-container {
+    max-width: var(--container-max);
+    margin-inline: auto;
+  }
+  .jv-videos-h2 {
+    text-align: center;
+    font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+    margin: 0 0 32px;
+  }
   .jv-video-grid {
-    display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 32px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    column-gap: 0;
+    row-gap: 20px;
   }
-  @media (min-width: 640px) { .jv-video-grid { grid-template-columns: 1fr 1fr; } }
-  @media (min-width: 1024px) { .jv-video-grid { grid-template-columns: 1fr 1fr 1fr; gap: 20px; } }
+  @media (min-width: 768px) {
+    .jv-video-grid { column-gap: 15px; }
+  }
+  .jv-video-tile-wrap {
+    width: 49%;
+  }
+  @media (min-width: 768px) {
+    /* 4 columns: 24% × 4 + 15px × 3 gaps ≈ 100% */
+    .jv-video-tile-wrap { width: 24%; }
+  }
+
   .jv-video-tile {
-    position: relative; display: block; background: #000; border-radius: 8px;
-    overflow: hidden; aspect-ratio: 16 / 9; cursor: pointer;
-  }
-  .jv-video-poster {
-    width: 100%; height: 100%; object-fit: cover; display: block;
-    transition: opacity 0.2s ease, transform 0.3s ease;
-  }
-  .jv-video-tile:hover .jv-video-poster { opacity: 0.7; transform: scale(1.04); }
-  .jv-play-icon {
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    color: #fff; pointer-events: none;
-    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5));
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 300px;
+    border: 0;
+    border-radius: 20px;
+    background-color: #000;
+    background-size: cover;
+    background-position: bottom center;
+    box-shadow: rgba(66, 66, 66, 0.67) 0 0 20px 0;
+    cursor: pointer;
+    overflow: hidden;
     transition: transform 0.2s ease;
   }
-  .jv-video-tile:hover .jv-play-icon { transform: translate(-50%, -50%) scale(1.1); color: var(--color-brand-yellow); }
+  @media (min-width: 768px) {
+    .jv-video-tile { height: 380px; }
+  }
+  .jv-video-tile:hover {
+    transform: translateY(-2px);
+  }
+  .jv-video-tile:focus-visible {
+    outline: 3px solid var(--color-brand-yellow);
+    outline-offset: 2px;
+  }
+
+  .jv-play-icon {
+    display: inline-block;
+    color: #f5f5f5;
+    pointer-events: none;
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.6));
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+  .jv-play-icon svg { width: 64px; height: 64px; display: block; }
+  .jv-video-tile:hover .jv-play-icon {
+    transform: scale(1.1);
+    color: var(--color-brand-yellow);
+  }
 
   /* Dedication + players */
   .jv-dedication { background: #fff; padding: 64px 0; }
@@ -561,18 +627,47 @@ function decodeText(s: string): string {
     width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 8px;
   }
 
-  /* YouTube lightbox */
-  .yt-lightbox {
-    border: 0; padding: 0; max-width: 95vw; width: 1000px; max-height: 95vh;
-    background: #000; border-radius: 8px;
-    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  /* Shared YouTube modal (one element used by all video tiles) */
+  .yt-modal {
+    border: 0;
+    padding: 0;
+    background: transparent;
+    width: 95vw;
+    max-width: 900px;
+    max-height: 90vh;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
-  .yt-lightbox::backdrop { background: rgba(0, 0, 0, 0.85); }
-  .yt-lightbox-close {
-    position: absolute; top: -40px; right: 0; background: none; border: 0;
-    color: #fff; font-size: 36px; cursor: pointer; line-height: 1; padding: 0;
+  .yt-modal::backdrop {
+    background: rgba(33, 33, 33, 0.76); /* per source */
   }
-  .yt-lightbox-frame {
-    width: 100%; aspect-ratio: 16 / 9; background: #000;
+  .yt-modal-close {
+    position: absolute;
+    top: -44px;
+    right: 0;
+    background: none;
+    border: 0;
+    color: #fff;
+    font-size: 36px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    z-index: 1;
+  }
+  .yt-modal-close:hover { color: var(--color-brand-yellow); }
+  .yt-modal-frame {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .yt-modal-frame iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
   }
 </style>
