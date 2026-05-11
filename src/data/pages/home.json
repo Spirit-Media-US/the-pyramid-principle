@@ -390,12 +390,13 @@
       "naturalHeight": 683
     },
     {
-      "tag": "h2",
+      "tag": "blockquote",
       "text": "“Things turn out best for those who make the best of the way things turn out. ”"
     },
     {
-      "tag": "h2",
-      "text": "~ Coach John Wooden"
+      "tag": "p",
+      "text": "~ Coach John Wooden",
+      "role": "cite"
     },
     {
       "tag": "h2",

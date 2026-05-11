@@ -37,12 +37,13 @@ const RETAILERS = [
   { file: 'Walmart-Logo.wine_-1024x683.png',                                                                    name: 'Walmart',         href: 'https://www.walmart.com/' },
 ];
 
-// Hand-rendered blocks 0..67: hero (0-22), Heart-Gripping section (23-27),
+// Hand-rendered blocks 0..70: hero (0-22), Heart-Gripping section (23-27),
 // press-carousel (28), "The Story" two-column (29-32), "Based on the Life
 // of John Vallely with Paul Weissenstein" three-column (33-39),
-// "Free Resources + Cori Close endorsement" (40-48), and "Highlights from
-// The Book" three-column with icon-boxes (49-67). StructuredPage takes 68+.
-const CUSTOM_BLOCK_COUNT = 68;
+// "Free Resources + Cori Close endorsement" (40-48), "Highlights from
+// The Book" three-column (49-67), Wooden quote two-column (68-70).
+// StructuredPage takes 71+.
+const CUSTOM_BLOCK_COUNT = 71;
 const restBlocks = data.blocks.slice(CUSTOM_BLOCK_COUNT);
 
 // Block 27 — Give Courage banner image (links to /give-courage/)
@@ -101,6 +102,15 @@ const HIGHLIGHTS_COL1 = data.blocks.slice(51, 58).map(b => b.text);
 const HIGHLIGHTS_COL1_CTA = data.blocks[58]; // CTA
 const HIGHLIGHTS_COL2 = data.blocks.slice(59, 67).map(b => b.text);
 const HIGHLIGHTS_COL2_CTA = data.blocks[67]; // CTA
+
+// ── Blocks 68-70 — Wooden Quote two-column section ──
+// Block 68: image 289468.0-1024x683.jpg (originally wrapped in pacdora.com
+//   link in source — same broken link as the Free Resources YouTube; dropped)
+// Block 69: blockquote text (was H2 in source; reclassified for semantic)
+// Block 70: attribution (was H2 in source; reclassified to p+role:cite)
+const WOODEN_IMG  = '289468.0-1024x683.jpg';
+const WOODEN_QUOTE = data.blocks[69].text || '"Things turn out best for those who make the best of the way things turn out."';
+const WOODEN_CITE  = data.blocks[70].text || '~ Coach John Wooden';
 ---
 <Layout title={data.title} description={data.description} ogImage={heroDesktop}>
   <Fragment slot="head">
@@ -420,6 +430,43 @@ const HIGHLIGHTS_COL2_CTA = data.blocks[67]; // CTA
                role="presentation"
                loading="lazy" decoding="async" />
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Blocks 68-70 — Wooden quote + image, two-column.
+       Verified DOM walk of #brxe-cbkuij:
+       - Section bg WHITE rgb(255,255,255)
+       - Container border-top 1px solid rgb(224,224,224) (separator from
+         the Highlights section above), padding 50px 30px
+       - LEFT block (slideInLeft): image 289468.0-1024x683.jpg (originally
+         wrapped in <a href=pacdora.com> — DROPPED, same broken link
+         as Free Resources YouTube), thin blue divider below
+       - RIGHT block (slideInRight): blockquote + cite
+
+       Editorial corrections (flagged for Phase 5 CAR):
+       - Pacdora.com wrap on the image — DROPPED (decorative, no destination)
+       - Quote was H2 in source → rendered as <blockquote>
+       - Attribution was H2 in source → rendered as <cite> in <p>
+       - Live source uses Libre Baskerville 55px for the quote and Abel 30px
+         for the attribution. Per user direction, using brand Bebas Neue
+         for both (Libre Baskerville + Abel are not in the brand font set). -->
+  <section class="wooden-section">
+    <div class="wooden-container">
+      <div class="wooden-image-col" data-anim="slideInLeft">
+        <img class="wooden-img"
+             src={srcW(WOODEN_IMG, 700)}
+             srcset={`${srcW(WOODEN_IMG, 500)} 500w, ${srcW(WOODEN_IMG, 900)} 900w`}
+             sizes="(max-width: 1024px) 100vw, 540px"
+             width="1024" height="683"
+             alt=""
+             role="presentation"
+             loading="lazy" decoding="async" />
+        <hr class="wooden-divider" aria-hidden="true" />
+      </div>
+      <div class="wooden-quote-col" data-anim="slideInRight">
+        <blockquote class="wooden-quote">{WOODEN_QUOTE}</blockquote>
+        <p class="wooden-cite"><cite>{WOODEN_CITE}</cite></p>
       </div>
     </div>
   </section>
@@ -1019,6 +1066,75 @@ const HIGHLIGHTS_COL2_CTA = data.blocks[67]; // CTA
     margin-top: 16px;
     align-self: flex-start;
   }
+
+  /* ── Wooden quote + image section ── */
+  .wooden-section {
+    background: #fff;
+    padding: 0;
+  }
+  .wooden-container {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding: 50px var(--section-padding-x-mobile);
+    border-top: 1px solid var(--color-border);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    align-items: center;
+  }
+  @media (min-width: 768px) {
+    .wooden-container { padding: 50px var(--section-padding-x-desktop); }
+  }
+  @media (min-width: 1024px) {
+    .wooden-container { grid-template-columns: 1fr 1fr; gap: 48px; }
+  }
+  .wooden-image-col {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .wooden-img {
+    display: block;
+    width: 100%;
+    max-width: 540px;
+    height: auto;
+  }
+  .wooden-divider {
+    border: 0;
+    border-top: 1px solid var(--color-author-blue); /* UCLA blue per DOM */
+    margin: 0;
+    width: 100%;
+    max-width: 430px;
+  }
+  .wooden-quote-col {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 30px 0;
+  }
+  .wooden-quote {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-family: var(--font-display); /* Bebas Neue per user direction
+      — live source uses 'Libre Baskerville' which is not in our brand
+      fonts. Flagged for Phase 5 CAR. */
+    font-weight: 400;
+    font-size: clamp(2rem, 4.5vw, 3.4rem); /* ~55px desktop */
+    line-height: 1.1;
+    letter-spacing: 0.01em;
+    color: var(--color-ink);
+  }
+  .wooden-cite {
+    margin: 0;
+    font-family: var(--font-heading); /* DM Sans — live uses 'Abel', not in brand */
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--color-ink-soft);
+    letter-spacing: 0.04em;
+  }
+  .wooden-cite cite { font-style: normal; }
 
   /* ── On-enter reveal animations ──
      Elements with data-anim start hidden; .is-revealed plays the anim. */
