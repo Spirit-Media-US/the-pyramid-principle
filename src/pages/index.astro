@@ -18,6 +18,7 @@
 //   22 IMG  3D-Book-1-886x1024.png → right-column hero, LCP element
 import Layout from '../layouts/Layout.astro';
 import StructuredPage from '../components/StructuredPage.astro';
+import LogoCarousel from '../components/LogoCarousel.astro';
 import { srcW, dims } from '../lib/img';
 import data from '../data/pages/home.json';
 
@@ -36,15 +37,29 @@ const RETAILERS = [
   { file: 'Walmart-Logo.wine_-1024x683.png',                                                                    name: 'Walmart',         href: 'https://www.walmart.com/' },
 ];
 
-// Hero + Heart-Gripping Story (H2 + 3 pills + Give-Courage banner) are
-// hand-rendered. Block 28 onward — including the press-carousel — goes to
-// StructuredPage, which routes the carousel block to <LogoCarousel> with
-// Splide.js.
-const CUSTOM_BLOCK_COUNT = 28;
+// Hand-rendered blocks 0..32 cover: hero (0-22), Heart-Gripping +
+// pills + Give-Courage banner (23-27), press-carousel (28), "The Story"
+// two-column section (29-32). StructuredPage takes 33+.
+const CUSTOM_BLOCK_COUNT = 33;
 const restBlocks = data.blocks.slice(CUSTOM_BLOCK_COUNT);
 
 // Block 27 — Give Courage banner image (links to /give-courage/)
 const GIVE_COURAGE_BANNER = 'Banner-THE-GIFT-OF-COURAGE-1024x258.jpg';
+
+// Block 28 — press-carousel data (slides with file + href)
+const pressCarousel = data.blocks[28] as { tag: string; ariaLabel?: string; slides: { file: string; href: string }[] };
+
+// "The Story" section assets — block 29 (small graphic), block 30 (portrait),
+// block 31 (H2 heading), block 32 (combined body text — Bricks renders as
+// one block but splits into 3 paragraphs visually).
+const STORY_GRAPHIC  = 'Untitled-design-3.png';
+const STORY_PORTRAIT = 'Capture.jpg';
+const STORY_H2 = data.blocks[31].text || 'The Story';
+const STORY_PARAGRAPHS = [
+  "A desperate father must revisit the timeless Pyramid Principles of his iconic coach, in order to confront the battles he and his nine-year-old daughter face with death and life.",
+  "1969 and John Vallely is living his dream. He is chosen to play basketball on the number one college team in the country, with the number one player in the country, for the number one coach of all time! It doesn't get any better than that! What John doesn't realize is the lessons he is learning from Coach Wooden, one of the greatest teachers of all time, will carry him through the incredible trials and triumphs of his life. It's one thing to be a champion on the court, it's something else to be a champion at life.",
+  "Fast forward 15 years and John is married to his college sweetheart, Karen, with two beautiful children, Eric, 13 and Erin, 9, and still living his dream as a successful businessman in his hometown of Newport Beach, California. The dream is suddenly shattered when the small bump on Erin's side turns out to be much more serious than just another soccer injury. Pediatric cancer, the hideous villain that has ravaged the lives of so many children before her, has now come for Erin. With his world suddenly torn apart, John turns to his lifelong mentor and friend, Coach Wooden to help him face the greatest trial of his life. By following the principles of Coach Wooden's legendary Pyramid of Success, John finds strength and a new purpose. With the grace of God, he builds a legacy by helping countless children conquer this horrific disease, through his involvement with The Pediatric Cancer Research Foundation, and “Dribble for Victory Over Cancer.”",
+];
 ---
 <Layout title={data.title} description={data.description} ogImage={heroDesktop}>
   <Fragment slot="head">
@@ -173,8 +188,39 @@ const GIVE_COURAGE_BANNER = 'Banner-THE-GIFT-OF-COURAGE-1024x258.jpg';
     </div>
   </section>
 
-  <!-- Block 28 — press-carousel — rendered by StructuredPage below, which
-       routes the press-carousel tag to <LogoCarousel> with Splide.js. -->
+  <!-- Block 28 — press-carousel via Splide.js (LogoCarousel). Section is
+       full-bleed; component handles the 100vw breakout. -->
+  <LogoCarousel slides={pressCarousel.slides} ariaLabel={pressCarousel.ariaLabel || 'Press coverage'} altPattern="Press coverage" fullBleed={true} />
+
+  <!-- Blocks 29-32 — "The Story" two-column section.
+       Left: stacked images (small graphic over portrait). Right: H2 + yellow
+       100×2 divider + 3 body paragraphs. Bg #F5F5F5. Animations: fadeIn on
+       the left block (1s, 0.5s delay), zoomIn on the portrait, fadeInRight
+       on the right column. JS deferred until first user interaction. -->
+  <section class="story-section">
+    <div class="story-grid">
+      <div class="story-images" data-anim="fadeIn" data-anim-delay="500">
+        <img class="story-graphic"
+             src={srcW(STORY_GRAPHIC, 500)}
+             width="305" height="85"
+             alt=""
+             loading="lazy" decoding="async" />
+        <img class="story-portrait"
+             src={srcW(STORY_PORTRAIT, 600)}
+             srcset={`${srcW(STORY_PORTRAIT, 400)} 400w, ${srcW(STORY_PORTRAIT, 700)} 700w`}
+             sizes="(max-width: 768px) 100vw, 600px"
+             width="611" height="936"
+             alt="The Pyramid Principle tribute portrait"
+             data-anim="zoomIn"
+             loading="lazy" decoding="async" />
+      </div>
+      <div class="story-content" data-anim="fadeInRight">
+        <h2 class="story-heading">{STORY_H2}</h2>
+        <div class="story-divider" aria-hidden="true"></div>
+        {STORY_PARAGRAPHS.map(p => (<p class="story-p">{p}</p>))}
+      </div>
+    </div>
+  </section>
 
   <article class="page-body">
     <StructuredPage blocks={restBlocks as any} heroFile={HERO} />
@@ -371,6 +417,96 @@ const GIVE_COURAGE_BANNER = 'Banner-THE-GIFT-OF-COURAGE-1024x258.jpg';
     display: block;
   }
 
+  /* ── The Story section ── */
+  .story-section {
+    background: var(--color-bg-section); /* #F5F5F5 */
+    padding: 48px 0;
+  }
+  @media (min-width: 768px) {
+    .story-section { padding: 72px 0; }
+  }
+  .story-grid {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding-inline: var(--section-padding-x-mobile);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  @media (min-width: 768px) {
+    .story-grid { padding-inline: var(--section-padding-x-desktop); }
+  }
+  @media (min-width: 1024px) {
+    .story-grid { grid-template-columns: 1fr 1fr; gap: 64px; }
+  }
+  .story-images {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .story-graphic {
+    width: 100%;
+    max-width: 305px;
+    height: auto;
+    display: block;
+  }
+  .story-portrait {
+    width: 100%;
+    max-width: 520px;
+    height: auto;
+    display: block;
+  }
+  .story-heading {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2.5rem, 5.5vw, 3.5rem); /* ~55px desktop */
+    line-height: 1;
+    letter-spacing: 0.01em;
+    color: var(--color-ink); /* #1D1D1F */
+    margin: 0 0 16px;
+    text-transform: none; /* live source: no uppercase */
+  }
+  .story-divider {
+    width: 100px;
+    height: 2px;
+    border-top: 2px solid var(--color-brand-yellow); /* #FFD100 */
+    margin: 0 0 24px;
+  }
+  .story-p {
+    margin: 0 0 18px;
+    color: var(--color-text);
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+  .story-p:last-child { margin-bottom: 0; }
+
+  /* ── On-enter reveal animations ──
+     Elements with data-anim start hidden; .is-revealed plays the anim. */
+  [data-anim] { opacity: 0; }
+  [data-anim].is-revealed { animation: fadeIn 1s ease-out forwards; }
+  [data-anim="fadeInRight"].is-revealed { animation-name: fadeInRight; }
+  [data-anim="zoomIn"].is-revealed       { animation-name: zoomIn; }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-anim] { opacity: 1 !important; animation: none !important; }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes fadeInRight {
+    from { opacity: 0; transform: translate3d(40px, 0, 0); }
+    to   { opacity: 1; transform: translate3d(0, 0, 0); }
+  }
+  @keyframes zoomIn {
+    from { opacity: 0; transform: scale(0.92); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
   /* ── Section 2 — Heart-Gripping Story + pills + Give Courage banner ── */
   .hgs-section {
     background: #fff;
@@ -418,5 +554,33 @@ const GIVE_COURAGE_BANNER = 'Banner-THE-GIFT-OF-COURAGE-1024x258.jpg';
     display: block;
     margin: 0 auto;
   }
-
 </style>
+
+<script>
+  // Reveal-on-scroll animations — deferred until first user interaction
+  // (Trait 5 deferred-JS pattern). Section is below the fold, so the hero
+  // paints before this fires. Honors prefers-reduced-motion via the CSS rule.
+  function initReveal() {
+    if ((window as any)._revealInit) return;
+    (window as any)._revealInit = true;
+    if (!('IntersectionObserver' in window)) {
+      document.querySelectorAll<HTMLElement>('[data-anim]').forEach(el => el.classList.add('is-revealed'));
+      return;
+    }
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          const el = e.target as HTMLElement;
+          const delay = parseInt(el.dataset.animDelay || '0');
+          setTimeout(() => el.classList.add('is-revealed'), delay);
+          io.unobserve(el);
+        }
+      }
+    }, { rootMargin: '0px 0px -80px 0px', threshold: 0.05 });
+    document.querySelectorAll<HTMLElement>('[data-anim]').forEach(el => io.observe(el));
+  }
+
+  const evs = ['scroll', 'click', 'touchstart', 'keydown', 'mousemove'];
+  for (const e of evs) window.addEventListener(e, initReveal, { once: true, passive: true });
+  window.setTimeout(initReveal, 8000);
+</script>
