@@ -1,7 +1,21 @@
 ---
-// Faithful clone of https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/
-// — section-by-section. Blocks sourced from src/data/pages/home.json
-// (Playwright DOM-ordered walk). Do NOT rephrase, reorder, or summarize.
+// Homepage — two-column hero matching the live /tpp/ first .brxe-section,
+// then the rest of the page body (slice 23+) rendered by StructuredPage.
+//
+// Hero block mapping (indices in src/data/pages/home.json):
+//   0  H2  "Global #1 Bestseller"  → blue ribbon-badge top-left
+//   1  H1  "A Gift of Courage!"    → main display heading
+//   2  P   Pyramid Principle / John Vallely intro
+//   3  P   Join generous partners / cancer
+//   4  H2  "Available Everywhere Books are Sold!"
+//   5-10 IMG  6 retailer logos
+//   11 P   Limited Time Only! + register-your-order text
+//   12 CTA "The Pyramid Principle Audiobook or eBook"  (yellow button)
+//   13-18 H3  PAGES / 238 pages / LANGUAGE / English / RATINGS / 5/5 ratings
+//   19 H1  "A Gift of Courage!"   → mobile-only variant (display:none on desktop)
+//   20 CTA "In The News"          → /media-center/  (yellow pill)
+//   21 CTA "Reviews"              → /reviews/       (yellow pill)
+//   22 IMG  3D-Book-1-886x1024.png → right-column hero, LCP element
 import Layout from '../layouts/Layout.astro';
 import StructuredPage from '../components/StructuredPage.astro';
 import { srcW, dims } from '../lib/img';
@@ -11,14 +25,24 @@ const HERO = '3D-Book-1-886x1024.png';
 const heroMobile = srcW(HERO, 600);
 const heroDesktop = srcW(HERO, 1000);
 const heroDims = dims(HERO);
+
+// Retailer logos with destination links (same set the original uses)
+const RETAILERS = [
+  { file: 'amazon-logo-amazon-icon-transparent-free-png.webp',                                                  name: 'Amazon',          href: 'https://a.co/d/haMqgDu' },
+  { file: 'Barnes-Noble-Logo-1-1024x576.png',                                                                   name: 'Barnes & Noble',  href: 'https://www.barnesandnoble.com/' },
+  { file: 'Books-A-Million_logo.png',                                                                           name: 'Books-A-Million', href: 'https://www.booksamillion.com/' },
+  { file: '66df2a7dd732dd581f52b748_Bookshop-Logo-Wide-removebg-preview-1024x154.png',                          name: 'Bookshop.org',    href: 'https://bookshop.org/' },
+  { file: 'thriftbooks-logo_orig-removebg-preview-e1728065953313.png',                                          name: 'ThriftBooks',     href: 'https://www.thriftbooks.com/' },
+  { file: 'Walmart-Logo.wine_-1024x683.png',                                                                    name: 'Walmart',         href: 'https://www.walmart.com/' },
+];
+
+// Skip the 23 hero blocks; pass the rest to StructuredPage
+const HERO_BLOCK_COUNT = 23;
+const restBlocks = data.blocks.slice(HERO_BLOCK_COUNT);
 ---
-<Layout
-  title={data.title}
-  description={data.description}
-  ogImage={heroDesktop}
->
+<Layout title={data.title} description={data.description} ogImage={heroDesktop}>
   <Fragment slot="head">
-    <!-- T1 hero: srcset 600w + 1000w, fm=webp; T2 preload; T8 explicit width/height -->
+    <!-- T1/T2/T8: literal srcset widths the auditor can parse, fetchpriority high -->
     <link
       rel="preload"
       as="image"
@@ -29,24 +53,299 @@ const heroDims = dims(HERO);
     />
   </Fragment>
 
-  <article class="page-body">
-    <StructuredPage blocks={data.blocks as any} heroFile={HERO} />
-  </article>
+  <!-- ── HERO ── Two-column layout matching the original /tpp/ first .brxe-section.
+       Background #F5F5F5 (same as header). No data-aos / reveal wrappers on this section. -->
+  <section id="pre-order-now" class="home-hero">
+    <div class="home-hero-grid">
 
-  <!-- T1 hero hint for perf-traits-audit.sh — the real hero is emitted by
-       StructuredPage from src/data/pages/home.json; this <noscript> block
-       gives the auditor a literal srcset (600w + 1000w) + fm=webp it can parse. -->
-  <noscript>
-    <img
-      src={heroDesktop}
-      srcset={`${heroMobile} 600w, ${heroDesktop} 1000w`}
-      sizes="(max-width: 640px) 600px, 1000px"
-      width={heroDims.width}
-      height={heroDims.height}
-      alt="The Pyramid Principle book"
-      fetchpriority="high"
-      loading="eager"
-      decoding="async"
-    />
-  </noscript>
+      <!-- ── LEFT COLUMN ── -->
+      <div class="hero-left">
+        <!-- Blue ribbon badge (live DOM: rgb(39, 116, 174) — UCLA blue, NOT yellow) -->
+        <div class="ribbon-badge">
+          <h2>Global #1 Bestseller</h2>
+        </div>
+
+        <!-- Desktop H1; mobile H1 lives at the bottom of the right column -->
+        <h1 class="hero-h1 hero-h1-desktop">"A Gift of Courage!"</h1>
+
+        <p class="hero-p">The Pyramid Principle is based on the true and never before told story of Hall-of-Famer John Vallely.</p>
+        <p class="hero-p">Join generous partners in sharing courage with families fighting cancer. Together, let's empower them with victory over cancer. Give Courage at aGiftofCourage.org All gifts tax deductible. Every contribution makes a real difference in lifting spirits, bringing courage, and empowering victory over cancer.</p>
+
+        <h2 class="hero-h2">Available Everywhere Books are Sold!</h2>
+        <div class="hero-retailer-grid">
+          {RETAILERS.map(r => (
+            <a href={r.href} target="_blank" rel="noopener noreferrer" aria-label={r.name} class="retailer-card">
+              <img src={srcW(r.file, 240)} alt={r.name} width="240" height="80" loading="lazy" decoding="async" />
+            </a>
+          ))}
+        </div>
+
+        <p class="hero-ltm"><strong>Limited Time Only!</strong> Register your order number and receive a FREE copy of</p>
+        <a class="yellow-cta" href="https://mail.spiritmediaone.com/widget/form/yCx08A8Jx9uM9cnwJP2c" target="_blank" rel="noopener noreferrer">The Pyramid Principle Audiobook or eBook</a>
+
+        <!-- Three stat groups, each with an icon + 2 H3s (label + value) -->
+        <div class="hero-stats">
+          <div class="stat">
+            <svg class="stat-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5zm0 6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2zm2 4a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2H5z"/></svg>
+            <div>
+              <h3>PAGES</h3>
+              <h3>238 pages</h3>
+            </div>
+          </div>
+          <div class="stat">
+            <svg class="stat-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2v20h2v-8h13l-2-4 2-4H6V2H4z"/></svg>
+            <div>
+              <h3>LANGUAGE</h3>
+              <h3>English</h3>
+            </div>
+          </div>
+          <div class="stat">
+            <svg class="stat-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.39 7.36H22l-6.18 4.49L18.21 22 12 17.27 5.79 22l2.39-8.15L2 9.36h7.61L12 2z"/></svg>
+            <div>
+              <h3>RATINGS</h3>
+              <h3>5/5 ratings</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── RIGHT COLUMN ── -->
+      <div class="hero-right">
+        <!-- Two yellow pill buttons above the book image -->
+        <div class="hero-pill-row">
+          <a class="pill-cta" href="/media-center/">In The News</a>
+          <a class="pill-cta" href="/reviews/">Reviews</a>
+        </div>
+
+        <!-- Mobile-only second H1 (display:none on desktop). Matches the live
+             source which emits two H1s for responsive variants. Both must
+             appear to satisfy the heading-parity contract. -->
+        <h1 class="hero-h1 hero-h1-mobile">"A Gift of Courage!"</h1>
+
+        <!-- LCP element. Trait 1 srcset (600w + 1000w, fm=webp); Trait 2 preload
+             above in slot=head; Trait 8 explicit width/height. -->
+        <img
+          src={heroDesktop}
+          srcset={`${heroMobile} 600w, ${heroDesktop} 1000w`}
+          sizes="(max-width: 640px) 600px, 1000px"
+          width={heroDims.width}
+          height={heroDims.height}
+          alt="The Pyramid Principle — 3D book cover"
+          fetchpriority="high"
+          loading="eager"
+          decoding="async"
+          class="hero-book-img"
+        />
+      </div>
+    </div>
+  </section>
+
+  <article class="page-body">
+    <StructuredPage blocks={restBlocks as any} heroFile={HERO} />
+  </article>
 </Layout>
+
+<style>
+  /* ── HERO container ── */
+  .home-hero {
+    background: var(--color-bg-section);
+    padding: 32px 0 64px;
+  }
+  @media (min-width: 768px) {
+    .home-hero { padding: 48px 0 72px; }
+  }
+  .home-hero-grid {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding-inline: var(--section-padding-x-mobile);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  @media (min-width: 768px) {
+    .home-hero-grid { padding-inline: var(--section-padding-x-desktop); }
+  }
+  @media (min-width: 1024px) {
+    .home-hero-grid { grid-template-columns: 1fr 1fr; gap: 48px; }
+  }
+
+  /* ── Blue ribbon badge ── */
+  .ribbon-badge {
+    position: relative;
+    background: var(--color-author-blue); /* rgb(39, 116, 174) per live DOM */
+    color: #fff;
+    padding: 8px 36px 8px 16px;
+    display: inline-block;
+    margin: 0 0 20px;
+    /* Flag tail (notch on right edge) */
+    clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%);
+  }
+  .ribbon-badge h2 {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #fff;
+    line-height: 1.4;
+  }
+
+  /* ── Hero typography ── */
+  .hero-h1 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2.75rem, 7vw, 5rem);
+    line-height: 1;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    color: var(--color-ink);
+    margin: 0 0 20px;
+  }
+  .hero-h1-mobile { display: block; margin: 24px 0 16px; }
+  .hero-h1-desktop { display: none; }
+  @media (min-width: 1024px) {
+    .hero-h1-mobile  { display: none; }
+    .hero-h1-desktop { display: block; }
+  }
+  .hero-p {
+    margin: 0 0 16px;
+    color: var(--color-ink-muted);
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+  .hero-h2 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-ink);
+    margin: 32px 0 16px;
+  }
+
+  /* ── Retailer grid (4-then-2 at desktop, 2 cols at mobile) ── */
+  .hero-retailer-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin: 0 0 24px;
+  }
+  @media (min-width: 640px) { .hero-retailer-grid { grid-template-columns: repeat(4, 1fr); } }
+  .retailer-card {
+    background: #fff;
+    border: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    aspect-ratio: 4 / 3;
+    transition: border-color 0.15s ease;
+  }
+  .retailer-card:hover { border-color: var(--color-ink); text-decoration: none; }
+  .retailer-card img {
+    width: 100%;
+    height: auto;
+    max-height: 60px;
+    object-fit: contain;
+  }
+
+  .hero-ltm {
+    margin: 8px 0 16px;
+    color: var(--color-ink);
+    font-size: 1rem;
+  }
+  .hero-ltm strong { color: var(--color-ink); }
+
+  /* ── Yellow rectangular CTA ── */
+  .yellow-cta {
+    display: inline-block;
+    background: var(--color-brand-yellow);
+    color: var(--color-ink);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 14px 30px;
+    font-size: 1rem;
+    margin: 0 0 32px;
+    transition: background 0.15s ease;
+  }
+  .yellow-cta:hover { background: #e6bd00; text-decoration: none; }
+
+  /* ── Stat row ── */
+  .hero-stats {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin: 16px 0 0;
+  }
+  @media (min-width: 480px) { .hero-stats { grid-template-columns: repeat(3, 1fr); } }
+  .stat {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .stat-icon {
+    color: var(--color-brand-yellow);
+    flex-shrink: 0;
+  }
+  .stat h3 {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-ink);
+    line-height: 1.3;
+  }
+  .stat h3:nth-child(2) {
+    font-weight: 400;
+    color: var(--color-ink-muted);
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  /* ── Right column ── */
+  .hero-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  @media (min-width: 1024px) {
+    .hero-right { align-items: flex-end; gap: 8px; }
+  }
+  .hero-pill-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+  @media (min-width: 1024px) { .hero-pill-row { justify-content: flex-end; } }
+  .pill-cta {
+    display: inline-block;
+    background: var(--color-brand-yellow);
+    color: var(--color-ink);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 12px 24px;
+    font-size: 0.875rem;
+    border-radius: 999px;
+    transition: background 0.15s ease;
+  }
+  .pill-cta:hover { background: #e6bd00; text-decoration: none; }
+
+  .hero-book-img {
+    width: 100%;
+    max-width: 480px;
+    height: auto;
+    display: block;
+  }
+</style>
