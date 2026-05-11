@@ -18,6 +18,7 @@
 //   22 IMG  3D-Book-1-886x1024.png → right-column hero, LCP element
 import Layout from '../layouts/Layout.astro';
 import StructuredPage from '../components/StructuredPage.astro';
+import LogoCarousel from '../components/LogoCarousel.astro';
 import { srcW, dims } from '../lib/img';
 import data from '../data/pages/home.json';
 
@@ -191,17 +192,12 @@ const MEDIA_COVERAGE = [
     </div>
   </section>
 
-  <!-- ── Section 3 — Media coverage strip ── Block indices 28..38 of home.json.
-       11 press logos shown once each in white cards in a horizontal strip.
-       JS carousel (Splide) deferred to Phase 6; this is the static fallback. -->
-  <section class="media-strip">
-    <div class="media-strip-track">
-      {MEDIA_COVERAGE.map(file => (
-        <div class="media-card">
-          <img src={srcW(file, 300)} alt="Press coverage" width="254" height="180" loading="lazy" decoding="async" />
-        </div>
-      ))}
-    </div>
+  <!-- ── Section 3 — Media coverage carousel ── Block indices 28..38 of
+       home.json. 11 press logos shown once each. Original is a Splide JS
+       carousel; rebuilt here as a vanilla-JS LogoCarousel (auto-advance every
+       4.5s, prev/next chevrons, swipe on touch, seamless forward loop). -->
+  <section class="media-carousel-wrap">
+    <LogoCarousel logos={MEDIA_COVERAGE} autoplay={4500} ariaLabel="Press coverage" altPattern="Press coverage" />
   </section>
 
   <article class="page-body">
@@ -447,44 +443,9 @@ const MEDIA_COVERAGE = [
     margin: 0 auto;
   }
 
-  /* ── Section 3 — Media coverage strip ── */
-  .media-strip {
+  /* ── Section 3 — Media coverage carousel wrapper ── */
+  .media-carousel-wrap {
     background: #fff;
-    padding: 16px 0 48px;
-    overflow: hidden;
-  }
-  .media-strip-track {
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    padding-inline: var(--section-padding-x-mobile);
-    -webkit-overflow-scrolling: touch;
-  }
-  @media (min-width: 768px) {
-    .media-strip-track {
-      padding-inline: var(--section-padding-x-desktop);
-      justify-content: center;
-      flex-wrap: wrap;
-      overflow-x: visible;
-    }
-  }
-  .media-card {
-    flex: 0 0 auto;
-    width: 200px;
-    aspect-ratio: 4 / 5;
-    background: #fff;
-    border: 1px solid var(--color-border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-    scroll-snap-align: center;
-  }
-  .media-card img {
-    width: 100%;
-    height: auto;
-    max-height: 100%;
-    object-fit: contain;
+    padding: 16px 0 32px;
   }
 </style>
