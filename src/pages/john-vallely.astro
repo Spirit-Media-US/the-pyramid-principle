@@ -1,32 +1,31 @@
 ---
-// Faithful clone of /tpp/john-vallely/. Blocks from src/data/pages/john-vallely.json.
+// John Vallely bio page — programmatic rebuild via typed blocks.
+// Source: _source/john-vallely.html (fetched from Cloudways via Playwright)
+// Parser: scripts/parse-page.mjs
+// Data:   src/data/pages/john-vallely.json (typed blocks)
+// Renderer: src/components/TypedPage.astro (block-type dispatcher)
 import Layout from '../layouts/Layout.astro';
-import StructuredPage from '../components/StructuredPage.astro';
+import TypedPage from '../components/TypedPage.astro';
 import { srcW, dims } from '../lib/img';
-import data from '../data/pages/john-vallely.json';
+import blocks from '../data/pages/john-vallely.json';
 
+const meta = (blocks as any[]).find(b => b.type === '_meta') || {};
+
+// LCP hero: the sidebar portrait
 const HERO = 'valley_109.jpg';
-const heroMobile = srcW(HERO, 600);
-const heroDesktop = srcW(HERO, 1000);
+const heroMobile = srcW(HERO, 400);
+const heroDesktop = srcW(HERO, 700);
 const heroDims = dims(HERO);
 ---
-<Layout
-  title={data.title}
-  description={data.description}
-  ogImage={heroDesktop}
->
+<Layout title={meta.title || 'John Vallely | The Pyramid Principle'}
+        description={meta.description || ''}
+        ogImage={heroDesktop}>
   <Fragment slot="head">
-    <link
-      rel="preload"
-      as="image"
-      href={heroDesktop}
-      imagesrcset={`${heroMobile} 600w, ${heroDesktop} 1000w`}
-      imagesizes="(max-width: 640px) 600px, 1000px"
-      fetchpriority="high"
-    />
+    <link rel="preload" as="image" href={heroDesktop}
+          imagesrcset={`${heroMobile} 400w, ${heroDesktop} 700w`}
+          imagesizes="(max-width: 768px) 100vw, 500px"
+          fetchpriority="high" />
   </Fragment>
 
-  <article class="page-body">
-    <StructuredPage blocks={data.blocks as any} heroFile={HERO} />
-  </article>
+  <TypedPage blocks={blocks as any[]} />
 </Layout>
