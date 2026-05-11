@@ -199,19 +199,21 @@ const STORY_PARAGRAPHS = [
        on the right column. JS deferred until first user interaction. -->
   <section class="story-section">
     <div class="story-grid">
+      <!-- Image composition: photo as the base + decorative L-corner ornament
+           absolutely positioned over its top-left. NOT stacked vertically. -->
       <div class="story-images" data-anim="fadeIn" data-anim-delay="500">
-        <img class="story-graphic"
-             src={srcW(STORY_GRAPHIC, 500)}
-             width="305" height="85"
-             alt=""
-             loading="lazy" decoding="async" />
         <img class="story-portrait"
              src={srcW(STORY_PORTRAIT, 600)}
              srcset={`${srcW(STORY_PORTRAIT, 400)} 400w, ${srcW(STORY_PORTRAIT, 700)} 700w`}
-             sizes="(max-width: 768px) 100vw, 600px"
+             sizes="(max-width: 768px) 100vw, 520px"
              width="611" height="936"
-             alt="The Pyramid Principle tribute portrait"
+             alt="John Vallely and Karen on their sailboat"
              data-anim="zoomIn"
+             loading="lazy" decoding="async" />
+        <img class="story-graphic"
+             src={srcW(STORY_GRAPHIC, 305)}
+             width="305" height="85"
+             alt="" aria-hidden="true"
              loading="lazy" decoding="async" />
       </div>
       <div class="story-content" data-anim="fadeInRight">
@@ -441,23 +443,34 @@ const STORY_PARAGRAPHS = [
   @media (min-width: 1024px) {
     .story-grid { grid-template-columns: 1fr 1fr; gap: 64px; }
   }
+  /* Image composition (verified from live computed styles 2026-05-11):
+     - .story-portrait is the base photo with border-radius 10px 10px 10px 25%
+       (small rounding on 3 corners; large elliptical scoop on bottom-left).
+     - .story-graphic is an absolutely-positioned decorative gold L-corner
+       overlay covering the top-left of the photo. 305×85 in original; we
+       scale to 58% of the photo width so it stays proportional. */
   .story-images {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    margin-inline: auto;
+  }
+  .story-portrait {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 10px 10px 10px 25%;
   }
   .story-graphic {
-    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 58%; /* 305/520 ≈ 58.65% */
     max-width: 305px;
     height: auto;
     display: block;
-  }
-  .story-portrait {
-    width: 100%;
-    max-width: 520px;
-    height: auto;
-    display: block;
+    z-index: 2;
+    pointer-events: none;
   }
   .story-heading {
     font-family: var(--font-display);
