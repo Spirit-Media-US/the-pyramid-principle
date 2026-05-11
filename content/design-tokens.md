@@ -52,10 +52,12 @@ The authoritative color table is **["Brand palette read"](#brand-palette-read-do
 
 ## Navigation
 
+> **Correction 2026-05-11:** the earlier "Row 1 yellow tagline bar" reading was a Phase 2 extraction error. The header is a **single row** on `#F5F5F5` — no yellow bar above it. The yellow `"A Gift of Courage!"` band is a hero/section element that appears further down the page, not part of the chrome. Verified via direct DOM read of `<header>` and `#menu-main-menu` on 2026-05-11.
+
 | Viewport | Type | Details |
 |----------|------|---------|
-| Desktop  | Two-row horizontal | Row 1 (yellow bar `#FFD100`): centered tagline `"A GIFT OF COURAGE!"`. Row 2: logo wordmark left (solid yellow `THE PYRAMID PRINCIPLE`, see `TPP-Logo-2-1024x502.png`), horizontal links right — **About** (dropdown: John Vallely, Paul Weissenstein, Coach John Wooden), **Retailers**, **The Pyramid Success**, **Give Courage**. Social icons (Instagram, Facebook, X, LinkedIn, TikTok, YouTube) above the yellow bar. Nav verified via Playwright DOM read of `.brxe-nav-nested` items 2026-05-11. |
-| Mobile   | Stacked hamburger | Yellow tagline bar + logo + hamburger trigger; collapsed nav opens vertical list with same items. Header rendered height = 177px (vs 133px desktop). |
+| Desktop  | Single row, three regions | **Background:** `#F5F5F5`. **Height:** ~133px. **Left:** logo wordmark (`TPP-Logo-2-1024x502.png`, rendered 190×93). **Center** (immediately right of logo): 6 social icons in a horizontal row — Instagram, Facebook, X, LinkedIn, TikTok, YouTube. Font Awesome glyphs (`fab fa-instagram`, etc.), color `rgb(33, 33, 33)`, size 20px, plain (no circular borders). **Right:** horizontal nav menu — **About** (dropdown chevron, contains John Vallely / Paul Weissenstein / Coach John Wooden), **Retailers**, **The Pyramid Success**, **Give Courage**. Nav typography: DM Sans 18px, weight 400, color `rgb(33, 33, 33)`, uppercase, letter-spacing normal. |
+| Mobile   | Stacked with hamburger | Logo + hamburger trigger only. Tapping the hamburger opens a slide-out (`bricks-mobile-menu-wrapper.left`) at width 300px with the same nav items plus social icons below. Header rendered height = 177px at 375px viewport (vs 133px desktop). |
 
 > Screenshots captured at /tmp/the-pyramid-principle-images/\_screenshot-home-{desktop,mobile}.png. Mobile homepage is ~12,000px tall (long-scroll landing page).
 
