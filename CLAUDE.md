@@ -43,10 +43,24 @@ Then run: `git checkout dev && git pull origin dev`
 - [ ] "inspect dev preview" returns 0 errors
 - [ ] Custom domain — deferred to Phase 8 (no CF zone exists yet, so CF zone Phase 0 settings apply at launch)
 
-### Phase 2 — Content + CSS Extraction
-- [ ] Pending — crawl https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/, extract content + computed styles at desktop and mobile viewports, catalog all media
+### Phase 2 — Content + CSS Extraction (complete 2026-05-11)
+- [x] Cloudways crawl with Playwright + `ignoreHTTPSErrors: true` (TLS hostname mismatch on staging cert)
+- [x] 9 pages extracted: 7 nav-linked + media-center + reviews (user direction 2026-05-11). 4 WP sitemap orphans (blogs, download, free-resources, pediatric-cancer-research-foundation-copy) explicitly excluded. `/victory-over-cancer/` is a 301 → `/give-courage/` (preserve as redirect in Phase 8).
+- [x] `content/site-inventory.md` — URL map + page inventory
+- [x] `content/design-tokens.md` — colors, typography (Bebas Neue / DM Sans / Open Sans), Bricks-aware spacing, LCP-by-page, full brand palette read (yellow `#FFD100` + UCLA blue `#2774AE`, no red)
+- [x] `content/images.md` — 170 unique images cataloged with destinations (all → Sanity)
+- [x] `content/pages/*.md` — 9 files (one per page)
+- [x] All 170 images downloaded to `/tmp/the-pyramid-principle-images/` (NOT in repo)
+- [x] Screenshots captured for Phase 3 design review at `/tmp/the-pyramid-principle-images/_screenshot-*-{desktop,mobile}.png`
+- [x] No TBD/TODO/FIXME in content/
 
-### Phases 3-9
+### Phase 3 — Design + Build (pending)
+- [ ] Stitch design system from design tokens, generate screens for 9 pages
+- [ ] Self-host fonts (Bebas Neue, DM Sans, Open Sans) to `assets.spiritmediapublishing.com/fonts/`
+- [ ] Build Astro pages from approved Stitch designs
+- [ ] Hero must ship with all 8 perf-gate traits from the first build (not Phase 7)
+
+### Phases 4-9
 - [ ] Pending
 
 ## DNS Pattern
