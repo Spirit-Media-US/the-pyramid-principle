@@ -36,9 +36,33 @@ const RETAILERS = [
   { file: 'Walmart-Logo.wine_-1024x683.png',                                                                    name: 'Walmart',         href: 'https://www.walmart.com/' },
 ];
 
-// Skip the 23 hero blocks; pass the rest to StructuredPage
-const HERO_BLOCK_COUNT = 23;
-const restBlocks = data.blocks.slice(HERO_BLOCK_COUNT);
+// Hero + Heart-Gripping Story + media-coverage strip are hand-rendered to
+// match the original two-column layout, pill-CTA buttons, banner-as-image,
+// and white-card carousel strip. The first 39 blocks belong to those sections;
+// StructuredPage renders the rest verbatim.
+const CUSTOM_BLOCK_COUNT = 39;
+const restBlocks = data.blocks.slice(CUSTOM_BLOCK_COUNT);
+
+// Block 27 — Give Courage banner image (links to /give-courage/)
+const GIVE_COURAGE_BANNER = 'Banner-THE-GIFT-OF-COURAGE-1024x258.jpg';
+
+// Blocks 28..38 — 11 numbered media-coverage logos that appear once each
+// in the live carousel. The original Splide carousel is JS-driven; for Phase 3
+// fidelity we render as a horizontal strip of white cards (no JS) — JS carousel
+// behavior deferred to Phase 6 polish per user direction.
+const MEDIA_COVERAGE = [
+  '12-1024x726.png',
+  'cbs-1024x726.jpg',
+  '20-1024x726.jpg',
+  '19-1024x726.jpg',
+  '18-1024x726.jpg',
+  '3-1024x726.png',
+  '2-1024x726.png',
+  '21-1024x726.jpg',
+  '22-1024x726.jpg',
+  '17-1024x726.jpg',
+  '15-1024x726.png',
+];
 ---
 <Layout title={data.title} description={data.description} ogImage={heroDesktop}>
   <Fragment slot="head">
@@ -137,6 +161,46 @@ const restBlocks = data.blocks.slice(HERO_BLOCK_COUNT);
           class="hero-book-img"
         />
       </div>
+    </div>
+  </section>
+
+  <!-- ── Section 2 — Heart-Gripping Story + 3 pill CTAs + Give Courage banner ──
+       Matches the live second .brxe-section (post-hero). Bg is transparent
+       (page body white shows through). Block indices 23..27 of home.json. -->
+  <section class="hgs-section">
+    <div class="hgs-container">
+      <h2 class="hgs-heading">A Heart-Gripping Story of Championship Resilience in Life's Toughest Battles.</h2>
+
+      <div class="hgs-pills">
+        <a class="pill-cta" href="https://mail.spiritmediaone.com/widget/form/7w74pwgesuoL89IGH8BM" target="_blank" rel="noopener noreferrer">Request a Copy</a>
+        <a class="pill-cta" href="/give-courage/">Sponsor Copies</a>
+        <a class="pill-cta" href="https://docs.google.com/forms/d/e/1FAIpQLSdKQls4n_vob9RP2R9X787mAvLw0h5WCW_Q-O3Aeh-PHtkdeg/viewform" target="_blank" rel="noopener noreferrer">Review the Book</a>
+      </div>
+
+      <!-- Pre-designed banner image — wrapped in a link to /give-courage/.
+           User direction: render this as the single image asset, do NOT
+           compose from separate elements. -->
+      <a href="/give-courage/" class="give-courage-banner-link" aria-label="Give the Gift of Courage to 400,000 families fighting cancer">
+        <img src={srcW(GIVE_COURAGE_BANNER, 1200)}
+             srcset={`${srcW(GIVE_COURAGE_BANNER, 600)} 600w, ${srcW(GIVE_COURAGE_BANNER, 1200)} 1200w`}
+             sizes="(max-width: 640px) 600px, 1200px"
+             width="1024" height="258"
+             alt="Give the Gift of Courage to 400,000 families fighting cancer"
+             loading="lazy" decoding="async" />
+      </a>
+    </div>
+  </section>
+
+  <!-- ── Section 3 — Media coverage strip ── Block indices 28..38 of home.json.
+       11 press logos shown once each in white cards in a horizontal strip.
+       JS carousel (Splide) deferred to Phase 6; this is the static fallback. -->
+  <section class="media-strip">
+    <div class="media-strip-track">
+      {MEDIA_COVERAGE.map(file => (
+        <div class="media-card">
+          <img src={srcW(file, 300)} alt="Press coverage" width="254" height="180" loading="lazy" decoding="async" />
+        </div>
+      ))}
     </div>
   </section>
 
@@ -327,25 +391,100 @@ const restBlocks = data.blocks.slice(HERO_BLOCK_COUNT);
     margin-bottom: 16px;
   }
   @media (min-width: 1024px) { .hero-pill-row { justify-content: flex-end; } }
-  .pill-cta {
-    display: inline-block;
-    background: var(--color-brand-yellow);
-    color: var(--color-ink);
-    font-family: var(--font-heading);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-    padding: 12px 24px;
-    font-size: 0.875rem;
-    border-radius: 999px;
-    transition: background 0.15s ease;
-  }
-  .pill-cta:hover { background: #e6bd00; text-decoration: none; }
 
   .hero-book-img {
     width: 100%;
     max-width: 480px;
     height: auto;
     display: block;
+  }
+
+  /* ── Section 2 — Heart-Gripping Story + pills + Give Courage banner ── */
+  .hgs-section {
+    background: #fff;
+    padding: 48px 0;
+  }
+  .hgs-container {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding-inline: var(--section-padding-x-mobile);
+  }
+  @media (min-width: 768px) {
+    .hgs-container { padding-inline: var(--section-padding-x-desktop); }
+    .hgs-section { padding: 64px 0; }
+  }
+  .hgs-heading {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(1.75rem, 4.5vw, 3rem);
+    line-height: 1.1;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    color: var(--color-ink);
+    text-align: left;
+    margin: 0 0 24px;
+    max-width: 1100px;
+  }
+  .hgs-pills {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 0 0 32px;
+  }
+  /* The pills themselves use the global .pill-cta */
+  .give-courage-banner-link {
+    display: block;
+    line-height: 0;
+    transition: opacity 0.15s ease;
+  }
+  .give-courage-banner-link:hover { opacity: 0.92; text-decoration: none; }
+  .give-courage-banner-link img {
+    width: 100%;
+    max-width: 1024px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+
+  /* ── Section 3 — Media coverage strip ── */
+  .media-strip {
+    background: #fff;
+    padding: 16px 0 48px;
+    overflow: hidden;
+  }
+  .media-strip-track {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-inline: var(--section-padding-x-mobile);
+    -webkit-overflow-scrolling: touch;
+  }
+  @media (min-width: 768px) {
+    .media-strip-track {
+      padding-inline: var(--section-padding-x-desktop);
+      justify-content: center;
+      flex-wrap: wrap;
+      overflow-x: visible;
+    }
+  }
+  .media-card {
+    flex: 0 0 auto;
+    width: 200px;
+    aspect-ratio: 4 / 5;
+    background: #fff;
+    border: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    scroll-snap-align: center;
+  }
+  .media-card img {
+    width: 100%;
+    height: auto;
+    max-height: 100%;
+    object-fit: contain;
   }
 </style>

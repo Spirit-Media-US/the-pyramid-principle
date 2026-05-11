@@ -288,27 +288,37 @@
   }
   .page-ul, .page-ol { padding-left: 1.5em; margin: 0 0 16px; }
   .page-ul li, .page-ol li { margin-bottom: 8px; color: var(--color-ink-muted); }
-  .page-cta {
+  /* Yellow pill CTA — the universal call-to-action style across the site.
+     Live source uses .bricks-button.bricks-background-primary; we replicate
+     the same shape (rounded pill, bg #FFD100, black text, no border). Use
+     anywhere a "yellow CTA" is called for: In The News, Reviews, Request a
+     Copy, Sponsor Copies, Review the Book, Order Today, etc. */
+  .pill-cta, .page-cta {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 12px 30px;
     background: var(--color-brand-yellow);
     color: var(--color-ink);
     font-family: var(--font-heading);
     font-weight: 700;
     font-size: 0.95rem;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
-    border: 2px solid var(--color-brand-yellow);
+    letter-spacing: 0.03em;
+    padding: 12px 28px;
+    border-radius: 999px;
+    border: none;
     margin: 8px 8px 8px 0;
-    transition: background 0.15s ease, color 0.15s ease;
-  }
-  .page-cta:hover {
-    background: transparent;
-    color: var(--color-ink);
+    transition: background 0.15s ease;
     text-decoration: none;
   }
+  .pill-cta:hover, .page-cta:hover {
+    background: #e6bd00;
+    text-decoration: none;
+    color: var(--color-ink);
+  }
+
+  /* Square rectangular CTA — for the "Limited Time" hero in-flow CTA only.
+     Use .yellow-cta when you want the squared button shape. */
   .page-img {
     display: block;
     max-width: 100%;
