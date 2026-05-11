@@ -16,15 +16,16 @@ interface Props {
   autoplay?: number;   // ms between auto-advance; 0 = no autoplay
   ariaLabel?: string;
   altPattern?: string; // alt prefix; e.g. "Press coverage"
+  fullBleed?: boolean; // breaks out of parent container to span 100vw
 }
-const { logos, autoplay = 4500, ariaLabel = 'Logo carousel', altPattern = 'Logo' } = Astro.props;
+const { logos, autoplay = 4500, ariaLabel = 'Logo carousel', altPattern = 'Logo', fullBleed = false } = Astro.props;
 
 // Number of clone slides at the end to enable seamless forward looping.
-// Equal to the desktop visible count.
-const CLONE_TAIL_COUNT = 5;
+// Must be >= the max visible count across viewports (6 on desktop here).
+const CLONE_TAIL_COUNT = 6;
 const cloneTail = logos.slice(0, CLONE_TAIL_COUNT);
 ---
-<div class="logo-carousel" data-autoplay={autoplay} aria-roledescription="carousel" aria-label={ariaLabel}>
+<div class:list={['logo-carousel', fullBleed && 'lc-full-bleed']} data-autoplay={autoplay} aria-roledescription="carousel" aria-label={ariaLabel}>
   <button type="button" class="lc-prev" aria-label="Previous slides">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
   </button>
@@ -51,12 +52,23 @@ const cloneTail = logos.slice(0, CLONE_TAIL_COUNT);
   .logo-carousel {
     position: relative;
     background: #fff;
-    padding: 32px 48px;
+    padding: 40px 56px;
     max-width: var(--container-max, 1200px);
     margin-inline: auto;
   }
+
+  /* Full-bleed variant — breaks out of any parent container max-width to
+     span the entire viewport width. "Logo wall" presentation: white bg,
+     no cell dividers, generous whitespace, arrows at viewport edges. */
+  .logo-carousel.lc-full-bleed {
+    max-width: none;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    padding: 48px 64px;
+  }
   @media (min-width: 640px) {
-    .logo-carousel { padding: 40px 56px; }
+    .logo-carousel.lc-full-bleed { padding: 56px 72px; }
   }
 
   .lc-viewport {
@@ -64,7 +76,6 @@ const cloneTail = logos.slice(0, CLONE_TAIL_COUNT);
     overflow-y: hidden;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    /* Disable native snap — JS handles smooth scroll */
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
   }
@@ -77,31 +88,48 @@ const cloneTail = logos.slice(0, CLONE_TAIL_COUNT);
     display: flex;
     align-items: stretch;
   }
+
+  /* Default (contained) slide: thin divider, modest padding */
   .lc-slide {
     flex: 0 0 auto;
-    width: 50%; /* mobile: 2 visible */
+    width: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 12px 16px;
     border-right: 1px solid var(--color-border);
     background: #fff;
-    /* Keep cell aspect proportional regardless of logo */
     min-height: 140px;
   }
   .lc-slide:last-child { border-right: 0; }
-  @media (min-width: 640px) {
-    .lc-slide { width: calc(100% / 3); } /* tablet: 3 visible */
-  }
-  @media (min-width: 1024px) {
-    .lc-slide { width: 20%; } /* desktop: 5 visible */
-  }
+  @media (min-width: 640px) { .lc-slide { width: calc(100% / 3); } }
+  @media (min-width: 1024px) { .lc-slide { width: 20%; } }
   .lc-slide img {
     max-width: 100%;
     max-height: 100px;
     width: auto;
     height: auto;
     object-fit: contain;
+  }
+
+  /* Full-bleed slide: NO dividers, breezy padding, taller cells */
+  .lc-full-bleed .lc-slide {
+    width: 50%;                /* mobile: 2 visible */
+    padding: 24px 32px;
+    min-height: 160px;
+    border-right: 0;
+  }
+  @media (min-width: 640px) {
+    .lc-full-bleed .lc-slide { width: calc(100% / 3); padding: 28px 40px; min-height: 170px; }
+  }
+  @media (min-width: 1024px) {
+    .lc-full-bleed .lc-slide { width: calc(100% / 6); padding: 32px 48px; min-height: 180px; }
+  }
+  .lc-full-bleed .lc-slide img {
+    max-height: 110px;
+  }
+  @media (min-width: 1024px) {
+    .lc-full-bleed .lc-slide img { max-height: 120px; }
   }
 
   .lc-prev, .lc-next {
@@ -122,8 +150,8 @@ const cloneTail = logos.slice(0, CLONE_TAIL_COUNT);
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
     transition: background 0.15s ease, color 0.15s ease;
   }
-  .lc-prev { left: 4px; }
-  .lc-next { right: 4px; }
+  .lc-prev { left: 8px; }
+  .lc-next { right: 8px; }
   .lc-prev:hover, .lc-next:hover {
     background: var(--color-brand-yellow);
     color: var(--color-ink);
@@ -134,8 +162,8 @@ const cloneTail = logos.slice(0, CLONE_TAIL_COUNT);
   }
   @media (min-width: 640px) {
     .lc-prev, .lc-next { width: 44px; height: 44px; }
-    .lc-prev { left: 6px; }
-    .lc-next { right: 6px; }
+    .lc-prev { left: 16px; }
+    .lc-next { right: 16px; }
   }
 </style>
 
