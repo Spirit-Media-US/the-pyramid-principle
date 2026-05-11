@@ -49,37 +49,38 @@ const { slides, ariaLabel = 'Logo carousel', altPattern = 'Logo', fullBleed = tr
 </section>
 
 <style>
-  /* Full-bleed breakout — section spans 100vw regardless of parent container */
+  /* Full-bleed breakout — section spans 100vw regardless of parent container.
+     Section background is light gray (#F5F5F5, same as the rest of the page)
+     — Splide's 3px gap between white slides reveals this gray as the
+     apparent vertical separator between cells. No actual borders. */
   .press-carousel-section.lc-full-bleed {
     width: 100vw;
     margin-left: calc(50% - 50vw);
     margin-right: calc(50% - 50vw);
-    background: #fff;
+    background: var(--color-bg-section); /* #F5F5F5 */
   }
 
-  /* Splide slide cell — generous whitespace, no borders, logos centered.
-     The Bricks original uses height: 310px desktop / 180px mobile (controlled
-     by Splide via inline track height). We add slide-internal padding for
-     the "logo wall" breathing room. */
+  /* Slide — white background; Splide's gap:3px config produces a 3px
+     gutter to the right of each slide, through which the section's gray
+     background shows as the "separator". No borders, no shadow, no radius. */
   .splide__slide {
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
     background: #fff;
+    box-shadow: none;
+    border-radius: 0;
+    border: 0;
   }
-  @media (min-width: 640px) {
-    .splide__slide { padding: 32px; }
-  }
-  @media (min-width: 1024px) {
-    .splide__slide { padding: 40px 48px; }
-  }
+  /* Inner anchor + img — center the logo with generous internal padding so
+     the logo sits ~150-180px tall inside the 310px cell on desktop. */
   .splide__slide a {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
     height: 100%;
+    padding: 70px 50px;
+  }
+  @media (max-width: 478px) {
+    .splide__slide a { padding: 40px 24px; } /* mobile: 180px cell */
   }
   .splide__slide img {
     max-width: 100%;
