@@ -454,14 +454,16 @@ const WOODEN_CITE  = data.blocks[70].text || '~ Coach John Wooden';
   <section class="wooden-section">
     <div class="wooden-container">
       <div class="wooden-image-col" data-anim="slideInLeft">
-        <img class="wooden-img"
-             src={srcW(WOODEN_IMG, 700)}
-             srcset={`${srcW(WOODEN_IMG, 500)} 500w, ${srcW(WOODEN_IMG, 900)} 900w`}
-             sizes="(max-width: 1024px) 100vw, 540px"
-             width="1024" height="683"
-             alt=""
-             role="presentation"
-             loading="lazy" decoding="async" />
+        <div class="wooden-img-frame">
+          <img class="wooden-img"
+               src={srcW(WOODEN_IMG, 700)}
+               srcset={`${srcW(WOODEN_IMG, 500)} 500w, ${srcW(WOODEN_IMG, 900)} 900w`}
+               sizes="(max-width: 1024px) 100vw, 540px"
+               width="1024" height="683"
+               alt=""
+               role="presentation"
+               loading="lazy" decoding="async" />
+        </div>
         <hr class="wooden-divider" aria-hidden="true" />
       </div>
       <div class="wooden-quote-col" data-anim="slideInRight">
@@ -1093,11 +1095,40 @@ const WOODEN_CITE  = data.blocks[70].text || '~ Coach John Wooden';
     display: flex;
     flex-direction: column;
     gap: 24px;
+    align-items: flex-start;
   }
-  .wooden-img {
-    display: block;
+  /* Photo + offset blue rectangle backdrop (Bricks renders the rectangle
+     via .brxe-divider.horizontal — we replicate as a ::before pseudo.
+     The photo (z-index 1) overlaps the bottom-right of the blue rect
+     (z-index 0), classic "card with backing" composition. */
+  .wooden-img-frame {
+    position: relative;
     width: 100%;
     max-width: 540px;
+    margin-top: 65px;  /* room for the blue rect to extend above */
+    margin-left: 65px; /* room for the blue rect to extend left */
+  }
+  @media (max-width: 768px) {
+    .wooden-img-frame { margin-top: 30px; margin-left: 30px; }
+  }
+  .wooden-img-frame::before {
+    content: "";
+    position: absolute;
+    top: -65px;
+    left: -65px;
+    width: 100%;
+    height: 100%;
+    background: var(--color-author-blue); /* UCLA blue rgb(39,116,174) */
+    z-index: 0;
+  }
+  @media (max-width: 768px) {
+    .wooden-img-frame::before { top: -30px; left: -30px; }
+  }
+  .wooden-img {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 100%;
     height: auto;
   }
   .wooden-divider {
@@ -1113,26 +1144,27 @@ const WOODEN_CITE  = data.blocks[70].text || '~ Coach John Wooden';
     gap: 20px;
     padding: 30px 0;
   }
+  /* Verified live DOM: Libre Baskerville 55px italic, color #1D1D1F */
   .wooden-quote {
     margin: 0;
     padding: 0;
     border: 0;
-    font-family: var(--font-display); /* Bebas Neue per user direction
-      — live source uses 'Libre Baskerville' which is not in our brand
-      fonts. Flagged for Phase 5 CAR. */
+    font-family: 'Libre Baskerville', Georgia, 'Times New Roman', serif;
     font-weight: 400;
-    font-size: clamp(2rem, 4.5vw, 3.4rem); /* ~55px desktop */
-    line-height: 1.1;
-    letter-spacing: 0.01em;
+    font-style: italic;
+    font-size: clamp(1.875rem, 4vw, 3.4375rem); /* ~55px desktop, scales down on mobile */
+    line-height: 1.3;
     color: var(--color-ink);
+    text-align: left;
   }
+  /* Verified live DOM: Abel 30px regular, color #616161 (body gray) */
   .wooden-cite {
     margin: 0;
-    font-family: var(--font-heading); /* DM Sans — live uses 'Abel', not in brand */
-    font-weight: 700;
-    font-size: 1.05rem;
-    color: var(--color-ink-soft);
-    letter-spacing: 0.04em;
+    font-family: 'Abel', 'DM Sans', system-ui, sans-serif;
+    font-weight: 400;
+    font-size: clamp(1.25rem, 2.5vw, 1.875rem); /* ~30px desktop */
+    color: var(--color-text); /* #616161 */
+    letter-spacing: normal;
   }
   .wooden-cite cite { font-style: normal; }
 

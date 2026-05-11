@@ -46,6 +46,24 @@
   font-display: optional;
 }
 
+/* Libre Baskerville italic — Coach Wooden pull-quote */
+@font-face {
+  font-family: 'Libre Baskerville';
+  src: url('https://assets.spiritmediapublishing.com/fonts/libre-baskerville/libre-baskerville-400-italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: optional;
+}
+
+/* Abel — pull-quote attribution (~ Coach John Wooden) */
+@font-face {
+  font-family: 'Abel';
+  src: url('https://assets.spiritmediapublishing.com/fonts/abel/abel-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: optional;
+}
+
 /* ─── Design tokens — from content/design-tokens.md ──────────── */
 @theme {
   /* Brand palette — verified by DOM enumeration of every visible color */
