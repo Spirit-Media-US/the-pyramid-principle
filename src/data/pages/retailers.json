@@ -99,15 +99,15 @@
     "headingHtml": "Projected to be <span style=\"color:#2774ae;\">#1 Bestseller</span> worldwide.",
     "images": [
       {
-        "file": "image-e1726579729174.png",
-        "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/89c2511ddf1e9179e484cd41b94c4acbe34d565b-309x438.png",
+        "file": "3D-Book-1-886x1024.png",
+        "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/fd3d2aa3fdaf328aa82a22c8652143e895c1da29-886x1024.png",
         "dims": {
           "_type": "sanity.imageDimensions",
-          "aspectRatio": 0.7054794520547945,
-          "height": 438,
-          "width": 309
+          "aspectRatio": 0.865234375,
+          "height": 1024,
+          "width": 886
         },
-        "alt": ""
+        "alt": "The Pyramid Principle book cover"
       }
     ]
   }

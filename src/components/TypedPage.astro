@@ -1976,6 +1976,50 @@ function decodeText(s: string): string {
   .jv-collage-body p:last-child { margin-bottom: 0; }
   /* Inherit the .jv-hero-link yellow-underline style for inline links */
 
+  /* ── Retailers Bestseller Callout chrome (verified live #brxe-nipgxe /
+       #brxe-gsumin / #brxe-ydtlms). The base image-collage-card has no
+       card border or radius; this section needs a thin-bordered card
+       with the 3D book image poking up out of the top of the card.
+       Section-id-scoped so other image-collage-card instances are
+       unaffected. */
+  #brxe-nipgxe {
+    /* Room for the image to poke up above the card. Source: 150px. */
+    padding-top: 150px;
+  }
+  #brxe-nipgxe .jv-collage-container {
+    border: 1px solid #e0e0e0;
+    border-radius: 15px;
+    background: transparent;
+    padding: 20px 20px 60px;
+    margin: 0 10px;
+  }
+  @media (min-width: 768px) {
+    #brxe-nipgxe .jv-collage-container {
+      padding: 40px 60px 60px;
+      margin: 0 auto;
+    }
+  }
+  /* The 3D book image overflows the card on top via negative margin-top.
+     z-index above other content so it sits on top of the card border. */
+  #brxe-nipgxe .jv-collage-img-1 {
+    margin-top: -200px;
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+  @media (min-width: 768px) {
+    #brxe-nipgxe .jv-collage-img-1 {
+      max-width: 400px;
+      margin-left: 0;
+      margin-right: auto;
+    }
+  }
+
   /* ── Acknowledgements card (verified live #brxe-ozjayj / #brxe-klreld) ──
      Outer section: bg #fff, flex column align-items center, no padding/margin.
      Card: bg #f5f5f5, border 1px solid #e0e0e0, border-radius 15px.
