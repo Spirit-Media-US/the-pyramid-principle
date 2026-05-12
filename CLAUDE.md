@@ -160,8 +160,31 @@ Then run: `git checkout dev && git pull origin dev`
   - `/the-pyramid-success/` Section 4 Coach Wetzel card — all 3 photos are Facebook-uploaded images. Source filenames start with Facebook photo IDs `300997137_…`, `301011092_…`, `301137185_…` followed by Facebook fbid + uploader-id + naming-hash. These were grabbed from a Facebook profile/page and re-hosted on the WP install. Verify licensing/permission with the original uploader before launch — Facebook photos are not public-domain by default; permission to redistribute outside the platform should be confirmed.
   - `/the-pyramid-success/` Section 1 hero (#brxe-7d2e09) eyebrow uses `<h3>` for the small "THE PYRAMID PRINCIPLE" caption. Source styles it 15px Montserrat (10px mobile) — visually a small eyebrow caption, not a section heading. Heading-level outline is unusual: this H3 outranks subsequent H3s elsewhere in the page (when later sections are added). Preserved verbatim per Phase 3 fidelity. Phase 6 review: downgrade to `<p class="tc-eyebrow">` or change tag without changing styling.
 
-### Phases 5-9
-- [ ] Pending
+### Phase 5 — Performance / Lighthouse (partial, stopped 2026-05-12)
+
+Per Kevin's instruction "If still below 95 after medium fixes — STOP, log remaining gap as CAR, don't escalate to hard fixes tonight."
+
+**Final PSI on `dev.the-pyramid-principle.pages.dev` (2026-05-12):**
+- **Mobile:** Perf **86** / A11y **100** / BP **100** / SEO **100** (FCP 2.6s, LCP 3.7s, TBT 0ms, CLS **0.001**)
+- **Desktop:** Perf **75** / A11y **100** / BP **100** / SEO **100** (FCP 0.3s, LCP 0.8s, TBT 0ms, CLS **1.354**)
+
+**Quick wins + medium fixes shipped:**
+- `main#main-content` landmark wrapper + reusable `.skip-link` styling (a11y → 100)
+- Footer link contrast `#CAA949 → #7C5C00` (BP/a11y)
+- Heading-order fixes (Based-on H6 → `<p>` eyebrow, H4 → `<h3>`; About-section H6 → H3)
+- Header logo CLS fix — explicit width/height + `aspect-ratio: 190/93`, srcset 280w/400w
+- YouTube facade (Cori Close) — poster image + click-to-load iframe (TBT 210ms → 0ms on desktop)
+- All above-fold `<img>` got explicit `width`/`height`
+- Retailer-card image CLS fix — `width:auto; height:60px; max-width:100%` (mobile CLS 0.791 → 0.001)
+
+**Remaining gaps (Phase 6 candidates):**
+- **Desktop CLS 1.354 — web font swap.** Lighthouse `layout-shifts` audit attributes the two largest shifts (`body` 0.737, `.home-hero-grid` 0.617) to `dm-sans-400` and `open-sans-400` loading. All 8 `@font-face` declarations already use `font-display: optional`, but PSI's lab profile is fast enough that the fonts DO load inside the optional window, then trigger a layout reflow when they apply. Fix requires `size-adjust`/`ascent-override`/`descent-override` descriptors on each fallback so the fallback metrics match the loaded font (the "Faux Font" technique). Architectural — not "tonight" work.
+- **Mobile LCP 3.7s.** TBT/CLS already at floor; LCP is the only remaining mobile lever. The current LCP element appears to be the hero `<picture>` on mobile; tightening it further would mean either applying the §6 mobile-text-LCP flip (precondition: confirm Lighthouse `largest-contentful-paint-element` resolves to `picture > img` — needs re-check) or further reducing the mobile hero bytes.
+- **PSI quota** — only 1 audit per category was run, not median-of-5. Re-measure once quota refreshes; current single-shot may be variance.
+
+**Not eligible for main merge** until both perf scores ≥ 95. Blog Gold-Level audit is also blocking — see migration phase-4 CAR section below.
+
+### Phases 6-9
 
 ## DNS Pattern
 
