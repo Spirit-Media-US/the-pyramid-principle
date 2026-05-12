@@ -97,7 +97,7 @@ const SOCIAL = [
     <slot name="head" />
   </head>
   <body>
-    <a href="#main" class="skip-link">Skip to main content</a>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
 
     <!-- Header — single row on bg #F5F5F5; no yellow tagline bar above.
          Logo (left) · Social icons (center, plain glyphs) · Nav (right, ABOUT
@@ -105,7 +105,13 @@ const SOCIAL = [
     <header id="site-header">
       <div class="header-row">
         <a href="/" aria-label="The Pyramid Principle home" class="header-logo">
-          <img src={LOGO_URL} alt="The Pyramid Principle" width="190" height="93" />
+          <img src={`${LOGO_URL}?w=400&fm=webp&q=80&fit=max`}
+               srcset={`${LOGO_URL}?w=280&fm=webp&q=80&fit=max 280w, ${LOGO_URL}?w=400&fm=webp&q=80&fit=max 400w`}
+               sizes="(min-width: 1024px) 180px, 131px"
+               width="190" height="93"
+               alt="The Pyramid Principle"
+               fetchpriority="high"
+               decoding="async" />
         </a>
 
         <ul class="header-social" aria-label="Social media">
@@ -183,7 +189,9 @@ const SOCIAL = [
       </nav>
     </header>
 
-    <slot />
+    <main id="main-content">
+      <slot />
+    </main>
 
     <!-- Site footer — verified DOM walk of #brx-footer:
          Top section #brxe-mkbdep: bg #F7F7F7, padding 40px 0, 3 columns
@@ -257,14 +265,19 @@ const SOCIAL = [
   @layer base {
     .skip-link {
       position: absolute;
-      left: -9999px;
       top: 0;
+      left: 0;
       padding: 8px 12px;
       background: var(--color-brand-yellow);
       color: var(--color-ink);
       z-index: 100;
+      text-decoration: none;
+      font-weight: 600;
+      transform: translateY(-200%);
+      transition: transform 0.15s ease-out;
     }
-    .skip-link:focus { left: 0; }
+    .skip-link:focus,
+    .skip-link:focus-visible { transform: translateY(0); outline: 2px solid #000; outline-offset: 2px; }
 
     /* ── Site header — single row on bg #F5F5F5 ──────────────── */
     #site-header {
@@ -285,7 +298,15 @@ const SOCIAL = [
 
     /* LEFT — logo */
     .header-logo { flex-shrink: 0; display: inline-block; }
-    .header-logo img { height: 64px; width: auto; display: block; }
+    /* Explicit aspect-ratio so the browser reserves the right width while the
+       image loads. Was causing CLS 0.79 because `width: auto` + missing
+       aspect-ratio meant the layout had no width hint until the PNG arrived. */
+    .header-logo img {
+      height: 64px;
+      width: auto;
+      aspect-ratio: 190 / 93;
+      display: block;
+    }
     @media (min-width: 1024px) {
       .header-logo img { height: 88px; }
     }
@@ -520,7 +541,9 @@ const SOCIAL = [
     .footer-address a:hover { color: var(--color-ink); }
     .footer-contact-link {
       align-self: flex-start;
-      color: var(--color-publisher-gold); /* #CAA949 per DOM */
+      /* Darkened from --color-publisher-gold #CAA949 to #7C5C00 for 4.5:1
+         contrast on the #F7F7F7 footer background. */
+      color: #7C5C00;
       font-family: var(--font-heading);
       font-size: 0.95rem;
       text-decoration: underline;
@@ -604,10 +627,11 @@ const SOCIAL = [
       font-size: 0.7rem;
       font-weight: 600;
       letter-spacing: 0.04em;
-      color: inherit;
+      /* Was: color inherit (#616161) + opacity 0.55 → effective #A5A5A5 which
+         only hit 2.29:1 on #F7F7F7. Solid #424242 + full opacity is 9.6:1. */
+      color: #424242;
       border: 1px solid currentColor;
       border-radius: 9999px;
-      opacity: 0.55;
       white-space: nowrap;
       vertical-align: middle;
     }
