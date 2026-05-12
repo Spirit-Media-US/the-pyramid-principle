@@ -125,6 +125,51 @@ function decodeText(s: string): string {
     );
   }
 
+  // ── themed-list-callout — verified live #brxe-wehpoc (Retailers
+  // Section 8, "Global Interest"). Three-part section: H2 + ordered
+  // list on the left, 3-image staggered collage on the right, then a
+  // full-width italic stat callout below both columns. The collage
+  // markup mirrors the image-collage-card 3-image pattern but with
+  // NO borders on the staggered images (verified). The stat callout
+  // (#brxe-hrznsc) is markup-as-H3 in source but semantically a
+  // long-form stat paragraph — re-rendered as <p>.
+  if (b.type === 'themed-list-callout') {
+    const items = (b.listItems || []) as string[];
+    const images = (b.images || []) as any[];
+    return (
+      <section class="jv-gi" id={b.id}>
+        <div class="jv-gi-container">
+          <div class="jv-gi-grid">
+            <div class="jv-gi-left">
+              {b.heading && <h2 class="jv-gi-h2">{decodeText(b.heading)}</h2>}
+              {items.length > 0 && (
+                <ol class="jv-gi-list">
+                  {items.map(i => (<li>{decodeText(i)}</li>))}
+                </ol>
+              )}
+            </div>
+            <div class="jv-gi-right">
+              {images.slice(0, 3).map((im, i) => {
+                if (!im || !im.file) return null;
+                const d = im.dims || (() => { try { return dims(im.file); } catch { return { width: 1024, height: 600 }; } })();
+                return (
+                  <img class={`jv-gi-img jv-gi-img-${i + 1}`}
+                       src={imgUrl(im, 1024)}
+                       width={d.width} height={d.height}
+                       alt={im.alt || ''}
+                       loading="lazy" decoding="async" />
+                );
+              })}
+            </div>
+          </div>
+          {b.statCallout && (
+            <p class="jv-gi-stat">{decodeText(b.statCallout)}</p>
+          )}
+        </div>
+      </section>
+    );
+  }
+
   // ── centered-callout — verified live #brxe-qfoozj (Retailers Section 7,
   // "A Heart-Gripping Story of Championship Resilience"). Centered H2 +
   // body subtitle above a 2-column image strip. Two images sit side-by-side
@@ -1627,6 +1672,137 @@ function decodeText(s: string): string {
   .jv-photo-carousel:not(:has(.swiper-initialized)) .jv-photo-next {
     opacity: 0;
     pointer-events: none;
+  }
+
+  /* ── themed-list-callout (verified live #brxe-wehpoc / #brxe-majuum
+       / #brxe-qgsjcw / #brxe-ryudzj / #brxe-avauva / #brxe-oirbyb /
+       #brxe-hrznsc) — Retailers Section 8 "Global Interest".
+     Section: padding 0 0 40px mobile, container 40px gap (col → row
+     desktop / col mobile).
+     LEFT col: H2 (Bebas Neue 40/55px, color #000, text-align left)
+       + <ol> (Open Sans 20px wt 400 color #616161 decimal markers).
+     RIGHT col: 3-image staggered collage. img-1 full width, img-2
+       50% left margin-top -13px, img-3 50% right margin-top -53px.
+       NO borders (unlike Vallely interview / Wooden About UCLA).
+     STAT callout (full-width below grid): Libre Baskerville italic
+       20px color #1d1d1f text-align center. Same font/size as the
+       Translation Editions heading. */
+  .jv-gi {
+    background: #fff;
+    padding: 0 0 40px;
+  }
+  .jv-gi-container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  @media (min-width: 768px) {
+    .jv-gi-container { padding: 0 var(--section-padding-x-desktop); }
+  }
+  .jv-gi-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+  }
+  @media (min-width: 768px) {
+    .jv-gi-grid { flex-direction: row; align-items: flex-start; gap: 40px; }
+  }
+  .jv-gi-left {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .jv-gi-right {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    row-gap: 15px;
+  }
+  @media (min-width: 768px) {
+    .jv-gi-left, .jv-gi-right { width: 50%; }
+  }
+  .jv-gi-h2 {
+    margin: 0 0 16px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 1;
+    letter-spacing: 0;
+    color: #000;
+    text-align: left;
+    text-transform: none;
+  }
+  @media (min-width: 768px) {
+    .jv-gi-h2 { font-size: 55px; line-height: 1; }
+  }
+  .jv-gi-list {
+    margin: 0;
+    padding-left: 24px;
+    font-family: 'Open Sans', system-ui, sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1.7;
+    color: #616161;
+    list-style: decimal outside;
+  }
+  .jv-gi-list li { margin-bottom: 4px; }
+
+  /* Right-col 3-image staggered collage. No borders. */
+  .jv-gi-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    border: 0;
+  }
+  @media (min-width: 768px) {
+    .jv-gi-img-1 { width: 100%; aspect-ratio: 1024 / 375; object-fit: cover; }
+    .jv-gi-img-2 {
+      width: 50%; aspect-ratio: 1024 / 538; object-fit: cover;
+      margin-top: -13px;
+      box-sizing: border-box;
+    }
+    .jv-gi-img-3 {
+      width: 50%; aspect-ratio: 700 / 646; object-fit: cover;
+      margin-top: -53px;
+      box-sizing: border-box;
+    }
+  }
+  /* Mobile: same staggered structure but at smaller widths. img-1 full,
+     img-2 and img-3 each ~50% with the same negative-margin overlap. */
+  @media (max-width: 767px) {
+    .jv-gi-img-1 { width: 100%; aspect-ratio: 1024 / 375; object-fit: cover; }
+    .jv-gi-img-2 {
+      width: 50%; aspect-ratio: 1024 / 538; object-fit: cover;
+      margin-top: -13px;
+    }
+    .jv-gi-img-3 {
+      width: 50%; aspect-ratio: 700 / 646; object-fit: cover;
+      margin-top: -53px;
+    }
+  }
+
+  .jv-gi-stat {
+    margin: 0;
+    padding: 0 20px;
+    font-family: 'Libre Baskerville', Georgia, serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 20px;
+    line-height: 1.3;
+    letter-spacing: 0;
+    color: #1d1d1f;
+    text-align: center;
+  }
+  @media (min-width: 768px) {
+    .jv-gi-stat { font-size: 24px; line-height: 1.4; padding: 0; }
   }
 
   /* ── centered-callout (verified live #brxe-qfoozj / #brxe-ytcpsg /

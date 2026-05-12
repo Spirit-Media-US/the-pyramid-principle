@@ -270,5 +270,32 @@
         "alt": ""
       }
     ]
+  },
+  {
+    "type": "themed-list-callout",
+    "id": "brxe-wehpoc",
+    "heading": "Global Interest",
+    "listItems": ["Sports", "Leadership", "Faith", "Cancer Research", "Entertainment"],
+    "images": [
+      {
+        "file": "sxLWowjDTE2A98z7JXVezg-1024x375.png",
+        "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/7432a636ddde1ea51f240f9c57d860c4a9230d1e-1024x375.png",
+        "dims": { "_type": "sanity.imageDimensions", "aspectRatio": 2.730666666666667, "height": 375, "width": 1024 },
+        "alt": ""
+      },
+      {
+        "file": "fyheb_01-1024x538.jpg",
+        "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/664d851ba462bd94d6cb20f1d0a0c2d3627bf766-1024x538.jpg",
+        "dims": { "_type": "sanity.imageDimensions", "aspectRatio": 1.9033457249070632, "height": 538, "width": 1024 },
+        "alt": ""
+      },
+      {
+        "file": "Global-Leadership.jpg",
+        "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/261fc33a70cff3b0c3d4b6f37cdfaf3fb4306627-700x646.jpg",
+        "dims": { "_type": "sanity.imageDimensions", "aspectRatio": 1.0835913312693499, "height": 646, "width": 700 },
+        "alt": ""
+      }
+    ],
+    "statCallout": "American Basketball is a popular sport globally, with over 3.3 billion fans and interest growing from 68% to 74% between 2019 and 2023. It's the second most popular sport in the world, after football."
   }
 ]
