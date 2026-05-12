@@ -125,6 +125,48 @@ function decodeText(s: string): string {
     );
   }
 
+  // ── languages-callout — verified live #brxe-lsgkhj (Retailers
+  // Section 12, "Top 20 Languages of the World"). Side-by-side
+  // (NOT stacked as user spec implied — verified flex-row desktop)
+  // layout: image left, H5 + 20-item language list right. Bold
+  // editorial markers on items 1-4 + 13 correspond to the book's
+  // current/planned editions (English, Mandarin, Hindi, Spanish,
+  // Japanese).
+  if (b.type === 'languages-callout') {
+    const img = b.image || {};
+    const langs = (b.languages || []) as any[];
+    return (
+      <section class="jv-langs" id={b.id}>
+        <div class="jv-langs-container">
+          <div class="jv-langs-image-wrap">
+            {img.sanityUrl && (
+              <img class="jv-langs-img"
+                   src={imgUrl(img, 1024)}
+                   width={img?.dims?.width || 640}
+                   height={img?.dims?.height || 427}
+                   alt={img.alt || ''}
+                   loading="lazy" decoding="async" />
+            )}
+          </div>
+          <div class="jv-langs-text-wrap">
+            {b.heading && <h5 class="jv-langs-h5">{decodeText(b.heading)}</h5>}
+            {langs.length > 0 && (
+              <ul class="jv-langs-list">
+                {langs.map((l: any) => (
+                  <li>
+                    {l.bold
+                      ? <strong>{decodeText(l.text)}</strong>
+                      : decodeText(l.text)}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   // ── populations-block — verified live #brxe-qpgplg (Retailers
   // Section 11, "Populations"). H2 + 2-col bullet list (split into
   // two <ul>s for a clean 4-left / 5-right desktop split, stacking
@@ -1755,6 +1797,91 @@ function decodeText(s: string): string {
     opacity: 0;
     pointer-events: none;
   }
+
+  /* ── languages-callout (verified live #brxe-lsgkhj / #brxe-klhjfg /
+       #brxe-ywajep / #brxe-wamiiz / #brxe-smsmgy / #brxe-wmzkig) —
+       Retailers Section 12.
+     Section: padding 40px 0 80px, flex row desktop / column mobile,
+       margin 0 20px, max-width container-derived.
+     Container: 2-col grid 1fr/1fr desktop, single col mobile.
+     LEFT col (image): 100% mobile / 50% desktop, image at native
+       aspect (640/427), border-radius 0.
+     RIGHT col (heading+list): align-items center on the H5, list
+       block-level. H5 = Libre Baskerville italic 25px wt 400 color
+       #1d1d1f text-align center. List = Open Sans 16/18px wt 400
+       color #616161, line-height 27.2px. <strong> inside <li>
+       renders weight 700 (semantic equivalent of source's <b>). */
+  .jv-langs {
+    background: #fff;
+    padding: 40px 20px 80px;
+  }
+  @media (min-width: 768px) {
+    .jv-langs { padding: 40px var(--section-padding-x-desktop) 80px; }
+  }
+  .jv-langs-container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+  @media (min-width: 768px) {
+    .jv-langs-container { flex-direction: row; align-items: center; gap: 50px; }
+  }
+  .jv-langs-image-wrap {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .jv-langs-text-wrap {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  @media (min-width: 768px) {
+    .jv-langs-image-wrap, .jv-langs-text-wrap { width: 50%; }
+  }
+  .jv-langs-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 640 / 427;
+    object-fit: cover;
+    border-radius: 0;
+  }
+  .jv-langs-h5 {
+    margin: 0 0 20px;
+    width: 100%;
+    font-family: 'Libre Baskerville', Georgia, serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 20px;
+    line-height: 1.3;
+    letter-spacing: 0;
+    color: #1d1d1f;
+    text-align: center;
+    text-transform: none;
+  }
+  @media (min-width: 768px) {
+    .jv-langs-h5 { font-size: 25px; }
+  }
+  .jv-langs-list {
+    margin: 0;
+    padding-left: 24px;
+    list-style: disc outside;
+    font-family: 'Roboto', system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    color: #616161;
+  }
+  @media (min-width: 768px) {
+    .jv-langs-list { font-family: var(--font-heading); font-size: 18px; }
+  }
+  .jv-langs-list li { margin-bottom: 4px; }
+  .jv-langs-list strong { font-weight: 700; }
 
   /* ── populations-block (verified live #brxe-qpgplg / #brxe-eurzxi /
        #brxe-mwzgcc / #brxe-ddqmnk / #brxe-jwolrh / #brxe-toitaz /

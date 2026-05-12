@@ -384,5 +384,38 @@
       "dims": { "_type": "sanity.imageDimensions", "aspectRatio": 1.3333333333333333, "height": 480, "width": 640 },
       "alt": ""
     }
+  },
+  {
+    "type": "languages-callout",
+    "id": "brxe-lsgkhj",
+    "image": {
+      "file": "dan-gold-xy4zPgetBQg-unsplash.jpg",
+      "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/e8638ca2d1dba8c5fdcd43fb99cc76aa39eab708-640x427.jpg",
+      "dims": { "_type": "sanity.imageDimensions", "aspectRatio": 1.4988290398126465, "height": 427, "width": 640 },
+      "alt": "Photo by Dan Gold on Unsplash"
+    },
+    "heading": "Top 20 most spoken languages of the world representing over 6.5B native speakers or 80% of the world's population…",
+    "languages": [
+      { "text": "English 1.4B", "bold": true },
+      { "text": "Mandarin (Chinese) – 1.3B", "bold": true },
+      { "text": "Hindi – 602M", "bold": true },
+      { "text": "Spanish – 548M", "bold": true },
+      { "text": "French – 280M" },
+      { "text": "Arabic – 274M" },
+      { "text": "Bengali – 272M" },
+      { "text": "Russian – 258M" },
+      { "text": "Portuguese – 257M" },
+      { "text": "Urdu – 231M" },
+      { "text": "Indonesians – 199M" },
+      { "text": "German – 134M" },
+      { "text": "Japanese – 125M", "bold": true },
+      { "text": "Nigerian Pidgin – 121M" },
+      { "text": "Marathi – 99M" },
+      { "text": "Telugu – 96M" },
+      { "text": "Turkish – 88M" },
+      { "text": "Tamil – 86M" },
+      { "text": "Yue Chinese – 86M" },
+      { "text": "Vietnamese – 85M" }
+    ]
   }
 ]

@@ -119,6 +119,11 @@ Then run: `git checkout dev && git pull origin dev`
   - `/retailers/` Populations list copy — cites 1.42B / 1.44B / 745M / etc. with no source citation. Confirm with Kevin if these need attribution.
   - `/retailers/` Populations list logical issue — "Spanish (all) – 575M" includes Brazil as a sub-item (Brazil's primary language is Portuguese, not Spanish). Either the parent label should be "Latin America" / "Lusophone + Hispanophone" or Brazil should not be nested under "Spanish". Flag for Kevin to clarify intent.
   - `/retailers/` Populations image (`ag-pic-PllbLCTilUo-unsplash.jpg`) — Unsplash source, permissive license, no clearance concern. Confirm with Kevin what the photo depicts for proper alt text (currently empty).
+  - `/retailers/` Top 20 Languages list item 1 "English 1.4B" — missing the em-dash that every other item has ("English **1.4B**" vs "Mandarin (Chinese) **– 1.3B**"). Source inconsistency, preserved verbatim. Phase 6 polish — add the em-dash.
+  - `/retailers/` Top 20 Languages list item 11 "Indonesians – 199M" — "Indonesians" is the people; the language is "Indonesian" (singular). Likely a typo. Preserved verbatim. Confirm with Kevin.
+  - `/retailers/` Top 20 Languages bold treatment — items 1-4 (English, Mandarin, Hindi, Spanish) and item 13 (Japanese) are bold; all others regular. The bolded set matches the book's current + planned translation editions (per homepage Latest Blog + Section 6 "Translation Editions Coming Soon"). Editorial signal is intentional — verified with Kevin.
+  - `/retailers/` Top 20 Languages population stats — no source citation. Same question as the Populations section.
+  - `/retailers/` Top 20 Languages image (`dan-gold-xy4zPgetBQg-unsplash.jpg`) — Unsplash source, photographer credit Dan Gold. Alt text set to "Photo by Dan Gold on Unsplash" per Unsplash's recommended (not required) attribution practice.
 
 ### Phases 5-9
 - [ ] Pending
