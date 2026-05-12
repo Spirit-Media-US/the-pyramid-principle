@@ -31,6 +31,10 @@ const currentYear = new Date().getFullYear();
 const siteOrigin = (Astro.site && Astro.site.toString().replace(/\/$/, '')) || '';
 const canonicalURL = siteOrigin ? new URL(Astro.url.pathname, siteOrigin).href : Astro.url.pathname;
 
+// Nav active-state: normalize trailing slash for comparison.
+const currentPath = Astro.url.pathname.replace(/\/+$/, '') + '/';
+const isActive = (href: string) => href.replace(/\/+$/, '') + '/' === currentPath;
+
 const PRIMARY_NAV = [
   {
     label: 'About', href: '/john-vallely/',
@@ -116,18 +120,28 @@ const SOCIAL = [
         </ul>
 
         <nav class="primary-nav" aria-label="Primary">
-          {PRIMARY_NAV.map(item => (
-            item.sub ? (
-              <div class="nav-item nav-dropdown">
+          {PRIMARY_NAV.map(item => {
+            const subActive = item.sub && item.sub.some(s => isActive(s.href));
+            const itemActive = !item.sub && isActive(item.href);
+            return item.sub ? (
+              <div class={`nav-item nav-dropdown${subActive ? ' is-active' : ''}`}>
                 <button type="button" class="nav-link">{item.label} <span class="caret" aria-hidden="true">▾</span></button>
                 <ul class="nav-submenu">
-                  {item.sub.map(s => (<li><a href={s.href}>{s.label}</a></li>))}
+                  {item.sub.map(s => (
+                    <li>
+                      <a href={s.href}
+                         class={isActive(s.href) ? 'is-active' : ''}
+                         aria-current={isActive(s.href) ? 'page' : undefined}>{s.label}</a>
+                    </li>
+                  ))}
                 </ul>
               </div>
             ) : (
-              <a href={item.href} class="nav-link">{item.label}</a>
-            )
-          ))}
+              <a href={item.href}
+                 class={`nav-link${itemActive ? ' is-active' : ''}`}
+                 aria-current={itemActive ? 'page' : undefined}>{item.label}</a>
+            );
+          })}
         </nav>
 
         <button type="button" id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
@@ -136,18 +150,28 @@ const SOCIAL = [
       </div>
 
       <nav id="mobile-menu" class="mobile-menu" aria-label="Mobile">
-        {PRIMARY_NAV.map(item => (
-          item.sub ? (
-            <details class="mobile-nav-item">
+        {PRIMARY_NAV.map(item => {
+          const subActive = item.sub && item.sub.some(s => isActive(s.href));
+          const itemActive = !item.sub && isActive(item.href);
+          return item.sub ? (
+            <details class={`mobile-nav-item${subActive ? ' is-active' : ''}`} open={subActive}>
               <summary>{item.label} <span aria-hidden="true">▾</span></summary>
               <ul>
-                {item.sub.map(s => (<li><a href={s.href}>{s.label}</a></li>))}
+                {item.sub.map(s => (
+                  <li>
+                    <a href={s.href}
+                       class={isActive(s.href) ? 'is-active' : ''}
+                       aria-current={isActive(s.href) ? 'page' : undefined}>{s.label}</a>
+                  </li>
+                ))}
               </ul>
             </details>
           ) : (
-            <a href={item.href} class="mobile-nav-link">{item.label}</a>
-          )
-        ))}
+            <a href={item.href}
+               class={`mobile-nav-link${itemActive ? ' is-active' : ''}`}
+               aria-current={itemActive ? 'page' : undefined}>{item.label}</a>
+          );
+        })}
         <ul class="mobile-social" aria-label="Social media">
           {SOCIAL.map(s => (
             <li>
@@ -320,6 +344,8 @@ const SOCIAL = [
       gap: 4px;
     }
     .nav-link:hover { color: var(--color-brand-yellow); text-decoration: none; }
+    .nav-link.is-active,
+    .nav-dropdown.is-active > .nav-link { color: var(--color-author-blue, #2774AE); }
     .caret { font-size: 0.75em; }
 
     .nav-dropdown { position: relative; }
@@ -353,6 +379,7 @@ const SOCIAL = [
       text-transform: uppercase;
     }
     .nav-submenu a:hover { background: #fff; text-decoration: none; color: var(--color-brand-yellow); }
+    .nav-submenu a.is-active { color: var(--color-author-blue, #2774AE); }
 
     /* Mobile menu */
     .mobile-menu-btn {
@@ -407,6 +434,8 @@ const SOCIAL = [
       padding: 10px 0;
       font-size: 18px;
     }
+    .mobile-menu details a.is-active,
+    .mobile-menu .mobile-nav-link.is-active { color: var(--color-author-blue, #2774AE); }
     .mobile-social {
       display: flex;
       list-style: none;

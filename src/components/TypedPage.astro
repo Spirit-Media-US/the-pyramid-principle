@@ -5,6 +5,7 @@
 //
 // Block types handled:
 //   _meta                — page title/description (no markup)
+//   title-card           — centered hero: eyebrow row (— text —) + H1
 //   hero-intro           — eyebrow + H1 + body + sidebar image
 //   highlight-cards      — 4 callout cards with left-border accent
 //   featured-podcasts    — 2 square card links
@@ -121,6 +122,32 @@ function decodeText(s: string): string {
     return (
       <section class="jv-section-h2-banner" id={b.id}>
         <h2 class="jv-section-h2-banner-text" style={styleStr}>{b.text}</h2>
+      </section>
+    );
+  }
+
+  // ── title-card — centered hero: eyebrow row (—  TEXT  —) + H1.
+  // Verified live #brxe-7d2e09 (the-pyramid-success page):
+  //   Section: white bg, padding 40/20/0 mobile, 80/0/40/0 desktop.
+  //   Eyebrow row: flex-row, justify-center, dividers flank H3 on both sides.
+  //   Dividers: 1px top-border #616161, width 6% mobile / 10% desktop.
+  //   Eyebrow text: H3 tag (semantic), styled small — Montserrat
+  //   10px mobile / 15px desktop, color #696969, uppercase, margin-left 10px.
+  //   H1: Bebas Neue 55px mobile / 60px desktop, color #000, line-height 1,
+  //   text-align center, width 100%.
+  // CAR: H3 used as a small eyebrow is unusual semantically — preserved
+  // for Phase 3 fidelity, flagged for Phase 6 review.
+  if (b.type === 'title-card') {
+    return (
+      <section class="tc-section" id={b.id}>
+        <div class="tc-inner">
+          <div class="tc-eyebrow-row">
+            <span class="tc-eyebrow-divider" aria-hidden="true"></span>
+            <h3 class="tc-eyebrow">{b.eyebrow}</h3>
+            <span class="tc-eyebrow-divider" aria-hidden="true"></span>
+          </div>
+          <h1 class="tc-h1">{b.h1}</h1>
+        </div>
       </section>
     );
   }
@@ -3048,5 +3075,71 @@ function decodeText(s: string): string {
     height: 100%;
     border: 0;
     display: block;
+  }
+
+  /* ── title-card — centered hero verified live #brxe-7d2e09 ── */
+  .tc-section {
+    background: #fff;
+    padding: 40px 0 0;
+  }
+  @media (min-width: 768px) {
+    .tc-section { padding: 80px 0 40px; }
+  }
+  .tc-inner {
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding: 0 var(--section-padding-x-mobile);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 5px;
+  }
+  @media (min-width: 768px) {
+    .tc-inner { padding: 0 var(--section-padding-x-desktop); }
+  }
+  .tc-eyebrow-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    color: #424242;
+    width: 100%;
+  }
+  .tc-eyebrow-divider {
+    flex-shrink: 0;
+    width: 6%;
+    height: 0;
+    border-top: 1px solid #616161;
+  }
+  @media (min-width: 768px) {
+    .tc-eyebrow-divider { width: 10%; }
+  }
+  .tc-eyebrow {
+    margin: 0 0 0 10px;
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 10px;
+    color: #696969;
+    text-transform: uppercase;
+    line-height: 1.2;
+    letter-spacing: 0.04em;
+  }
+  .tc-eyebrow + .tc-eyebrow-divider { margin-left: 10px; }
+  @media (min-width: 768px) {
+    .tc-eyebrow { font-size: 15px; }
+  }
+  .tc-h1 {
+    margin: 0;
+    width: 100%;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 55px;
+    line-height: 1;
+    letter-spacing: 0.01em;
+    color: #000;
+    text-align: center;
+  }
+  @media (min-width: 768px) {
+    .tc-h1 { font-size: 60px; }
   }
 </style>

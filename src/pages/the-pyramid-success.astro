@@ -1,18 +1,20 @@
 ---
+// The Pyramid Success — programmatic rebuild via typed blocks.
+// Source: https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/the-pyramid-success/
+// Section 1 (#brxe-7d2e09): centered title-card hero (eyebrow + H1).
+// Data:   src/data/pages/the-pyramid-success.json (typed blocks)
+// Renderer: src/components/TypedPage.astro (title-card block)
+//
+// LCP element is the H1 text — no image preload needed (perf-gate trait 2
+// is satisfied because there is no hero image on this page; text-LCP paints
+// from the HTML stream).
 import Layout from '../layouts/Layout.astro';
-import StructuredPage from '../components/StructuredPage.astro';
-import { srcW, dims } from '../lib/img';
-import data from '../data/pages/the-pyramid-success.json';
+import TypedPage from '../components/TypedPage.astro';
+import blocks from '../data/pages/the-pyramid-success.json';
 
-const HERO = 'Untitled-design-2.png';
-const heroMobile = srcW(HERO, 500);
-const heroDesktop = srcW(HERO, 800);
+const meta = (blocks as any[]).find(b => b.type === '_meta') || {};
 ---
-<Layout title={data.title} description={data.description} ogImage={heroDesktop}>
-  <Fragment slot="head">
-    <link rel="preload" as="image" href={heroDesktop} imagesrcset={`${heroMobile} 500w, ${heroDesktop} 800w`} imagesizes="(max-width: 640px) 500px, 800px" fetchpriority="high" />
-  </Fragment>
-  <article class="page-body">
-    <StructuredPage blocks={data.blocks as any} heroFile={HERO} />
-  </article>
+<Layout title={meta.title || 'The Pyramid Success | The Pyramid Principle'}
+        description={meta.description || ''}>
+  <TypedPage blocks={blocks as any[]} />
 </Layout>

@@ -124,6 +124,7 @@ Then run: `git checkout dev && git pull origin dev`
   - `/retailers/` Top 20 Languages bold treatment — items 1-4 (English, Mandarin, Hindi, Spanish) and item 13 (Japanese) are bold; all others regular. The bolded set matches the book's current + planned translation editions (per homepage Latest Blog + Section 6 "Translation Editions Coming Soon"). Editorial signal is intentional — verified with Kevin.
   - `/retailers/` Top 20 Languages population stats — no source citation. Same question as the Populations section.
   - `/retailers/` Top 20 Languages image (`dan-gold-xy4zPgetBQg-unsplash.jpg`) — Unsplash source, photographer credit Dan Gold. Alt text set to "Photo by Dan Gold on Unsplash" per Unsplash's recommended (not required) attribution practice.
+  - `/the-pyramid-success/` Section 1 hero (#brxe-7d2e09) eyebrow uses `<h3>` for the small "THE PYRAMID PRINCIPLE" caption. Source styles it 15px Montserrat (10px mobile) — visually a small eyebrow caption, not a section heading. Heading-level outline is unusual: this H3 outranks subsequent H3s elsewhere in the page (when later sections are added). Preserved verbatim per Phase 3 fidelity. Phase 6 review: downgrade to `<p class="tc-eyebrow">` or change tag without changing styling.
 
 ### Phases 5-9
 - [ ] Pending
