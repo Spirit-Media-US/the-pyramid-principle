@@ -84,9 +84,13 @@
     ]
   },
   {
+    "type": "section-h2",
+    "id": "brxe-vflqgb",
+    "text": "A heart-gripping story of championship resilience"
+  },
+  {
     "type": "video-popup-grid",
     "id": "brxe-glibgo",
-    "heading": "A heart-gripping story of championship resilience",
     "tiles": [
       {
         "videoId": "lfSEgefu5O8",

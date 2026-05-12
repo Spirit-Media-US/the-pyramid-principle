@@ -107,6 +107,17 @@ function decodeText(s: string): string {
     );
   }
 
+  // ── section-h2 — standalone H2 banner used as a section break ──
+  // Verified live #brxe-vflqgb: Bebas Neue 55px weight 700, color #000,
+  // text-align left, margin 40px 0 20px, full container width.
+  if (b.type === 'section-h2') {
+    return (
+      <section class="jv-section-h2-banner" id={b.id}>
+        <h2 class="jv-section-h2-banner-text">{b.text}</h2>
+      </section>
+    );
+  }
+
   // ── standalone highlight-card (reusable block; can appear at top level) ──
   if (b.type === 'highlight-card') {
     const lines = b.lines || (b.text ? [b.text] : []);
@@ -161,7 +172,7 @@ function decodeText(s: string): string {
     return (
       <section class="jv-videos">
         <div class="jv-videos-container">
-          <h2 class="jv-section-h2 jv-videos-h2">{b.heading}</h2>
+          {b.heading && <h2 class="jv-section-h2 jv-videos-h2">{b.heading}</h2>}
           <div class="jv-video-grid">
             {b.tiles.map((t: any, i: number) => (
               <div class="jv-video-tile-wrap">
@@ -479,6 +490,32 @@ function decodeText(s: string): string {
   .jv-podcast-card img {
     width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover;
     border-radius: 8px; display: block;
+  }
+
+  /* ── Section-h2 banner (verified #brxe-vflqgb / #brxe-huvxvb / #brxe-ccqjqa) ──
+     Standalone H2 used as a section break. Bebas Neue 55px desktop / 40px mobile
+     (40px → fluid clamp), color #000, text-align left, margin 40px 0 20px.
+     Mobile container has margin-top: -34px to pull up slightly into prior section. */
+  .jv-section-h2-banner {
+    padding: 0 var(--section-padding-x-mobile);
+    margin-top: -34px;
+  }
+  @media (min-width: 768px) {
+    .jv-section-h2-banner {
+      padding: 0 var(--section-padding-x-desktop);
+      margin-top: 0;
+    }
+  }
+  .jv-section-h2-banner-text {
+    max-width: var(--container-max);
+    margin: 40px auto 20px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2.25rem, 5vw, 3.4375rem); /* 40px mobile, 55px desktop */
+    line-height: 1;
+    color: #000;
+    text-align: left;
+    text-transform: none;
   }
 
   /* ── Video popup grid (verified #brxe-glibgo + #brxe-ztzinx + #brxe-wdrhlk) ──
