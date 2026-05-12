@@ -374,6 +374,62 @@ function decodeText(s: string): string {
     );
   }
 
+  // ── retailer-hero — used for /retailers/ landing hero #brxe-zqgdua.
+  // Two-column layout: LEFT = eyebrow + H1 + (desktop-only) book card,
+  // RIGHT = book image + (mobile-only) book card + copyright. The "book
+  // card" (H3 subtitle + 3-line description) is duplicated in both
+  // columns; CSS hides whichever isn't appropriate for the viewport.
+  // Source uses the same responsive duplication pattern via Bricks.
+  if (b.type === 'retailer-hero') {
+    const lines = (b.bodyLines || []) as string[];
+    return (
+      <section class="rt-hero" id={b.id}>
+        <div class="rt-hero-container">
+          <div class="rt-hero-left">
+            <div class="jv-eyebrow-row">
+              <span class="jv-eyebrow-divider" aria-hidden="true"></span>
+              <h6 class="jv-eyebrow">{b.eyebrow}</h6>
+            </div>
+            <h1 class="jv-h1">{decodeText(b.h1)}</h1>
+            <div class="rt-hero-card rt-hero-card-desktop" aria-hidden="false">
+              {b.subtitle && <h3 class="rt-card-h3">{decodeText(b.subtitle)}</h3>}
+              <p class="rt-card-lines">
+                {lines.map((line, i) => (
+                  <>{i > 0 && <br />}{decodeText(line)}</>
+                ))}
+              </p>
+            </div>
+          </div>
+          <div class="rt-hero-right">
+            {b.image && b.image.sanityUrl && (
+              <img class="rt-hero-img"
+                   src={imgUrl(b.image, 720)}
+                   width={b.image?.dims?.width || 309}
+                   height={b.image?.dims?.height || 438}
+                   alt={b.image.alt || ''}
+                   loading="eager" fetchpriority="high" decoding="async" />
+            )}
+            <div class="rt-hero-card rt-hero-card-mobile" aria-hidden="true">
+              {b.subtitle && <h3 class="rt-card-h3">{decodeText(b.subtitle)}</h3>}
+              <p class="rt-card-lines">
+                {lines.map((line, i) => (
+                  <>{i > 0 && <br />}{decodeText(line)}</>
+                ))}
+              </p>
+            </div>
+            {b.copyright && (
+              <div class="rt-hero-copyright">
+                {b.copyright.split('\n').map((line: string, i: number) => (
+                  <>{i > 0 && <br />}{decodeText(line)}</>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   // ── image-collage-card — used for "About UCLA" #brxe-c14394 on the
   // Coach Wooden bio page. Mirror of the John Vallely interview-questions
   // collage (3-image staggered overlap, but images LEFT instead of RIGHT
@@ -1360,6 +1416,100 @@ function decodeText(s: string): string {
   .jv-photo-carousel:not(:has(.swiper-initialized)) .jv-photo-next {
     opacity: 0;
     pointer-events: none;
+  }
+
+  /* ── retailer-hero (verified live #brxe-zqgdua / #brxe-onaeze /
+       #brxe-yjtnrg / #brxe-llcfuo) — Retailers landing hero.
+     Section: bg #fff, padding 40px 20px mobile / 80px var desktop.
+     Container: flex row wrap; on mobile both cols wrap to 100%.
+     LEFT col: eyebrow + H1 + (desktop-only) book-info card.
+     RIGHT col: book image + (mobile-only) book-info card + copyright.
+     The card content is duplicated in HTML; CSS hides whichever copy
+     doesn't fit the current viewport. Mirrors the source's responsive
+     content-swap pattern (Bricks @media max-width: 478px overrides). */
+  .rt-hero { background: #fff; }
+  .rt-hero-container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  @media (min-width: 768px) {
+    .rt-hero-container { padding: 80px var(--section-padding-x-desktop); }
+  }
+  .rt-hero-left {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .rt-hero-right {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  @media (min-width: 768px) {
+    .rt-hero-left { width: calc(50% - 10px); }
+    .rt-hero-right { width: calc(50% - 10px); }
+  }
+  .rt-hero-img {
+    display: block;
+    width: 100%;
+    max-width: 360px;
+    height: auto;
+    aspect-ratio: 309 / 438;
+    border-radius: 5px;
+  }
+  .rt-card-h3 {
+    margin: 25px 0 -10px;
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-weight: 800;
+    font-size: 21px;
+    line-height: 1.2;
+    letter-spacing: 0;
+    color: var(--color-brand-yellow, #ffd100);
+    text-align: left;
+    text-transform: uppercase;
+    width: 100%;
+  }
+  @media (max-width: 478px) {
+    .rt-card-h3 { font-size: 25px; line-height: 1.2; }
+  }
+  .rt-card-lines {
+    margin: 10px 0 20px;
+    font-family: var(--font-heading);
+    font-size: 18px;
+    line-height: 1.7;
+    color: #616161;
+  }
+  @media (max-width: 478px) {
+    .rt-card-lines { font-family: 'Roboto', system-ui, sans-serif; }
+  }
+  .rt-hero-copyright {
+    margin: 10px 0 30px;
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.7;
+    color: #616161;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  @media (max-width: 478px) {
+    .rt-hero-copyright { font-size: 13px; order: 1; }
+  }
+  /* Responsive content-swap for the book-info card. Source uses Bricks
+     @media (max-width: 478px) to flip which copy is visible. Match. */
+  .rt-hero-card-mobile { display: none; }
+  @media (max-width: 478px) {
+    .rt-hero-card-desktop { display: none; }
+    .rt-hero-card-mobile { display: block; }
   }
 
   /* ── image-collage-card (verified live #brxe-c14394 / #brxe-09d332 /
