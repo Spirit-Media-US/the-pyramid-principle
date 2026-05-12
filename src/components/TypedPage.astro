@@ -235,13 +235,27 @@ function decodeText(s: string): string {
     const mediaClass = layout === 'collage' ? 'ppc-media ppc-media-collage' : 'ppc-media';
     const imageCol = (
       <div class={mediaClass} data-anim={imageAnim}>
-        {images.map((img, i) => (
-          <img src={imgUrl(img, 800)}
-               style={collageStyles[i] || ''}
-               width={img.dims?.width || 600} height={img.dims?.height || 600}
-               alt={img.alt || ''}
-               loading="lazy" decoding="async" />
-        ))}
+        {images.map((img: any, i: number) => {
+          const inlineStyle = collageStyles[i] || '';
+          if (img.caption) {
+            return (
+              <figure class="ppc-media-figure" style={inlineStyle}>
+                <img src={imgUrl(img, 800)}
+                     width={img.dims?.width || 600} height={img.dims?.height || 600}
+                     alt={img.alt || ''}
+                     loading="lazy" decoding="async" />
+                <figcaption class="ppc-media-caption">{decodeText(img.caption)}</figcaption>
+              </figure>
+            );
+          }
+          return (
+            <img src={imgUrl(img, 800)}
+                 style={inlineStyle}
+                 width={img.dims?.width || 600} height={img.dims?.height || 600}
+                 alt={img.alt || ''}
+                 loading="lazy" decoding="async" />
+          );
+        })}
       </div>
     );
     return (
@@ -3445,7 +3459,8 @@ function decodeText(s: string): string {
       row-gap: 0;
       column-gap: 0;
     }
-    .ppc-media-collage img {
+    /* Direct img child (no caption) — geometry on the img itself. */
+    .ppc-media-collage > img {
       width: var(--cg-w, 100%);
       height: var(--cg-h, auto);
       margin-top: var(--cg-mt, 0);
@@ -3457,20 +3472,54 @@ function decodeText(s: string): string {
       object-position: var(--cg-op, center);
       object-fit: cover;
     }
+    /* Figure child (image with caption) — geometry on the figure; the
+       inner img inherits via custom-property cascade and fills the box. */
+    .ppc-media-collage > figure.ppc-media-figure {
+      width: var(--cg-w, 100%);
+      margin: var(--cg-mt, 0) 0 0 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .ppc-media-collage > figure.ppc-media-figure > img {
+      width: 100%;
+      height: var(--cg-h, auto);
+      border-top: var(--cg-bt, 0) solid #fff;
+      border-right: var(--cg-br, 0) solid #fff;
+      border-bottom: var(--cg-bb, 0) solid #fff;
+      border-left: var(--cg-bl, 0) solid #fff;
+      border-radius: 0;
+      object-position: var(--cg-op, center);
+      object-fit: cover;
+    }
+  }
+  .ppc-media-caption {
+    margin: 0;
+    padding: 6px 8px 0;
+    font-family: var(--font-heading);
+    font-size: 12px;
+    font-style: italic;
+    color: #888;
+    line-height: 1.4;
+    text-align: center;
   }
   @media (max-width: 1023px) {
     .ppc-media-collage {
       flex-direction: column;
       gap: 15px;
     }
-    .ppc-media-collage img {
+    .ppc-media-collage > img,
+    .ppc-media-collage > figure.ppc-media-figure {
       width: 100%;
-      height: auto;
       margin-top: 0;
+    }
+    .ppc-media-collage > img,
+    .ppc-media-collage > figure.ppc-media-figure > img {
+      height: auto;
       border: 0;
       border-radius: 8px;
       object-position: center;
     }
+    .ppc-media-figure { margin: 0; }
   }
 
   /* ── data-anim — IntersectionObserver-driven reveal animations.

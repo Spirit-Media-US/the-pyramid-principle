@@ -215,11 +215,35 @@
         "dims": {
           "width": 1024,
           "height": 827
-        }
+        },
+        "caption": "Julius Shulman photography archive, 1936-1997."
       }
     ],
     "bio": "Orange Coast College (OCC) is a public community college in Costa Mesa in Orange County, California. It was founded in 1947, with its first classes opening in the fall of 1948. It provides Associate of Art and Associate of Science degrees, certificates of achievement, and lower-division classes transferable to other colleges and universities. The college enrolls approximately 24,000 undergraduate students. In terms of population size, Orange Coast College is the third-largest college in Orange County.",
-    "learnMoreHref": "https://en.wikipedia.org/wiki/Orange_Coast_College"
+    "learnMoreHref": "https://en.wikipedia.org/wiki/Orange_Coast_College",
+    "layout": "collage",
+    "collageGeometry": [
+      {
+        "width": "100%",
+        "height": "440px"
+      },
+      {
+        "width": "50%",
+        "height": "213px",
+        "marginTop": "-13px",
+        "borderTop": 5,
+        "borderBottom": 5,
+        "objectPosition": "20% 50%"
+      },
+      {
+        "width": "50%",
+        "height": "200px",
+        "marginTop": "-53px",
+        "borderTop": 10,
+        "borderBottom": 10,
+        "borderLeft": 10
+      }
+    ]
   },
   {
     "type": "person-profile-card",
