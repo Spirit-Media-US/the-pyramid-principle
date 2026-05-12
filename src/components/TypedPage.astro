@@ -77,7 +77,10 @@ function decodeText(s: string): string {
                    alt={b.eyebrow}
                    loading="lazy" decoding="async" />
             )}
-            <p class="jv-body">{decodeText(b.body)}</p>
+            {b.bodyHtml
+              ? <p class="jv-body" set:html={b.bodyHtml} />
+              : <p class="jv-body">{decodeText(b.body)}</p>
+            }
             {cards.length > 0 && (
               <div class="jv-highlight-stack">
                 {cards.map(c => (
@@ -705,6 +708,14 @@ function decodeText(s: string): string {
     color: var(--color-text);
   }
   @media (min-width: 768px) { .jv-body { font-size: 18px; line-height: 1.7; } }
+  /* Inline link inside the hero body — matches source's inline
+     style="color:#ffd100; text-decoration:underline" on the
+     wrapping <span> inside the <a>. */
+  .jv-hero-link {
+    color: var(--color-brand-yellow, #ffd100);
+    text-decoration: underline;
+  }
+  .jv-hero-link:hover { text-decoration: underline; opacity: 0.85; }
 
   /* Highlight card stack — 4 callouts, 10px gap between */
   .jv-highlight-stack {

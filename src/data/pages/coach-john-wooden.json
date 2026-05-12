@@ -1,59 +1,25 @@
-{
-  "slug": "coach-john-wooden",
-  "path": "/tpp/coach-john-wooden/",
-  "title": "The Pyramid Principle | Coach John Wooden",
-  "description": "John Wooden, the legendary basketball coach, led UCLA to 10 NCAA championships in 12 years. ,Available Now: The Pyramid Principle | A Battle-Tested Hall-of-Famer Discovers UCLA Coach John Wooden’s True Meaning of Success | Based on the Life of John Vallely with Paul Weissenstein.",
-  "h1": [
-    "College’s Most Winningest Coach Ever!"
-  ],
-  "blocks": [
-    {
-      "tag": "h6",
-      "text": "Coach John Wooden"
-    },
-    {
-      "tag": "h1",
-      "text": "College’s Most Winningest Coach Ever!"
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/09/American-basketball-coach-John-Wooden-1993.webp",
-      "alt": "",
-      "naturalWidth": 117,
-      "naturalHeight": 150
-    },
-    {
-      "tag": "p",
-      "text": "About Coach John Wooden: John Wooden, widely regarded as one of the greatest coaches in sports history, guided the UCLA Bruins to an unprecedented ten NCAA championships in twelve years, including seven consecutive titles from 1967 to 1973. His legacy goes beyond basketball; he mentored legends such as Kareem Abdul-Jabbar and Bill Walton, instilling in them the values of excellence and integrity. Wooden, who was inducted into the Naismith Memorial Basketball Hall of Fame as both a player and a coach, created the Pyramid of Success as a timeless framework for achieving greatness in all aspects of life, reflecting his deep commitment to personal development and character-building. As he famously stated, “Success is peace of mind that is the direct result of self-satisfaction in knowing you did your best to become the best that you are capable of becoming.”"
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/09/USATSI_8741865.webp",
-      "alt": "",
-      "naturalWidth": 1000,
-      "naturalHeight": 600
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/09/VipsCafe_24-9-1024x685.jpg",
-      "alt": "",
-      "naturalWidth": 1024,
-      "naturalHeight": 685
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/09/VipsCafe_24-2-scaled.jpg",
-      "alt": "",
-      "naturalWidth": 1280,
-      "naturalHeight": 1015
-    },
-    {
-      "tag": "h2",
-      "text": "ABOUT UCLA"
-    },
-    {
-      "tag": "p",
-      "text": "The University of California, Los Angeles (UCLA) is a public research university and one of the ten campuses of the University of California system. Ranked by publications as among the best universities in the world, UCLA consistently excels in research, academics, and innovation. Competing in athletics as the Bruins, UCLA has won 123 NCAA team championships in the Pac-12, second only to Stanford University. Among their sports achievements, basketball features their most impressive victories, owing to Coach John Wooden."
+[
+  {
+    "type": "_meta",
+    "title": "The Pyramid Principle | Coach John Wooden",
+    "description": "About Coach John Wooden — college basketball's most winningest coach, architect of the Pyramid of Success, and 10× NCAA champion at UCLA.",
+    "slug": "coach-john-wooden"
+  },
+  {
+    "type": "hero-intro",
+    "id": "brxe-b98272",
+    "eyebrow": "Coach John Wooden",
+    "h1": "College's Most Winningest Coach Ever!",
+    "bodyHtml": "<b>About Coach John Wooden:</b> John Wooden, widely regarded as one of the greatest coaches in sports history, guided the <a class=\"jv-hero-link\" href=\"https://uclabruins.com/\" target=\"_blank\" rel=\"noopener noreferrer\">UCLA Bruins</a> to an unprecedented ten NCAA championships in twelve years, including seven consecutive titles from 1967 to 1973. His legacy goes beyond basketball; he mentored legends such as Kareem Abdul-Jabbar and Bill Walton, instilling in them the values of excellence and integrity. Wooden, who was inducted into the Naismith Memorial Basketball Hall of Fame as both a player and a coach, created the Pyramid of Success as a timeless framework for achieving greatness in all aspects of life, reflecting his deep commitment to personal development and character-building. As he famously stated, “Success is peace of mind that is the direct result of self-satisfaction in knowing you did your best to become the best that you are capable of becoming.”",
+    "image": {
+      "file": "American-basketball-coach-John-Wooden-1993.webp",
+      "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/4c3cd888086905f358f6eb7b4f057b319be7e314-351x450.webp",
+      "dims": {
+        "_type": "sanity.imageDimensions",
+        "aspectRatio": 0.78,
+        "height": 450,
+        "width": 351
+      }
     }
-  ]
-}
+  }
+]

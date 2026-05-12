@@ -1,19 +1,31 @@
 ---
+// Coach John Wooden bio page — programmatic typed-block rebuild,
+// mirroring john-vallely.astro / paul-weissenstein.astro.
+// Data:     src/data/pages/coach-john-wooden.json (typed blocks)
+// Renderer: src/components/TypedPage.astro
 import Layout from '../layouts/Layout.astro';
-import StructuredPage from '../components/StructuredPage.astro';
+import TypedPage from '../components/TypedPage.astro';
 import { srcW, dims } from '../lib/img';
-import data from '../data/pages/coach-john-wooden.json';
+import blocks from '../data/pages/coach-john-wooden.json';
 
-const HERO = 'USATSI_8741865.webp';
-const heroMobile = srcW(HERO, 600);
-const heroDesktop = srcW(HERO, 1000);
+const meta = (blocks as any[]).find(b => b.type === '_meta') || {};
+
+// LCP hero: the 1993 portrait. Native 351x450 .webp — small file,
+// preload widths kept close to native to avoid upscaling artefacts.
+const HERO = 'American-basketball-coach-John-Wooden-1993.webp';
+const heroMobile = srcW(HERO, 351);
+const heroDesktop = srcW(HERO, 480);
 const heroDims = dims(HERO);
 ---
-<Layout title={data.title} description={data.description} ogImage={heroDesktop}>
+<Layout title={meta.title || 'Coach John Wooden | The Pyramid Principle'}
+        description={meta.description || ''}
+        ogImage={heroDesktop}>
   <Fragment slot="head">
-    <link rel="preload" as="image" href={heroDesktop} imagesrcset={`${heroMobile} 600w, ${heroDesktop} 1000w`} imagesizes="(max-width: 640px) 600px, 1000px" fetchpriority="high" />
+    <link rel="preload" as="image" href={heroDesktop}
+          imagesrcset={`${heroMobile} 351w, ${heroDesktop} 480w`}
+          imagesizes="(max-width: 1024px) 100vw, 480px"
+          fetchpriority="high" />
   </Fragment>
-  <article class="page-body">
-    <StructuredPage blocks={data.blocks as any} heroFile={HERO} />
-  </article>
+
+  <TypedPage blocks={blocks as any[]} />
 </Layout>
