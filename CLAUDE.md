@@ -106,6 +106,14 @@ Then run: `git checkout dev && git pull origin dev`
   - `/retailers/` Global Interest stat callout — source uses an `<h3>` element for what is semantically a long-form stat paragraph ("American Basketball is a popular sport globally, with over 3.3 billion fans …"). Re-rendered as `<p>` with the same Libre Baskerville italic styling. Markup re-shape only; visual identical to source.
   - `/retailers/` Global Interest stat callout copy — slightly awkward "American Basketball" capitalisation; reading flows better as "American basketball" or just "basketball". Flag for client polish. Also the 3.3 billion fans / 68→74% growth stats have no citation in source — add a source or remove.
   - `/retailers/` Global Interest right-column images — filenames `sxLWowjDTE2A98z7JXVezg-1024x375.png` and `fyheb_01-1024x538.jpg` are random hashes; `Global-Leadership.jpg` is descriptive. All three already in Sanity. Confirm content with Kevin and add meaningful alt text before launch.
+  - **`/retailers/` image-licensing audit required before launch.** This page imports multiple third-party / stock-source images that may not have transferable licenses from the Cloudways WP install:
+    - `USATSI_8741865.webp` — USA Today Sports Images (already flagged on Wooden About-UCLA).
+    - `gettyimages-1245851899-612x612-transformed.jpeg` — Getty Images. NBA Stats Card 1 ("Younger audiences"). Confirm Getty subscription/license transfers to the new site domain, or swap.
+    - `SLIKA-4-1.webp` — "SLIKA" is Slovenian/Croatian for "image"; likely a translated/sourced stock photo. NBA Stats Card 2 ("International players"). Verify.
+    - `images.png` — literally `images.png` at 225×225 (Google Images default thumbnail dimensions). NBA Stats Card 3 ("Social media"). Almost certainly downloaded from a Google Images search result and not licensed — needs replacing before launch.
+    - `EVP-1693249197814.webp` — filename has a Unix timestamp (Aug 28 2023). NBA Stats Card 4 ("Global social responsibility"). Verify source/license.
+    Action: compile a single licensing-review batch for Kevin to clear before main-merge. Replace anything that can't be verified.
+  - `/retailers/` NBA Stats Grid copy — cites "200 countries", "50 languages", "26%", "2.3 billion" etc. with no source/citation in source content. Confirm with Kevin if these need attribution or are acceptable as marketing claims.
 
 ### Phases 5-9
 - [ ] Pending

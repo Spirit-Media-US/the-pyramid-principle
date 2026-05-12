@@ -125,6 +125,42 @@ function decodeText(s: string): string {
     );
   }
 
+  // ── stats-card-grid — verified live #brxe-asxjua (Retailers Section 9,
+  // "NBA"). H2 + intro paragraph + N-card grid where each card is a
+  // light-gray rounded box with image / colored title / body. Designed
+  // to be reused for follow-up "stats / pitch" sections that share
+  // this card style.
+  if (b.type === 'stats-card-grid') {
+    const cards = (b.cards || []) as { image: any; title: string; body: string }[];
+    return (
+      <section class="jv-stats" id={b.id}>
+        <div class="jv-stats-container">
+          {b.heading && <h2 class="jv-stats-h2">{decodeText(b.heading)}</h2>}
+          {b.intro && <p class="jv-stats-intro">{decodeText(b.intro)}</p>}
+          <div class="jv-stats-grid">
+            {cards.map(c => {
+              const im = c.image || {};
+              const d = im.dims || (() => { try { return dims(im.file); } catch { return { width: 612, height: 459 }; } })();
+              return (
+                <div class="jv-stats-card">
+                  {im.sanityUrl && (
+                    <img class="jv-stats-img"
+                         src={imgUrl(im, 800)}
+                         width={d.width} height={d.height}
+                         alt={im.alt || c.title || ''}
+                         loading="lazy" decoding="async" />
+                  )}
+                  <h3 class="jv-stats-title">{decodeText(c.title)}</h3>
+                  <p class="jv-stats-body">{decodeText(c.body)}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   // ── themed-list-callout — verified live #brxe-wehpoc (Retailers
   // Section 8, "Global Interest"). Three-part section: H2 + ordered
   // list on the left, 3-image staggered collage on the right, then a
@@ -1672,6 +1708,114 @@ function decodeText(s: string): string {
   .jv-photo-carousel:not(:has(.swiper-initialized)) .jv-photo-next {
     opacity: 0;
     pointer-events: none;
+  }
+
+  /* ── stats-card-grid (verified live #brxe-asxjua / #brxe-vizxhf /
+       #brxe-hbfhqh / #brxe-cdxezu / #brxe-obpvqd / #brxe-cvshea /
+       #brxe-qztqov / #brxe-asacvi) — Retailers Section 9 "NBA Stats".
+     Section: padding 40px 20px mobile / desktop var.
+     H2: Bebas Neue 40px mobile / 55px desktop, center, color #000.
+     Intro: Roboto 18px mobile / DM Sans 18px desktop, color #616161,
+       text-align left, margin 10px 0 20px.
+     Grid: flex row wrap, gap 20px, padding-top 30px. 1 col mobile,
+       2 cols desktop.
+     Card: bg #f5f5f5, border-radius 10px, padding 15px, flex column
+       align-flex-start, gap 10px.
+     Card image: aspect 612/459 (~4:3 — sources are 4:3, 16:9, 1:1
+       so cover-normalisation is essential), border-radius 0.
+     Card title: Montserrat 22px wt 700 color #2774AE uppercase
+       (UCLA blue), text-align left, margin-top 10px.
+     Card body: Roboto 16px mobile / DM Sans 18px desktop, color
+       #616161, line-height 27.2px, margin 15px 0 30px. */
+  .jv-stats {
+    background: #fff;
+    padding: 40px 20px;
+  }
+  @media (min-width: 768px) {
+    .jv-stats { padding: 40px var(--section-padding-x-desktop); }
+  }
+  .jv-stats-container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+  }
+  .jv-stats-h2 {
+    margin: 0;
+    padding: 0 0 20px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 1;
+    letter-spacing: 0;
+    color: #000;
+    text-align: center;
+    text-transform: none;
+  }
+  @media (min-width: 768px) {
+    .jv-stats-h2 { font-size: 55px; line-height: 1; }
+  }
+  .jv-stats-intro {
+    margin: 10px 0 20px;
+    font-family: 'Roboto', system-ui, sans-serif;
+    font-size: 18px;
+    line-height: 1.7;
+    color: #616161;
+    text-align: left;
+  }
+  @media (min-width: 768px) {
+    .jv-stats-intro { font-family: var(--font-heading); }
+  }
+  .jv-stats-grid {
+    padding: 30px 0 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: flex-start;
+  }
+  .jv-stats-card {
+    width: 100%;
+    background: #f5f5f5;
+    border-radius: 10px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    box-sizing: border-box;
+  }
+  @media (min-width: 768px) {
+    .jv-stats-card { width: calc(50% - 10px); }
+  }
+  .jv-stats-img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 612 / 459;
+    object-fit: cover;
+    display: block;
+    border-radius: 0;
+  }
+  .jv-stats-title {
+    margin: 10px 0 0;
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 1;
+    letter-spacing: 0;
+    color: var(--color-author-blue, #2774AE);
+    text-align: left;
+    text-transform: uppercase;
+  }
+  .jv-stats-body {
+    margin: 15px 0 30px;
+    padding: 0 20px 0 0;
+    font-family: 'Roboto', system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    color: #616161;
+    text-align: left;
+  }
+  @media (min-width: 768px) {
+    .jv-stats-body { font-family: var(--font-heading); font-size: 18px; }
   }
 
   /* ── themed-list-callout (verified live #brxe-wehpoc / #brxe-majuum

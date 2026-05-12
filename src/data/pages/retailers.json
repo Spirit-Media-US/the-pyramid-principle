@@ -297,5 +297,53 @@
       }
     ],
     "statCallout": "American Basketball is a popular sport globally, with over 3.3 billion fans and interest growing from 68% to 74% between 2019 and 2023. It's the second most popular sport in the world, after football."
+  },
+  {
+    "type": "stats-card-grid",
+    "id": "brxe-asxjua",
+    "heading": "NBA",
+    "intro": "The National Basketball Association (NBA) has seen a significant increase in international interest in recent years, with fans from more than 200 countries tuning in to games in over 50 languages. The NBA has been working to expand its popularity outside of North America for decades, and has built up worldwide interest in basketball since the 1980s. Some factors that have contributed to this include:",
+    "cards": [
+      {
+        "image": {
+          "file": "gettyimages-1245851899-612x612-transformed.jpeg",
+          "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/589a01feedcfc77cc68c1ed8669302abfc39ee02-612x459.jpg",
+          "dims": { "_type": "sanity.imageDimensions", "aspectRatio": 1.3333333333333333, "height": 459, "width": 612 },
+          "alt": ""
+        },
+        "title": "Younger audiences",
+        "body": "The NBA is popular with younger audiences outside of the US, with 26% of sports fans aged 18 to 34 following the league, ranking fifth in total and first outside of soccer competitions."
+      },
+      {
+        "image": {
+          "file": "SLIKA-4-1.webp",
+          "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/f2b8e747b82838fec2228a532979fb4088b69da5-1024x576.webp",
+          "dims": { "_type": "sanity.imageDimensions", "aspectRatio": 1.7777777777777777, "height": 576, "width": 1024 },
+          "alt": ""
+        },
+        "title": "International players",
+        "body": "The number of international players in the league has increased over time, with the 2002 NBA Draft of Yao Ming being a major shift in global appeal, especially in Asia."
+      },
+      {
+        "image": {
+          "file": "images.png",
+          "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/735cd0275e92f6a2003d91d22332e62a7090b116-225x225.png",
+          "dims": { "_type": "sanity.imageDimensions", "aspectRatio": 1, "height": 225, "width": 225 },
+          "alt": ""
+        },
+        "title": "Social media",
+        "body": "The NBA has one of the largest social media communities in the world, with more than 2.3 billion likes and followers globally."
+      },
+      {
+        "image": {
+          "file": "EVP-1693249197814.webp",
+          "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/999a985621239844b5b2f8c573ecf5a77f2771f9-714x507.webp",
+          "dims": { "_type": "sanity.imageDimensions", "aspectRatio": 1.408284023668639, "height": 507, "width": 714 },
+          "alt": ""
+        },
+        "title": "Global social responsibility",
+        "body": "The NBA's global social responsibility platform, NBA Cares, partners with community-based organizations around the world to address social issues."
+      }
+    ]
   }
 ]
