@@ -121,5 +121,83 @@
     "ctaHeading": "Give Now AND RECEIVE A FREE AUDIOBOOK OR EBOOK OF THE PYRAMID PRINCIPLE",
     "givebutterId": "gBVowg",
     "footerNote": "Donors will receive monthly impact stories like the testimonial above from Shelly"
+  },
+  {
+    "type": "smg-banner",
+    "id": "brxe-jzdroj",
+    "heading1": "SPIRIT MEDIA <span>GIVES</span>",
+    "heading2": "Tax ID: 88-4352701",
+    "heading3": "ALL GIFTS TAX DEDUCTIBLE"
+  },
+  {
+    "type": "photo-carousel",
+    "id": "brxe-jgzsnf",
+    "config": {
+      "slidesPerViewDesktop": 5,
+      "slidesPerViewMobile": 2,
+      "spaceBetween": 2,
+      "loop": true,
+      "autoplayDelay": 3000,
+      "speed": 300,
+      "breakpoint": 991
+    },
+    "slides": [
+      {
+        "file": "elderly-asian-female-patients-and-cancer-specialis-2023-11-27-05-21-54-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      },
+      {
+        "file": "laughing-african-american-boy-patient-taking-male-2023-11-27-05-30-45-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      },
+      {
+        "file": "mother-and-daughter-bonding-at-the-hospital-2023-11-27-05-14-22-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      },
+      {
+        "file": "sitting-in-a-mask-2024-10-18-09-12-41-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      },
+      {
+        "file": "sick-woman-with-cancer-hugging-her-young-grandchil-2023-11-27-05-20-43-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      },
+      {
+        "file": "supportive-care-in-oncology-compassionate-interac-2024-10-03-00-58-32-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      },
+      {
+        "file": "there-you-go-all-done-2023-11-27-05-16-36-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      },
+      {
+        "file": "cancer-mother-with-a-pink-headscarf-high-fives-her-2024-06-05-20-58-52-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      },
+      {
+        "file": "healthcare-clinic-pediatric-medic-talking-with-car-2023-11-27-05-13-36-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      },
+      {
+        "file": "woman-with-cancer-during-chemotherapy-recovering-f-2023-11-27-05-13-24-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      }
+    ]
+  },
+  {
+    "type": "pcrf-section",
+    "id": "brxe-0ee7ef",
+    "eyebrow": "Pediatric Cancer Research Foundation",
+    "heading": "A portion of the proceeds BENEFITS <span>cancer research</span>",
+    "bodyHtml": "Since 1982, the Pediatric Cancer Research Foundation (<a href=\"https://pcrf-kids.org/\" target=\"_blank\" rel=\"noopener noreferrer\"><strong>PCRF</strong></a>) has been chasing one ambitious goal: to make it possible for all children facing childhood cancer to beat their disease and realize their full potential. PCRF achieves this by powering cures where none exist and giving rise to less toxic regimens with fewer side effects. They have invested more than $46 million in pediatric cancer research and contributed to groundbreaking advances in treatment. Become involved at <a href=\"https://pcrf-kids.org/\" target=\"_blank\" rel=\"noopener noreferrer\"><strong>https://pcrf-kids.org</strong></a>.",
+    "image": {
+      "file": "58e232679973e0ada741fbaf881dcad8-transformed-1024x537.jpeg",
+      "alt": "Rainbow for Erin",
+      "dims": {
+        "width": 1024,
+        "height": 537
+      }
+    },
+    "caption": "Rainbow for Erin"
   }
 ]

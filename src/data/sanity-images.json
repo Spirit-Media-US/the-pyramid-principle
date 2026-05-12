@@ -2560,5 +2560,31 @@
       "height": 576,
       "width": 864
     }
+  },
+  "healthcare-clinic-pediatric-medic-talking-with-car-2023-11-27-05-13-36-utc-ezgif.com-jpg-to-webp-converter.webp": {
+    "originalUrl": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/healthcare-clinic-pediatric-medic-talking-with-car-2023-11-27-05-13-36-utc-ezgif.com-jpg-to-webp-converter.webp",
+    "sanityAssetId": "image-30f957b7ccb79fd68aaeb6f425217e7b94aed4e6-815x543-webp",
+    "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/30f957b7ccb79fd68aaeb6f425217e7b94aed4e6-815x543.webp",
+    "alt": "",
+    "size": 34974,
+    "dimensions": {
+      "_type": "sanity.imageDimensions",
+      "aspectRatio": 1.5009208103130756,
+      "height": 543,
+      "width": 815
+    }
+  },
+  "woman-with-cancer-during-chemotherapy-recovering-f-2023-11-27-05-13-24-utc-ezgif.com-jpg-to-webp-converter.webp": {
+    "originalUrl": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/woman-with-cancer-during-chemotherapy-recovering-f-2023-11-27-05-13-24-utc-ezgif.com-jpg-to-webp-converter.webp",
+    "sanityAssetId": "image-438440b93554236ddd58a489c2bb9f041885c1a9-780x520-webp",
+    "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/438440b93554236ddd58a489c2bb9f041885c1a9-780x520.webp",
+    "alt": "",
+    "size": 28006,
+    "dimensions": {
+      "_type": "sanity.imageDimensions",
+      "aspectRatio": 1.5,
+      "height": 520,
+      "width": 780
+    }
   }
 }
