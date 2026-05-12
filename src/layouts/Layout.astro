@@ -208,7 +208,12 @@ const SOCIAL = [
       <section class="footer-top">
         <div class="footer-top-grid">
           <div class="footer-col footer-col-logo">
-            <img src={LOGO_URL} alt="The Pyramid Principle" width="190" height="115" loading="lazy" decoding="async" class="footer-logo" />
+            <img src={`${LOGO_URL}?w=400&fm=webp&q=80&fit=max`}
+                 srcset={`${LOGO_URL}?w=280&fm=webp&q=80&fit=max 280w, ${LOGO_URL}?w=400&fm=webp&q=80&fit=max 400w`}
+                 sizes="(min-width: 1024px) 190px, 140px"
+                 width="190" height="115"
+                 alt="The Pyramid Principle"
+                 loading="lazy" decoding="async" class="footer-logo" />
             <p class="footer-tagline">A Battle Tested Hall-of-Famer and his Daughter Discover Coach Wooden's Meaning of Success</p>
           </div>
 

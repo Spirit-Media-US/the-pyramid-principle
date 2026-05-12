@@ -386,12 +386,25 @@ const BLOG_CARDS = (_latestBlogPosts as any[]).map((p) => {
         <div class="cori-video-container">
           <div class="cori-video-backdrop" aria-hidden="true"></div>
           <div class="cori-video-wrap">
-            <iframe
-              src="https://www.youtube-nocookie.com/embed/Pk7Ox-0b_0Y?rel=0"
-              title="The Pyramid Principle — Cori Close endorsement"
-              loading="lazy"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen></iframe>
+            {/* YouTube facade — poster image + play button. Click swaps in the
+                real iframe. Avoids loading YouTube's 500ms+ of JS until the
+                user actually wants to watch. Fixes TBT + the BP cookie audit. */}
+            <button
+              type="button"
+              class="yt-facade"
+              data-yt-id="Pk7Ox-0b_0Y"
+              data-yt-title="The Pyramid Principle — Cori Close endorsement"
+              aria-label="Play video: The Pyramid Principle — Cori Close endorsement">
+              <img class="yt-facade-poster"
+                   src="https://i.ytimg.com/vi/Pk7Ox-0b_0Y/hqdefault.jpg"
+                   width="480" height="360"
+                   alt="The Pyramid Principle — Cori Close endorsement"
+                   loading="lazy"
+                   decoding="async" />
+              <span class="yt-facade-play" aria-hidden="true">
+                <svg width="68" height="48" viewBox="0 0 68 48"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.41 6.19C.08 13.05 0 24 0 24s.08 10.95 1.49 16.26c.78 2.93 2.48 5.41 5.41 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.92 34.95 68 24 68 24s-.08-10.95-1.48-16.26z" fill="#f00"/><path d="M45 24 27 14v20" fill="#fff"/></svg>
+              </span>
+            </button>
           </div>
         </div>
       </div>
@@ -1076,6 +1089,43 @@ const BLOG_CARDS = (_latestBlogPosts as any[]).map((p) => {
     height: 100%;
     border: 0;
   }
+  /* YouTube facade — poster + play button until clicked. */
+  .yt-facade {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    background: #000;
+    cursor: pointer;
+    display: block;
+    overflow: hidden;
+  }
+  .yt-facade-poster {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0.92;
+    transition: opacity 0.15s ease;
+  }
+  .yt-facade:hover .yt-facade-poster,
+  .yt-facade:focus-visible .yt-facade-poster { opacity: 1; }
+  .yt-facade-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 68px;
+    height: 48px;
+    pointer-events: none;
+    transition: transform 0.15s ease;
+  }
+  .yt-facade:hover .yt-facade-play,
+  .yt-facade:focus-visible .yt-facade-play { transform: translate(-50%, -50%) scale(1.08); }
+  .yt-facade:focus-visible { outline: 2px solid var(--color-brand-yellow); outline-offset: -4px; }
   @media (max-width: 767px) {
     /* Tighter offsets on mobile so the backdrop doesn't overflow
        the narrow card. */
@@ -1552,4 +1602,25 @@ const BLOG_CARDS = (_latestBlogPosts as any[]).map((p) => {
   const evs = ['scroll', 'click', 'touchstart', 'keydown', 'mousemove'];
   for (const e of evs) window.addEventListener(e, initReveal, { once: true, passive: true });
   window.setTimeout(initReveal, 8000);
+
+  // YouTube facade — swap poster button for the real iframe on first click.
+  // Defers ~500ms of YouTube embed JS until user opts in to watch.
+  document.querySelectorAll<HTMLButtonElement>('.yt-facade').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.ytId;
+      const title = btn.dataset.ytTitle || 'YouTube video';
+      if (!id) return;
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+      iframe.title = title;
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      iframe.allowFullscreen = true;
+      iframe.style.position = 'absolute';
+      iframe.style.inset = '0';
+      iframe.style.width = '100%';
+      iframe.style.height = '100%';
+      iframe.style.border = '0';
+      btn.replaceWith(iframe);
+    });
+  });
 </script>
