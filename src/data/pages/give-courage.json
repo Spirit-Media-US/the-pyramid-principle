@@ -204,5 +204,18 @@
     "type": "centered-h3-banner",
     "id": "brxe-tnuoce",
     "heading": "Help us reach our first initial goal of raising <span>$100,000</span> for cancer research."
+  },
+  {
+    "type": "centered-image",
+    "id": "brxe-vsspdm",
+    "image": {
+      "file": "check-2.jpg",
+      "alt": "The Pyramid Principle presenting $100,000 check to Pediatric Cancer Research Foundation",
+      "dims": {
+        "width": 1250,
+        "height": 750
+      }
+    },
+    "maxWidth": 1024
   }
 ]

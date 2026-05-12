@@ -2586,5 +2586,18 @@
       "height": 520,
       "width": 780
     }
+  },
+  "check-2.jpg": {
+    "originalUrl": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/check-2.jpg",
+    "sanityAssetId": "image-64b932878c7eb4ffd6cb5b944492894581208c6f-1250x750-jpg",
+    "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/64b932878c7eb4ffd6cb5b944492894581208c6f-1250x750.jpg",
+    "alt": "The Pyramid Principle presenting $100,000 check to Pediatric Cancer Research Foundation",
+    "size": 242413,
+    "dimensions": {
+      "_type": "sanity.imageDimensions",
+      "aspectRatio": 1.6666666666666667,
+      "height": 750,
+      "width": 1250
+    }
   }
 }
