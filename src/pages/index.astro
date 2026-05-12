@@ -662,9 +662,13 @@ const BLOG_CARDS = (_latestBlogPosts as any[]).map((p) => {
   }
   .retailer-card:hover { border-color: var(--color-ink); text-decoration: none; }
   .retailer-card img {
-    width: 100%;
-    height: auto;
-    max-height: 60px;
+    /* Fixed display size pre-load so layout doesn't shift when the logo
+       resolves. Previously width:100% + height:auto caused CLS — the
+       browser couldn't reserve space for the heterogeneous retailer
+       logos until each natural size loaded. */
+    width: auto;
+    height: 60px;
+    max-width: 100%;
     object-fit: contain;
   }
 
