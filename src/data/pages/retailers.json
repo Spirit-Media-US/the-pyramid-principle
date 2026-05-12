@@ -39,11 +39,26 @@
     "type": "metadata-list",
     "id": "brxe-txqwye",
     "items": [
-      { "label": "Paperback ISBN:",                       "value": "979-8-89307-115-3" },
-      { "label": "Hardback ISBN:",                        "value": "979-8-89307-116-0" },
-      { "label": "Audiobook ISBN:",                       "value": "979-8-89307-118-4" },
-      { "label": "eBook ISBN:",                           "value": "979-8-89307-117-7" },
-      { "label": "Library of Congress Control Number:",   "value": "2024918727" }
+      {
+        "label": "Paperback ISBN:",
+        "value": "979-8-89307-115-3"
+      },
+      {
+        "label": "Hardback ISBN:",
+        "value": "979-8-89307-116-0"
+      },
+      {
+        "label": "Audiobook ISBN:",
+        "value": "979-8-89307-118-4"
+      },
+      {
+        "label": "eBook ISBN:",
+        "value": "979-8-89307-117-7"
+      },
+      {
+        "label": "Library of Congress Control Number:",
+        "value": "2024918727"
+      }
     ]
   },
   {
@@ -51,43 +66,50 @@
     "id": "brxe-bgdzcm",
     "categoriesHeading": "Look for it under:",
     "categories": [
-      ["Books", "Self-Help", "Personal Transformation"],
-      ["Books", "Biographies", "Sports Biographies"]
+      [
+        "Books",
+        "Self-Help",
+        "Personal Transformation"
+      ],
+      [
+        "Books",
+        "Biographies",
+        "Sports Biographies"
+      ]
     ],
     "publisher": {
       "logo": {
         "file": "spirit-media-logo.webp",
         "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/a2d2ba59a25f58b652bb7b45727892bbcc9129d5-300x51.webp",
-        "dims": { "_type": "sanity.imageDimensions", "aspectRatio": 5.882352941176471, "height": 51, "width": 300 },
+        "dims": {
+          "_type": "sanity.imageDimensions",
+          "aspectRatio": 5.882352941176471,
+          "height": 51,
+          "width": 300
+        },
         "alt": "Spirit Media Publishing"
       },
       "lines": [
-        { "type": "link", "href": "https://spiritmediapublishing.com/", "text": "spiritmediapublishing.com" },
-        { "type": "text", "text": "8045 Arco Corporate Dr STE 130" },
-        { "type": "text", "text": "Raleigh, NC 27617" },
-        { "type": "tel", "href": "tel:+18888003744", "text": "1 (888) 800-3744" }
+        {
+          "type": "link",
+          "href": "https://spiritmediapublishing.com/",
+          "text": "spiritmediapublishing.com"
+        },
+        {
+          "type": "text",
+          "text": "8045 Arco Corporate Dr STE 130"
+        },
+        {
+          "type": "text",
+          "text": "Raleigh, NC 27617"
+        },
+        {
+          "type": "tel",
+          "href": "tel:+18888003744",
+          "text": "1 (888) 800-3744"
+        }
       ]
     }
-  },
-  {
-    "type": "amazon-marketplaces",
-    "id": "brxe-xodthq",
-    "outerHeading": "Find The Pyramid Principle in English internationally",
-    "innerHeading": "Amazon Global Marketplaces :",
-    "stores": [
-      { "label": "United States",  "href": "https://www.amazon.com/dp/B0DGY1WNQG" },
-      { "label": "United Kingdom", "href": "https://www.amazon.co.uk/dp/B0DGX5YWDC" },
-      { "label": "Germany",        "href": "https://www.amazon.de/dp/B0DGX5YWDC" },
-      { "label": "France",         "href": "https://www.amazon.fr/dp/B0DGX5YWDC" },
-      { "label": "Spain",          "href": "https://www.amazon.es/dp/B0DGX5YWDC" },
-      { "label": "Italy",          "href": "https://www.amazon.it/dp/B0DGX5YWDC" },
-      { "label": "Netherland",     "href": "https://www.amazon.nl/dp/B0DGX5YWDC" },
-      { "label": "Poland",         "href": "https://www.amazon.pl/dp/B0DGX5YWDC" },
-      { "label": "Sweden",         "href": "https://www.amazon.se/dp/B0DGX5YWDC" },
-      { "label": "Japan",          "href": "https://www.amazon.co.jp/dp/B0DGX5YWDC" },
-      { "label": "Canada",         "href": "https://www.amazon.ca/dp/B0DGX5YWDC" },
-      { "label": "Australia",      "href": "https://www.amazon.com.au/dp/B0DGX5YWDC" }
-    ]
   },
   {
     "type": "image-collage-card",
@@ -108,6 +130,62 @@
           "width": 886
         },
         "alt": "The Pyramid Principle book cover"
+      }
+    ]
+  },
+  {
+    "type": "amazon-marketplaces",
+    "id": "brxe-xodthq",
+    "outerHeading": "Find The Pyramid Principle in English internationally",
+    "innerHeading": "Amazon Global Marketplaces :",
+    "stores": [
+      {
+        "label": "United States",
+        "href": "https://www.amazon.com/dp/B0DGY1WNQG"
+      },
+      {
+        "label": "United Kingdom",
+        "href": "https://www.amazon.co.uk/dp/B0DGX5YWDC"
+      },
+      {
+        "label": "Germany",
+        "href": "https://www.amazon.de/dp/B0DGX5YWDC"
+      },
+      {
+        "label": "France",
+        "href": "https://www.amazon.fr/dp/B0DGX5YWDC"
+      },
+      {
+        "label": "Spain",
+        "href": "https://www.amazon.es/dp/B0DGX5YWDC"
+      },
+      {
+        "label": "Italy",
+        "href": "https://www.amazon.it/dp/B0DGX5YWDC"
+      },
+      {
+        "label": "Netherland",
+        "href": "https://www.amazon.nl/dp/B0DGX5YWDC"
+      },
+      {
+        "label": "Poland",
+        "href": "https://www.amazon.pl/dp/B0DGX5YWDC"
+      },
+      {
+        "label": "Sweden",
+        "href": "https://www.amazon.se/dp/B0DGX5YWDC"
+      },
+      {
+        "label": "Japan",
+        "href": "https://www.amazon.co.jp/dp/B0DGX5YWDC"
+      },
+      {
+        "label": "Canada",
+        "href": "https://www.amazon.ca/dp/B0DGX5YWDC"
+      },
+      {
+        "label": "Australia",
+        "href": "https://www.amazon.com.au/dp/B0DGX5YWDC"
       }
     ]
   }
