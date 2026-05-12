@@ -36,5 +36,29 @@
       { "videoId": "bMD7oOWGjmM", "label": "Video 8", "poster": "https://i.ytimg.com/vi/bMD7oOWGjmM/maxresdefault.jpg" },
       { "videoId": "WIgdfLm2kGg", "label": "Video 9", "poster": "https://i.ytimg.com/vi/WIgdfLm2kGg/maxresdefault.jpg" }
     ]
+  },
+  {
+    "type": "image-collage-card",
+    "id": "brxe-c14394",
+    "borderColor": "#0967B3",
+    "bg": "#fafafa",
+    "headingHtml": "ABOUT <span style=\"color:#ffd100; font-weight:bold;\">UCLA</span>",
+    "bodyHtml": "<p>The <a class=\"jv-hero-link\" href=\"https://www.ucla.edu/\" target=\"_blank\" rel=\"noopener noreferrer\">University of California, Los Angeles (UCLA)</a> is a public research university and one of the ten campuses of the University of California system. Ranked by publications as among the best universities in the world, UCLA consistently excels in research, academics, and innovation. Competing in athletics as the Bruins, UCLA has won 123 NCAA team championships in the Pac-12, second only to Stanford University. Among their sports achievements, basketball features their most impressive victories, owing to Coach John Wooden.</p>",
+    "images": [
+      {
+        "file": "USATSI_8741865.webp",
+        "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/3192ac6de094b4ae66a89cdcf9c70062990ec80f-1000x600.webp",
+        "dims": { "_type": "sanity.imageDimensions", "aspectRatio": 1.6666666666666667, "height": 600, "width": 1000 },
+        "alt": ""
+      },
+      {
+        "file": "VipsCafe_24-9.jpg",
+        "alt": ""
+      },
+      {
+        "file": "VipsCafe_24-2.jpg",
+        "alt": ""
+      }
+    ]
   }
 ]

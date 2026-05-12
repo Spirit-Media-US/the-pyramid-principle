@@ -374,6 +374,49 @@ function decodeText(s: string): string {
     );
   }
 
+  // ── image-collage-card — used for "About UCLA" #brxe-c14394 on the
+  // Coach Wooden bio page. Mirror of the John Vallely interview-questions
+  // collage (3-image staggered overlap, but images LEFT instead of RIGHT
+  // and accompanied by an H2 + body rather than a list).
+  // Configurable via b.borderColor (CSS var --collage-border) so the
+  // staggered white-frame look from interview-questions can ride the
+  // same component with UCLA blue here.
+  if (b.type === 'image-collage-card') {
+    const images = (b.images || []) as any[];
+    const borderColor = b.borderColor || '#ffffff';
+    const bg = b.bg || '#fafafa';
+    return (
+      <section class="jv-collage" id={b.id}
+               style={`--collage-border: ${borderColor}; --collage-bg: ${bg};`}>
+        <div class="jv-collage-container">
+          <div class="jv-collage-left">
+            {images.slice(0, 3).map((im: any, i: number) => {
+              if (!im || !im.file) return null;
+              const d = im.dims || (() => { try { return dims(im.file); } catch { return { width: 1024, height: 800 }; } })();
+              return (
+                <img class={`jv-collage-img jv-collage-img-${i + 1}`}
+                     src={imgUrl(im, 1024)}
+                     width={d.width} height={d.height}
+                     alt={im.alt || ''}
+                     loading="lazy" decoding="async" />
+              );
+            })}
+          </div>
+          <div class="jv-collage-right">
+            {b.headingHtml
+              ? <h2 class="jv-collage-h2" set:html={b.headingHtml} />
+              : (b.heading && <h2 class="jv-collage-h2">{decodeText(b.heading)}</h2>)
+            }
+            {b.bodyHtml
+              ? <div class="jv-collage-body" set:html={b.bodyHtml} />
+              : (b.body && <div class="jv-collage-body"><p>{decodeText(b.body)}</p></div>)
+            }
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   // ── acknowledgements-card — verified live #brxe-ozjayj / #brxe-klreld ──
   // Centered card: 3D book image + italic-serif H2 + verbatim paragraph
   // body. Reuses self-hosted Libre Baskerville italic font that was
@@ -1312,6 +1355,113 @@ function decodeText(s: string): string {
     opacity: 0;
     pointer-events: none;
   }
+
+  /* ── image-collage-card (verified live #brxe-c14394 / #brxe-09d332 /
+       #brxe-csxwqb / #brxe-6aa105) — About UCLA section on Coach Wooden.
+     Section bg via --collage-bg (default #fafafa). Border color around
+     the staggered images via --collage-border (default white) — set to
+     UCLA blue #0967B3 here. Mobile stacks (collage on top, text below);
+     desktop is 2-col 50/50. Heading + body support both plain text and
+     HTML-with-inline-styles via b.headingHtml / b.bodyHtml. */
+  .jv-collage {
+    background: var(--collage-bg, #fafafa);
+    padding: 0;
+  }
+  .jv-collage-container {
+    width: 100%;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  @media (min-width: 768px) {
+    .jv-collage-container {
+      flex-direction: row;
+      align-items: flex-start;
+      padding: 80px var(--section-padding-x-desktop);
+      gap: 40px;
+    }
+  }
+  .jv-collage-left {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    row-gap: 15px;
+  }
+  @media (min-width: 768px) {
+    .jv-collage-left { width: 50%; }
+  }
+  .jv-collage-right {
+    width: 100%;
+    padding-top: 40px;
+    display: flex;
+    flex-direction: column;
+  }
+  @media (min-width: 768px) {
+    .jv-collage-right { width: 50%; padding-top: 0; }
+  }
+  .jv-collage-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    border: 0;
+  }
+  @media (min-width: 768px) {
+    .jv-collage-img-1 {
+      width: 100%;
+      aspect-ratio: 1000 / 600;
+      object-fit: cover;
+    }
+    .jv-collage-img-2 {
+      width: 50%;
+      aspect-ratio: 1024 / 685;
+      object-fit: cover;
+      margin-top: -13px;
+      border-top: 5px solid var(--collage-border, #fff);
+      border-bottom: 5px solid var(--collage-border, #fff);
+      box-sizing: border-box;
+    }
+    .jv-collage-img-3 {
+      width: 50%;
+      aspect-ratio: 1024 / 850;
+      object-fit: cover;
+      margin-top: -53px;
+      border-top: 10px solid var(--collage-border, #fff);
+      border-bottom: 10px solid var(--collage-border, #fff);
+      border-left: 10px solid var(--collage-border, #fff);
+      box-sizing: border-box;
+    }
+  }
+  .jv-collage-h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 1;
+    letter-spacing: 0;
+    color: #212121;
+    text-align: left;
+    text-transform: none;
+  }
+  @media (min-width: 768px) {
+    .jv-collage-h2 { font-size: 55px; }
+  }
+  .jv-collage-body {
+    margin: 10px 0 20px;
+    font-family: 'Roboto', system-ui, sans-serif;
+    font-size: 18px;
+    line-height: 1.7;
+    color: #616161;
+  }
+  @media (min-width: 768px) {
+    .jv-collage-body { font-family: var(--font-heading); }
+  }
+  .jv-collage-body p { margin: 0 0 1em; }
+  .jv-collage-body p:last-child { margin-bottom: 0; }
+  /* Inherit the .jv-hero-link yellow-underline style for inline links */
 
   /* ── Acknowledgements card (verified live #brxe-ozjayj / #brxe-klreld) ──
      Outer section: bg #fff, flex column align-items center, no padding/margin.
