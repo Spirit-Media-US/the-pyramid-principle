@@ -12,6 +12,7 @@
 //   give-courage-banner  — 2-line H2 banner + pink CTA + tax-deductible note
 //   smg-banner           — 3-col H3 banner (Spirit Media Gives + Tax ID + tax-note)
 //   pcrf-section         — 2-col: eyebrow + H1 + body, image + caption
+//   centered-h3-banner   — single centered uppercase H3 with optional pink span
 //   donation-section     — 2-col: inline YouTube + multi-block copy + Givebutter
 //   hero-intro           — eyebrow + H1 + body + sidebar image
 //   highlight-cards      — 4 callout cards with left-border accent
@@ -758,6 +759,20 @@ function decodeText(s: string): string {
             ))}
           </div>
         </div>
+      </section>
+    );
+  }
+
+  // ── centered-h3-banner — single centered uppercase H3 with optional
+  // pink spans. Verified live #brxe-tnuoce on /give-courage/ Section 4.
+  //   H3 inherits global Bebas Neue (40px desktop / 30px mobile), color
+  //   #1d1d1f (--bricks-color-gbinls), text-align center, text-transform
+  //   uppercase, margin-bottom 20px. Mobile adds padding 20px sides.
+  //   Pink spans (#F999CB) on emphasized phrases.
+  if (b.type === 'centered-h3-banner') {
+    return (
+      <section class="ch3-section" id={b.id}>
+        <h3 class="ch3-heading" set:html={b.heading} />
       </section>
     );
   }
@@ -3966,6 +3981,30 @@ function decodeText(s: string): string {
     line-height: 1.5;
     color: #555;
   }
+
+  /* ── centered-h3-banner — verified live #brxe-tnuoce on /give-courage/.
+     Single centered uppercase H3 at global H3 size (40/30px Bebas Neue).
+     Color #1d1d1f, text-align center, margin-bottom 20px, mobile padding
+     20px sides. Pink spans (#F999CB) on emphasized text. */
+  .ch3-section {
+    background: #fff;
+    padding: 0;
+  }
+  .ch3-heading {
+    margin: 0 0 20px;
+    padding: 0 20px;
+    color: #1d1d1f;
+    text-transform: uppercase;
+    text-align: center;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 1.2;
+  }
+  @media (min-width: 768px) {
+    .ch3-heading { font-size: 40px; padding: 0; }
+  }
+  .ch3-heading span { color: #F999CB; }
 
   /* ── smg-banner — 3-col H3 banner (Spirit Media Gives + Tax ID + tax-note).
      Verified live #brxe-jzdroj. Same column geometry as give-courage-banner
