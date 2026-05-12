@@ -530,7 +530,32 @@
       }
     ],
     "bio": "Von Hagen was a multi-sport star at Harvard Academy in Los Angeles, but didn't discover volleyball until his senior year at UCLA. Once he found the sport he loved, Von Hagen attacked it with a single-minded devotion that hasn't been seen since. Von Hagen won his first Open at Laguna Beach in 1964. From 1964 to 1978, he played in around 120 tournaments and won 62 of them. Think about that for a second. He won half of every single tournament he entered. No other modern male beach athlete has come close to that winning percentage and you can pretty much bank on it that no one will in the future.",
-    "learnMoreHref": "https://www.bvbhof.com/buildio/player_detail.asp?p=317"
+    "learnMoreHref": "https://www.bvbhof.com/buildio/player_detail.asp?p=317",
+    "layout": "collage",
+    "collageGeometry": [
+      {
+        "width": "100%",
+        "height": "490px"
+      },
+      {
+        "width": "60%",
+        "height": "378px",
+        "marginTop": "-113px",
+        "borderTop": 10,
+        "borderRight": 10,
+        "borderBottom": 5,
+        "borderLeft": 0,
+        "objectPosition": "top"
+      },
+      {
+        "width": "40%",
+        "height": "365px",
+        "marginTop": "-53px",
+        "borderTop": 10,
+        "borderBottom": 10,
+        "objectPosition": "top"
+      }
+    ]
   },
   {
     "type": "person-profile-card",
