@@ -1318,6 +1318,13 @@ function decodeText(s: string): string {
   @media (min-width: 768px) {
     .jv-videos { padding: 80px var(--section-padding-x-desktop) 0; }
   }
+  /* Per-section tightening — John Vallely's hero is taller (4-card
+     highlight stack) than Paul/Wooden's, so the default 40/80 gap
+     reads as too generous here. Halve the top padding on JV only. */
+  #brxe-glibgo.jv-videos { padding-top: 20px; }
+  @media (min-width: 768px) {
+    #brxe-glibgo.jv-videos { padding-top: 40px; }
+  }
   .jv-videos-container {
     max-width: var(--container-max);
     margin-inline: auto;
