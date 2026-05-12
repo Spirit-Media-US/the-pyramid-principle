@@ -68,8 +68,8 @@ const SOCIAL = [
     <link rel="canonical" href={canonicalURL} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-    <link rel="preload" as="font" type="font/woff2" href="https://assets.spiritmediapublishing.com/fonts/bebas-neue/bebas-neue-400.woff2" crossorigin />
-    <link rel="preload" as="font" type="font/woff2" href="https://assets.spiritmediapublishing.com/fonts/dm-sans/dm-sans-700.woff2" crossorigin />
+    <!-- Font preloads moved to public/_headers (per-route, so each page only
+         preloads the fonts that are actually above-the-fold for it). -->
 
     <link rel="preconnect" href="https://cdn.sanity.io" crossorigin />
 
