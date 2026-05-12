@@ -206,5 +206,49 @@
       { "label": "Sweden",         "href": "https://www.akademibokhandeln.se/bok/the-pyramid-principle/9798893071160" },
       { "label": "United Kingdom", "href": "https://www.best-book-price.co.uk/p/books/the-pyramid-principle/b0dgx5ywdc.html" }
     ]
+  },
+  {
+    "type": "translation-grid",
+    "id": "brxe-qwjjpw",
+    "heading": "Other languages are coming soon ....",
+    "cards": [
+      {
+        "label": "Spanish",
+        "image": {
+          "file": "unnamed-683x1024.jpg",
+          "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/bbe135c553854f8e6cba340f73d44800a96a73b5-683x1024.jpg",
+          "dims": { "_type": "sanity.imageDimensions", "aspectRatio": 0.6669921875, "height": 1024, "width": 683 },
+          "alt": "Spanish edition cover"
+        }
+      },
+      {
+        "label": "Chinese",
+        "sublabel": "(Mandarin)",
+        "image": {
+          "file": "tpp_rgb_mandarin_720.jpg",
+          "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/1e0841a3dd8224a6d4a1322ee2e9d225e5b209d3-480x720.jpg",
+          "dims": { "_type": "sanity.imageDimensions", "aspectRatio": 0.6666666666666666, "height": 720, "width": 480 },
+          "alt": "Chinese (Mandarin) edition cover"
+        }
+      },
+      {
+        "label": "German",
+        "image": {
+          "file": "tpp_german_720.jpg",
+          "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/faa75ad07c932e364e158e6720b5826da0ae1994-480x720.jpg",
+          "dims": { "_type": "sanity.imageDimensions", "aspectRatio": 0.6666666666666666, "height": 720, "width": 480 },
+          "alt": "German edition cover"
+        }
+      },
+      {
+        "label": "Portuguese",
+        "image": {
+          "file": "tpp_rgb_portuguese_720.jpg",
+          "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/e99997b246a766de4961365106231c8d44cc0daf-480x720.jpg",
+          "dims": { "_type": "sanity.imageDimensions", "aspectRatio": 0.6666666666666666, "height": 720, "width": 480 },
+          "alt": "Portuguese edition cover"
+        }
+      }
+    ]
   }
 ]

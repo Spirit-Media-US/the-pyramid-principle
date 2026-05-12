@@ -97,6 +97,10 @@ Then run: `git checkout dev && git pull origin dev`
   - `/retailers/` Sweden retailer URL — source had Google Shopping tracking params (`?srsltid=AfmBOoor…`); stripped to the canonical `https://www.akademibokhandeln.se/bok/the-pyramid-principle/9798893071160`.
   - `/retailers/` France international button — links to `bol.com` Belgium (`/be/fr/` path), not an actual French retailer. Confirm with Kevin whether the label should be "Belgium" or the URL should be replaced with a real French retailer (Fnac, Cultura, etc.).
   - `/retailers/` United Kingdom international button — links to `best-book-price.co.uk`, a price aggregator (not a primary retailer). Confirm with Kevin if there's a preferred direct UK retailer (Waterstones, Foyles, Blackwell's, Hive.co.uk).
+  - `/retailers/` Translation Editions section conflict — homepage Latest Blog has posts announcing the Chinese, Portuguese, and Spanish editions as published, but the Retailers page Translation grid is captioned "Other languages are coming soon …." (4-dot ellipsis). Two scenarios: (a) blog posts are premature and the translations aren't actually shipped yet, or (b) this Retailers caption is stale and the translations have already launched. Confirm with Kevin which is true and fix the inconsistent messaging.
+  - `/retailers/` Translation grid Spanish cover — source filename is `unnamed-683x1024.jpg` (generic auto-name). Confirm with Kevin whether this is the final Spanish edition cover or a placeholder needing replacement before launch.
+  - `/retailers/` Translation grid heading — source uses "Other languages are coming soon ...." (4-dot ellipsis, four periods). Preserved verbatim per Phase 3. Phase 6 polish: replace with proper `…` (U+2026) ellipsis character or 3-dot.
+  - `/retailers/` Translation grid Chinese label — source has two adjacent H3 elements ("CHINESE " with trailing space + "( Mandarin )" with internal spaces) treated as a single label split across two lines. Re-semanticized as one `<h3>` ("Chinese") + a smaller `<p>` sublabel ("(Mandarin)") for clearer document outline. Phase 6 polish if Kevin wants the source double-H3 markup back.
 
 ### Phases 5-9
 - [ ] Pending
