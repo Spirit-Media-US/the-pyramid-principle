@@ -2481,5 +2481,18 @@
       "height": 4000,
       "width": 6000
     }
+  },
+  "VipsCafe_24-9.jpg": {
+    "originalUrl": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/09/VipsCafe_24-9.jpg",
+    "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/24f06f12ee935380d9403b1db7caa4f93f318dd6-5707x3816.jpg",
+    "alt": "",
+    "sanityAssetId": "image-24f06f12ee935380d9403b1db7caa4f93f318dd6-5707x3816-jpg",
+    "size": 2437650,
+    "dimensions": {
+      "_type": "sanity.imageDimensions",
+      "aspectRatio": 1.495545073375262,
+      "height": 3816,
+      "width": 5707
+    }
   }
 }

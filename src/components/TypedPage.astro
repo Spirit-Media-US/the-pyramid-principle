@@ -369,26 +369,44 @@ function decodeText(s: string): string {
     );
   }
 
+  // ── interview-questions — verified live #brxe-ferycf ──
+  // Layout: centered H2 across the top, then two-column body below.
+  // LEFT col (#brxe-pyqwwq) — H3 + numbered list.
+  // RIGHT col (#brxe-tpdzmk) — 3 layered images:
+  //   img1 (valley_110.jpg) full column width, no margins, no borders
+  //   img2 (VipsCafe_24-9) 50% width, margin-top -13px,
+  //         border-top/bottom 5px white
+  //   img3 (VipsCafe_24-2) 50% width, margin-top -53px,
+  //         border-top/bottom 10px white, border-left 10px white
+  // Mobile per user spec: drop negative margins + the 50% widths;
+  //                        stack full-width with normal gap.
   if (b.type === 'interview-questions') {
+    const images = (b.images || []) as any[];
     return (
-      <section class="jv-interview">
+      <section class="jv-interview" id={b.id}>
         <div class="jv-interview-container">
-          <div class="jv-interview-text">
-            <h2 class="jv-section-h2">{b.heading}</h2>
-            {b.sub && <h3 class="jv-interview-h3">{b.sub}</h3>}
-            <ol class="jv-interview-list">
-              {b.items.map((q: string) => (<li>{decodeText(q)}</li>))}
-            </ol>
-          </div>
-          {b.images && b.images.length > 0 && (
-            <div class="jv-interview-images">
-              {b.images.slice(0, 3).map((im: any) => (
-                im && im.sanityUrl ? (
-                  <img src={imgUrl(im, 500)} width="400" height="300" alt="" loading="lazy" decoding="async" />
-                ) : null
-              ))}
+          <h2 class="jv-interview-h2">{decodeText(b.heading)}</h2>
+          <div class="jv-interview-body">
+            <div class="jv-interview-left">
+              {b.sub && <h3 class="jv-interview-h3">{decodeText(b.sub)}</h3>}
+              <ol class="jv-interview-list">
+                {b.items.map((q: string) => (<li>{decodeText(q)}</li>))}
+              </ol>
             </div>
-          )}
+            <div class="jv-interview-right">
+              {images.slice(0, 3).map((im: any, i: number) => {
+                if (!im || !im.file) return null;
+                const d = im.dims || (() => { try { return dims(im.file); } catch { return { width: 1024, height: 800 }; } })();
+                return (
+                  <img class={`jv-interview-img jv-interview-img-${i + 1}`}
+                       src={imgUrl(im, 1024)}
+                       width={d.width} height={d.height}
+                       alt={im.alt || ''}
+                       loading="lazy" decoding="async" />
+                );
+              })}
+            </div>
+          </div>
         </div>
       </section>
     );
@@ -1012,20 +1030,135 @@ function decodeText(s: string): string {
     text-decoration: underline;
   }
 
-  /* Interview questions */
-  .jv-interview { background: #fff; padding: 64px 0; }
-  .jv-interview-container {
-    max-width: var(--container-max); margin-inline: auto;
-    padding: 0 var(--section-padding-x-mobile);
-    display: grid; grid-template-columns: 1fr; gap: 32px; align-items: start;
+  /* ── Interview questions (verified live #brxe-ferycf) ──
+     Section: bg #fff, padding 40px top / 60px bottom mobile,
+     40px top / 80px bottom desktop. Container: flex column align center
+     on the H2 row, body becomes flex row 50/50 on desktop. */
+  .jv-interview {
+    background: #fff;
+    padding: 40px 0 60px;
   }
-  @media (min-width: 768px) { .jv-interview-container { padding: 0 var(--section-padding-x-desktop); } }
-  @media (min-width: 1024px) { .jv-interview-container { grid-template-columns: 1.5fr 1fr; gap: 48px; } }
-  .jv-interview-list { padding-left: 24px; margin: 16px 0 0; }
-  .jv-interview-list li { margin-bottom: 12px; color: var(--color-text); line-height: 1.55; }
-  .jv-interview-images { display: flex; flex-direction: column; gap: 16px; }
-  .jv-interview-images img {
-    width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 8px;
+  @media (min-width: 768px) {
+    .jv-interview { padding: 40px 0 80px; }
+  }
+  .jv-interview-container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  @media (min-width: 768px) {
+    .jv-interview-container { padding: 0 var(--section-padding-x-desktop); }
+  }
+  .jv-interview-h2 {
+    margin: 0 0 40px;
+    width: 100%;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 1;
+    letter-spacing: 0;
+    color: #000;
+    text-align: center;
+    text-transform: none;
+  }
+  @media (min-width: 768px) {
+    .jv-interview-h2 { font-size: 55px; }
+  }
+  .jv-interview-body {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  @media (min-width: 768px) {
+    .jv-interview-body {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 0;
+    }
+  }
+  .jv-interview-left {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  @media (min-width: 768px) {
+    .jv-interview-left {
+      width: 50%;
+      padding-right: 40px;
+    }
+  }
+  .jv-interview-list {
+    padding-left: 24px;
+    margin: 15px 0 0;
+    max-width: 900px;
+    font-family: 'Roboto', system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.3;
+    color: #424242;
+  }
+  @media (min-width: 768px) {
+    .jv-interview-list {
+      margin: 10px 0 30px;
+      font-family: var(--font-heading);
+      font-size: 18px;
+      line-height: 1.7;
+    }
+  }
+  .jv-interview-list li { margin-bottom: 12px; }
+
+  /* RIGHT col — staggered photo collage on desktop, full-width stack on mobile */
+  .jv-interview-right {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  .jv-interview-right .jv-interview-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    border: 0;
+  }
+  @media (min-width: 768px) {
+    .jv-interview-right {
+      width: 50%;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0;
+      align-self: flex-start;
+    }
+    .jv-interview-right .jv-interview-img-1 {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 875 / 700;
+      object-fit: cover;
+    }
+    .jv-interview-right .jv-interview-img-2 {
+      width: 50%;
+      height: auto;
+      aspect-ratio: 1024 / 717;
+      object-fit: cover;
+      margin-top: -13px;
+      border-top: 5px solid #fff;
+      border-bottom: 5px solid #fff;
+      box-sizing: border-box;
+    }
+    .jv-interview-right .jv-interview-img-3 {
+      width: 50%;
+      height: auto;
+      aspect-ratio: 1024 / 850;
+      object-fit: cover;
+      margin-top: -53px;
+      border-top: 10px solid #fff;
+      border-bottom: 10px solid #fff;
+      border-left: 10px solid #fff;
+      box-sizing: border-box;
+    }
   }
 
   /* ── Photo carousel (verified live #brxe-rboxpg) ──

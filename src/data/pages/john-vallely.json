@@ -360,33 +360,15 @@
     "images": [
       {
         "file": "valley_110.jpg",
-        "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/53e35a4599574ca94e2f9560d4e1abfe70d786ac-875x700.jpg",
-        "dims": {
-          "_type": "sanity.imageDimensions",
-          "aspectRatio": 1.25,
-          "height": 700,
-          "width": 875
-        }
+        "alt": ""
       },
       {
-        "file": "VipsCafe_24-9-1024x685.jpg",
-        "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/771dc53f9bb03fc82d9a0efe7e2c2e6f6b3707ac-1024x685.jpg",
-        "dims": {
-          "_type": "sanity.imageDimensions",
-          "aspectRatio": 1.494890510948905,
-          "height": 685,
-          "width": 1024
-        }
+        "file": "VipsCafe_24-9.jpg",
+        "alt": ""
       },
       {
-        "file": "VipsCafe_24-2-scaled.jpg",
-        "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/d43461b75cdadad29a6a3b0b2f0cb1454190642a-2560x2030.jpg",
-        "dims": {
-          "_type": "sanity.imageDimensions",
-          "aspectRatio": 1.2610837438423645,
-          "height": 2030,
-          "width": 2560
-        }
+        "file": "VipsCafe_24-2.jpg",
+        "alt": ""
       }
     ]
   }
