@@ -2,9 +2,8 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
-// TODO: Replace site URL once the live domain is known.
 export default defineConfig({
-  site: 'https://REPLACE_WITH_DOMAIN.com',
+  site: 'https://thepyramidprinciple.com',
   integrations: [
     sitemap({
       serialize(item) {
