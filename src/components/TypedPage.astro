@@ -4015,22 +4015,22 @@ function decodeText(s: string): string {
     text-decoration: none;
     transform: translateY(-1px);
   }
-  /* Tax note — Bebas Neue at H2 visual parity per user direction.
-     Source uses <h3> at 40/30px; rebuild uses <p> at the same 55/40
-     as the H2s so all 3 banner text blocks read at the same weight. */
+  /* Tax note — match source #brxe-onssmv (inherits global H3 = Bebas Neue
+     40px desktop / 30px mobile, line-height 1.2em). Rebuild still emits
+     <p class="gcb-tax"> for semantic correctness; visually matches source. */
   .gcb-tax {
     margin: 0;
     width: 100%;
     padding-top: 4px;
     font-family: var(--font-display);
     font-weight: 400;
-    font-size: 40px;
-    line-height: 1;
+    font-size: 30px;
+    line-height: 1.2;
     color: #212121;
     text-align: center;
   }
   @media (min-width: 768px) {
-    .gcb-tax { font-size: 55px; }
+    .gcb-tax { font-size: 40px; }
   }
 
   /* ── title-card — centered hero verified live #brxe-7d2e09 ── */
