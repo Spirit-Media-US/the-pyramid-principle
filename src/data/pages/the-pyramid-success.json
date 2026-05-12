@@ -337,7 +337,30 @@
       }
     ],
     "bio": "A teacher and a motivator, low-key Denny Crum annually built collegiate teams that played their best basketball at tournament time. Crum started coaching at UCLA as an assistant under John Wooden for three NCAA titles. Known as “Cool Hand Luke” for his calm and cool demeanor, Crum patrolled the sidelines at the University of Louisville from 1971 to 2001 creating a college program that dominated the 1980s. Crum guided the Cardinals to six NCAA Final Four appearances (1972, 1975, 1980, 1982, 1983, 1986) and led Louisville to the 1980 and 1986 national championships.",
-    "learnMoreHref": "https://en.wikipedia.org/wiki/Denny_Crum"
+    "learnMoreHref": "https://en.wikipedia.org/wiki/Denny_Crum",
+    "layout": "collage",
+    "collageGeometry": [
+      {
+        "width": "100%",
+        "height": "440px"
+      },
+      {
+        "width": "50%",
+        "height": "280px",
+        "marginTop": "-13px",
+        "borderTop": 5,
+        "borderBottom": 5,
+        "objectPosition": "20% 50%"
+      },
+      {
+        "width": "50%",
+        "height": "500px",
+        "marginTop": "-53px",
+        "borderTop": 10,
+        "borderBottom": 10,
+        "borderLeft": 10
+      }
+    ]
   },
   {
     "type": "person-profile-card",
