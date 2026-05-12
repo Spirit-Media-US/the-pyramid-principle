@@ -2452,6 +2452,13 @@ function decodeText(s: string): string {
     flex-direction: column;
     align-items: center;
   }
+  /* Per-section tightening — Other International Retailers sits
+     directly under Amazon Global Marketplaces with the same .jv-amzn
+     class. Source has a 20px gap between them (via margin-top: 20px
+     on #brxe-fjfpmc, verified live), not the 80px default. */
+  #brxe-fjfpmc.jv-amzn .jv-amzn-container {
+    margin-top: 20px;
+  }
   .jv-amzn-outer-h2 {
     /* Inherits .jv-section-h2-banner-text base: Bebas Neue + clamp font.
        Override here for centered alignment + tighter line-height. */
