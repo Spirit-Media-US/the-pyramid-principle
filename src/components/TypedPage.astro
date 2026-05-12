@@ -2287,6 +2287,9 @@ function decodeText(s: string): string {
     object-fit: cover;
     display: block;
     border-radius: 0;
+    /* Verified live #brxe-jurduy / #brxe-kygekm: subtle drop shadow
+       grounds the images against the section bg. */
+    box-shadow: 1px 6px 3px 0 rgba(33, 33, 33, 0.22);
   }
   @media (min-width: 768px) {
     .jv-cc-img { width: calc(50% - 10px); }
