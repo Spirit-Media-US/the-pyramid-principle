@@ -195,18 +195,22 @@ function decodeText(s: string): string {
     return (
       <section class="jv-pop" id={b.id}>
         <div class="jv-pop-container">
-          {b.heading && <h2 class="jv-pop-h2">{decodeText(b.heading)}</h2>}
-          <div class="jv-pop-list-grid">
-            {renderItems(left)}
-            {renderItems(right)}
+          <div class="jv-pop-text">
+            {b.heading && <h2 class="jv-pop-h2">{decodeText(b.heading)}</h2>}
+            <div class="jv-pop-list-grid">
+              {renderItems(left)}
+              {renderItems(right)}
+            </div>
           </div>
           {img && img.sanityUrl && (
-            <img class="jv-pop-image"
-                 src={imgUrl(img, 1024)}
-                 width={img?.dims?.width || 640}
-                 height={img?.dims?.height || 480}
-                 alt={img.alt || ''}
-                 loading="lazy" decoding="async" />
+            <div class="jv-pop-image-wrap">
+              <img class="jv-pop-image"
+                   src={imgUrl(img, 1024)}
+                   width={img?.dims?.width || 640}
+                   height={img?.dims?.height || 480}
+                   alt={img.alt || ''}
+                   loading="lazy" decoding="async" />
+            </div>
           )}
         </div>
       </section>
@@ -1901,12 +1905,33 @@ function decodeText(s: string): string {
   @media (min-width: 768px) {
     .jv-pop { padding: 40px var(--section-padding-x-desktop); }
   }
+  /* Container: flex column mobile (text on top, image below) /
+     flex row desktop (text LEFT, image RIGHT — verified live
+     #brxe-qpgplg has display:flex flex-direction:row, gap:20px). */
   .jv-pop-container {
     max-width: var(--container-max);
     margin: 0 auto;
     display: flex;
     flex-direction: column;
+    align-items: stretch;
+    gap: 30px;
+  }
+  @media (min-width: 768px) {
+    .jv-pop-container { flex-direction: row; align-items: flex-start; gap: 40px; }
+  }
+  .jv-pop-text {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .jv-pop-image-wrap {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
     align-items: center;
+  }
+  @media (min-width: 768px) {
+    .jv-pop-text, .jv-pop-image-wrap { flex: 1 1 50%; min-width: 0; }
   }
   .jv-pop-h2 {
     margin: 0 0 20px;
@@ -1923,6 +1948,9 @@ function decodeText(s: string): string {
   @media (min-width: 768px) {
     .jv-pop-h2 { font-size: 55px; line-height: 1; }
   }
+  /* List grid: 1 col mobile (all items stack as one continuous list,
+     matching the source's #brxe-ddqmnk mobile pattern) / 2 sub-cols
+     desktop (4 left + 5 right, matching #brxe-jwolrh + #brxe-toitaz). */
   .jv-pop-list-grid {
     width: 100%;
     display: grid;
@@ -1930,7 +1958,7 @@ function decodeText(s: string): string {
     gap: 0;
   }
   @media (min-width: 768px) {
-    .jv-pop-list-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+    .jv-pop-list-grid { grid-template-columns: 1fr 1fr; gap: 30px; }
   }
   .jv-pop-list-grid ul {
     margin: 0;
@@ -1955,12 +1983,15 @@ function decodeText(s: string): string {
   }
   .jv-pop-image {
     width: 100%;
-    max-width: 640px;
     height: auto;
     aspect-ratio: 640 / 480;
     object-fit: cover;
     display: block;
-    margin: 30px auto 0;
+    margin: 0 auto;
+  }
+  @media (max-width: 767px) {
+    /* On mobile keep image visually centred + capped at native width. */
+    .jv-pop-image { max-width: 640px; margin-top: 20px; }
   }
 
   /* ── stats-card-grid (verified live #brxe-asxjua / #brxe-vizxhf /
