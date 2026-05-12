@@ -3779,28 +3779,25 @@ function decodeText(s: string): string {
   @media (min-width: 768px) {
     .ds-card { padding: 25px 80px 40px; }
   }
+  /* Single-column stack: video full-width on top, text below. */
   .ds-row {
     display: flex;
     flex-direction: column;
-    gap: 32px;
-  }
-  @media (min-width: 1024px) {
-    .ds-row { flex-direction: row; align-items: flex-start; gap: 40px; }
+    gap: 24px;
   }
   .ds-col-video {
     width: 100%;
     padding: 20px 0;
-    border-radius: 25px;
   }
-  @media (min-width: 1024px) {
-    .ds-col-video { width: 50%; padding: 40px 0; position: sticky; top: 20px; }
+  @media (min-width: 768px) {
+    .ds-col-video { padding: 40px 0; }
   }
   .ds-video-wrap {
     position: relative;
     width: 100%;
     aspect-ratio: 16 / 9;
     background: #000;
-    border-radius: 12px;
+    border-radius: 15px;
     overflow: hidden;
   }
   .ds-video {
@@ -3815,9 +3812,6 @@ function decodeText(s: string): string {
     width: 100%;
     display: flex;
     flex-direction: column;
-  }
-  @media (min-width: 1024px) {
-    .ds-col-content { width: 50%; }
   }
   .ds-block { margin-top: 15px; }
   .ds-block:first-child { margin-top: 0; }
