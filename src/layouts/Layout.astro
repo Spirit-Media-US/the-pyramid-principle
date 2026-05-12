@@ -236,8 +236,7 @@ const SOCIAL = [
 
       <section class="footer-bottom">
         <div class="footer-bottom-row">
-          <p class="footer-copy-line">Copyright © {currentYear} {SITE_NAME}, All rights reserved.</p>
-          <p class="footer-design-line">Design by <a href="https://spiritmediapublishing.com/">Spirit Media</a> <HundredClubBadge /></p>
+          <p class="footer-copy-line">© {currentYear} {SITE_NAME}. All rights reserved. · Powered by <a href="https://spiritmediapublishing.com/">Spirit Media</a> <HundredClubBadge /></p>
         </div>
       </section>
     </footer>
@@ -586,17 +585,18 @@ const SOCIAL = [
     @media (min-width: 640px) {
       .footer-bottom-row { flex-direction: row; gap: 24px; }
     }
-    .footer-copy-line, .footer-design-line {
+    .footer-copy-line {
       margin: 0;
       font-family: 'Montserrat', system-ui, sans-serif;
       font-size: 0.875rem;
       font-weight: 400;
       color: var(--color-text);
+      text-align: center;
     }
-    .footer-design-line a {
+    .footer-copy-line a {
       color: var(--color-ink);
       text-decoration: underline;
     }
-    .footer-design-line a:hover { color: var(--color-publisher-gold); }
+    .footer-copy-line a:hover { color: var(--color-publisher-gold); }
   }
 </style>
