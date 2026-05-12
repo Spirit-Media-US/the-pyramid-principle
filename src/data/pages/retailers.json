@@ -250,5 +250,25 @@
         }
       }
     ]
+  },
+  {
+    "type": "centered-callout",
+    "id": "brxe-qfoozj",
+    "heading": "A Heart-Gripping Story of Championship Resilience in Life's Toughest Battles",
+    "body": "Erin's Story of Courage Brings Hope, Healing, and Deliverance to Everyone fighting Cancer.",
+    "images": [
+      {
+        "file": "6-1.png",
+        "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/9f2a480e1ef1c77b12123435e1477b71ee2cc102-1250x750.png",
+        "dims": { "_type": "sanity.imageDimensions", "aspectRatio": 1.6666666666666667, "height": 750, "width": 1250 },
+        "alt": ""
+      },
+      {
+        "file": "7-1.png",
+        "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/c5c6bcc68145eb1e4f1b469c56751941bddb89a8-1250x750.png",
+        "dims": { "_type": "sanity.imageDimensions", "aspectRatio": 1.6666666666666667, "height": 750, "width": 1250 },
+        "alt": ""
+      }
+    ]
   }
 ]

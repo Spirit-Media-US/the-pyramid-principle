@@ -101,6 +101,8 @@ Then run: `git checkout dev && git pull origin dev`
   - `/retailers/` Translation grid Spanish cover — source filename is `unnamed-683x1024.jpg` (generic auto-name). Confirm with Kevin whether this is the final Spanish edition cover or a placeholder needing replacement before launch.
   - `/retailers/` Translation grid heading — source uses "Other languages are coming soon ...." (4-dot ellipsis, four periods). Preserved verbatim per Phase 3. Phase 6 polish: replace with proper `…` (U+2026) ellipsis character or 3-dot.
   - `/retailers/` Translation grid Chinese label — source has two adjacent H3 elements ("CHINESE " with trailing space + "( Mandarin )" with internal spaces) treated as a single label split across two lines. Re-semanticized as one `<h3>` ("Chinese") + a smaller `<p>` sublabel ("(Mandarin)") for clearer document outline. Phase 6 polish if Kevin wants the source double-H3 markup back.
+  - `/retailers/` Heart-Gripping Story callout subtitle — source reads "Erin's Story of Courage Brings Hope, Healing, and Deliverance to Everyone fighting Cancer." with lowercase "fighting" and capital "Cancer". Same mid-sentence capitalisation quirk appears on the homepage footer Give-Courage block ("Families fighting CAncer…"). Phase 6 polish: pick one casing and apply consistently across both occurrences.
+  - `/retailers/` Heart-Gripping Story callout images — files are named `6-1.png` and `7-1.png` (generic auto-names from a campaign asset folder). Both are 1250x750 PNGs already in Sanity. Confirm with Kevin what these depict and add meaningful alt text before launch.
 
 ### Phases 5-9
 - [ ] Pending

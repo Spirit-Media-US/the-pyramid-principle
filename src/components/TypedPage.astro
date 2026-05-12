@@ -125,6 +125,38 @@ function decodeText(s: string): string {
     );
   }
 
+  // ── centered-callout — verified live #brxe-qfoozj (Retailers Section 7,
+  // "A Heart-Gripping Story of Championship Resilience"). Centered H2 +
+  // body subtitle above a 2-column image strip. Two images sit side-by-side
+  // at 50% each on both viewports (verified). Pattern is reusable for any
+  // "H2 + lede + side-by-side image pair" section.
+  if (b.type === 'centered-callout') {
+    const images = (b.images || []) as any[];
+    return (
+      <section class="jv-cc" id={b.id}>
+        <div class="jv-cc-container">
+          {b.heading && <h2 class="jv-cc-h2">{decodeText(b.heading)}</h2>}
+          {b.body && <p class="jv-cc-body">{decodeText(b.body)}</p>}
+          {images.length > 0 && (
+            <div class="jv-cc-images">
+              {images.map(im => {
+                if (!im || !im.file) return null;
+                const d = im.dims || (() => { try { return dims(im.file); } catch { return { width: 1250, height: 750 }; } })();
+                return (
+                  <img class="jv-cc-img"
+                       src={imgUrl(im, 1200)}
+                       width={d.width} height={d.height}
+                       alt={im.alt || ''}
+                       loading="lazy" decoding="async" />
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </section>
+    );
+  }
+
   // ── translation-grid — verified live #brxe-qwjjpw (Retailers Section 6,
   // "Translation Editions — Coming Soon"). Centered Libre-Baskerville
   // header followed by a 4-card grid (book cover + language label).
@@ -1595,6 +1627,80 @@ function decodeText(s: string): string {
   .jv-photo-carousel:not(:has(.swiper-initialized)) .jv-photo-next {
     opacity: 0;
     pointer-events: none;
+  }
+
+  /* ── centered-callout (verified live #brxe-qfoozj / #brxe-ytcpsg /
+       #brxe-gplifl / #brxe-kpebyi / #brxe-clvjqv) — Retailers Section 7.
+     Section: margin 100px 0 80px, padding 0 20px mobile / desktop padding.
+     Inner container: flex column align-items center.
+     H2: Bebas Neue 40px mobile / 55px desktop, color #000, text-align
+       center, width content-driven (NOT 100%).
+     Body: Roboto 18px mobile / DM Sans 18px desktop, line-height 30.6px,
+       color #616161, text-align left (verified — not center), margin
+       10px 0 20px.
+     Image strip: flex row wrap, justify-content space-between, 2 images
+       at 50% each on BOTH viewports (verified). */
+  .jv-cc {
+    margin: 100px 0 80px;
+    padding: 0 20px;
+  }
+  @media (min-width: 768px) {
+    .jv-cc { padding: 0 var(--section-padding-x-desktop); }
+  }
+  .jv-cc-container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .jv-cc-h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 1;
+    letter-spacing: 0;
+    color: #000;
+    text-align: center;
+    text-transform: none;
+  }
+  @media (min-width: 768px) {
+    .jv-cc-h2 { font-size: 55px; line-height: 1; }
+  }
+  .jv-cc-body {
+    margin: 10px 0 20px;
+    width: 100%;
+    font-family: 'Roboto', system-ui, sans-serif;
+    font-size: 18px;
+    line-height: 1.7;
+    color: #616161;
+    text-align: left;
+  }
+  @media (min-width: 768px) {
+    .jv-cc-body { font-family: var(--font-heading); }
+  }
+  .jv-cc-images {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0;
+  }
+  .jv-cc-img {
+    /* 50% width on both viewports per source (with no gap → buttons
+       touch unless content has natural separation). */
+    width: calc(50% - 7px);
+    height: auto;
+    aspect-ratio: 1250 / 750;
+    object-fit: cover;
+    display: block;
+    border-radius: 0;
+  }
+  @media (min-width: 768px) {
+    .jv-cc-img { width: calc(50% - 10px); }
   }
 
   /* ── translation-grid (verified live #brxe-qwjjpw / #brxe-dzkhwn /
