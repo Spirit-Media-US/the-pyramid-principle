@@ -51,6 +51,57 @@
     ]
   },
   {
+    "type": "video-popup-grid",
+    "id": "brxe-glibgo",
+    "tiles": [
+      {
+        "videoId": "lfSEgefu5O8",
+        "label": "Video 1",
+        "poster": "https://i.ytimg.com/vi/lfSEgefu5O8/hqdefault.jpg"
+      },
+      {
+        "videoId": "9zOvZV8f9pQ",
+        "label": "Video 2",
+        "poster": "https://i.ytimg.com/vi/9zOvZV8f9pQ/maxresdefault.jpg"
+      },
+      {
+        "videoId": "aXvkH0lt6d0",
+        "label": "Video 3",
+        "poster": "https://i.ytimg.com/vi/aXvkH0lt6d0/maxresdefault.jpg"
+      },
+      {
+        "videoId": "2Jof-F0PqFU",
+        "label": "Video 4",
+        "poster": "https://i.ytimg.com/vi/2Jof-F0PqFU/maxresdefault.jpg"
+      },
+      {
+        "videoId": "GkTA5ePOaAg",
+        "label": "Video 5",
+        "poster": "https://i.ytimg.com/vi/GkTA5ePOaAg/maxresdefault.jpg"
+      },
+      {
+        "videoId": "TCTOkcqDyiE",
+        "label": "Video 6",
+        "poster": "https://i.ytimg.com/vi/TCTOkcqDyiE/maxresdefault.jpg"
+      },
+      {
+        "videoId": "BDDFnMR7ogo",
+        "label": "Video 7",
+        "poster": "https://i.ytimg.com/vi/BDDFnMR7ogo/maxresdefault.jpg"
+      },
+      {
+        "videoId": "UGHu9ErBqvo",
+        "label": "Video 8",
+        "poster": "https://i.ytimg.com/vi/UGHu9ErBqvo/maxresdefault.jpg"
+      },
+      {
+        "videoId": "VsL68tGphGI",
+        "label": "Video 9",
+        "poster": "https://i.ytimg.com/vi/VsL68tGphGI/maxresdefault.jpg"
+      }
+    ]
+  },
+  {
     "type": "featured-podcasts",
     "id": "brxe-hapjdg",
     "heading": "Featured Podcasts",
@@ -184,57 +235,6 @@
       {
         "file": "VipsCafe_24-10-1.jpg",
         "alt": ""
-      }
-    ]
-  },
-  {
-    "type": "video-popup-grid",
-    "id": "brxe-glibgo",
-    "tiles": [
-      {
-        "videoId": "lfSEgefu5O8",
-        "label": "Video 1",
-        "poster": "https://i.ytimg.com/vi/lfSEgefu5O8/hqdefault.jpg"
-      },
-      {
-        "videoId": "9zOvZV8f9pQ",
-        "label": "Video 2",
-        "poster": "https://i.ytimg.com/vi/9zOvZV8f9pQ/maxresdefault.jpg"
-      },
-      {
-        "videoId": "aXvkH0lt6d0",
-        "label": "Video 3",
-        "poster": "https://i.ytimg.com/vi/aXvkH0lt6d0/maxresdefault.jpg"
-      },
-      {
-        "videoId": "2Jof-F0PqFU",
-        "label": "Video 4",
-        "poster": "https://i.ytimg.com/vi/2Jof-F0PqFU/maxresdefault.jpg"
-      },
-      {
-        "videoId": "GkTA5ePOaAg",
-        "label": "Video 5",
-        "poster": "https://i.ytimg.com/vi/GkTA5ePOaAg/maxresdefault.jpg"
-      },
-      {
-        "videoId": "TCTOkcqDyiE",
-        "label": "Video 6",
-        "poster": "https://i.ytimg.com/vi/TCTOkcqDyiE/maxresdefault.jpg"
-      },
-      {
-        "videoId": "BDDFnMR7ogo",
-        "label": "Video 7",
-        "poster": "https://i.ytimg.com/vi/BDDFnMR7ogo/maxresdefault.jpg"
-      },
-      {
-        "videoId": "UGHu9ErBqvo",
-        "label": "Video 8",
-        "poster": "https://i.ytimg.com/vi/UGHu9ErBqvo/maxresdefault.jpg"
-      },
-      {
-        "videoId": "VsL68tGphGI",
-        "label": "Video 9",
-        "poster": "https://i.ytimg.com/vi/VsL68tGphGI/maxresdefault.jpg"
       }
     ]
   },
