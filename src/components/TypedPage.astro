@@ -3659,13 +3659,15 @@ function decodeText(s: string): string {
   }
 
   /* ── give-courage-banner — verified live #brxe-vccsio (3-col row).
-     Desktop: 3 columns at 32% width each (justify-between leaves ~2%
-     gap between adjacent cols). Col 2 has 5px UCLA-blue left border +
-     light gray bg as the accent/divider. Mobile: stack vertically;
-     col 2 becomes a rounded gray card. */
+     Desktop: 3 columns at 32% width each (justify-between). Thin pink
+     vertical divider between cols 1 and 2 (2px solid #F999CB). All 3
+     text blocks (both H2s + tax note) use the same global H2 Bebas Neue
+     size (55px desktop / 40px mobile) for visual weight parity per user
+     direction. Mobile: stack vertically; col 2 becomes a rounded gray
+     card (source's mobile treatment). */
   .gcb-section {
     background: #fff;
-    padding: 40px 0 0;
+    padding: 40px 0 30px;
   }
   .gcb-inner {
     max-width: var(--container-max);
@@ -3700,6 +3702,8 @@ function decodeText(s: string): string {
   @media (min-width: 768px) {
     .gcb-col-1 { padding: 0; }
   }
+  /* Col 2 — H2-2 wrapper. Mobile: rounded gray card per source.
+     Desktop: clean white bg with thin pink left border as divider. */
   .gcb-col-2 {
     justify-content: center;
     background: #f5f5f5;
@@ -3710,7 +3714,8 @@ function decodeText(s: string): string {
   }
   @media (min-width: 768px) {
     .gcb-col-2 {
-      border-left: 5px solid #2196f3;
+      background: transparent;
+      border-left: 2px solid #F999CB;
       padding: 10px 10px 10px 20px;
       border-radius: 0;
       margin: 0;
@@ -3722,6 +3727,7 @@ function decodeText(s: string): string {
     align-items: center;
     align-self: center;
     padding: 0 20px;
+    row-gap: 10px;
   }
   @media (min-width: 768px) {
     .gcb-col-3 { padding: 0; }
@@ -3733,11 +3739,11 @@ function decodeText(s: string): string {
     line-height: 1;
     font-family: var(--font-display);
     font-weight: 400;
-    font-size: 36px;
+    font-size: 40px;
     text-align: center;
   }
   @media (min-width: 768px) {
-    .gcb-h2 { font-size: 44px; }
+    .gcb-h2 { font-size: 55px; }
     .gcb-h2-1 { text-align: right; }
     .gcb-h2-2 { text-align: left; }
   }
@@ -3749,14 +3755,12 @@ function decodeText(s: string): string {
     color: #000;
     font-family: 'Raleway', system-ui, sans-serif;
     font-weight: 700;
-    font-size: 16px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    font-size: 18px;
+    letter-spacing: 0.01em;
     border: 1px solid rgba(33, 33, 33, 0.26);
     box-shadow: 0 2px 3px 1px rgba(112, 94, 0, 0.47);
     border-radius: 10px;
-    padding: 12px 28px;
-    padding-right: 10px;
+    padding: 12px 24px;
     text-decoration: none;
     transition: transform 0.15s, background 0.15s;
   }
@@ -3769,17 +3773,22 @@ function decodeText(s: string): string {
     text-decoration: none;
     transform: translateY(-1px);
   }
+  /* Tax note — Bebas Neue at H2 visual parity per user direction.
+     Source uses <h3> at 40/30px; rebuild uses <p> at the same 55/40
+     as the H2s so all 3 banner text blocks read at the same weight. */
   .gcb-tax {
     margin: 0;
     width: 100%;
-    padding-top: 8px;
-    font-family: var(--font-heading);
+    padding-top: 4px;
+    font-family: var(--font-display);
     font-weight: 400;
-    font-size: 12px;
-    letter-spacing: 0.05em;
-    color: #888;
-    line-height: 1.4;
+    font-size: 40px;
+    line-height: 1;
+    color: #212121;
     text-align: center;
+  }
+  @media (min-width: 768px) {
+    .gcb-tax { font-size: 55px; }
   }
 
   /* ── title-card — centered hero verified live #brxe-7d2e09 ── */
