@@ -7,7 +7,6 @@
 //   Trait 6: astro.config inlineStylesheets:'auto' + async-css postbuild
 //   Trait 7: header here is structural; hero markup on each page must omit data-aos / reveal wrappers
 //   Trait 8: <img> elements always have width / height
-import HundredClubBadge from '../components/HundredClubBadge.astro';
 import { srcW } from '../lib/img';
 import '../styles/global.css';
 
@@ -214,9 +213,9 @@ const SOCIAL = [
                    loading="lazy" decoding="async" />
             </a>
             <address class="footer-address">
-              8045 Arco Corporate Dr STE 130<br />
-              Raleigh, NC 27617<br />
-              <a href="tel:+18888003744">1 (888) 800-3744</a>
+              205 S Academy St #3251<br />
+              Cary, NC 27519<br />
+              <a href="tel:+18888003744">1-888-800-3744</a>
             </address>
             <a class="footer-contact-link" href="https://spiritmediapublishing.com/request-a-call/">Contact Spirit Media</a>
           </div>
@@ -236,7 +235,7 @@ const SOCIAL = [
 
       <section class="footer-bottom">
         <div class="footer-bottom-row">
-          <p class="footer-copy-line">© {currentYear} {SITE_NAME}. All rights reserved. · Powered by <a href="https://spiritmediapublishing.com/">Spirit Media</a> <HundredClubBadge /></p>
+          <p class="footer-copy-line">© {currentYear} The Kohler Group, PLLC. All rights reserved. · Powered by <a href="https://spiritmediapublishing.com/">Spirit Media</a> <span class="hundred-club-pill" aria-label="100 Club Member">100 Club Member</span></p>
         </div>
       </section>
     </footer>
@@ -598,5 +597,19 @@ const SOCIAL = [
       text-decoration: underline;
     }
     .footer-copy-line a:hover { color: var(--color-publisher-gold); }
+    .hundred-club-pill {
+      display: inline-block;
+      padding: 0.125rem 0.625rem;
+      margin-left: 0.375rem;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: inherit;
+      border: 1px solid currentColor;
+      border-radius: 9999px;
+      opacity: 0.55;
+      white-space: nowrap;
+      vertical-align: middle;
+    }
   }
 </style>
