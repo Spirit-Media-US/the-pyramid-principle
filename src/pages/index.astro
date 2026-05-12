@@ -373,9 +373,9 @@ function blogHref(originalHref: string): string {
       <div class="resources-banner" data-anim="zoomIn">
         <h2 class="resources-heading">{FREE_RES_H2}</h2>
         <div class="resources-pills">
-          <a class="pill-cta-gray" href="/free-resources/">{PDF_SAMPLE.text}</a>
-          <a class="pill-cta-gray" href="/free-resources/">{BOOK_CLUB.text}</a>
-          <a class="pill-cta-gray" href="/the-pyramid-success/">{PYRAMID_LINK.text}</a>
+          <a class="pill-cta" href="/free-resources/">{PDF_SAMPLE.text}</a>
+          <a class="pill-cta" href="/free-resources/">{BOOK_CLUB.text}</a>
+          <a class="pill-cta" href="/the-pyramid-success/">{PYRAMID_LINK.text}</a>
         </div>
       </div>
     </div>
@@ -950,7 +950,10 @@ function blogHref(originalHref: string): string {
     .resources-banner-wrap { padding: 0 var(--section-padding-x-desktop); }
   }
   .resources-banner {
-    background: var(--color-brand-yellow); /* #FFD100 */
+    /* Per user direction: drop the source's #FFD100 inner-banner fill
+       and let the H2 + pills sit on the section's white bg. Yellow
+       moves to the pills (.pill-cta) instead. */
+    background: transparent;
     padding: 24px 20px;
     display: flex;
     flex-direction: column;
@@ -981,19 +984,30 @@ function blogHref(originalHref: string): string {
     .resources-pills { flex-direction: row; flex-wrap: wrap; justify-content: center; }
   }
 
-  /* Container 2: video + Cori Close quote */
+  /* Container 2: video + Cori Close quote — wrapped in a card with
+     border + radius + generous padding per source (#brxe-dpfhqf:
+     1px solid #e0e0e0, border-radius 15px, padding 50px 30px,
+     margin 0 70px desktop, max-w 1140 — verified live). */
   .cori-grid {
     width: 100%;
-    max-width: var(--container-max);
-    margin-inline: auto;
-    padding: 40px var(--section-padding-x-mobile);
+    max-width: 1140px;
+    margin: 0 auto 40px;
+    padding: 30px 20px 40px;
+    border: 1px solid #e0e0e0;
+    border-radius: 15px;
+    background: transparent;
+    overflow: visible;
     display: grid;
     grid-template-columns: 1fr;
     gap: 32px;
     align-items: start;
+    box-sizing: border-box;
   }
   @media (min-width: 768px) {
-    .cori-grid { padding: 50px var(--section-padding-x-desktop); }
+    .cori-grid {
+      margin: 0 70px 60px;
+      padding: 50px 30px;
+    }
   }
   @media (min-width: 1024px) {
     .cori-grid { grid-template-columns: 1fr 1fr; gap: 48px; }
