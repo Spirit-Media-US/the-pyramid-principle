@@ -184,7 +184,40 @@ Per Kevin's instruction "If still below 95 after medium fixes — STOP, log rema
 
 **Not eligible for main merge** until both perf scores ≥ 95. Blog Gold-Level audit is also blocking — see migration phase-4 CAR section below.
 
-### Phases 6-9
+### Phase 6 — Performance push to 95+ (partial, stopped 2026-05-12)
+
+Goal was both mobile + desktop ≥ 95. Outcome: **desktop hit, mobile 7 points short.**
+
+**Final PSI on `dev.the-pyramid-principle.pages.dev` (commit d9e1a2d, median of 5):**
+- **Mobile:** Perf **88** (range 88-89) / A11y **100** / BP **100** / SEO **100** — FCP 2.6s, LCP 3.3s, TBT 0ms, CLS 0.001
+- **Desktop:** Perf **99** (range 99-100) / A11y **100** / BP **100** / SEO **100** — FCP 0.6s, LCP 0.7-0.8s, TBT 0ms, CLS 0
+
+**Major wins shipped:**
+- **Disabled the `scripts/async-css.mjs` post-build step (commit d6c823f)** — root cause of the body-shift CLS that capped Phase 5. The script converted every `<link rel="stylesheet">` to `media="print" onload="this.media='all'"` (non-blocking), but the project only emits ~1.5KB of inline critical CSS (a LogoCarousel snippet). The page was painting unstyled, then the full Tailwind bundle was swapping in, restyling the entire body. That swap was the desktop CLS=1.0 and mobile CLS=0.79–1.0 we had been chasing. Reverting to render-blocking CSS (Astro's default `inlineStylesheets: 'auto'`) cost ~200ms FCP but eliminated the CLS entirely. **Net effect: mobile 61 → 87, desktop 75 → 99.**
+- **`content-visibility: auto` on below-the-fold sections (commit d9e1a2d)** — main-thread Style+Layout was 105ms real (~420ms throttled). Skipping layout/paint for the 7 below-fold sections shaved ~+1 mobile perf, ~+1 desktop.
+
+**Approaches that didn't work (reverted):**
+- **Fix A: fallback font metrics with size-adjust / ascent-override** (commits e3bc816, c6ffd98 — reverted 0800a8a, ccdab4d). Generated via fontkit from each woff2's OS/2 table, wired into the family stacks. Mobile CLS oscillated 0.001 ↔ 0.79 across runs even after the formula correction (override % needed to be divided by sizeAdjust to keep absolute line-box). Net was zero measurable benefit because PSI's Linux headless Chrome environment substitutes `local('Arial')` for Liberation Sans / DejaVu Sans, whose metrics differ from Capsize's macOS Arial values — `size-adjust` calibration breaks.
+- **`inlineStylesheets: 'always'`** (commit 3762434 — reverted 29e8612). HTML jumped from ~25KB to ~110KB. Mobile slow-4G download of the larger HTML cost more time than the saved CSS-fetch did, regressing perf 87→85. The win pattern is "inline only above-the-fold critical CSS", not "inline everything."
+- **Retarget homepage preloads** (commit 338b49e — reverted 7184175). Swapped Bebas Neue 400 + hero image preloads for Open Sans 400 + DM Sans 700. Preloading the font used by the LCP text element ironically *hurt* LCP by ~700ms — with `font-display: optional`, preloading makes the font more likely to arrive within the optional window, which causes the browser to paint the text with the loaded font (longer wait) instead of the fallback (immediate). Counterintuitive but reproducible.
+- **Remove Layout.astro font preloads** (commit f048d6b — reverted 1b6c949). Moving preloads to `_headers` only made mobile regress 87→82 because CF Pages preview URLs don't promote `Link:` headers to HTTP/2 103 Early Hints — only zones with `early_hints=on` do, and we have no zone yet.
+
+**Remaining gap (Phase 7 / launch candidates):**
+- **Mobile LCP 3.3s is the only bottleneck.** Lighthouse's `render-blocking-insight` audit estimates 2,100ms LCP savings *if* the 3 render-blocking CSS files (17KB on the wire combined) were deferred or inlined. The async-css approach can't be re-enabled without first extracting proper critical CSS for the hero — currently all critical above-the-fold styling is in scoped Astro `<style>` blocks per component, not in `@layer base` where the perf-gate rule expects it (trait 6).
+- **CF zone Phase 0 settings** — `early_hints=on`, `mirage=off`, `0rtt=on`, `is_robots_txt_managed=false`, `ai_bots_protection=block` — are deferred to Phase 8 (no custom domain yet). The cf-zone-settings.md rule notes that prod scores typically run 4-6 points BELOW dev.pages.dev previews until Phase 0 is applied — so this is unlikely to be the bridge to 95 from 88, but it should at least not regress when the domain is connected. Likely net effect on mobile: 0 to +3.
+- **Architectural options for Phase 7 (each blocked from "tonight" work):**
+  1. Manual critical CSS extraction — pull hero + header CSS into a `<style>` tag in Layout.astro `<head>`, then re-enable async-css for the rest. ~1-2 hours.
+  2. Tooling-based critical CSS — install Critters or Penthouse, run as part of build. ~2 hours including config + testing.
+  3. Defer below-the-fold @font-face declarations via JS-injected stylesheet — currently 8 @font-face declarations all start loading on CSS parse, including libre-baskerville and abel which are only used in the Coach Wooden quote section. ~1 hour.
+  4. Replace text-LCP with a styled-via-class HTML pattern that the browser can paint with system fallback fonts — requires verifying every hero element's font use stays cohesive. Risky on visual fidelity.
+
+**Commits on dev branch from Phase 6 (all clean, no force-push):**
+- d6c823f — disable async-css
+- 1b6c949 — (revert of f048d6b layout-preload move)
+- d9e1a2d — content-visibility on below-fold sections
+- Plus reverts at 7184175, 29e8612, 0800a8a, ccdab4d cleaning up the experiments.
+
+### Phases 7-9
 
 ## DNS Pattern
 
