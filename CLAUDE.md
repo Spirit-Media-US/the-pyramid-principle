@@ -79,6 +79,7 @@ Then run: `git checkout dev && git pull origin dev`
   - `home.json` block 70 (Wooden attribution): source `<h2>` → reclassified to `<p>` + `<cite>` role.
   - "John Valley" (sic) typo preserved on Highlights items 5+6 of col 2 (live source has it).
   - Live source uses `Libre Baskerville` (quote) + `Abel` (cite) on the Wooden section. Both self-hosted from R2. Live H6 "A Heart-Gripping Story of Heroic Love and Legacy" uses Montserrat 20px 700.
+  - Bricks shape-divider above John Vallely hero section dropped in migration — visually weak in the original, looked like a rendering bug in the rebuild. Confirm with Kevin whether to add it back with proper sizing.
 
 ### Phases 5-9
 - [ ] Pending
