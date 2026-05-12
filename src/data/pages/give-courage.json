@@ -217,5 +217,25 @@
       }
     },
     "maxWidth": 1024
+  },
+  {
+    "type": "join-movement",
+    "id": "brxe-2894dc",
+    "image": {
+      "file": "join-the-movement.png",
+      "alt": "Join The Movement — Erin Vallely's legacy of courage",
+      "dims": {
+        "width": 1070,
+        "height": 998
+      }
+    },
+    "headingHtml": "<span>Join</span> The Movement",
+    "bodyParagraphs": [
+      "Erin's beautiful life, and courageous fight has created awareness and breakthroughs that continue to save lives today. With the commitment of The Pediatric Cancer Research Foundation and its funding to early stage work, Federal NIH funding has followed on. With optimism and hope, PCRF and it's partners believe in a future where the increased funding will reduce the burdens of these afflicted children on its way to a cure.",
+      "After 30 years of living with the beautiful memory of our inspirational daughter, Erin, Karen and I have learned that every human is on earth for a reason. And for that reason, we celebrate all the partners that dream and pray for a cure for this disease.",
+      {
+        "html": "<strong class=\"jm-pink\">Please join us as we seek to carry on Erin's vision, mission, and pleas for a cure.</strong><br><em class=\"jm-attribution\">– John &amp; Karen Vallely</em>"
+      }
+    ]
   }
 ]

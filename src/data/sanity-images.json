@@ -2599,5 +2599,18 @@
       "height": 750,
       "width": 1250
     }
+  },
+  "join-the-movement.png": {
+    "originalUrl": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/10/join-the-movement.png",
+    "sanityAssetId": "image-8dfb3e1f8ac61e1fbf00ad9f9ad404257cf3632c-1070x998-png",
+    "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/8dfb3e1f8ac61e1fbf00ad9f9ad404257cf3632c-1070x998.png",
+    "alt": "Join The Movement — Erin Vallely's legacy of courage",
+    "size": 323466,
+    "dimensions": {
+      "_type": "sanity.imageDimensions",
+      "aspectRatio": 1.0721442885771544,
+      "height": 998,
+      "width": 1070
+    }
   }
 }
