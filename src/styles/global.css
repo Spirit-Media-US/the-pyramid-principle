@@ -64,53 +64,6 @@
   font-display: optional;
 }
 
-/* ─── Fallback faces with size-adjust / ascent-override / descent-override ──
-   Generated 2026-05-12 via fontkit on the actual woff2 files; values calibrated
-   to match each web font's OS/2 metrics so layout doesn't shift when the web
-   font swaps in (font-display: optional or otherwise).
-   See /tmp/font-metrics/extract.mjs for the generator.
-─────────────────────────────────────────────────────────────── */
-@font-face {
-  font-family: 'DM Sans Fallback';
-  src: local('Arial'), local('Helvetica'), local('Liberation Sans');
-  size-adjust: 122.34%;
-  ascent-override: 99.20%;
-  descent-override: 31.00%;
-  line-gap-override: 0%;
-}
-@font-face {
-  font-family: 'Open Sans Fallback';
-  src: local('Arial'), local('Helvetica'), local('Liberation Sans');
-  size-adjust: 116.04%;
-  ascent-override: 106.88%;
-  descent-override: 29.30%;
-  line-gap-override: 0%;
-}
-@font-face {
-  font-family: 'Bebas Neue Fallback';
-  src: local('Impact'), local('Haettenschweiler'), local('Arial Narrow Bold');
-  size-adjust: 104.01%;
-  ascent-override: 90.00%;
-  descent-override: 30.00%;
-  line-gap-override: 0%;
-}
-@font-face {
-  font-family: 'Libre Baskerville Fallback';
-  src: local('Georgia Italic'), local('Georgia');
-  size-adjust: 117.06%;
-  ascent-override: 97.00%;
-  descent-override: 27.00%;
-  line-gap-override: 0%;
-}
-@font-face {
-  font-family: 'Abel Fallback';
-  src: local('Arial'), local('Helvetica'), local('Liberation Sans');
-  size-adjust: 102.43%;
-  ascent-override: 97.95%;
-  descent-override: 29.49%;
-  line-gap-override: 0%;
-}
-
 /* ─── Design tokens — from content/design-tokens.md ──────────── */
 @theme {
   /* Brand palette — verified by DOM enumeration of every visible color */
@@ -129,9 +82,9 @@
   --color-bg-alt: #F7F7F7;
   --color-border: #E6E7E8;
 
-  --font-display: 'Bebas Neue', 'Bebas Neue Fallback', Impact, 'Arial Narrow', sans-serif;
-  --font-heading: 'DM Sans', 'DM Sans Fallback', system-ui, sans-serif;
-  --font-body: 'Open Sans', 'Open Sans Fallback', system-ui, sans-serif;
+  --font-display: 'Bebas Neue', Impact, 'Arial Narrow', sans-serif;
+  --font-heading: 'DM Sans', system-ui, sans-serif;
+  --font-body: 'Open Sans', system-ui, sans-serif;
 
   --container-max: 1200px;
   --section-padding-y-desktop: 60px;
