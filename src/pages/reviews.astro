@@ -1,0 +1,20 @@
+---
+import Layout from '../layouts/Layout.astro';
+import StructuredPage from '../components/StructuredPage.astro';
+import { srcW } from '../lib/img';
+import data from '../data/pages/reviews.json';
+
+// H1 is text LCP; first content image is the Goodreads logo. Still preload one
+// for srcset pattern matching.
+const HERO = 'goodreads-logo-black-and-white-1-1024x221.png';
+const heroMobile = srcW(HERO, 600);
+const heroDesktop = srcW(HERO, 1000);
+---
+<Layout title={data.title} description={data.description}>
+  <Fragment slot="head">
+    <link rel="preload" as="image" href={heroDesktop} imagesrcset={`${heroMobile} 600w, ${heroDesktop} 1000w`} imagesizes="(max-width: 640px) 600px, 1000px" fetchpriority="high" />
+  </Fragment>
+  <article class="page-body">
+    <StructuredPage blocks={data.blocks as any} heroFile={HERO} />
+  </article>
+</Layout>

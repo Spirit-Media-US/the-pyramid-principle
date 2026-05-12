@@ -1,0 +1,31 @@
+---
+// Coach John Wooden bio page — programmatic typed-block rebuild,
+// mirroring john-vallely.astro / paul-weissenstein.astro.
+// Data:     src/data/pages/coach-john-wooden.json (typed blocks)
+// Renderer: src/components/TypedPage.astro
+import Layout from '../layouts/Layout.astro';
+import TypedPage from '../components/TypedPage.astro';
+import { srcW, dims } from '../lib/img';
+import blocks from '../data/pages/coach-john-wooden.json';
+
+const meta = (blocks as any[]).find(b => b.type === '_meta') || {};
+
+// LCP hero: the 1993 portrait. Native 351x450 .webp — small file,
+// preload widths kept close to native to avoid upscaling artefacts.
+const HERO = 'American-basketball-coach-John-Wooden-1993.webp';
+const heroMobile = srcW(HERO, 351);
+const heroDesktop = srcW(HERO, 480);
+const heroDims = dims(HERO);
+---
+<Layout title={meta.title || 'Coach John Wooden | The Pyramid Principle'}
+        description={meta.description || ''}
+        ogImage={heroDesktop}>
+  <Fragment slot="head">
+    <link rel="preload" as="image" href={heroDesktop}
+          imagesrcset={`${heroMobile} 351w, ${heroDesktop} 480w`}
+          imagesizes="(max-width: 1024px) 100vw, 480px"
+          fetchpriority="high" />
+  </Fragment>
+
+  <TypedPage blocks={blocks as any[]} />
+</Layout>

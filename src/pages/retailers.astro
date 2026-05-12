@@ -1,0 +1,31 @@
+---
+// Retailers page — programmatic typed-block rebuild, mirroring the bio
+// page pattern. Section 1 (retailer-hero #brxe-zqgdua) is the only
+// section for now; additional sections (Ingram contact/order details)
+// will follow in subsequent requests.
+import Layout from '../layouts/Layout.astro';
+import TypedPage from '../components/TypedPage.astro';
+import { srcW, dims } from '../lib/img';
+import blocks from '../data/pages/retailers.json';
+
+const meta = (blocks as any[]).find(b => b.type === '_meta') || {};
+
+// LCP hero: the book illustration in the right column.
+// Native 309x438 PNG; preload 720w desktop / 360w mobile.
+const HERO = 'image-e1726579729174.png';
+const heroMobile = srcW(HERO, 360);
+const heroDesktop = srcW(HERO, 720);
+const heroDims = dims(HERO);
+---
+<Layout title={meta.title || 'Retailers | The Pyramid Principle'}
+        description={meta.description || ''}
+        ogImage={heroDesktop}>
+  <Fragment slot="head">
+    <link rel="preload" as="image" href={heroDesktop}
+          imagesrcset={`${heroMobile} 360w, ${heroDesktop} 720w`}
+          imagesizes="(max-width: 1024px) 210px, 360px"
+          fetchpriority="high" />
+  </Fragment>
+
+  <TypedPage blocks={blocks as any[]} />
+</Layout>

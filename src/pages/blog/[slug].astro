@@ -1,0 +1,204 @@
+---
+// Dynamic blog post page.
+// Statically generates one route per blogPost document at build time.
+import Layout from '../../layouts/Layout.astro';
+import { sanityClient, urlFor } from '../../lib/sanity';
+
+export async function getStaticPaths() {
+  const posts = await sanityClient.fetch(`
+    *[_type == "blogPost" && defined(publishDate)] {
+      "slug": slug.current,
+      title,
+      excerpt,
+      publishDate,
+      heroImage,
+      cardImage,
+      body
+    }
+  `);
+  return posts.map((p: any) => ({
+    params: { slug: p.slug },
+    props: { post: p },
+  }));
+}
+
+const { post } = Astro.props;
+
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+function fmtDate(d: string): string {
+  if (!d) return '';
+  const dt = new Date(d);
+  return `${MONTHS[dt.getUTCMonth()]} ${dt.getUTCDate()}, ${dt.getUTCFullYear()}`;
+}
+
+// Render portable text body to HTML. Supports:
+// - block style: normal (paragraph), h2, h3
+// - marks: strong, em, link (annotation -> href)
+// - inline image: { _type: 'image', asset, alt, caption }
+function escHtml(s: string): string {
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+function renderChildren(children: any[], markDefs: any[]): string {
+  return (children || []).map((c) => {
+    let text = escHtml(c.text || '');
+    const marks = c.marks || [];
+    // Apply marks in stable order: link first (so it wraps decorators)
+    const linkMarkKey = marks.find((m: string) => markDefs.some((d: any) => d._key === m));
+    const linkDef = linkMarkKey ? markDefs.find((d: any) => d._key === linkMarkKey) : null;
+    for (const m of marks) {
+      if (m === 'strong') text = `<strong>${text}</strong>`;
+      if (m === 'em') text = `<em>${text}</em>`;
+    }
+    if (linkDef && linkDef.href) {
+      const href = escHtml(linkDef.href);
+      text = `<a href="${href}" target="_blank" rel="noopener noreferrer">${text}</a>`;
+    }
+    return text;
+  }).join('');
+}
+function renderBody(blocks: any[]): string {
+  if (!Array.isArray(blocks)) return '';
+  return blocks.map((b: any) => {
+    if (b._type === 'block') {
+      const inner = renderChildren(b.children || [], b.markDefs || []);
+      if (b.style === 'h2') return `<h2>${inner}</h2>`;
+      if (b.style === 'h3') return `<h3>${inner}</h3>`;
+      return `<p>${inner}</p>`;
+    }
+    if (b._type === 'image' && b.asset) {
+      const url = urlFor(b).width(1200).format('webp').quality(80).url();
+      const alt = escHtml(b.alt || '');
+      const caption = b.caption ? `<figcaption>${escHtml(b.caption)}</figcaption>` : '';
+      return `<figure><img src="${url}" alt="${alt}" loading="lazy" decoding="async">${caption}</figure>`;
+    }
+    return '';
+  }).join('\n');
+}
+
+const heroUrl = post.heroImage ? urlFor(post.heroImage).width(1200).format('webp').quality(80).url() : null;
+const heroAlt = (post.heroImage as any)?.alt || post.title;
+const bodyHtml = renderBody(post.body);
+const ogImageUrl = post.heroImage
+  ? urlFor(post.heroImage).width(1200).format('jpg').quality(80).url()
+  : undefined;
+---
+<Layout title={`${post.title} | The Pyramid Principle Blog`}
+        description={post.excerpt || `Read "${post.title}" on The Pyramid Principle blog.`}
+        ogImage={ogImageUrl}>
+  <Fragment slot="head">
+    <meta property="og:type" content="article" />
+    {post.publishDate && <meta property="article:published_time" content={post.publishDate} />}
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": post.title,
+      "description": post.excerpt || post.title,
+      "image": ogImageUrl,
+      "datePublished": post.publishDate,
+      "url": `https://${Astro.url.host}/blog/${post.slug || ''}/`,
+      "publisher": {
+        "@type": "Organization",
+        "name": "Spirit Media Publishing",
+        "url": "https://spiritmediapublishing.com/"
+      }
+    })} />
+  </Fragment>
+
+  <div class="blog-post">
+    <article class="blog-post-article">
+      <header class="blog-post-header">
+        <div class="blog-post-eyebrow">
+          <span class="blog-post-divider" aria-hidden="true"></span>
+          <span class="blog-post-eyebrow-label">Blogs</span>
+          <span class="blog-post-divider" aria-hidden="true"></span>
+        </div>
+        <h1 class="blog-post-h1">{post.title}</h1>
+        {post.publishDate && <p class="blog-post-date">{fmtDate(post.publishDate)}</p>}
+      </header>
+
+      {heroUrl && (
+        <figure class="blog-post-hero">
+          <img src={heroUrl}
+               width={1200}
+               height={800}
+               alt={heroAlt}
+               fetchpriority="high"
+               loading="eager"
+               decoding="async" />
+        </figure>
+      )}
+
+      <div class="blog-post-body" set:html={bodyHtml} />
+
+      <p class="blog-post-back">
+        <a href="/blog/">← Back to all posts</a>
+      </p>
+    </article>
+  </div>
+</Layout>
+
+<style is:global>
+  .blog-post { background: #fff; padding: 40px 20px 80px; }
+  @media (min-width: 768px) { .blog-post { padding: 60px var(--section-padding-x-desktop, 40px) 100px; } }
+
+  .blog-post-article { max-width: 800px; margin-inline: auto; }
+  .blog-post-header { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-bottom: 32px; }
+  .blog-post-eyebrow { display: flex; align-items: center; gap: 10px; color: #424242; }
+  .blog-post-divider { width: 40px; height: 0; border-top: 1px solid #616161; flex-shrink: 0; }
+  .blog-post-eyebrow-label { font-family: 'Montserrat', system-ui, sans-serif; font-weight: 700; font-size: 15px; color: #696969; text-transform: uppercase; letter-spacing: 0.06em; }
+  .blog-post-h1 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 1.05;
+    color: #000;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+  }
+  @media (min-width: 768px) { .blog-post-h1 { font-size: 60px; } }
+  .blog-post-date { margin: 0; font-family: var(--font-heading); font-size: 13px; color: #888; letter-spacing: 0.04em; text-transform: uppercase; }
+
+  .blog-post-hero { margin: 0 0 40px; display: flex; justify-content: center; }
+  .blog-post-hero img { width: 100%; max-width: 600px; height: auto; border-radius: 8px; display: block; }
+
+  .blog-post-body { font-family: var(--font-heading); font-size: 17px; line-height: 1.7; color: #1D1D1F; }
+  @media (min-width: 768px) { .blog-post-body { font-size: 18px; } }
+  .blog-post-body p { margin: 0 0 1.25em; }
+  .blog-post-body h2 {
+    margin: 1.6em 0 0.6em;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 1.15;
+    color: #000;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+  }
+  @media (min-width: 768px) { .blog-post-body h2 { font-size: 40px; } }
+  .blog-post-body h3 {
+    margin: 1.5em 0 0.5em;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 26px;
+    line-height: 1.2;
+    color: #000;
+    text-transform: uppercase;
+  }
+  @media (min-width: 768px) { .blog-post-body h3 { font-size: 32px; } }
+  .blog-post-body a { color: var(--color-ink, #1D1D1F); text-decoration: underline; font-weight: 600; }
+  .blog-post-body a:hover { color: var(--color-publisher-gold, #b58c00); }
+  .blog-post-body strong { font-weight: 700; }
+  .blog-post-body figure { margin: 32px 0; }
+  .blog-post-body figure img { width: 100%; height: auto; border-radius: 8px; display: block; }
+  .blog-post-body figcaption { margin-top: 10px; text-align: center; font-size: 14px; color: #696969; font-style: italic; }
+
+  .blog-post-back { margin: 60px 0 0; text-align: center; font-family: var(--font-heading); font-weight: 600; }
+  .blog-post-back a { color: var(--color-ink, #1D1D1F); text-decoration: none; }
+  .blog-post-back a:hover { text-decoration: underline; }
+</style>

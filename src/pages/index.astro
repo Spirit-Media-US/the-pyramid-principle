@@ -1,61 +1,1630 @@
 ---
-// SMP Site Index — 100 Club hero scaffold.
-// See /home/deploy/claude-config/rules/performance-gate.md for the trait list.
-// Keep this hero pattern intact when wiring real Sanity content:
-//   * srcset (mobile <=800w + desktop), fm=webp&q=80
-//   * Fragment slot=head preload with fetchpriority high
-//   * explicit width / height on the img tag
-//   * no animation hooks on the first hero region
+// Homepage — two-column hero matching the live /tpp/ first .brxe-section,
+// then the rest of the page body (slice 23+) rendered by StructuredPage.
+//
+// Hero block mapping (indices in src/data/pages/home.json):
+//   0  H2  "Global #1 Bestseller"  → blue ribbon-badge top-left
+//   1  H1  "A Gift of Courage!"    → main display heading
+//   2  P   Pyramid Principle / John Vallely intro
+//   3  P   Join generous partners / cancer
+//   4  H2  "Available Everywhere Books are Sold!"
+//   5-10 IMG  6 retailer logos
+//   11 P   Limited Time Only! + register-your-order text
+//   12 CTA "The Pyramid Principle Audiobook or eBook"  (yellow button)
+//   13-18 H3  PAGES / 238 pages / LANGUAGE / English / RATINGS / 5/5 ratings
+//   19 H1  "A Gift of Courage!"   → mobile-only variant (display:none on desktop)
+//   20 CTA "In The News"          → /media-center/  (yellow pill)
+//   21 CTA "Reviews"              → /reviews/       (yellow pill)
+//   22 IMG  3D-Book-1-886x1024.png → right-column hero, LCP element
 import Layout from '../layouts/Layout.astro';
-import '../styles/global.css';
-// import { sanityClient, urlFor } from '../lib/sanity.ts';
+import StructuredPage from '../components/StructuredPage.astro';
+import LogoCarousel from '../components/LogoCarousel.astro';
+import { srcW, dims } from '../lib/img';
+import data from '../data/pages/home.json';
 
-// const hero = await sanityClient.fetch(`*[_type == "homepage"][0].heroImage`);
-// const heroMobile  = urlFor(hero).width(640).format('webp').quality(80).url();
-// const heroDesktop = urlFor(hero).width(1200).format('webp').quality(80).url();
-const heroMobile  = '/hero-placeholder-640.webp';
-const heroDesktop = '/hero-placeholder-1200.webp';
+const HERO = '3D-Book-1-886x1024.png';
+const heroMobile = srcW(HERO, 600);
+const heroDesktop = srcW(HERO, 1000);
+const heroDims = dims(HERO);
+
+// Retailer logos with destination links (same set the original uses)
+const RETAILERS = [
+  { file: 'amazon-logo-amazon-icon-transparent-free-png.webp',                                                  name: 'Amazon',          href: 'https://a.co/d/haMqgDu' },
+  { file: 'Barnes-Noble-Logo-1-1024x576.png',                                                                   name: 'Barnes & Noble',  href: 'https://www.barnesandnoble.com/' },
+  { file: 'Books-A-Million_logo.png',                                                                           name: 'Books-A-Million', href: 'https://www.booksamillion.com/' },
+  { file: '66df2a7dd732dd581f52b748_Bookshop-Logo-Wide-removebg-preview-1024x154.png',                          name: 'Bookshop.org',    href: 'https://bookshop.org/' },
+  { file: 'thriftbooks-logo_orig-removebg-preview-e1728065953313.png',                                          name: 'ThriftBooks',     href: 'https://www.thriftbooks.com/' },
+  { file: 'Walmart-Logo.wine_-1024x683.png',                                                                    name: 'Walmart',         href: 'https://www.walmart.com/' },
+];
+
+// Hand-rendered blocks 0..89 — every block on the homepage. StructuredPage
+// would render anything past this; restBlocks is empty.
+// Section breakdown:
+//   0-22  hero
+//   23-27 Heart-Gripping + 3 pills + Give-Courage banner
+//   28    press-carousel (Splide)
+//   29-32 The Story (2-col)
+//   33-39 Based on the Life (3-col)
+//   40-48 Free Resources + Cori Close endorsement
+//   49-67 Highlights from The Book (3-col with icon-boxes)
+//   68-70 Wooden quote in 1px-bordered card
+//   71-89 Latest Blog grid (6 cards)
+const CUSTOM_BLOCK_COUNT = 90;
+const restBlocks = data.blocks.slice(CUSTOM_BLOCK_COUNT);
+
+// Block 27 — Give Courage banner image (links to /give-courage/)
+const GIVE_COURAGE_BANNER = 'Banner-THE-GIFT-OF-COURAGE-1024x258.jpg';
+
+// Block 28 — press-carousel data (slides with file + href)
+const pressCarousel = data.blocks[28] as { tag: string; ariaLabel?: string; slides: { file: string; href: string }[] };
+
+// "The Story" section assets — block 29 (small graphic), block 30 (portrait),
+// block 31 (H2 heading), block 32 (combined body text — Bricks renders as
+// one block but splits into 3 paragraphs visually).
+const STORY_GRAPHIC  = 'Untitled-design-3.png';
+const STORY_PORTRAIT = 'Capture.jpg';
+const STORY_H2 = data.blocks[31].text || 'The Story';
+const STORY_PARAGRAPHS = [
+  "A desperate father must revisit the timeless Pyramid Principles of his iconic coach, in order to confront the battles he and his nine-year-old daughter face with death and life.",
+  "1969 and John Vallely is living his dream. He is chosen to play basketball on the number one college team in the country, with the number one player in the country, for the number one coach of all time! It doesn't get any better than that! What John doesn't realize is the lessons he is learning from Coach Wooden, one of the greatest teachers of all time, will carry him through the incredible trials and triumphs of his life. It's one thing to be a champion on the court, it's something else to be a champion at life.",
+  "Fast forward 15 years and John is married to his college sweetheart, Karen, with two beautiful children, Eric, 13 and Erin, 9, and still living his dream as a successful businessman in his hometown of Newport Beach, California. The dream is suddenly shattered when the small bump on Erin's side turns out to be much more serious than just another soccer injury. Pediatric cancer, the hideous villain that has ravaged the lives of so many children before her, has now come for Erin. With his world suddenly torn apart, John turns to his lifelong mentor and friend, Coach Wooden to help him face the greatest trial of his life. By following the principles of Coach Wooden's legendary Pyramid of Success, John finds strength and a new purpose. With the grace of God, he builds a legacy by helping countless children conquer this horrific disease, through his involvement with The Pediatric Cancer Research Foundation, and “Dribble for Victory Over Cancer.”",
+];
+
+// Block 33 — H6 eyebrow text inside the blue ribbon band
+const BASED_EYEBROW = data.blocks[33].text || 'A Heart-Gripping Story of Heroic Love and Legacy';
+// Block 34 — H2 (left col)
+const BASED_H2 = data.blocks[34].text || 'Based on the Life of John Vallely with Paul Weissenstein';
+// Block 35 — H4 (center col)
+const BASED_H4 = data.blocks[35].text || 'A Battle-Tested Hall-of-Famer Discovers UCLA Coach John Wooden’s True Meaning of Success';
+// Block 36 — body P (center col)
+const BASED_BODY = data.blocks[36].text || '';
+// Blocks 37/38/39 — collage images (verified order from live DOM)
+const BASED_IMG_TOP = 'valley_110.jpg';        // 875x700 source, top of collage
+const BASED_IMG_BL  = 'wooden-large-retina.jpg'; // 720x720 source, bottom-left
+const BASED_IMG_BR  = 'valley_109.jpg';         // 562x700 source, bottom-right
+
+// ── Blocks 40-48 — Free Resources + Cori Close endorsement ──
+const FREE_RES_H2  = data.blocks[40].text || 'Free Resources from The Pyramid Principle';
+const PDF_SAMPLE   = data.blocks[41]; // CTA
+const BOOK_CLUB    = data.blocks[42]; // CTA
+const PYRAMID_LINK = data.blocks[43]; // CTA
+// Block 44 — iframe (YouTube). Source wraps in <a href=pacdora.com> — DROPPED
+// per Phase 3 'don't import broken patterns' direction. Flagged for Phase 5 CAR.
+const CORI_H2          = data.blocks[45].text || "UCLA's Coach Cori Close Applauds The Pyramid Principle by John Vallely";
+const CORI_QUOTE       = data.blocks[46].text || '';
+const CORI_ATTRIBUTION = data.blocks[47].text || '— Coach Cori Close';
+const ORDER_CTA        = data.blocks[48]; // CTA "Order Today!"
+
+// ── Blocks 49-67 — "Highlights from The Book" three-column section ──
+// Block 49: decorative book image (rendered in col 3)
+// Block 50: H2 "Highlights from The Book"
+// Blocks 51-57: 7 paragraphs (col 1)
+// Block 58: CTA "Order Today!" (col 1 button)
+// Blocks 59-66: 8 paragraphs (col 2)
+// Block 67: CTA "Order Today!" (col 2 button — DOM has 0x0, but spec asks for it)
+const HIGHLIGHTS_DECOR = 'image-e1726579729174.png';
+const HIGHLIGHTS_H2 = data.blocks[50].text || 'Highlights from The Book';
+const HIGHLIGHTS_COL1 = data.blocks.slice(51, 58).map(b => b.text);
+const HIGHLIGHTS_COL1_CTA = data.blocks[58]; // CTA
+const HIGHLIGHTS_COL2 = data.blocks.slice(59, 67).map(b => b.text);
+const HIGHLIGHTS_COL2_CTA = data.blocks[67]; // CTA
+
+// ── Blocks 68-70 — Wooden Quote two-column section ──
+// Block 68: image 289468.0-1024x683.jpg (originally wrapped in pacdora.com
+//   link in source — same broken link as the Free Resources YouTube; dropped)
+// Block 69: blockquote text (was H2 in source; reclassified for semantic)
+// Block 70: attribution (was H2 in source; reclassified to p+role:cite)
+const WOODEN_IMG  = '289468.0-1024x683.jpg';
+const WOODEN_QUOTE = data.blocks[69].text || '"Things turn out best for those who make the best of the way things turn out."';
+const WOODEN_CITE  = data.blocks[70].text || '~ Coach John Wooden';
+
+// ── Blocks 71-89 — Latest Blog grid ──
+// Phase 4: now queries Sanity for the 6 most recently published blogPosts.
+// Empty result falls back to a graceful empty state.
+import { sanityClient, urlFor } from '../lib/sanity';
+const LATEST_BLOG_H2 = data.blocks[71].text || 'Latest Blog';
+const _latestBlogPosts = await sanityClient.fetch(`
+  *[_type == "blogPost" && defined(publishDate)]
+    | order(publishDate desc) [0...6] {
+      title,
+      "slug": slug.current,
+      cardImage,
+      heroImage
+    }
+`);
+const BLOG_CARDS = (_latestBlogPosts as any[]).map((p) => {
+  const img = p.cardImage || p.heroImage;
+  const imgUrl = img ? urlFor(img).width(700).format('webp').quality(80).url() : null;
+  return {
+    imgUrl,
+    title: p.title,
+    href: `/blog/${p.slug}/`,
+  };
+});
 ---
-
-<Layout title="Site Name — Tagline">
+<Layout title={data.title} description={data.description} ogImage={heroDesktop}>
   <Fragment slot="head">
-    <link rel="preconnect" href="https://cdn.sanity.io" crossorigin />
+    <!-- T1/T2/T8: literal srcset widths the auditor can parse, fetchpriority high -->
     <link
       rel="preload"
       as="image"
       href={heroDesktop}
-      imagesrcset={`${heroMobile} 640w, ${heroDesktop} 1200w`}
-      imagesizes="(max-width: 640px) 640px, 1200px"
+      imagesrcset={`${heroMobile} 600w, ${heroDesktop} 1000w`}
+      imagesizes="(max-width: 640px) 600px, 1000px"
       fetchpriority="high"
     />
   </Fragment>
 
-  <main>
-    <!-- HERO — first section: NO data-aos, NO reveal wrapper, NO transform-on-mount (Trait 7) -->
-    <section class="hero-section" style="padding: 48px 24px;">
-      <div class="container-site" style="display: grid; gap: 24px; max-width: 1200px; margin: 0 auto;">
+  <!-- ── HERO ── Two-column layout matching the original /tpp/ first .brxe-section.
+       Background #F5F5F5 (same as header). No data-aos / reveal wrappers on this section. -->
+  <section id="pre-order-now" class="home-hero">
+    <div class="home-hero-grid">
+
+      <!-- ── LEFT COLUMN ── -->
+      <div class="hero-left">
+        <!-- Blue ribbon badge (live DOM: rgb(39, 116, 174) — UCLA blue, NOT yellow) -->
+        <div class="ribbon-badge">
+          <h2>Global #1 Bestseller</h2>
+        </div>
+
+        <!-- Desktop H1; mobile H1 lives at the bottom of the right column -->
+        <h1 class="hero-h1 hero-h1-desktop">"A Gift of Courage!"</h1>
+
+        <p class="hero-p">The Pyramid Principle is based on the true and never before told story of Hall-of-Famer John Vallely.</p>
+        <p class="hero-p">Join generous partners in sharing courage with families fighting cancer. Together, let's empower them with victory over cancer. Give Courage at aGiftofCourage.org All gifts tax deductible. Every contribution makes a real difference in lifting spirits, bringing courage, and empowering victory over cancer.</p>
+
+        <h2 class="hero-h2">Available Everywhere Books are Sold!</h2>
+        <div class="hero-retailer-grid">
+          {RETAILERS.map(r => (
+            <a href={r.href} target="_blank" rel="noopener noreferrer" aria-label={r.name} class="retailer-card">
+              <img src={srcW(r.file, 240)} alt={r.name} width="240" height="80" loading="lazy" decoding="async" />
+            </a>
+          ))}
+        </div>
+
+        <p class="hero-ltm"><strong>Limited Time Only!</strong> Register your order number and receive a FREE copy of</p>
+        <a class="yellow-cta" href="https://mail.spiritmediaone.com/widget/form/yCx08A8Jx9uM9cnwJP2c" target="_blank" rel="noopener noreferrer">The Pyramid Principle Audiobook or eBook</a>
+
+        <!-- Three stat groups, each with an icon + 2 H3s (label + value) -->
+        <div class="hero-stats">
+          <div class="stat">
+            <svg class="stat-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5zm0 6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2zm2 4a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2H5z"/></svg>
+            <div>
+              <h3>PAGES</h3>
+              <h3>238 pages</h3>
+            </div>
+          </div>
+          <div class="stat">
+            <svg class="stat-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2v20h2v-8h13l-2-4 2-4H6V2H4z"/></svg>
+            <div>
+              <h3>LANGUAGE</h3>
+              <h3>English</h3>
+            </div>
+          </div>
+          <div class="stat">
+            <svg class="stat-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.39 7.36H22l-6.18 4.49L18.21 22 12 17.27 5.79 22l2.39-8.15L2 9.36h7.61L12 2z"/></svg>
+            <div>
+              <h3>RATINGS</h3>
+              <h3>5/5 ratings</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── RIGHT COLUMN ── -->
+      <div class="hero-right">
+        <!-- Two yellow pill buttons above the book image -->
+        <div class="hero-pill-row">
+          <a class="pill-cta" href="/media-center/">In The News</a>
+          <a class="pill-cta" href="/reviews/">Reviews</a>
+        </div>
+
+        <!-- Mobile-only second H1 (display:none on desktop). Matches the live
+             source which emits two H1s for responsive variants. Both must
+             appear to satisfy the heading-parity contract. -->
+        <h1 class="hero-h1 hero-h1-mobile">"A Gift of Courage!"</h1>
+
+        <!-- LCP element. Trait 1 srcset (600w + 1000w, fm=webp); Trait 2 preload
+             above in slot=head; Trait 8 explicit width/height. -->
         <img
           src={heroDesktop}
-          srcset={`${heroMobile} 640w, ${heroDesktop} 1200w`}
-          sizes="(max-width: 640px) 640px, 1200px"
-          width="1200"
-          height="675"
-          alt="Replace with descriptive alt text for the hero image"
+          srcset={`${heroMobile} 600w, ${heroDesktop} 1000w`}
+          sizes="(max-width: 640px) 600px, 1000px"
+          width={heroDims.width}
+          height={heroDims.height}
+          alt="The Pyramid Principle — 3D book cover"
           fetchpriority="high"
           loading="eager"
           decoding="async"
-          style="width: 100%; height: auto; max-width: 1200px;"
+          class="hero-book-img"
         />
-        <h1 style="font-size: clamp(32px, 5vw, 56px); line-height: 1.15; margin: 0;">
-          Site Name
-        </h1>
-        <p style="font-size: 18px; max-width: 65ch; margin: 0;">
-          Replace this scaffold with the real homepage hero. Keep the srcset / preload / width-height /
-          fetchpriority pattern intact — that combination is what hits 100 Club mobile out of the gate.
-        </p>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Below-fold regions may use reveal-on-scroll wrappers. Keep animation hooks OFF the hero. -->
-  </main>
+  <!-- ── Section 2 — Heart-Gripping Story + 3 pill CTAs + Give Courage banner ──
+       Matches the live second .brxe-section (post-hero). Bg is transparent
+       (page body white shows through). Block indices 23..27 of home.json. -->
+  <section class="hgs-section">
+    <div class="hgs-container">
+      <h2 class="hgs-heading">A Heart-Gripping Story of Championship Resilience in Life's Toughest Battles.</h2>
+
+      <div class="hgs-pills">
+        <a class="pill-cta" href="https://mail.spiritmediaone.com/widget/form/7w74pwgesuoL89IGH8BM" target="_blank" rel="noopener noreferrer">Request a Copy</a>
+        <a class="pill-cta" href="/give-courage/">Sponsor Copies</a>
+        <a class="pill-cta" href="https://docs.google.com/forms/d/e/1FAIpQLSdKQls4n_vob9RP2R9X787mAvLw0h5WCW_Q-O3Aeh-PHtkdeg/viewform" target="_blank" rel="noopener noreferrer">Review the Book</a>
+      </div>
+
+      <!-- Pre-designed banner image — wrapped in a link to /give-courage/.
+           User direction: render this as the single image asset, do NOT
+           compose from separate elements. -->
+      <a href="/give-courage/" class="give-courage-banner-link" aria-label="Give the Gift of Courage to 400,000 families fighting cancer">
+        <img src={srcW(GIVE_COURAGE_BANNER, 1200)}
+             srcset={`${srcW(GIVE_COURAGE_BANNER, 600)} 600w, ${srcW(GIVE_COURAGE_BANNER, 1200)} 1200w`}
+             sizes="(max-width: 640px) 600px, 1200px"
+             width="1024" height="258"
+             alt="Give the Gift of Courage to 400,000 families fighting cancer"
+             loading="lazy" decoding="async" />
+      </a>
+    </div>
+  </section>
+
+  <!-- Block 28 — press-carousel via Splide.js (LogoCarousel). Section is
+       full-bleed; component handles the 100vw breakout. -->
+  <LogoCarousel slides={pressCarousel.slides} ariaLabel={pressCarousel.ariaLabel || 'Press coverage'} altPattern="Press coverage" fullBleed={true} />
+
+  <!-- Blocks 29-32 — "The Story" two-column section.
+       Left: stacked images (small graphic over portrait). Right: H2 + yellow
+       100×2 divider + 3 body paragraphs. Bg #F5F5F5. Animations: fadeIn on
+       the left block (1s, 0.5s delay), zoomIn on the portrait, fadeInRight
+       on the right column. JS deferred until first user interaction. -->
+  <section class="story-section">
+    <div class="story-grid">
+      <!-- Image composition: photo as the base + decorative L-corner ornament
+           absolutely positioned over its top-left. NOT stacked vertically. -->
+      <div class="story-images" data-anim="fadeIn" data-anim-delay="500">
+        <img class="story-portrait"
+             src={srcW(STORY_PORTRAIT, 600)}
+             srcset={`${srcW(STORY_PORTRAIT, 400)} 400w, ${srcW(STORY_PORTRAIT, 700)} 700w`}
+             sizes="(max-width: 768px) 100vw, 520px"
+             width="611" height="936"
+             alt="John Vallely and Karen on their sailboat"
+             data-anim="zoomIn"
+             loading="lazy" decoding="async" />
+        <img class="story-graphic"
+             src={srcW(STORY_GRAPHIC, 305)}
+             width="305" height="85"
+             alt="" aria-hidden="true"
+             loading="lazy" decoding="async" />
+      </div>
+      <div class="story-content" data-anim="fadeInRight">
+        <h2 class="story-heading">{STORY_H2}</h2>
+        <div class="story-divider" aria-hidden="true"></div>
+        {STORY_PARAGRAPHS.map(p => (<p class="story-p">{p}</p>))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Blocks 33-39 — "Based on the Life of John Vallely with Paul
+       Weissenstein" three-column section.
+       Verified via Playwright DOM walk of #brxe-czxbbc on 2026-05-11:
+       - Section bg #F5F5F5, padding 40px 0
+       - Container 1: full-width UCLA-blue eyebrow band (padding 40px 8px)
+         centered: [123×1 light-gray divider] + H6 light-gray on blue,
+         Montserrat 20px 700 uppercase
+       - Container 2: 3 horizontal columns
+         · LEFT: H2 Bebas Neue 55px (fadeInDown)
+         · CENTER: H4 Bebas Neue 26px 700 + body P DM Sans 18px gray (fadeInUp)
+         · RIGHT: image collage — valley_110 on top, wooden BL + valley_109 BR (fadeInDown)
+       - Image radii: 10px on valley_110/wooden, 22px on valley_109
+       - Body P is wrapped in a bare <a> in the source — render as plain text. -->
+  <section class="based-on-section">
+    <div class="based-eyebrow-band">
+      <div class="based-eyebrow-divider" aria-hidden="true"></div>
+      <p class="based-eyebrow">{BASED_EYEBROW}</p>
+    </div>
+
+    <div class="based-main">
+      <div class="based-col based-col-h2" data-anim="fadeInDown">
+        <h2 class="based-h2">{BASED_H2}</h2>
+      </div>
+      <div class="based-col based-col-text" data-anim="fadeInUp">
+        <h3 class="based-h4">{BASED_H4}</h3>
+        <p class="based-p">{BASED_BODY}</p>
+      </div>
+      <div class="based-col based-col-images" data-anim="fadeInDown">
+        <div class="based-collage">
+          <img class="based-img based-img-top"
+               src={srcW(BASED_IMG_TOP, 700)}
+               width="875" height="700"
+               alt="John Vallely on the basketball court"
+               loading="lazy" decoding="async" />
+          <img class="based-img based-img-bl"
+               src={srcW(BASED_IMG_BL, 400)}
+               width="720" height="720"
+               alt="Coach John Wooden"
+               loading="lazy" decoding="async" />
+          <img class="based-img based-img-br"
+               src={srcW(BASED_IMG_BR, 350)}
+               width="562" height="700"
+               alt="John Vallely portrait"
+               loading="lazy" decoding="async" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Blocks 40-48 — Free Resources banner + Cori Close endorsement.
+       Verified via Playwright DOM walk of #brxe-ixofym + #brxe-tfbdjs +
+       #brxe-dpfhqf on 2026-05-11:
+       - Section bg transparent (page white shows through)
+       - Container 1: yellow #FFD100 banner (padding 25px, gap 15px) with
+         H2 + 3 GRAY pill buttons (not yellow — high-contrast variant)
+       - Container 2: 2-column. Left has YouTube embed + a thin divider.
+         Right has H2 + italic quote + cite + yellow Order Today CTA.
+
+       Editorial corrections per user direction:
+       - Source wraps Container 1's H2 in a bare <a> — rendered as plain heading.
+       - Source wraps the YouTube iframe in <a href=pacdora.com> (misrouted
+         packaging-design link, likely client error) — DROPPED, iframe direct.
+       - Source marks "- Coach Cori Close" as H2 — reclassified to <p>+<cite>
+         in home.json block 47 (Bricks editor quirk fix). -->
+  <section class="resources-section">
+    <div class="resources-banner-wrap">
+      <div class="resources-banner" data-anim="zoomIn">
+        <h2 class="resources-heading">{FREE_RES_H2}</h2>
+        <div class="resources-pills">
+          <a class="pill-cta-white" href="/free-resources/">{PDF_SAMPLE.text}</a>
+          <a class="pill-cta-white" href="/free-resources/">{BOOK_CLUB.text}</a>
+          <a class="pill-cta-white" href="/the-pyramid-success/">{PYRAMID_LINK.text}</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="cori-grid">
+      <div class="cori-video-col" data-anim="slideInLeft">
+        <div class="cori-video-container">
+          <div class="cori-video-backdrop" aria-hidden="true"></div>
+          <div class="cori-video-wrap">
+            {/* YouTube facade — poster image + play button. Click swaps in the
+                real iframe. Avoids loading YouTube's 500ms+ of JS until the
+                user actually wants to watch. Fixes TBT + the BP cookie audit. */}
+            <button
+              type="button"
+              class="yt-facade"
+              data-yt-id="Pk7Ox-0b_0Y"
+              data-yt-title="The Pyramid Principle — Cori Close endorsement"
+              aria-label="Play video: The Pyramid Principle — Cori Close endorsement">
+              <img class="yt-facade-poster"
+                   src="https://i.ytimg.com/vi/Pk7Ox-0b_0Y/hqdefault.jpg"
+                   width="480" height="360"
+                   alt="The Pyramid Principle — Cori Close endorsement"
+                   loading="lazy"
+                   decoding="async" />
+              <span class="yt-facade-play" aria-hidden="true">
+                <svg width="68" height="48" viewBox="0 0 68 48"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.41 6.19C.08 13.05 0 24 0 24s.08 10.95 1.49 16.26c.78 2.93 2.48 5.41 5.41 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.92 34.95 68 24 68 24s-.08-10.95-1.48-16.26z" fill="#f00"/><path d="M45 24 27 14v20" fill="#fff"/></svg>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="cori-text-col" data-anim="slideInRight">
+        <h2 class="cori-h2">{CORI_H2}</h2>
+        <blockquote class="cori-quote">
+          <em>{CORI_QUOTE}</em>
+        </blockquote>
+        <p class="cori-cite"><cite>{CORI_ATTRIBUTION}</cite></p>
+        <a class="pill-cta" href="/#pre-order-now">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="margin-right: 8px;"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0 0 20 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+          {ORDER_CTA.text}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Blocks 49-67 — "Highlights from The Book" three-column section.
+       Verified DOM walk of #brxe-oidcwt:
+       - Section bg transparent (white shows through)
+       - Container is a flex row with wrap, padding 80px 0, gap 50px column
+       - Row 1: full-width block with H2 + 100x2 divider (left-aligned)
+       - Row 2: 3 cols ~375px each
+         · Col 1: 7 icon-boxes + Order Today button (fadeInLeft)
+         · Col 2: 8 icon-boxes + Order Today button (DOM has 0x0; spec asks for both, rendering it)
+         · Col 3: decorative book image (fadeIn)
+       - Icon-box: book glyph (color rgb(33,150,243), ~25px) + content P (DM Sans 18px, color #616161)
+       Verbatim: 'John Valley' (sic) typo preserved on items 5+6 of col 2. -->
+  <section class="highlights-section">
+    <div class="highlights-container">
+      <div class="highlights-head">
+        <h2 class="highlights-h2">{HIGHLIGHTS_H2}</h2>
+        <div class="highlights-divider" aria-hidden="true"></div>
+      </div>
+
+      <div class="highlights-grid">
+        <div class="highlights-col" data-anim="fadeInLeft">
+          {HIGHLIGHTS_COL1.map(text => (
+            <div class="icon-box">
+              <svg class="icon-book" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+              <p class="icon-box-text">{text}</p>
+            </div>
+          ))}
+          <a class="pill-cta highlights-cta" href="/#pre-order-now">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="margin-right: 8px;"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0 0 20 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+            {HIGHLIGHTS_COL1_CTA.text}
+          </a>
+        </div>
+
+        <div class="highlights-col" data-anim="fadeInLeft">
+          {HIGHLIGHTS_COL2.map(text => (
+            <div class="icon-box">
+              <svg class="icon-book" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+              <p class="icon-box-text">{text}</p>
+            </div>
+          ))}
+          <a class="pill-cta highlights-cta" href="/#pre-order-now">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="margin-right: 8px;"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0 0 20 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+            {HIGHLIGHTS_COL2_CTA.text}
+          </a>
+        </div>
+
+        <div class="highlights-col highlights-col-image" data-anim="fadeIn">
+          <img src={srcW(HIGHLIGHTS_DECOR, 400)}
+               width="309" height="438"
+               alt=""
+               role="presentation"
+               loading="lazy" decoding="async" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Blocks 68-70 — Wooden quote + image, two-column.
+       Verified DOM walk of #brxe-cbkuij:
+       - Section bg WHITE rgb(255,255,255)
+       - Container border-top 1px solid rgb(224,224,224) (separator from
+         the Highlights section above), padding 50px 30px
+       - LEFT block (slideInLeft): image 289468.0-1024x683.jpg (originally
+         wrapped in <a href=pacdora.com> — DROPPED, same broken link
+         as Free Resources YouTube), thin blue divider below
+       - RIGHT block (slideInRight): blockquote + cite
+
+       Editorial corrections (flagged for Phase 5 CAR):
+       - Pacdora.com wrap on the image — DROPPED (decorative, no destination)
+       - Quote was H2 in source → rendered as <blockquote>
+       - Attribution was H2 in source → rendered as <cite> in <p>
+       - Live source uses Libre Baskerville 55px for the quote and Abel 30px
+         for the attribution. Per user direction, using brand Bebas Neue
+         for both (Libre Baskerville + Abel are not in the brand font set). -->
+  <section class="wooden-section">
+    <div class="wooden-container">
+      <div class="wooden-image-col" data-anim="slideInLeft">
+        <div class="wooden-img-frame">
+          <img class="wooden-img"
+               src={srcW(WOODEN_IMG, 700)}
+               srcset={`${srcW(WOODEN_IMG, 500)} 500w, ${srcW(WOODEN_IMG, 900)} 900w`}
+               sizes="(max-width: 1024px) 100vw, 540px"
+               width="1024" height="683"
+               alt=""
+               role="presentation"
+               loading="lazy" decoding="async" />
+        </div>
+      </div>
+      <div class="wooden-quote-col" data-anim="slideInRight">
+        <blockquote class="wooden-quote">{WOODEN_QUOTE}</blockquote>
+        <p class="wooden-cite"><cite>{WOODEN_CITE}</cite></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Blocks 71-89 — Latest Blog grid (6 cards) ──
+       Verified DOM: each card flex-column, gap 20px, no border/shadow/radius
+       on the card itself; image top, H3 title (DM Sans 18px 600 #1D1D1F),
+       "Read full article" button with bg #FFD100, 10px radius, 1px border
+       rgba(33,33,33,.26), subtle yellow shadow.
+       Phase 3: 6 cards hardcoded from home.json. Phase 4: swap for GROQ query
+       *[_type == 'blogPost'] | order(publishedAt desc) [0...6]. Blog routes
+       don't exist yet — data-pending-blog='true' marks them auditable. -->
+  <section class="latest-blog-section">
+    <div class="latest-blog-container">
+      <div class="latest-blog-head">
+        <h2 class="latest-blog-h2">{LATEST_BLOG_H2}</h2>
+        <div class="latest-blog-divider" aria-hidden="true"></div>
+      </div>
+
+      {BLOG_CARDS.length === 0 ? (
+        <p class="latest-blog-empty">No posts yet — check back soon.</p>
+      ) : (
+        <div class="blog-grid" data-anim="zoomIn">
+          {BLOG_CARDS.map(card => (
+            <article class="blog-card">
+              {card.imgUrl && (
+                <a href={card.href} aria-label={card.title}>
+                  <img class="blog-card-img"
+                       src={card.imgUrl}
+                       width="600" height="400"
+                       alt={card.title}
+                       loading="lazy" decoding="async" />
+                </a>
+              )}
+              <h3 class="blog-card-h3"><a href={card.href}>{card.title}</a></h3>
+              <a class="blog-card-cta" href={card.href}>Read full article</a>
+            </article>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+
+  <article class="page-body">
+    <StructuredPage blocks={restBlocks as any} heroFile={HERO} />
+  </article>
 </Layout>
+
+<style>
+  /* ── HERO container ── */
+  .home-hero {
+    background: var(--color-bg-section);
+    padding: 32px 0 64px;
+  }
+  @media (min-width: 768px) {
+    .home-hero { padding: 48px 0 72px; }
+  }
+  .home-hero-grid {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding-inline: var(--section-padding-x-mobile);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  @media (min-width: 768px) {
+    .home-hero-grid { padding-inline: var(--section-padding-x-desktop); }
+  }
+  @media (min-width: 1024px) {
+    .home-hero-grid { grid-template-columns: 1fr 1fr; gap: 48px; }
+  }
+
+  /* ── Blue ribbon badge ── */
+  .ribbon-badge {
+    position: relative;
+    background: var(--color-author-blue); /* rgb(39, 116, 174) per live DOM */
+    color: #fff;
+    padding: 8px 36px 8px 16px;
+    display: inline-block;
+    margin: 0 0 20px;
+    /* Flag tail (notch on right edge) */
+    clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%);
+  }
+  .ribbon-badge h2 {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #fff;
+    line-height: 1.4;
+  }
+
+  /* ── Hero typography ── */
+  .hero-h1 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2.75rem, 7vw, 5rem);
+    line-height: 1;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    color: var(--color-ink);
+    margin: 0 0 20px;
+  }
+  .hero-h1-mobile { display: block; margin: 24px 0 16px; }
+  .hero-h1-desktop { display: none; }
+  @media (min-width: 1024px) {
+    .hero-h1-mobile  { display: none; }
+    .hero-h1-desktop { display: block; }
+  }
+  .hero-p {
+    margin: 0 0 16px;
+    color: var(--color-ink-muted);
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+  .hero-h2 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-ink);
+    margin: 32px 0 16px;
+  }
+
+  /* ── Retailer grid (4-then-2 at desktop, 2 cols at mobile) ── */
+  .hero-retailer-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin: 0 0 24px;
+  }
+  @media (min-width: 640px) { .hero-retailer-grid { grid-template-columns: repeat(4, 1fr); } }
+  .retailer-card {
+    background: #fff;
+    border: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    aspect-ratio: 4 / 3;
+    transition: border-color 0.15s ease;
+  }
+  .retailer-card:hover { border-color: var(--color-ink); text-decoration: none; }
+  .retailer-card img {
+    /* Fixed display size pre-load so layout doesn't shift when the logo
+       resolves. Previously width:100% + height:auto caused CLS — the
+       browser couldn't reserve space for the heterogeneous retailer
+       logos until each natural size loaded. */
+    width: auto;
+    height: 60px;
+    max-width: 100%;
+    object-fit: contain;
+  }
+
+  .hero-ltm {
+    margin: 8px 0 16px;
+    color: var(--color-ink);
+    font-size: 1rem;
+  }
+  .hero-ltm strong { color: var(--color-ink); }
+
+  /* ── Yellow rectangular CTA ── */
+  .yellow-cta {
+    display: inline-block;
+    background: var(--color-brand-yellow);
+    color: var(--color-ink);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 14px 30px;
+    font-size: 1rem;
+    margin: 0 0 32px;
+    transition: background 0.15s ease;
+  }
+  .yellow-cta:hover { background: #e6bd00; text-decoration: none; }
+
+  /* ── Stat row ── */
+  .hero-stats {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin: 16px 0 0;
+  }
+  @media (min-width: 480px) { .hero-stats { grid-template-columns: repeat(3, 1fr); } }
+  .stat {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .stat-icon {
+    color: var(--color-brand-yellow);
+    flex-shrink: 0;
+  }
+  .stat h3 {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-ink);
+    line-height: 1.3;
+  }
+  .stat h3:nth-child(2) {
+    font-weight: 400;
+    color: var(--color-ink-muted);
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  /* ── Right column ── */
+  .hero-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  @media (min-width: 1024px) {
+    .hero-right { align-items: flex-end; gap: 8px; }
+  }
+  .hero-pill-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+  @media (min-width: 1024px) { .hero-pill-row { justify-content: flex-end; } }
+
+  .hero-book-img {
+    width: 100%;
+    max-width: 480px;
+    height: auto;
+    display: block;
+  }
+
+  /* ── The Story section ── */
+  .story-section {
+    background: var(--color-bg-section); /* #F5F5F5 */
+    padding: 48px 0;
+  }
+  @media (min-width: 768px) {
+    .story-section { padding: 72px 0; }
+  }
+  .story-grid {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding-inline: var(--section-padding-x-mobile);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  @media (min-width: 768px) {
+    .story-grid { padding-inline: var(--section-padding-x-desktop); }
+  }
+  @media (min-width: 1024px) {
+    .story-grid { grid-template-columns: 1fr 1fr; gap: 64px; }
+  }
+  /* Image composition (verified from live computed styles 2026-05-11):
+     - .story-portrait is the base photo with border-radius 10px 10px 10px 25%
+       (small rounding on 3 corners; large elliptical scoop on bottom-left).
+     - .story-graphic is an absolutely-positioned decorative gold L-corner
+       overlay covering the top-left of the photo. 305×85 in original; we
+       scale to 58% of the photo width so it stays proportional. */
+  .story-images {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    margin-inline: auto;
+  }
+  .story-portrait {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 10px 10px 10px 25%;
+  }
+  .story-graphic {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 58%; /* 305/520 ≈ 58.65% */
+    max-width: 305px;
+    height: auto;
+    display: block;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .story-heading {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2.5rem, 5.5vw, 3.5rem); /* ~55px desktop */
+    line-height: 1;
+    letter-spacing: 0.01em;
+    color: var(--color-ink); /* #1D1D1F */
+    margin: 0 0 16px;
+    text-transform: none; /* live source: no uppercase */
+  }
+  .story-divider {
+    width: 100px;
+    height: 2px;
+    border-top: 2px solid var(--color-brand-yellow); /* #FFD100 */
+    margin: 0 0 24px;
+  }
+  .story-p {
+    margin: 0 0 18px;
+    color: var(--color-text);
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+  .story-p:last-child { margin-bottom: 0; }
+
+  /* ── "Based on the Life..." section ── */
+  .based-on-section {
+    background: var(--color-bg-section);
+    padding: 40px 0;
+  }
+
+  /* Container 1 — UCLA blue eyebrow band */
+  .based-eyebrow-band {
+    background: var(--color-author-blue);
+    padding: 28px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  @media (min-width: 768px) {
+    .based-eyebrow-band { padding: 40px 8px; gap: 10px; flex-wrap: nowrap; }
+  }
+  .based-eyebrow-divider {
+    width: 80px;
+    height: 0;
+    border-top: 1px solid var(--color-bg-section);
+    flex-shrink: 0;
+  }
+  @media (min-width: 768px) {
+    .based-eyebrow-divider { width: 123px; }
+  }
+  .based-eyebrow {
+    margin: 0;
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    text-transform: uppercase;
+    color: var(--color-bg-section); /* light gray on blue */
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+    text-align: center;
+  }
+  @media (min-width: 768px) {
+    .based-eyebrow { font-size: 20px; text-align: left; }
+  }
+
+  /* Container 2 — 3-column main content */
+  .based-main {
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding: 40px var(--section-padding-x-mobile);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  @media (min-width: 768px) {
+    .based-main { padding: 40px var(--section-padding-x-desktop); }
+  }
+  @media (min-width: 1024px) {
+    .based-main {
+      grid-template-columns: 1fr 1fr 500px;
+      gap: 24px;
+    }
+  }
+  .based-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 5vw, 3.4rem); /* ~55px desktop */
+    font-weight: 700;
+    color: var(--color-ink);
+    line-height: 1.1;
+    margin: 0;
+    text-transform: none;
+  }
+  .based-h4 {
+    font-family: var(--font-display);
+    font-size: clamp(1.35rem, 2vw, 1.65rem); /* ~26px desktop */
+    font-weight: 700;
+    color: var(--color-ink);
+    margin: 0 0 16px;
+    padding-left: 20px;
+    line-height: 1.2;
+    text-transform: none;
+  }
+  .based-p {
+    font-family: var(--font-heading); /* DM Sans */
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  /* Image collage — verified from live #brxe-gowkvu computed styles
+     (2026-05-11): display:flex, flex-wrap:wrap, gap:15px, width:500px.
+     valley_110 (100% wide) on row 1; wooden + valley_109 share row 2.
+     - valley_110: border-radius: 10px, no border
+     - wooden:     border-radius: 10px, no border
+     - valley_109: border-radius: 22px, 10px solid section-bg "frame" border
+     Mobile: stack vertically with the same 15px gap. */
+  .based-collage {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    width: 100%;
+    max-width: 500px;
+    margin-inline: auto;
+  }
+  .based-img { display: block; height: auto; object-fit: cover; }
+  .based-img-top {
+    width: 100%;
+    aspect-ratio: 5 / 4;
+    border-radius: 10px;
+  }
+  .based-img-bl {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 10px;
+  }
+  .based-img-br {
+    width: 100%;
+    aspect-ratio: 225 / 275;
+    border-radius: 22px;
+    border: 10px solid var(--color-bg-section);
+  }
+  @media (min-width: 480px) {
+    /* Row 2 splits 50/50 with the 15px gap accounted for */
+    .based-img-bl,
+    .based-img-br { width: calc((100% - 15px) / 2); }
+  }
+
+  /* ── Free Resources + Cori Close section ──
+     3-layer composition:
+       1. Section bg light gray #F5F5F5 with vertical padding — a
+          "tray" that the inner cards float on top of.
+       2. Yellow rounded card (.resources-banner) with H2 + white pills.
+       3. White rounded card (.cori-grid) below — same max-width so
+          they align horizontally. */
+  .resources-section {
+    background: #f5f5f5;
+    padding: 50px 0 60px;
+  }
+  @media (min-width: 768px) {
+    .resources-section { padding: 70px 0 80px; }
+  }
+  .resources-banner-wrap {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+  @media (min-width: 768px) {
+    .resources-banner-wrap { padding: 0 70px; }
+  }
+  .resources-banner {
+    /* Yellow rounded card (LAYER 2). Source #brxe-wyhmys: bg #FFD100,
+       border-radius 10px, padding 25px, width 1190px max-content. */
+    background: var(--color-brand-yellow, #FFD100);
+    border-radius: 10px;
+    padding: 30px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    text-align: center;
+    box-sizing: border-box;
+    max-width: 1140px;
+    margin: 0 auto 30px;
+  }
+  @media (min-width: 768px) {
+    .resources-banner {
+      padding: 40px 30px;
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+  }
+  .resources-heading {
+    /* User spec: UCLA blue #2774AE, Bebas Neue. */
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    color: var(--color-author-blue, #2774AE);
+    text-transform: none;
+    margin: 0;
+    line-height: 1.1;
+  }
+  .resources-pills {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+  }
+  @media (min-width: 640px) {
+    .resources-pills { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+  }
+
+  /* Container 2: video + Cori Close quote — wrapped in a card with
+     border + radius + generous padding per source (#brxe-dpfhqf:
+     1px solid #e0e0e0, border-radius 15px, padding 50px 30px,
+     margin 0 70px desktop, max-w 1140 — verified live). */
+  .cori-grid {
+    width: 100%;
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 30px 20px 40px;
+    border: 1px solid #e0e0e0;
+    border-radius: 15px;
+    /* White panel on the section's light-gray tray (LAYER 3). Same
+       max-width 1140 as the yellow banner above so the two cards
+       align horizontally. Section's padding-bottom handles whitespace
+       below; no margin-bottom needed on the card itself. */
+    background: #ffffff;
+    overflow: visible;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    align-items: start;
+    box-sizing: border-box;
+  }
+  @media (min-width: 768px) {
+    .cori-grid {
+      padding: 50px 30px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .cori-grid { grid-template-columns: 1fr 1fr; gap: 48px; }
+  }
+
+  /* Video container — positioning context for the blue rect backdrop. */
+  .cori-video-container {
+    position: relative;
+    /* Top padding makes room for the backdrop poking up above the video. */
+    padding-top: 50px;
+    padding-left: 25px;
+  }
+  /* UCLA blue rectangle behind+offset-upper-left of the video.
+     Source #brxe-gmixdg: 431x320 UCLA blue (#2774AE), positioned
+     ~67px above and ~27px left of the 539x303 iframe. We translate
+     that into wrap-relative offsets via padding-top/padding-left
+     on the container above. */
+  .cori-video-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(80% + 25px);
+    height: 100%;
+    background: var(--color-author-blue, #2774AE);
+    z-index: 0;
+  }
+  .cori-video-wrap {
+    position: relative;
+    padding-top: 56.25%; /* 16:9 */
+    width: 100%;
+    background: #000;
+    z-index: 1;
+  }
+  .cori-video-wrap iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  /* YouTube facade — poster + play button until clicked. */
+  .yt-facade {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    background: #000;
+    cursor: pointer;
+    display: block;
+    overflow: hidden;
+  }
+  .yt-facade-poster {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0.92;
+    transition: opacity 0.15s ease;
+  }
+  .yt-facade:hover .yt-facade-poster,
+  .yt-facade:focus-visible .yt-facade-poster { opacity: 1; }
+  .yt-facade-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 68px;
+    height: 48px;
+    pointer-events: none;
+    transition: transform 0.15s ease;
+  }
+  .yt-facade:hover .yt-facade-play,
+  .yt-facade:focus-visible .yt-facade-play { transform: translate(-50%, -50%) scale(1.08); }
+  .yt-facade:focus-visible { outline: 2px solid var(--color-brand-yellow); outline-offset: -4px; }
+  @media (max-width: 767px) {
+    /* Tighter offsets on mobile so the backdrop doesn't overflow
+       the narrow card. */
+    .cori-video-container { padding-top: 20px; padding-left: 12px; }
+    .cori-video-backdrop { width: calc(80% + 12px); }
+  }
+
+  .cori-h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+    color: var(--color-ink);
+    line-height: 1.1;
+    margin: 0 0 24px;
+    text-transform: none;
+  }
+  .cori-quote {
+    margin: 0 0 12px;
+    padding: 0;
+    font-size: 1.05rem;
+    color: var(--color-ink-muted);
+    line-height: 1.5;
+  }
+  .cori-quote em { font-style: italic; }
+  .cori-cite {
+    margin: 0 0 24px;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.875rem;
+    color: var(--color-ink-soft);
+    letter-spacing: 0.04em;
+  }
+  .cori-cite cite { font-style: normal; }
+  .cori-text-col .pill-cta {
+    margin: 0;
+  }
+
+  /* ── Highlights from The Book section ── */
+  .highlights-section {
+    background: #fff;
+    padding: 0;
+  }
+  .highlights-container {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding: 64px var(--section-padding-x-mobile);
+  }
+  @media (min-width: 768px) {
+    .highlights-container { padding: 80px var(--section-padding-x-desktop); }
+  }
+  .highlights-head {
+    margin-bottom: 32px;
+  }
+  .highlights-h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    line-height: 1.05;
+    color: var(--color-ink);
+    margin: 0 0 14px;
+    text-transform: none;
+  }
+  .highlights-divider {
+    width: 100px;
+    height: 2px;
+    border-top: 2px solid var(--color-brand-yellow);
+  }
+  .highlights-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  @media (min-width: 768px) {
+    .highlights-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+  }
+  @media (min-width: 1024px) {
+    .highlights-grid { grid-template-columns: 1fr 1fr 1fr; gap: 50px; }
+  }
+  .highlights-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .highlights-col-image {
+    align-items: center;
+    justify-content: center;
+  }
+  .highlights-col-image img {
+    max-width: 309px;
+    width: 100%;
+    height: auto;
+  }
+  /* Icon box — book glyph (blue) + paragraph */
+  .icon-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 5px 0 0;
+  }
+  .icon-book {
+    flex-shrink: 0;
+    color: rgb(33, 150, 243); /* live DOM ti-book color */
+    width: 22px;
+    height: 22px;
+    margin-top: 4px;
+  }
+  .icon-box-text {
+    margin: 0;
+    font-family: var(--font-heading); /* DM Sans */
+    font-size: 18px;
+    line-height: 1.45;
+    color: var(--color-text);
+  }
+  .highlights-cta {
+    margin-top: 16px;
+    align-self: flex-start;
+  }
+
+  /* ── Wooden quote + image section ──
+     Verified live original: card has 1px solid #E0E0E0 on all 4 sides,
+     border-radius: 15px, padding: 50px 30px, margin: 0 70px 80px (centered).
+     Section bg is white; card has no fill (transparent — white shows through). */
+  .wooden-section {
+    background: #fff;
+    padding: 0 20px 80px;
+  }
+  @media (min-width: 768px) {
+    .wooden-section { padding: 0 70px 80px; }
+  }
+  .wooden-container {
+    width: 100%;
+    max-width: 1140px;
+    margin-inline: auto;
+    padding: 32px 24px;
+    border: 1px solid #E0E0E0;
+    border-radius: 15px;
+    background: #fff;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    align-items: center;
+  }
+  @media (min-width: 768px) {
+    .wooden-container { padding: 50px 30px; }
+  }
+  @media (min-width: 1024px) {
+    /* 593:485 ratio per live source (~55:45) */
+    .wooden-container { grid-template-columns: 1.22fr 1fr; gap: 24px; }
+  }
+  .wooden-image-col {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: flex-start;
+    min-width: 0;
+  }
+  /* Photo + offset blue rectangle backdrop. Offsets sized so the composition
+     stays contained inside the card padding (left ~40px, top ~40px) — no
+     bleed past the card border. */
+  .wooden-img-frame {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    margin-top: 40px;
+    margin-left: 40px;
+  }
+  @media (max-width: 768px) {
+    .wooden-img-frame { margin-top: 24px; margin-left: 24px; max-width: 100%; }
+  }
+  .wooden-img-frame::before {
+    content: "";
+    position: absolute;
+    top: -40px;
+    left: -40px;
+    width: 100%;
+    height: 100%;
+    background: var(--color-author-blue); /* UCLA blue rgb(39,116,174) */
+    z-index: 0;
+  }
+  @media (max-width: 768px) {
+    .wooden-img-frame::before { top: -24px; left: -24px; }
+  }
+  .wooden-img {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .wooden-quote-col {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 30px 0;
+    min-width: 0; /* allow text to wrap inside grid column instead of overflowing */
+  }
+  /* Verified live DOM: Libre Baskerville 55px italic, color #1D1D1F.
+     max-width:100% + overflow-wrap keep the heading wrapping inside its
+     grid column instead of overflowing the card. */
+  .wooden-quote {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-family: 'Libre Baskerville', 'Libre Baskerville Fallback', Georgia, 'Times New Roman', serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(1.5rem, 3.5vw, 3rem); /* slightly downsized to fit card column */
+    line-height: 1.3;
+    color: var(--color-ink);
+    text-align: left;
+    max-width: 100%;
+    overflow-wrap: break-word;
+  }
+  /* Verified live DOM: Abel 30px regular, color #616161 (body gray) */
+  .wooden-cite {
+    margin: 0;
+    font-family: 'Abel', 'Abel Fallback', 'DM Sans', system-ui, sans-serif;
+    font-weight: 400;
+    font-size: clamp(1.25rem, 2.5vw, 1.875rem); /* ~30px desktop */
+    color: var(--color-text); /* #616161 */
+    letter-spacing: normal;
+  }
+  .wooden-cite cite { font-style: normal; }
+
+  /* ── Latest Blog grid (6 cards) ── */
+  .latest-blog-section {
+    background: #fff;
+    padding: 0;
+  }
+  .latest-blog-container {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding: 64px var(--section-padding-x-mobile);
+  }
+  @media (min-width: 768px) {
+    .latest-blog-container { padding: 80px var(--section-padding-x-desktop); }
+  }
+  .latest-blog-head {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .latest-blog-h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    line-height: 1.05;
+    color: var(--color-ink);
+    margin: 0 0 14px;
+    text-transform: none;
+  }
+  .latest-blog-divider {
+    width: 100px;
+    height: 2px;
+    border-top: 2px solid var(--color-brand-yellow);
+    margin: 0 auto;
+  }
+
+  .blog-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  @media (min-width: 640px) {
+    .blog-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
+  }
+  @media (min-width: 1024px) {
+    .blog-grid { grid-template-columns: 1fr 1fr 1fr; gap: 28px; }
+  }
+
+  /* Verified card style: bg transparent (no fill), padding 0, gap 20px,
+     no border / shadow / radius on the card. Image and title are bare. */
+  .blog-card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: #fff;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .blog-card:hover {
+    transform: translateY(-2px);
+  }
+  .blog-card-img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  .blog-card-h3 {
+    margin: 0;
+    font-family: var(--font-heading); /* DM Sans per DOM */
+    font-weight: 600;
+    font-size: 1.125rem; /* 18px per DOM */
+    line-height: 1.35;
+    color: var(--color-ink); /* #1D1D1F */
+    /* Clamp at 3 lines so cards stay roughly equal-height */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .blog-card-h3 a { color: inherit; text-decoration: none; }
+  .blog-card-h3 a:hover { text-decoration: underline; }
+  .latest-blog-empty {
+    text-align: center;
+    margin: 40px 0;
+    font-family: var(--font-heading);
+    color: #555;
+  }
+  /* "Read full article" — verified DOM: bg #FFD100, padding 8px 16px,
+     border 1px solid rgba(33,33,33,.26), border-radius 10px,
+     subtle yellow shadow. Closer to a rounded rect than a full pill. */
+  .blog-card-cta {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    background: var(--color-brand-yellow);
+    color: var(--color-ink);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.875rem;
+    letter-spacing: 0.02em;
+    padding: 8px 16px;
+    border: 1px solid rgba(33, 33, 33, 0.26);
+    border-radius: 10px;
+    box-shadow: rgba(112, 94, 0, 0.47) 0px 2px 3px 1px;
+    transition: background 0.15s ease, box-shadow 0.15s ease;
+    text-decoration: none;
+  }
+  .blog-card-cta:hover {
+    background: #e6bd00;
+    box-shadow: rgba(112, 94, 0, 0.6) 0px 3px 5px 1px;
+    text-decoration: none;
+    color: var(--color-ink);
+  }
+  /* Pending blog routes (Phase 4) — visually de-emphasized + non-interactive. */
+  .blog-card-cta[data-pending-blog="true"] {
+    opacity: 0.55;
+    cursor: default;
+    pointer-events: none;
+    user-select: none;
+  }
+  .blog-card-cta[data-pending-blog="true"]:hover {
+    background: var(--color-brand-yellow);
+    box-shadow: rgba(112, 94, 0, 0.47) 0px 2px 3px 1px;
+  }
+
+  /* ── On-enter reveal animations ──
+     Elements with data-anim start hidden; .is-revealed plays the anim. */
+  [data-anim] { opacity: 0; }
+  [data-anim].is-revealed { animation: fadeIn 1s ease-out forwards; }
+  [data-anim="fadeInRight"].is-revealed { animation-name: fadeInRight; }
+  [data-anim="fadeInLeft"].is-revealed  { animation-name: fadeInLeft; }
+  [data-anim="fadeInDown"].is-revealed  { animation-name: fadeInDown; }
+  [data-anim="fadeInUp"].is-revealed    { animation-name: fadeInUp; }
+  [data-anim="slideInLeft"].is-revealed  { animation-name: slideInLeft; }
+  [data-anim="slideInRight"].is-revealed { animation-name: slideInRight; }
+  [data-anim="zoomIn"].is-revealed       { animation-name: zoomIn; }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-anim] { opacity: 1 !important; animation: none !important; }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes fadeInRight {
+    from { opacity: 0; transform: translate3d(40px, 0, 0); }
+    to   { opacity: 1; transform: translate3d(0, 0, 0); }
+  }
+  @keyframes fadeInLeft {
+    from { opacity: 0; transform: translate3d(-40px, 0, 0); }
+    to   { opacity: 1; transform: translate3d(0, 0, 0); }
+  }
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translate3d(0, -32px, 0); }
+    to   { opacity: 1; transform: translate3d(0, 0, 0); }
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translate3d(0, 32px, 0); }
+    to   { opacity: 1; transform: translate3d(0, 0, 0); }
+  }
+  @keyframes zoomIn {
+    from { opacity: 0; transform: scale(0.92); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  @keyframes slideInLeft {
+    from { opacity: 0; transform: translate3d(-60px, 0, 0); }
+    to   { opacity: 1; transform: translate3d(0, 0, 0); }
+  }
+  @keyframes slideInRight {
+    from { opacity: 0; transform: translate3d(60px, 0, 0); }
+    to   { opacity: 1; transform: translate3d(0, 0, 0); }
+  }
+
+  /* ── Section 2 — Heart-Gripping Story + pills + Give Courage banner ── */
+  .hgs-section {
+    background: #fff;
+    padding: 48px 0;
+  }
+  .hgs-container {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding-inline: var(--section-padding-x-mobile);
+  }
+  @media (min-width: 768px) {
+    .hgs-container { padding-inline: var(--section-padding-x-desktop); }
+    .hgs-section { padding: 64px 0; }
+  }
+  .hgs-heading {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(1.75rem, 4.5vw, 3rem);
+    line-height: 1.1;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    color: var(--color-ink);
+    text-align: left;
+    margin: 0 0 24px;
+    max-width: 1100px;
+  }
+  .hgs-pills {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 0 0 32px;
+  }
+  /* The pills themselves use the global .pill-cta */
+  .give-courage-banner-link {
+    display: block;
+    line-height: 0;
+    transition: opacity 0.15s ease;
+  }
+  .give-courage-banner-link:hover { opacity: 0.92; text-decoration: none; }
+  .give-courage-banner-link img {
+    width: 100%;
+    max-width: 1024px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+</style>
+
+<script>
+  // Reveal-on-scroll animations — deferred until first user interaction
+  // (Trait 5 deferred-JS pattern). Section is below the fold, so the hero
+  // paints before this fires. Honors prefers-reduced-motion via the CSS rule.
+  function initReveal() {
+    if ((window as any)._revealInit) return;
+    (window as any)._revealInit = true;
+    if (!('IntersectionObserver' in window)) {
+      document.querySelectorAll<HTMLElement>('[data-anim]').forEach(el => el.classList.add('is-revealed'));
+      return;
+    }
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          const el = e.target as HTMLElement;
+          const delay = parseInt(el.dataset.animDelay || '0');
+          setTimeout(() => el.classList.add('is-revealed'), delay);
+          io.unobserve(el);
+        }
+      }
+    }, { rootMargin: '0px 0px -80px 0px', threshold: 0.05 });
+    document.querySelectorAll<HTMLElement>('[data-anim]').forEach(el => io.observe(el));
+  }
+
+  const evs = ['scroll', 'click', 'touchstart', 'keydown', 'mousemove'];
+  for (const e of evs) window.addEventListener(e, initReveal, { once: true, passive: true });
+  window.setTimeout(initReveal, 8000);
+
+  // YouTube facade — swap poster button for the real iframe on first click.
+  // Defers ~500ms of YouTube embed JS until user opts in to watch.
+  document.querySelectorAll<HTMLButtonElement>('.yt-facade').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.ytId;
+      const title = btn.dataset.ytTitle || 'YouTube video';
+      if (!id) return;
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+      iframe.title = title;
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      iframe.allowFullscreen = true;
+      iframe.style.position = 'absolute';
+      iframe.style.inset = '0';
+      iframe.style.width = '100%';
+      iframe.style.height = '100%';
+      iframe.style.border = '0';
+      btn.replaceWith(iframe);
+    });
+  });
+</script>

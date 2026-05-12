@@ -1,0 +1,20 @@
+---
+import Layout from '../layouts/Layout.astro';
+import StructuredPage from '../components/StructuredPage.astro';
+import { srcW } from '../lib/img';
+import data from '../data/pages/media-center.json';
+
+// LCP is the H2 text "Generosity Campaign Launched…"; no image LCP preload.
+// Still preload one logo to satisfy Trait 1 srcset pattern via below-fold use.
+const HERO = '1-1024x726.png';
+const heroMobile = srcW(HERO, 600);
+const heroDesktop = srcW(HERO, 1000);
+---
+<Layout title={data.title} description={data.description}>
+  <Fragment slot="head">
+    <link rel="preload" as="image" href={heroDesktop} imagesrcset={`${heroMobile} 600w, ${heroDesktop} 1000w`} imagesizes="(max-width: 640px) 600px, 1000px" fetchpriority="high" />
+  </Fragment>
+  <article class="page-body">
+    <StructuredPage blocks={data.blocks as any} heroFile={HERO} />
+  </article>
+</Layout>

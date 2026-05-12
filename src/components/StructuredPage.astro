@@ -1,0 +1,155 @@
+---
+// Renders a page body from the DOM-ordered structured JSON in src/data/pages/.
+// Section-by-section faithful clone of the original — no rephrasing, no
+// reordering, no invented content.
+//
+// The hero (LCP image, identified by `heroFile`) gets fetchpriority=high +
+// width/height + literal srcset for Trait 1/2/8. All other images get lazy.
+import { img, srcW, dims } from '../lib/img';
+import sanityMap from '../data/sanity-images.json';
+import LogoCarousel from './LogoCarousel.astro';
+
+interface Block {
+  tag: string;
+  text?: string;
+  src?: string;
+  alt?: string;
+  href?: string;
+  title?: string;
+  items?: string[];
+  naturalWidth?: number;
+  naturalHeight?: number;
+  // press-carousel block extras
+  slides?: { file: string; href: string }[];
+  ariaLabel?: string;
+}
+
+interface Props {
+  blocks: Block[];
+  heroFile?: string;
+}
+
+const { blocks, heroFile } = Astro.props as Props;
+
+// Build a lookup from original WP URL → sanity asset + filename
+const byOriginal: Record<string, any> = {};
+for (const [filename, asset] of Object.entries(sanityMap as any)) {
+  byOriginal[asset.originalUrl] = { filename, ...asset };
+}
+
+function resolveSanity(originalUrl: string): { filename: string; sanityUrl: string; dims: { width: number; height: number } | null } | null {
+  const a = byOriginal[originalUrl];
+  if (!a) return null;
+  return {
+    filename: a.filename,
+    sanityUrl: a.sanityUrl,
+    dims: a.dimensions ? { width: a.dimensions.width, height: a.dimensions.height } : null,
+  };
+}
+
+// Rewrite cloudwaysapps /tpp/ links to local site paths.
+// Catches /tpp/, /tpp#fragment, /tpp?query, /tpp (bare), and the apex.
+function rewriteHref(href: string | null | undefined): string {
+  if (!href) return '#';
+  if (/cloudwaysapps\.com\/tpp(\/|#|\?|$)/.test(href)) {
+    const stripped = href.replace(/^https?:\/\/[^/]+\/tpp/, '');
+    return stripped || '/';
+  }
+  if (/^https?:\/\/[^/]+\/?$/.test(href) && /cloudwaysapps/.test(href)) return '/';
+  return href;
+}
+
+function rewriteIframe(src: string): string | null {
+  // Self-embed iframes pointing back at the source domain are page-builder
+  // artifacts — drop them.
+  if (/cloudwaysapps\.com/.test(src)) return null;
+  return src.replace('youtube.com', 'youtube-nocookie.com');
+}
+
+// Identify hero block
+let heroSeen = false;
+function isHeroImg(b: Block): boolean {
+  if (b.tag !== 'img' || !heroFile || !b.src) return false;
+  if (heroSeen) return false;
+  if (b.src.endsWith(heroFile) || b.src.includes('/' + heroFile)) {
+    heroSeen = true;
+    return true;
+  }
+  return false;
+}
+
+// Bricks H6 is typically an "eyebrow" — small uppercase label above an H1.
+// Render it as a styled span rather than a tiny heading.
+---
+{blocks.map((b) => {
+  if (b.tag === 'h1') return (<h1 class="page-h1">{b.text}</h1>);
+  if (b.tag === 'h2') return (<h2 class="page-h2">{b.text}</h2>);
+  if (b.tag === 'h3') return (<h3 class="page-h3">{b.text}</h3>);
+  if (b.tag === 'h4') return (<h4 class="page-h4">{b.text}</h4>);
+  if (b.tag === 'h5') return (<h5 class="page-h5">{b.text}</h5>);
+  if (b.tag === 'h6') return (<p class="page-eyebrow">{b.text}</p>);
+
+  if (b.tag === 'p') return (<p class="page-p">{b.text}</p>);
+
+  if (b.tag === 'blockquote') return (<blockquote class="page-quote">{b.text}</blockquote>);
+
+  if (b.tag === 'ul') return (<ul class="page-ul">{(b.items || []).map(i => <li>{i}</li>)}</ul>);
+  if (b.tag === 'ol') return (<ol class="page-ol">{(b.items || []).map(i => <li>{i}</li>)}</ol>);
+
+  if (b.tag === 'cta') {
+    const href = rewriteHref(b.href);
+    const isExternal = /^https?:\/\//.test(href) && !href.includes('thepyramidprinciple');
+    return (
+      <a class="page-cta" href={href} target={isExternal ? '_blank' : undefined} rel={isExternal ? 'noopener noreferrer' : undefined}>{b.text}</a>
+    );
+  }
+
+  if (b.tag === 'press-carousel') {
+    return (
+      <LogoCarousel slides={b.slides || []} ariaLabel={b.ariaLabel || 'Press coverage'} altPattern="Press coverage" fullBleed={true} />
+    );
+  }
+
+  if (b.tag === 'iframe') {
+    const src = rewriteIframe(b.src || '');
+    if (!src) return null;
+    return (
+      <div class="page-iframe-wrap">
+        <iframe src={src} title={b.title || 'embedded video'} loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+    );
+  }
+
+  if (b.tag === 'img') {
+    const resolved = b.src ? resolveSanity(b.src) : null;
+    if (!resolved) return null;
+    const isHero = isHeroImg(b);
+    const w = (resolved.dims?.width) || b.naturalWidth || 1200;
+    const h = (resolved.dims?.height) || b.naturalHeight || 675;
+    if (isHero) {
+      const mobile = srcW(resolved.filename, 600);
+      const desktop = srcW(resolved.filename, 1000);
+      return (
+        <img
+          class="page-img page-hero-img"
+          src={desktop}
+          srcset={`${mobile} 600w, ${desktop} 1000w`}
+          sizes="(max-width: 640px) 600px, 1000px"
+          width={w}
+          height={h}
+          alt={b.alt || ''}
+          fetchpriority="high"
+          loading="eager"
+          decoding="async"
+        />
+      );
+    }
+    return (
+      <img class="page-img" src={srcW(resolved.filename, 600)} width={w} height={h} alt={b.alt || ''} loading="lazy" decoding="async" />
+    );
+  }
+
+  return null;
+})}

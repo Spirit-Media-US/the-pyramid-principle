@@ -1,0 +1,21 @@
+---
+// Give Courage — programmatic rebuild via typed blocks.
+// Source: https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/give-courage/
+// Data:   src/data/pages/give-courage.json (typed blocks)
+// Renderer: src/components/TypedPage.astro
+import Layout from '../layouts/Layout.astro';
+import TypedPage from '../components/TypedPage.astro';
+import blocks from '../data/pages/give-courage.json';
+
+const meta = (blocks as any[]).find(b => b.type === '_meta') || {};
+---
+<Layout title={meta.title || 'Give Courage | The Pyramid Principle'}
+        description={meta.description || ''}>
+  <Fragment slot="head">
+    {/* Givebutter widget script — registers the <givebutter-widget> custom element.
+        acct param identifies the Spirit Media Givebutter account (shared across
+        SMP sites). Async + defer so it doesn't block initial render. */}
+    <script is:inline async src="https://widgets.givebutter.com/latest.umd.cjs?acct=DE9wuakOnyCAZ7eO&p=tpp"></script>
+  </Fragment>
+  <TypedPage blocks={blocks as any[]} />
+</Layout>

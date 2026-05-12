@@ -1,0 +1,421 @@
+[
+  {
+    "type": "_meta",
+    "title": "The Pyramid Principle | Retailers",
+    "description": "Order books wholesale through Ingram Book Distributors. The Pyramid Principle — A Battle-Tested Hall-of-Famer Discovers UCLA Coach John Wooden's True Meaning of Success. Based on the True Story of John Vallely with Paul Weissenstein.",
+    "slug": "retailers"
+  },
+  {
+    "type": "retailer-hero",
+    "id": "brxe-zqgdua",
+    "eyebrow": "Retailers",
+    "h1": "Order your stock today through Ingram Book Distributors",
+    "subtitle": "The Pyramid Principle",
+    "bodyLines": [
+      "A Battle-Tested Hall-of-Famer Discovers",
+      "UCLA Coach John Wooden’s True Meaning of Success",
+      "Based on the True Story of John Vallely with Paul Weissenstein."
+    ],
+    "copyright": "2024 © by John Vallely with Paul Weissenstein\nAll rights reserved. Published 2024.",
+    "image": {
+      "file": "image-e1726579729174.png",
+      "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/89c2511ddf1e9179e484cd41b94c4acbe34d565b-309x438.png",
+      "dims": {
+        "_type": "sanity.imageDimensions",
+        "aspectRatio": 0.7054794520547945,
+        "height": 438,
+        "width": 309
+      },
+      "alt": ""
+    }
+  },
+  {
+    "type": "section-h2",
+    "id": "brxe-najbcz",
+    "text": "Greatest American Basketball Story of All Time",
+    "align": "center"
+  },
+  {
+    "type": "metadata-list",
+    "id": "brxe-txqwye",
+    "items": [
+      {
+        "label": "Paperback ISBN:",
+        "value": "979-8-89307-115-3"
+      },
+      {
+        "label": "Hardback ISBN:",
+        "value": "979-8-89307-116-0"
+      },
+      {
+        "label": "Audiobook ISBN:",
+        "value": "979-8-89307-118-4"
+      },
+      {
+        "label": "eBook ISBN:",
+        "value": "979-8-89307-117-7"
+      },
+      {
+        "label": "Library of Congress Control Number:",
+        "value": "2024918727"
+      }
+    ]
+  },
+  {
+    "type": "categories-publisher",
+    "id": "brxe-bgdzcm",
+    "categoriesHeading": "Look for it under:",
+    "categories": [
+      [
+        "Books",
+        "Self-Help",
+        "Personal Transformation"
+      ],
+      [
+        "Books",
+        "Biographies",
+        "Sports Biographies"
+      ]
+    ],
+    "publisher": {
+      "logo": {
+        "file": "spirit-media-logo.webp",
+        "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/a2d2ba59a25f58b652bb7b45727892bbcc9129d5-300x51.webp",
+        "dims": {
+          "_type": "sanity.imageDimensions",
+          "aspectRatio": 5.882352941176471,
+          "height": 51,
+          "width": 300
+        },
+        "alt": "Spirit Media Publishing"
+      },
+      "lines": [
+        {
+          "type": "link",
+          "href": "https://spiritmediapublishing.com/",
+          "text": "spiritmediapublishing.com"
+        },
+        {
+          "type": "text",
+          "text": "8045 Arco Corporate Dr STE 130"
+        },
+        {
+          "type": "text",
+          "text": "Raleigh, NC 27617"
+        },
+        {
+          "type": "tel",
+          "href": "tel:+18888003744",
+          "text": "1 (888) 800-3744"
+        }
+      ]
+    }
+  },
+  {
+    "type": "image-collage-card",
+    "id": "brxe-nipgxe",
+    "borderColor": "transparent",
+    "bg": "#ffffff",
+    "verticalAlign": "center",
+    "headingAlignMobile": "center",
+    "headingHtml": "Projected to be <span style=\"color:#2774ae;\">#1 Bestseller</span> worldwide.",
+    "images": [
+      {
+        "file": "3D-Book-1-886x1024.png",
+        "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/fd3d2aa3fdaf328aa82a22c8652143e895c1da29-886x1024.png",
+        "dims": {
+          "_type": "sanity.imageDimensions",
+          "aspectRatio": 0.865234375,
+          "height": 1024,
+          "width": 886
+        },
+        "alt": "The Pyramid Principle book cover"
+      }
+    ]
+  },
+  {
+    "type": "amazon-marketplaces",
+    "id": "brxe-xodthq",
+    "outerHeading": "Find The Pyramid Principle in English internationally",
+    "innerHeading": "Amazon Global Marketplaces :",
+    "stores": [
+      {
+        "label": "United States",
+        "href": "https://www.amazon.com/dp/B0DGY1WNQG"
+      },
+      {
+        "label": "United Kingdom",
+        "href": "https://www.amazon.co.uk/dp/B0DGX5YWDC"
+      },
+      {
+        "label": "Germany",
+        "href": "https://www.amazon.de/dp/B0DGX5YWDC"
+      },
+      {
+        "label": "France",
+        "href": "https://www.amazon.fr/dp/B0DGX5YWDC"
+      },
+      {
+        "label": "Spain",
+        "href": "https://www.amazon.es/dp/B0DGX5YWDC"
+      },
+      {
+        "label": "Italy",
+        "href": "https://www.amazon.it/dp/B0DGX5YWDC"
+      },
+      {
+        "label": "Netherland",
+        "href": "https://www.amazon.nl/dp/B0DGX5YWDC"
+      },
+      {
+        "label": "Poland",
+        "href": "https://www.amazon.pl/dp/B0DGX5YWDC"
+      },
+      {
+        "label": "Sweden",
+        "href": "https://www.amazon.se/dp/B0DGX5YWDC"
+      },
+      {
+        "label": "Japan",
+        "href": "https://www.amazon.co.jp/dp/B0DGX5YWDC"
+      },
+      {
+        "label": "Canada",
+        "href": "https://www.amazon.ca/dp/B0DGX5YWDC"
+      },
+      {
+        "label": "Australia",
+        "href": "https://www.amazon.com.au/dp/B0DGX5YWDC"
+      }
+    ]
+  },
+  {
+    "type": "amazon-marketplaces",
+    "id": "brxe-fjfpmc",
+    "cardBg": "#2774AE",
+    "headingColor": "#ffd100",
+    "headingAlign": "left",
+    "innerHeading": "Other International Retailers : ",
+    "stores": [
+      { "label": "Denmark",        "href": "https://www.saxo.com/dk/the-pyramid-principle-a-battle-tested-hall-of-famer-discovers-ucla-coach-john-woodens-true-meaning-o_bog_9798893071153" },
+      { "label": "France",         "href": "https://www.bol.com/be/fr/p/the-pyramid-principle-a-battle-tested-hall-of-famer-discovers-ucla-coach-john-wooden-s-true-meaning-of-success/9300000192431968/" },
+      { "label": "Germany",        "href": "https://www.lehmanns.de/shop/sachbuch-ratgeber/73311425-9798893071153-the-pyramid-principle" },
+      { "label": "Hungary",        "href": "https://bookline.hu/product/home.action?_v=Vallely_John_Weissenstein_Paul_The_&type=200&id=6720673" },
+      { "label": "Korea",          "href": "https://product.kyobobook.co.kr/detail/S000214446778" },
+      { "label": "Japan",          "href": "https://www.kinokuniya.co.jp/f/dsg-02-9798893071153" },
+      { "label": "Sweden",         "href": "https://www.akademibokhandeln.se/bok/the-pyramid-principle/9798893071160" },
+      { "label": "United Kingdom", "href": "https://www.best-book-price.co.uk/p/books/the-pyramid-principle/b0dgx5ywdc.html" }
+    ]
+  },
+  {
+    "type": "translation-grid",
+    "id": "brxe-qwjjpw",
+    "heading": "Other languages are coming soon ....",
+    "cards": [
+      {
+        "label": "Spanish",
+        "image": {
+          "file": "unnamed-683x1024.jpg",
+          "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/bbe135c553854f8e6cba340f73d44800a96a73b5-683x1024.jpg",
+          "dims": { "_type": "sanity.imageDimensions", "aspectRatio": 0.6669921875, "height": 1024, "width": 683 },
+          "alt": "Spanish edition cover"
+        }
+      },
+      {
+        "label": "Chinese",
+        "sublabel": "(Mandarin)",
+        "image": {
+          "file": "tpp_rgb_mandarin_720.jpg",
+          "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/1e0841a3dd8224a6d4a1322ee2e9d225e5b209d3-480x720.jpg",
+          "dims": { "_type": "sanity.imageDimensions", "aspectRatio": 0.6666666666666666, "height": 720, "width": 480 },
+          "alt": "Chinese (Mandarin) edition cover"
+        }
+      },
+      {
+        "label": "German",
+        "image": {
+          "file": "tpp_german_720.jpg",
+          "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/faa75ad07c932e364e158e6720b5826da0ae1994-480x720.jpg",
+          "dims": { "_type": "sanity.imageDimensions", "aspectRatio": 0.6666666666666666, "height": 720, "width": 480 },
+          "alt": "German edition cover"
+        }
+      },
+      {
+        "label": "Portuguese",
+        "image": {
+          "file": "tpp_rgb_portuguese_720.jpg",
+          "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/e99997b246a766de4961365106231c8d44cc0daf-480x720.jpg",
+          "dims": { "_type": "sanity.imageDimensions", "aspectRatio": 0.6666666666666666, "height": 720, "width": 480 },
+          "alt": "Portuguese edition cover"
+        }
+      }
+    ]
+  },
+  {
+    "type": "centered-callout",
+    "id": "brxe-qfoozj",
+    "heading": "A Heart-Gripping Story of Championship Resilience in Life's Toughest Battles",
+    "body": "Erin's Story of Courage Brings Hope, Healing, and Deliverance to Everyone fighting Cancer.",
+    "images": [
+      {
+        "file": "6-1.png",
+        "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/9f2a480e1ef1c77b12123435e1477b71ee2cc102-1250x750.png",
+        "dims": { "_type": "sanity.imageDimensions", "aspectRatio": 1.6666666666666667, "height": 750, "width": 1250 },
+        "alt": ""
+      },
+      {
+        "file": "7-1.png",
+        "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/c5c6bcc68145eb1e4f1b469c56751941bddb89a8-1250x750.png",
+        "dims": { "_type": "sanity.imageDimensions", "aspectRatio": 1.6666666666666667, "height": 750, "width": 1250 },
+        "alt": ""
+      }
+    ]
+  },
+  {
+    "type": "themed-list-callout",
+    "id": "brxe-wehpoc",
+    "heading": "Global Interest",
+    "listItems": ["Sports", "Leadership", "Faith", "Cancer Research", "Entertainment"],
+    "images": [
+      {
+        "file": "sxLWowjDTE2A98z7JXVezg-1024x375.png",
+        "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/7432a636ddde1ea51f240f9c57d860c4a9230d1e-1024x375.png",
+        "dims": { "_type": "sanity.imageDimensions", "aspectRatio": 2.730666666666667, "height": 375, "width": 1024 },
+        "alt": ""
+      },
+      {
+        "file": "fyheb_01-1024x538.jpg",
+        "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/664d851ba462bd94d6cb20f1d0a0c2d3627bf766-1024x538.jpg",
+        "dims": { "_type": "sanity.imageDimensions", "aspectRatio": 1.9033457249070632, "height": 538, "width": 1024 },
+        "alt": ""
+      },
+      {
+        "file": "Global-Leadership.jpg",
+        "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/261fc33a70cff3b0c3d4b6f37cdfaf3fb4306627-700x646.jpg",
+        "dims": { "_type": "sanity.imageDimensions", "aspectRatio": 1.0835913312693499, "height": 646, "width": 700 },
+        "alt": ""
+      }
+    ],
+    "statCallout": "American Basketball is a popular sport globally, with over 3.3 billion fans and interest growing from 68% to 74% between 2019 and 2023. It's the second most popular sport in the world, after football."
+  },
+  {
+    "type": "stats-card-grid",
+    "id": "brxe-asxjua",
+    "heading": "NBA",
+    "intro": "The National Basketball Association (NBA) has seen a significant increase in international interest in recent years, with fans from more than 200 countries tuning in to games in over 50 languages. The NBA has been working to expand its popularity outside of North America for decades, and has built up worldwide interest in basketball since the 1980s. Some factors that have contributed to this include:",
+    "cards": [
+      {
+        "image": {
+          "file": "gettyimages-1245851899-612x612-transformed.jpeg",
+          "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/589a01feedcfc77cc68c1ed8669302abfc39ee02-612x459.jpg",
+          "dims": { "_type": "sanity.imageDimensions", "aspectRatio": 1.3333333333333333, "height": 459, "width": 612 },
+          "alt": ""
+        },
+        "title": "Younger audiences",
+        "body": "The NBA is popular with younger audiences outside of the US, with 26% of sports fans aged 18 to 34 following the league, ranking fifth in total and first outside of soccer competitions."
+      },
+      {
+        "image": {
+          "file": "SLIKA-4-1.webp",
+          "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/f2b8e747b82838fec2228a532979fb4088b69da5-1024x576.webp",
+          "dims": { "_type": "sanity.imageDimensions", "aspectRatio": 1.7777777777777777, "height": 576, "width": 1024 },
+          "alt": ""
+        },
+        "title": "International players",
+        "body": "The number of international players in the league has increased over time, with the 2002 NBA Draft of Yao Ming being a major shift in global appeal, especially in Asia."
+      },
+      {
+        "image": {
+          "file": "images.png",
+          "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/735cd0275e92f6a2003d91d22332e62a7090b116-225x225.png",
+          "dims": { "_type": "sanity.imageDimensions", "aspectRatio": 1, "height": 225, "width": 225 },
+          "alt": ""
+        },
+        "title": "Social media",
+        "body": "The NBA has one of the largest social media communities in the world, with more than 2.3 billion likes and followers globally."
+      },
+      {
+        "image": {
+          "file": "EVP-1693249197814.webp",
+          "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/999a985621239844b5b2f8c573ecf5a77f2771f9-714x507.webp",
+          "dims": { "_type": "sanity.imageDimensions", "aspectRatio": 1.408284023668639, "height": 507, "width": 714 },
+          "alt": ""
+        },
+        "title": "Global social responsibility",
+        "body": "The NBA's global social responsibility platform, NBA Cares, partners with community-based organizations around the world to address social issues."
+      }
+    ]
+  },
+  {
+    "type": "centered-callout",
+    "id": "brxe-nsyufd",
+    "heading": "India",
+    "body": "American basketball is becoming more popular in India, with the NBA's 2022-23 season being the most-watched in the country's history. The season drew more than 100 million unique viewers across linear, social media, and digital platforms. The NBA considers India an important market and is trying to grow its brand there.",
+    "images": []
+  },
+  {
+    "type": "populations-block",
+    "id": "brxe-qpgplg",
+    "heading": "Populations",
+    "itemsLeft": [
+      { "text": "China: Yao Ming – 1.42B" },
+      { "text": "India – 1.44B" },
+      { "text": "Europe – 745M" },
+      {
+        "text": "Spanish (all) – 575M",
+        "subitems": [
+          "Brazil – 212M",
+          "Spain – 50M",
+          "Mexico – 130M",
+          "Argentina – 46M"
+        ]
+      }
+    ],
+    "itemsRight": [
+      { "text": "Australia – 26M" },
+      { "text": "Middle East – 310M" },
+      { "text": "Philippines – 118M" },
+      { "text": "Canada – 40M" },
+      { "text": "Japan – 124M" }
+    ],
+    "image": {
+      "file": "ag-pic-PllbLCTilUo-unsplash.jpg",
+      "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/9a1ee2a694309048089723564869bfcd54c5eed1-640x480.jpg",
+      "dims": { "_type": "sanity.imageDimensions", "aspectRatio": 1.3333333333333333, "height": 480, "width": 640 },
+      "alt": ""
+    }
+  },
+  {
+    "type": "languages-callout",
+    "id": "brxe-lsgkhj",
+    "image": {
+      "file": "dan-gold-xy4zPgetBQg-unsplash.jpg",
+      "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/e8638ca2d1dba8c5fdcd43fb99cc76aa39eab708-640x427.jpg",
+      "dims": { "_type": "sanity.imageDimensions", "aspectRatio": 1.4988290398126465, "height": 427, "width": 640 },
+      "alt": "Photo by Dan Gold on Unsplash"
+    },
+    "heading": "Top 20 most spoken languages of the world representing over 6.5B native speakers or 80% of the world's population…",
+    "languages": [
+      { "text": "English 1.4B", "bold": true },
+      { "text": "Mandarin (Chinese) – 1.3B", "bold": true },
+      { "text": "Hindi – 602M", "bold": true },
+      { "text": "Spanish – 548M", "bold": true },
+      { "text": "French – 280M" },
+      { "text": "Arabic – 274M" },
+      { "text": "Bengali – 272M" },
+      { "text": "Russian – 258M" },
+      { "text": "Portuguese – 257M" },
+      { "text": "Urdu – 231M" },
+      { "text": "Indonesians – 199M" },
+      { "text": "German – 134M" },
+      { "text": "Japanese – 125M", "bold": true },
+      { "text": "Nigerian Pidgin – 121M" },
+      { "text": "Marathi – 99M" },
+      { "text": "Telugu – 96M" },
+      { "text": "Turkish – 88M" },
+      { "text": "Tamil – 86M" },
+      { "text": "Yue Chinese – 86M" },
+      { "text": "Vietnamese – 85M" }
+    ]
+  }
+]

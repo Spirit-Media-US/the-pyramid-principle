@@ -1,44 +1,462 @@
 @import "tailwindcss";
 
-/* ─── Design Tokens ───────────────────────────────────────────
-   Replace these with site-specific values.
-   See existing sites for examples:
-   - artsbyjustin: warm/gallery palette
-   - spirit-media-publishing: brand blues
-   - FHB: parchment/ink palette
+/* ─── @font-face — self-hosted from R2 (Trait 4) ──────────────
+   Top-level @font-face per CSS spec (cannot live inside @layer).
 ──────────────────────────────────────────────────────────────── */
-:root {
-  --font-sans: system-ui, sans-serif;
-  --font-serif: Georgia, serif;
+@font-face {
+  font-family: 'Bebas Neue';
+  src: url('https://assets.spiritmediapublishing.com/fonts/bebas-neue/bebas-neue-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: optional;
+}
+@font-face {
+  font-family: 'DM Sans';
+  src: url('https://assets.spiritmediapublishing.com/fonts/dm-sans/dm-sans-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: optional;
+}
+@font-face {
+  font-family: 'DM Sans';
+  src: url('https://assets.spiritmediapublishing.com/fonts/dm-sans/dm-sans-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: optional;
+}
+@font-face {
+  font-family: 'Open Sans';
+  src: url('https://assets.spiritmediapublishing.com/fonts/open-sans/open-sans-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: optional;
+}
+@font-face {
+  font-family: 'Open Sans';
+  src: url('https://assets.spiritmediapublishing.com/fonts/open-sans/open-sans-600.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: optional;
+}
+@font-face {
+  font-family: 'Open Sans';
+  src: url('https://assets.spiritmediapublishing.com/fonts/open-sans/open-sans-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: optional;
+}
+
+/* Libre Baskerville italic — Coach Wooden pull-quote */
+@font-face {
+  font-family: 'Libre Baskerville';
+  src: url('https://assets.spiritmediapublishing.com/fonts/libre-baskerville/libre-baskerville-400-italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: optional;
+}
+
+/* Abel — pull-quote attribution (~ Coach John Wooden) */
+@font-face {
+  font-family: 'Abel';
+  src: url('https://assets.spiritmediapublishing.com/fonts/abel/abel-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: optional;
+}
+
+/* ─── Fallback faces with size-adjust / ascent-override / descent-override ──
+   Generated 2026-05-12 via fontkit on the actual woff2 files; values calibrated
+   to match each web font's OS/2 metrics so layout doesn't shift when the web
+   font swaps in (font-display: optional or otherwise).
+   See /tmp/font-metrics/extract.mjs for the generator.
+─────────────────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'DM Sans Fallback';
+  src: local('Arial'), local('Helvetica'), local('Liberation Sans');
+  size-adjust: 122.34%;
+  ascent-override: 81.09%;
+  descent-override: 25.34%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Open Sans Fallback';
+  src: local('Arial'), local('Helvetica'), local('Liberation Sans');
+  size-adjust: 116.04%;
+  ascent-override: 92.11%;
+  descent-override: 25.25%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Bebas Neue Fallback';
+  src: local('Impact'), local('Haettenschweiler'), local('Arial Narrow Bold');
+  size-adjust: 104.01%;
+  ascent-override: 86.53%;
+  descent-override: 28.84%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Libre Baskerville Fallback';
+  src: local('Georgia Italic'), local('Georgia');
+  size-adjust: 117.06%;
+  ascent-override: 82.86%;
+  descent-override: 23.07%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Abel Fallback';
+  src: local('Arial'), local('Helvetica'), local('Liberation Sans');
+  size-adjust: 102.43%;
+  ascent-override: 95.62%;
+  descent-override: 28.79%;
+  line-gap-override: 0%;
+}
+
+/* ─── Design tokens — from content/design-tokens.md ──────────── */
+@theme {
+  /* Brand palette — verified by DOM enumeration of every visible color */
+  --color-brand-yellow: #FFD100;
+  --color-brand-yellow-soft: #FFE066;
+  --color-author-blue: #2774AE;
+  --color-cause-pink: #F999CB;
+  --color-publisher-gold: #CAA949;
+
+  --color-ink: #1D1D1F;
+  --color-ink-soft: #212121;
+  --color-ink-muted: #424242;
+  --color-text: #616161;
   --color-bg: #ffffff;
-  --color-text: #1a1a1a;
-  --color-border: #e5e5e5;
-  --color-accent: #2563eb;
+  --color-bg-section: #F5F5F5;
+  --color-bg-alt: #F7F7F7;
+  --color-border: #E6E7E8;
+
+  --font-display: 'Bebas Neue', 'Bebas Neue Fallback', Impact, 'Arial Narrow', sans-serif;
+  --font-heading: 'DM Sans', 'DM Sans Fallback', system-ui, sans-serif;
+  --font-body: 'Open Sans', 'Open Sans Fallback', system-ui, sans-serif;
+
+  --container-max: 1200px;
+  --section-padding-y-desktop: 60px;
+  --section-padding-y-mobile: 40px;
+  --section-padding-x-desktop: 40px;
+  --section-padding-x-mobile: 20px;
 }
 
-/* ─── 100 Club cascade rule ────────────────────────────────────
-   When you add hand-rolled critical CSS via <style is:inline> in
-   Layout.astro, wrap the whole block in @layer base { ... }.
-   Unlayered CSS outranks every Tailwind @layer rule (theme/base/
-   components/utilities), which silently strips responsive utilities
-   like lg:grid-cols-N below the fold.
+/* ─── Base layer — outranked by tailwind utilities ───────────── */
+@layer base {
+  html { scroll-behavior: smooth; }
 
-   Two at-rules stay at the top level (CSS spec forbids them inside
-   @layer): font-face declarations and keyframes.
+  body {
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
 
-   Diagnostic notes:
-   /home/deploy/.claude/projects/-home-deploy/memory/reference_100club_cascade_rules.md
-──────────────────────────────────────────────────────────────── */
+  h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); color: var(--color-ink); }
+  h1 { font-family: var(--font-display); font-weight: 400; line-height: 1; letter-spacing: 0.01em; }
 
-.container-site {
-  width: 100%;
-  max-width: 1200px;
-  margin-inline: auto;
-  padding-inline: 24px;
+  a { color: inherit; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  img { max-width: 100%; height: auto; display: block; }
+
+  ::selection { background: var(--color-brand-yellow); color: var(--color-ink); }
 }
 
-body {
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  font-family: var(--font-sans);
+/* ─── Components — small reusable patterns ─────────────────── */
+@layer components {
+  .container-site {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding-inline: var(--section-padding-x-mobile);
+  }
+  @media (min-width: 768px) {
+    .container-site { padding-inline: var(--section-padding-x-desktop); }
+  }
+
+  .section { padding-block: var(--section-padding-y-mobile); }
+  @media (min-width: 768px) {
+    .section { padding-block: var(--section-padding-y-desktop); }
+  }
+
+  .display-heading {
+    font-family: var(--font-display);
+    color: var(--color-ink);
+    font-size: clamp(2.5rem, 6vw, 3.75rem);
+    line-height: 1;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+  }
+
+  .eyebrow {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    color: var(--color-ink-soft);
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 30px;
+    background: var(--color-brand-yellow);
+    color: var(--color-ink);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1rem;
+    border: 2px solid var(--color-brand-yellow);
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .btn-primary:hover {
+    background: transparent;
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 30px;
+    background: transparent;
+    color: var(--color-ink);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1rem;
+    border: 2px solid var(--color-ink);
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .btn-outline:hover {
+    background: var(--color-ink);
+    color: var(--color-brand-yellow);
+    text-decoration: none;
+  }
+
+  .tagline-bar {
+    background: var(--color-brand-yellow);
+    color: var(--color-ink);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.875rem;
+    padding: 10px 16px;
+    text-align: center;
+  }
+
+  .give-courage-banner {
+    background: var(--color-brand-yellow);
+    padding: 28px 24px;
+    text-align: center;
+  }
+  .give-courage-banner h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    color: var(--color-ink);
+    margin: 0 0 8px;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+  .give-courage-banner p {
+    color: var(--color-ink);
+    font-weight: 600;
+    margin: 0 0 16px;
+  }
+
+  /* StructuredPage — section-by-section faithful clone styles */
+  .page-body {
+    max-width: 1100px;
+    margin-inline: auto;
+    padding: 32px var(--section-padding-x-mobile);
+  }
+  @media (min-width: 768px) {
+    .page-body { padding: 56px var(--section-padding-x-desktop); }
+  }
+  .page-eyebrow {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.875rem;
+    color: var(--color-ink-soft);
+    margin: 24px 0 8px;
+  }
+  .page-h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    line-height: 1;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    color: var(--color-ink);
+    margin: 8px 0 16px;
+  }
+  .page-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    line-height: 1.1;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    color: var(--color-ink);
+    margin: 40px 0 16px;
+  }
+  .page-h3 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    color: var(--color-ink);
+    margin: 24px 0 8px;
+    letter-spacing: 0.02em;
+  }
+  .page-h4 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--color-ink-soft);
+    margin: 20px 0 8px;
+  }
+  .page-h5, .page-h6 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-ink-soft);
+    margin: 16px 0 6px;
+  }
+  .page-p {
+    margin: 0 0 16px;
+    color: var(--color-ink-muted);
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+  .page-p:has(+ .page-h2),
+  .page-p:has(+ .page-h3) { margin-bottom: 24px; }
+  .page-quote {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    line-height: 1.25;
+    color: var(--color-ink);
+    padding: 24px;
+    border-left: 6px solid var(--color-brand-yellow);
+    background: var(--color-bg-section);
+    margin: 24px 0;
+  }
+  .page-ul, .page-ol { padding-left: 1.5em; margin: 0 0 16px; }
+  .page-ul li, .page-ol li { margin-bottom: 8px; color: var(--color-ink-muted); }
+  /* Yellow pill CTA — the universal call-to-action style across the site.
+     Live source uses .bricks-button.bricks-background-primary; we replicate
+     the same shape (rounded pill, bg #FFD100, black text, no border). Use
+     anywhere a "yellow CTA" is called for: In The News, Reviews, Request a
+     Copy, Sponsor Copies, Review the Book, Order Today, etc. */
+  .pill-cta, .page-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-brand-yellow);
+    color: var(--color-ink);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 12px 28px;
+    border-radius: 999px;
+    border: none;
+    margin: 8px 8px 8px 0;
+    transition: background 0.15s ease;
+    text-decoration: none;
+  }
+  .pill-cta:hover, .page-cta:hover {
+    background: #e6bd00;
+    text-decoration: none;
+    color: var(--color-ink);
+  }
+
+  /* Light-gray pill variant — used on the yellow Free Resources banner
+     for contrast (live source renders these buttons with bg #F5F5F5
+     against the yellow band). Same shape as .pill-cta. */
+  .pill-cta-gray {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-bg-section); /* #F5F5F5 */
+    color: var(--color-ink);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 12px 28px;
+    border-radius: 999px;
+    border: none;
+    transition: background 0.15s ease;
+    text-decoration: none;
+  }
+  .pill-cta-gray:hover {
+    background: #fff;
+    text-decoration: none;
+    color: var(--color-ink);
+  }
+
+  /* White pill variant — used on the yellow Free Resources banner
+     where the standard yellow pill would be yellow-on-yellow. White
+     bg + black text gives high contrast on the yellow card. */
+  .pill-cta-white {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    color: var(--color-ink);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 12px 28px;
+    border-radius: 999px;
+    border: none;
+    transition: background 0.15s ease, color 0.15s ease;
+    text-decoration: none;
+  }
+  .pill-cta-white:hover {
+    background: var(--color-ink);
+    color: #ffffff;
+    text-decoration: none;
+  }
+
+  /* Square rectangular CTA — for the "Limited Time" hero in-flow CTA only.
+     Use .yellow-cta when you want the squared button shape. */
+  .page-img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 16px auto;
+  }
+  .page-hero-img {
+    max-width: 480px;
+  }
+  .page-iframe-wrap {
+    position: relative;
+    padding-top: 56.25%;
+    margin: 24px 0;
+    max-width: 900px;
+    margin-inline: auto;
+  }
+  .page-iframe-wrap iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
 }

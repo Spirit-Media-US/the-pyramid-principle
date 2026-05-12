@@ -1,0 +1,371 @@
+[
+  {
+    "type": "_meta",
+    "title": "The Pyramid Principle | John Vallely",
+    "description": "The never before told story of John Vallely. Available Now: The Pyramid Principle | A Battle-Tested Hall-of-Famer Discovers UCLA Coach John Wooden’s True Meaning of Success | Based on the Life of John Vallely with Paul Weissenstein",
+    "slug": "john-vallely"
+  },
+  {
+    "type": "hero-intro",
+    "id": "brxe-63667e",
+    "eyebrow": "John Vallely",
+    "h1": "UCLA National Champ 69-70",
+    "body": "John Vallely was a starting guard for UCLA from 1968-1970, playing for Coach John Wooden. Known as “Money Man” for his clutch performances, he helped secure two NCAA championships. In 1970, he was named an All-American, was drafted in the first round by the Atlanta Hawks, and married his wife Karen. Following their daughter’s death from cancer, John and Karen have been heavily invested in the Pediatric Cancer Research Foundation.",
+    "image": {
+      "file": "valley_109.jpg",
+      "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/de878c8f7d365b806f2fe30187fad95298d155f4-562x700.jpg",
+      "dims": {
+        "_type": "sanity.imageDimensions",
+        "aspectRatio": 0.8028571428571428,
+        "height": 700,
+        "width": 562
+      }
+    },
+    "highlightCards": [
+      {
+        "lines": [
+          "JOHN VALLELY BATTLED THE BEST",
+          "2X NCAA CHAMPION AT UCLA"
+        ]
+      },
+      {
+        "lines": [
+          "JOHN VALLELY BATTLED THE BIGGEST",
+          "FIGHT AGAINST BANK OF AMERICA"
+        ]
+      },
+      {
+        "lines": [
+          "John Battled the most brutal cancer as a survivor and warrior"
+        ]
+      },
+      {
+        "lines": [
+          "HIS COACH’S PROVEN LIFE PRINCIPLES GUIDED HIM AND GAVE HIM THE STRENGTH TO FIGHT WITH UNDYING FAITH"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "video-popup-grid",
+    "id": "brxe-glibgo",
+    "tiles": [
+      {
+        "videoId": "lfSEgefu5O8",
+        "label": "Video 1",
+        "poster": "https://i.ytimg.com/vi/lfSEgefu5O8/hqdefault.jpg"
+      },
+      {
+        "videoId": "9zOvZV8f9pQ",
+        "label": "Video 2",
+        "poster": "https://i.ytimg.com/vi/9zOvZV8f9pQ/maxresdefault.jpg"
+      },
+      {
+        "videoId": "aXvkH0lt6d0",
+        "label": "Video 3",
+        "poster": "https://i.ytimg.com/vi/aXvkH0lt6d0/maxresdefault.jpg"
+      },
+      {
+        "videoId": "2Jof-F0PqFU",
+        "label": "Video 4",
+        "poster": "https://i.ytimg.com/vi/2Jof-F0PqFU/maxresdefault.jpg"
+      },
+      {
+        "videoId": "GkTA5ePOaAg",
+        "label": "Video 5",
+        "poster": "https://i.ytimg.com/vi/GkTA5ePOaAg/maxresdefault.jpg"
+      },
+      {
+        "videoId": "TCTOkcqDyiE",
+        "label": "Video 6",
+        "poster": "https://i.ytimg.com/vi/TCTOkcqDyiE/maxresdefault.jpg"
+      },
+      {
+        "videoId": "BDDFnMR7ogo",
+        "label": "Video 7",
+        "poster": "https://i.ytimg.com/vi/BDDFnMR7ogo/maxresdefault.jpg"
+      },
+      {
+        "videoId": "UGHu9ErBqvo",
+        "label": "Video 8",
+        "poster": "https://i.ytimg.com/vi/UGHu9ErBqvo/maxresdefault.jpg"
+      },
+      {
+        "videoId": "VsL68tGphGI",
+        "label": "Video 9",
+        "poster": "https://i.ytimg.com/vi/VsL68tGphGI/maxresdefault.jpg"
+      }
+    ]
+  },
+  {
+    "type": "featured-podcasts",
+    "id": "brxe-hapjdg",
+    "heading": "Featured Podcasts",
+    "cards": [
+      {
+        "href": "https://www.buzzsprout.com/2070244/episodes/16091163",
+        "image": {
+          "file": "E26-Cover-Black-White-Faith-Love-and-Competitive-Greatness-The-John-Vallely-Story-1-1024x1024.png",
+          "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/ae300214585abba7a9324652d45525e9954b870e-1024x1024.png",
+          "dims": {
+            "_type": "sanity.imageDimensions",
+            "aspectRatio": 1,
+            "height": 1024,
+            "width": 1024
+          }
+        }
+      },
+      {
+        "href": "https://www.hoagorthopedicinstitute.com/podcasts-and-videos/doctor-in-the-dugout/11-2-2024-john-vallely-ucla-mens-basketball-lege/",
+        "image": {
+          "file": "image-11.png",
+          "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/696a6de5f4ba7c2bc6a6a95a808e5622a6e140d5-720x720.png",
+          "dims": {
+            "_type": "sanity.imageDimensions",
+            "aspectRatio": 1,
+            "height": 720,
+            "width": 720
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "section-h2",
+    "id": "brxe-vflqgb",
+    "text": "A heart-gripping story of championship resilience"
+  },
+  {
+    "type": "photo-carousel",
+    "id": "brxe-rboxpg",
+    "config": {
+      "slidesPerViewDesktop": 5,
+      "slidesPerViewMobile": 2,
+      "spaceBetween": 5,
+      "loop": true,
+      "autoplayDelay": 3000,
+      "speed": 300,
+      "breakpoint": 991
+    },
+    "slides": [
+      {
+        "file": "VipsCafe_24-3.jpg",
+        "alt": ""
+      },
+      {
+        "file": "VipsCafe_24-4.jpg",
+        "alt": ""
+      },
+      {
+        "file": "VipsCafe_24-5.jpg",
+        "alt": ""
+      },
+      {
+        "file": "VipsCafe_24-6.jpg",
+        "alt": ""
+      },
+      {
+        "file": "VipsCafe_24-8.jpg",
+        "alt": ""
+      },
+      {
+        "file": "VipsCafe_24-10.jpg",
+        "alt": ""
+      },
+      {
+        "file": "VipsCafe_24-11.jpg",
+        "alt": ""
+      },
+      {
+        "file": "VipsCafe_24-12.jpg",
+        "alt": ""
+      },
+      {
+        "file": "VipsCafe_24-17.jpg",
+        "alt": ""
+      },
+      {
+        "file": "VipsCafe_24-23.jpg",
+        "alt": ""
+      },
+      {
+        "file": "VipsCafe_24-2.jpg",
+        "alt": ""
+      },
+      {
+        "file": "VipsCafe_24.jpg",
+        "alt": ""
+      },
+      {
+        "file": "JohnValley24-315.jpg",
+        "alt": ""
+      },
+      {
+        "file": "JohnValley24-306.jpg",
+        "alt": ""
+      },
+      {
+        "file": "JohnValley24-299.jpg",
+        "alt": ""
+      },
+      {
+        "file": "JohnValley24-108-1.jpg",
+        "alt": ""
+      },
+      {
+        "file": "JohnValley24-107.jpg",
+        "alt": ""
+      },
+      {
+        "file": "JohnValley24-100.jpg",
+        "alt": ""
+      },
+      {
+        "file": "VipsCafe_24-17-1.jpg",
+        "alt": ""
+      },
+      {
+        "file": "VipsCafe_24-12-1.jpg",
+        "alt": ""
+      },
+      {
+        "file": "VipsCafe_24-10-1.jpg",
+        "alt": ""
+      }
+    ]
+  },
+  {
+    "type": "dedication",
+    "id": "brxe-zzvjem",
+    "heading": "DEDICATION",
+    "paragraphs": [
+      "My son Eric is a powerful force of courage and commitment and was a cornerstone of stability when it felt like my world was falling apart.",
+      "When his nine-year-old younger sister was diagnosed with cancer, Eric became a special teammate and champion of hers. It was hard for me to even see straight after we lost Erin at age twelve, but Eric remained steadfast and kept me grounded by saying, “Dad, we are still a family.”",
+      "Eric would go off to school at UCLA, play on two NCAA championship volleyball teams, graduate on time, and start his adult life.",
+      "He has always been the special glue that helps keep us together. He married his wife Suzanne, and they have our talented granddaughter Vivian, who attends Pepperdine University and competes on the swim and dive team. It is with great joy that Karen and I honor and dedicate our family story to our son, Eric Vallely."
+    ]
+  },
+  {
+    "type": "player-grid",
+    "id": "brxe-players-grid",
+    "heading": "John Vallely played beside college basketball greats…",
+    "cards": [
+      {
+        "name": "Kareem Abdul-Jabbar",
+        "href": "https://en.wikipedia.org/wiki/Kareem_Abdul-Jabbar ",
+        "image": {
+          "file": "220px-Kareem_Abdul-Jabbar_May_2014.jpg",
+          "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/f11d883efe3d2b0198b1c28b3095e919ee7c078b-220x305.jpg",
+          "dims": {
+            "_type": "sanity.imageDimensions",
+            "aspectRatio": 0.7213114754098361,
+            "height": 305,
+            "width": 220
+          }
+        }
+      },
+      {
+        "name": "Andy Hill",
+        "href": "https://en.wikipedia.org/wiki/Andy_Hill_(basketball)",
+        "image": {
+          "file": "200px-Andy_Hill_with_UCLA.png",
+          "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/9cb8f2ea29bb697c513281303cc68d588d54cf91-200x300.png",
+          "dims": {
+            "_type": "sanity.imageDimensions",
+            "aspectRatio": 0.6666666666666666,
+            "height": 300,
+            "width": 200
+          }
+        }
+      },
+      {
+        "name": "Sidney Wicks",
+        "href": "https://sicovers.com/featured/ucla-sidney-wicks-november-30-1970-sports-illustrated-cover.html",
+        "image": {
+          "file": "ucla-sidney-wicks-november-30-1970-sports-illustrated-cover.jpg",
+          "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/2d4f3d58f8e5a25c7ccb9d1eecbbdf2d5ad39289-665x900.jpg",
+          "dims": {
+            "_type": "sanity.imageDimensions",
+            "aspectRatio": 0.7388888888888889,
+            "height": 900,
+            "width": 665
+          }
+        }
+      },
+      {
+        "name": "Curtis Rowe",
+        "href": "https://en.wikipedia.org/wiki/Curtis_Rowe ",
+        "image": {
+          "file": "220px-Curtis_Rowe.jpg",
+          "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/6ed4e5f301e876e958ff34df4f24c354d83d0ea9-220x348.jpg",
+          "dims": {
+            "_type": "sanity.imageDimensions",
+            "aspectRatio": 0.632183908045977,
+            "height": 348,
+            "width": 220
+          }
+        }
+      },
+      {
+        "name": "Henry Bibby",
+        "href": "https://en.wikipedia.org/wiki/Henry_Bibby ",
+        "image": {
+          "file": "Henry_Bibby_playing_against_Santa_Clara_1972.jpg",
+          "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/03953f42dd04b42e3b1a0933bce228e77ddaa914-220x308.jpg",
+          "dims": {
+            "_type": "sanity.imageDimensions",
+            "aspectRatio": 0.7142857142857143,
+            "height": 308,
+            "width": 220
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "media-contact-card",
+    "id": "brxe-nglrme",
+    "heading": "Schedule John Vallely to be a guest on your show",
+    "sub": "MEDIA CONTACT :",
+    "body": "Jeremy Lorin\nSpirit Media Inc\n1-888-800-3744\njeremy@spiritmediapublishing.com",
+    "image": {
+      "file": "29136_web.wooden.6.7.reaction.vallely.jpg",
+      "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/1db07233c21b6b002132c47364fed7f03323722e-650x432.jpg",
+      "dims": {
+        "_type": "sanity.imageDimensions",
+        "aspectRatio": 1.5046296296296295,
+        "height": 432,
+        "width": 650
+      }
+    }
+  },
+  {
+    "type": "interview-questions",
+    "id": "brxe-ferycf",
+    "heading": "An Interview with John Vallely will bring value to your audience.",
+    "sub": "Interview Questions:",
+    "items": [
+      "Tell us about your success on the court.",
+      "What was it like to play for a legendary coach?",
+      "Tell us about your life’s greatest challenges.",
+      "What were the principles that got you through it?",
+      "Tell us about the conversation you had at the diner with coach Wooden.",
+      "Tell us about the last daddy-daughter dance.",
+      "You’re a champion who has lost a lot. Are the glory days over?"
+    ],
+    "images": [
+      {
+        "file": "valley_110.jpg",
+        "alt": ""
+      },
+      {
+        "file": "VipsCafe_24-9.jpg",
+        "alt": ""
+      },
+      {
+        "file": "VipsCafe_24-2.jpg",
+        "alt": ""
+      }
+    ]
+  }
+]

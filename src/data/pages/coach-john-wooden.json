@@ -1,0 +1,64 @@
+[
+  {
+    "type": "_meta",
+    "title": "The Pyramid Principle | Coach John Wooden",
+    "description": "About Coach John Wooden — college basketball's most winningest coach, architect of the Pyramid of Success, and 10× NCAA champion at UCLA.",
+    "slug": "coach-john-wooden"
+  },
+  {
+    "type": "hero-intro",
+    "id": "brxe-b98272",
+    "eyebrow": "Coach John Wooden",
+    "h1": "College's Most Winningest Coach Ever!",
+    "bodyHtml": "<b>About Coach John Wooden:</b> John Wooden, widely regarded as one of the greatest coaches in sports history, guided the <a class=\"jv-hero-link\" href=\"https://uclabruins.com/\" target=\"_blank\" rel=\"noopener noreferrer\">UCLA Bruins</a> to an unprecedented ten NCAA championships in twelve years, including seven consecutive titles from 1967 to 1973. His legacy goes beyond basketball; he mentored legends such as Kareem Abdul-Jabbar and Bill Walton, instilling in them the values of excellence and integrity. Wooden, who was inducted into the Naismith Memorial Basketball Hall of Fame as both a player and a coach, created the Pyramid of Success as a timeless framework for achieving greatness in all aspects of life, reflecting his deep commitment to personal development and character-building. As he famously stated, “Success is peace of mind that is the direct result of self-satisfaction in knowing you did your best to become the best that you are capable of becoming.”",
+    "image": {
+      "file": "American-basketball-coach-John-Wooden-1993.webp",
+      "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/4c3cd888086905f358f6eb7b4f057b319be7e314-351x450.webp",
+      "dims": {
+        "_type": "sanity.imageDimensions",
+        "aspectRatio": 0.78,
+        "height": 450,
+        "width": 351
+      }
+    }
+  },
+  {
+    "type": "video-popup-grid",
+    "id": "brxe-rmemoe",
+    "tiles": [
+      { "videoId": "o2gK7BAIVVo", "label": "Video 1", "poster": "https://i.ytimg.com/vi/o2gK7BAIVVo/maxresdefault.jpg" },
+      { "videoId": "X1pekTqHug0", "label": "Video 2", "poster": "https://i.ytimg.com/vi/X1pekTqHug0/maxresdefault.jpg" },
+      { "videoId": "9CiCEKCO64E", "label": "Video 3", "poster": "https://i.ytimg.com/vi/9CiCEKCO64E/maxresdefault.jpg" },
+      { "videoId": "7pl8MIfGfNE", "label": "Video 4", "poster": "https://i.ytimg.com/vi/7pl8MIfGfNE/maxresdefault.jpg" },
+      { "videoId": "r0mjt_hAL0w", "label": "Video 5", "poster": "https://i.ytimg.com/vi/r0mjt_hAL0w/maxresdefault.jpg" },
+      { "videoId": "zOSkkWJ2agE", "label": "Video 6", "poster": "https://i.ytimg.com/vi/zOSkkWJ2agE/maxresdefault.jpg" },
+      { "videoId": "9AdvJ8rJm5k", "label": "Video 7", "poster": "https://i.ytimg.com/vi/9AdvJ8rJm5k/maxresdefault.jpg" },
+      { "videoId": "bMD7oOWGjmM", "label": "Video 8", "poster": "https://i.ytimg.com/vi/bMD7oOWGjmM/maxresdefault.jpg" },
+      { "videoId": "WIgdfLm2kGg", "label": "Video 9", "poster": "https://i.ytimg.com/vi/WIgdfLm2kGg/maxresdefault.jpg" }
+    ]
+  },
+  {
+    "type": "image-collage-card",
+    "id": "brxe-c14394",
+    "borderColor": "#0967B3",
+    "bg": "#ffffff",
+    "headingHtml": "ABOUT <span style=\"color:#ffd100; font-weight:bold;\">UCLA</span>",
+    "bodyHtml": "<p>The <a class=\"jv-hero-link\" href=\"https://www.ucla.edu/\" target=\"_blank\" rel=\"noopener noreferrer\">University of California, Los Angeles (UCLA)</a> is a public research university and one of the ten campuses of the University of California system. Ranked by publications as among the best universities in the world, UCLA consistently excels in research, academics, and innovation. Competing in athletics as the Bruins, UCLA has won 123 NCAA team championships in the Pac-12, second only to Stanford University. Among their sports achievements, basketball features their most impressive victories, owing to Coach John Wooden.</p>",
+    "images": [
+      {
+        "file": "USATSI_8741865.webp",
+        "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/3192ac6de094b4ae66a89cdcf9c70062990ec80f-1000x600.webp",
+        "dims": { "_type": "sanity.imageDimensions", "aspectRatio": 1.6666666666666667, "height": 600, "width": 1000 },
+        "alt": ""
+      },
+      {
+        "file": "VipsCafe_24-9.jpg",
+        "alt": ""
+      },
+      {
+        "file": "VipsCafe_24-2.jpg",
+        "alt": ""
+      }
+    ]
+  }
+]

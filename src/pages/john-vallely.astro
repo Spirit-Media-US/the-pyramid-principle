@@ -1,0 +1,31 @@
+---
+// John Vallely bio page — programmatic rebuild via typed blocks.
+// Source: _source/john-vallely.html (fetched from Cloudways via Playwright)
+// Parser: scripts/parse-page.mjs
+// Data:   src/data/pages/john-vallely.json (typed blocks)
+// Renderer: src/components/TypedPage.astro (block-type dispatcher)
+import Layout from '../layouts/Layout.astro';
+import TypedPage from '../components/TypedPage.astro';
+import { srcW, dims } from '../lib/img';
+import blocks from '../data/pages/john-vallely.json';
+
+const meta = (blocks as any[]).find(b => b.type === '_meta') || {};
+
+// LCP hero: the sidebar portrait
+const HERO = 'valley_109.jpg';
+const heroMobile = srcW(HERO, 400);
+const heroDesktop = srcW(HERO, 700);
+const heroDims = dims(HERO);
+---
+<Layout title={meta.title || 'John Vallely | The Pyramid Principle'}
+        description={meta.description || ''}
+        ogImage={heroDesktop}>
+  <Fragment slot="head">
+    <link rel="preload" as="image" href={heroDesktop}
+          imagesrcset={`${heroMobile} 400w, ${heroDesktop} 700w`}
+          imagesizes="(max-width: 768px) 100vw, 500px"
+          fetchpriority="high" />
+  </Fragment>
+
+  <TypedPage blocks={blocks as any[]} />
+</Layout>

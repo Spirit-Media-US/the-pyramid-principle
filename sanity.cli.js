@@ -2,8 +2,8 @@ import { defineCliConfig } from 'sanity/cli'
 
 export default defineCliConfig({
   api: {
-    projectId: 'REPLACE_PROJECT_ID',
+    projectId: 'uenxsjdw',
     dataset: 'production',
   },
-  studioHost: 'REPLACE_SITE_SLUG',
+  studioHost: 'the-pyramid-principle',
 })

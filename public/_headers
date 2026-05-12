@@ -5,12 +5,42 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=()
   X-Robots-Tag: index, follow
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://cdn.sanity.io https://assets.spiritmediapublishing.com https://www.google-analytics.com https://www.googletagmanager.com; font-src 'self' https://assets.spiritmediapublishing.com; connect-src 'self' https://REPLACE_SANITY_PROJECT_ID.api.sanity.io https://www.google-analytics.com https://www.googletagmanager.com https://cloudflareinsights.com; frame-src https://www.youtube.com https://www.youtube-nocookie.com https://player.vimeo.com; media-src 'self' https://assets.spiritmediapublishing.com; object-src 'none'; base-uri 'self'; form-action 'self'
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://static.cloudflareinsights.com https://widgets.givebutter.com https://givebutter.com https://*.givebutter.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://cdn.sanity.io https://assets.spiritmediapublishing.com https://www.google-analytics.com https://www.googletagmanager.com https://i.ytimg.com https://givebutter.com https://*.givebutter.com; font-src 'self' https://assets.spiritmediapublishing.com; connect-src 'self' https://uenxsjdw.api.sanity.io https://www.google-analytics.com https://www.googletagmanager.com https://cloudflareinsights.com https://givebutter.com https://*.givebutter.com; frame-src https://www.youtube.com https://www.youtube-nocookie.com https://player.vimeo.com https://givebutter.com https://*.givebutter.com; media-src 'self' https://assets.spiritmediapublishing.com; object-src 'none'; base-uri 'self'; form-action 'self' https://givebutter.com https://*.givebutter.com
 
-# Trait 2 / Early Hints — Cloudflare Pages promotes Link: headers to HTTP/2 103 responses
-# when CF zone setting `early_hints=on` (cf-zone-settings.md). Wire one Link: line per
-# above-fold preload (hero image, primary fonts). Examples below — uncomment and edit.
-#
-# /
-#   Link: <https://assets.spiritmediapublishing.com/fonts/FAMILY/FAMILY-400.woff2>; rel=preload; as=font; type=font/woff2; crossorigin
-#   Link: <https://cdn.sanity.io/images/PROJECT_ID/production/HERO_HASH.webp?w=1200&fm=webp&q=80>; rel=preload; as=image
+# Trait 3 / Early Hints — Cloudflare Pages promotes these to HTTP/2 103 responses
+# when CF zone setting `early_hints=on` is on. Wired in Phase 8 once the domain
+# is connected; harmless on pages.dev (no-op).
+
+/
+  Link: <https://assets.spiritmediapublishing.com/fonts/bebas-neue/bebas-neue-400.woff2>; rel=preload; as=font; type=font/woff2; crossorigin
+  Link: <https://assets.spiritmediapublishing.com/fonts/dm-sans/dm-sans-700.woff2>; rel=preload; as=font; type=font/woff2; crossorigin
+  Link: <https://cdn.sanity.io/images/uenxsjdw/production/fd3d2aa3fdaf328aa82a22c8652143e895c1da29-886x1024.png?w=1000&fm=webp&q=80&fit=max>; rel=preload; as=image
+
+/john-vallely/*
+  Link: <https://assets.spiritmediapublishing.com/fonts/bebas-neue/bebas-neue-400.woff2>; rel=preload; as=font; type=font/woff2; crossorigin
+  Link: <https://cdn.sanity.io/images/uenxsjdw/production/de878c8f7d365b806f2fe30187fad95298d155f4-562x700.jpg?w=1000&fm=webp&q=80&fit=max>; rel=preload; as=image
+
+/paul-weissenstein/*
+  Link: <https://assets.spiritmediapublishing.com/fonts/bebas-neue/bebas-neue-400.woff2>; rel=preload; as=font; type=font/woff2; crossorigin
+  Link: <https://cdn.sanity.io/images/uenxsjdw/production/2fb41ba13d9afc18ce59e86a84e914671aae7106-720x714.png?w=900&fm=webp&q=80&fit=max>; rel=preload; as=image
+
+/coach-john-wooden/*
+  Link: <https://assets.spiritmediapublishing.com/fonts/bebas-neue/bebas-neue-400.woff2>; rel=preload; as=font; type=font/woff2; crossorigin
+  Link: <https://cdn.sanity.io/images/uenxsjdw/production/4c3cd888086905f358f6eb7b4f057b319be7e314-351x450.webp?w=480&fm=webp&q=80&fit=max>; rel=preload; as=image
+
+/retailers/*
+  Link: <https://assets.spiritmediapublishing.com/fonts/bebas-neue/bebas-neue-400.woff2>; rel=preload; as=font; type=font/woff2; crossorigin
+  Link: <https://cdn.sanity.io/images/uenxsjdw/production/89c2511ddf1e9179e484cd41b94c4acbe34d565b-309x438.png?w=720&fm=webp&q=80&fit=max>; rel=preload; as=image
+
+/the-pyramid-success/*
+  Link: <https://assets.spiritmediapublishing.com/fonts/bebas-neue/bebas-neue-400.woff2>; rel=preload; as=font; type=font/woff2; crossorigin
+
+/give-courage/*
+  Link: <https://assets.spiritmediapublishing.com/fonts/bebas-neue/bebas-neue-400.woff2>; rel=preload; as=font; type=font/woff2; crossorigin
+  Link: <https://cdn.sanity.io/images/uenxsjdw/production/3a14f2aa36a1b9f4b5657fcfbd9900bd487ee7ba-1024x537.jpg?w=1200&fm=webp&q=80&fit=max>; rel=preload; as=image
+
+/media-center/*
+  Link: <https://assets.spiritmediapublishing.com/fonts/bebas-neue/bebas-neue-400.woff2>; rel=preload; as=font; type=font/woff2; crossorigin
+
+/reviews/*
+  Link: <https://assets.spiritmediapublishing.com/fonts/bebas-neue/bebas-neue-400.woff2>; rel=preload; as=font; type=font/woff2; crossorigin

@@ -1,0 +1,241 @@
+[
+  {
+    "type": "_meta",
+    "title": "Give Courage | The Pyramid Principle",
+    "description": "Help give the gift of courage to 400,000 families fighting cancer. All gifts tax deductible.",
+    "slug": "give-courage"
+  },
+  {
+    "type": "give-courage-banner",
+    "id": "brxe-vccsio",
+    "heading1": "Help <span>GIVE</span> THE GIFT<br>OF <span>COURAGE</span> TO",
+    "heading2": "<span>400,000</span> FAMILIES FIGHTING CANCER",
+    "ctaHref": "#brxe-fwyksz",
+    "ctaLabel": "Give Courage",
+    "taxNote": "ALL GIFTS TAX DEDUCTIBLE"
+  },
+  {
+    "type": "photo-carousel",
+    "id": "brxe-gyrrtl",
+    "config": {
+      "slidesPerViewDesktop": 5,
+      "slidesPerViewMobile": 2,
+      "spaceBetween": 2,
+      "loop": true,
+      "autoplayDelay": 3000,
+      "speed": 300,
+      "breakpoint": 991
+    },
+    "slides": [
+      {
+        "file": "lets-make-you-feel-better-shot-of-a-little-girl-l-2023-11-27-05-30-11-utc.jpg",
+        "alt": ""
+      },
+      {
+        "file": "cancer-mother-with-a-pink-headscarf-high-fives-her-2024-06-05-20-58-52-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      },
+      {
+        "file": "there-you-go-all-done-2023-11-27-05-16-36-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      },
+      {
+        "file": "cancer-woman-touching-child-s-hand-2024-10-18-11-04-43-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      },
+      {
+        "file": "a-woman-with-cancer-is-next-to-her-daughter-a-gi-2023-11-27-05-20-05-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      },
+      {
+        "file": "shot-of-an-adorable-little-girl-having-a-checkup-2023-11-27-04-59-48-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      },
+      {
+        "file": "laughing-african-american-boy-patient-taking-male-2023-11-27-05-30-45-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      },
+      {
+        "file": "sick-woman-with-cancer-hugging-her-young-grandchil-2023-11-27-05-20-43-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      },
+      {
+        "file": "shot-of-an-adorable-little-girl-having-a-checkup-2023-11-27-04-59-48-utc-scaled.jpg",
+        "alt": ""
+      },
+      {
+        "file": "teenage-oncology-patient-talking-with-doctor-onco-2024-10-18-10-17-35-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      },
+      {
+        "file": "worried-elderly-woman-with-cancer-2024-10-21-05-33-22-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      }
+    ]
+  },
+  {
+    "type": "donation-section",
+    "id": "brxe-npnnxp",
+    "videoId": "xuYxhPF-W_Y",
+    "videoTitle": "Erin Vallely's Story",
+    "intro": {
+      "paragraphs": [
+        "Erin Vallely's story of courage has affected the lives of hundreds of thousands of pediatric cancer patients.",
+        "Give the gift of courage to 400,000 families fighting cancer. Every contribution makes a real difference in lifting spirits, bringing courage, and empowering victory over cancer."
+      ],
+      "quote": "“Unfortunately, there is an enemy to all men, women, and especially children. That enemy is cancer and it must be defeated! I'm asking you, please give and together we will see victory over cancer!”",
+      "attribution": "– Erin Vallely, The Pyramid Principle (page 132-133)"
+    },
+    "cancerTouches": {
+      "label": "Cancer Touches All:",
+      "body": "Most likely, you or someone in your immediate family has been diagnosed with cancer at some point."
+    },
+    "joinPartners": "Join generous partners in sharing courage with families fighting cancer. Together, let's empower them with victory over cancer.",
+    "tiers": [
+      {
+        "amount": "$25",
+        "impact": "1 family"
+      },
+      {
+        "amount": "$50",
+        "impact": "2 families"
+      },
+      {
+        "amount": "$100",
+        "impact": "4 families"
+      },
+      {
+        "amount": "$500",
+        "impact": "20 families"
+      },
+      {
+        "amount": "$1000",
+        "impact": "40 families"
+      }
+    ],
+    "shellyQuote": {
+      "quote": "“The Pyramid Principle gave me the courage to face my own hard places with hope and faith. The read is a beautiful distraction in the hard. It reminds you that you are not alone and it provides principles to keep you moving on your journey.”",
+      "attribution": "– Shelly of North Carolina"
+    },
+    "ctaHeadingId": "brxe-fwyksz",
+    "ctaHeading": "Give Now AND RECEIVE A FREE AUDIOBOOK OR EBOOK OF THE PYRAMID PRINCIPLE",
+    "givebutterId": "gBVowg",
+    "footerNote": "Donors will receive monthly impact stories like the testimonial above from Shelly"
+  },
+  {
+    "type": "smg-banner",
+    "id": "brxe-jzdroj",
+    "heading1": "SPIRIT MEDIA <span>GIVES</span>",
+    "heading2": "Tax ID: 88-4352701",
+    "heading3": "ALL GIFTS TAX DEDUCTIBLE"
+  },
+  {
+    "type": "photo-carousel",
+    "id": "brxe-jgzsnf",
+    "config": {
+      "slidesPerViewDesktop": 5,
+      "slidesPerViewMobile": 2,
+      "spaceBetween": 2,
+      "loop": true,
+      "autoplayDelay": 3000,
+      "speed": 300,
+      "breakpoint": 991
+    },
+    "slides": [
+      {
+        "file": "elderly-asian-female-patients-and-cancer-specialis-2023-11-27-05-21-54-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      },
+      {
+        "file": "laughing-african-american-boy-patient-taking-male-2023-11-27-05-30-45-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      },
+      {
+        "file": "mother-and-daughter-bonding-at-the-hospital-2023-11-27-05-14-22-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      },
+      {
+        "file": "sitting-in-a-mask-2024-10-18-09-12-41-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      },
+      {
+        "file": "sick-woman-with-cancer-hugging-her-young-grandchil-2023-11-27-05-20-43-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      },
+      {
+        "file": "supportive-care-in-oncology-compassionate-interac-2024-10-03-00-58-32-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      },
+      {
+        "file": "there-you-go-all-done-2023-11-27-05-16-36-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      },
+      {
+        "file": "cancer-mother-with-a-pink-headscarf-high-fives-her-2024-06-05-20-58-52-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      },
+      {
+        "file": "healthcare-clinic-pediatric-medic-talking-with-car-2023-11-27-05-13-36-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      },
+      {
+        "file": "woman-with-cancer-during-chemotherapy-recovering-f-2023-11-27-05-13-24-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      }
+    ]
+  },
+  {
+    "type": "pcrf-section",
+    "id": "brxe-0ee7ef",
+    "eyebrow": "Pediatric Cancer Research Foundation",
+    "heading": "A portion of the proceeds BENEFITS <span>cancer research</span>",
+    "bodyHtml": "Since 1982, the Pediatric Cancer Research Foundation (<a href=\"https://pcrf-kids.org/\" target=\"_blank\" rel=\"noopener noreferrer\"><strong>PCRF</strong></a>) has been chasing one ambitious goal: to make it possible for all children facing childhood cancer to beat their disease and realize their full potential. PCRF achieves this by powering cures where none exist and giving rise to less toxic regimens with fewer side effects. They have invested more than $46 million in pediatric cancer research and contributed to groundbreaking advances in treatment. Become involved at <a href=\"https://pcrf-kids.org/\" target=\"_blank\" rel=\"noopener noreferrer\"><strong>https://pcrf-kids.org</strong></a>.",
+    "image": {
+      "file": "58e232679973e0ada741fbaf881dcad8-transformed-1024x537.jpeg",
+      "alt": "Rainbow for Erin",
+      "dims": {
+        "width": 1024,
+        "height": 537
+      }
+    },
+    "caption": "Rainbow for Erin"
+  },
+  {
+    "type": "centered-h3-banner",
+    "id": "brxe-tnuoce",
+    "heading": "Help us reach our first initial goal of raising <span>$100,000</span> for cancer research."
+  },
+  {
+    "type": "centered-image",
+    "id": "brxe-vsspdm",
+    "image": {
+      "file": "check-2.jpg",
+      "alt": "The Pyramid Principle presenting $100,000 check to Pediatric Cancer Research Foundation",
+      "dims": {
+        "width": 1250,
+        "height": 750
+      }
+    },
+    "maxWidth": 1024
+  },
+  {
+    "type": "join-movement",
+    "id": "brxe-2894dc",
+    "image": {
+      "file": "join-the-movement.png",
+      "alt": "Join The Movement — Erin Vallely's legacy of courage",
+      "dims": {
+        "width": 1070,
+        "height": 998
+      }
+    },
+    "headingHtml": "<span>Join</span> The Movement",
+    "bodyParagraphs": [
+      "Erin's beautiful life, and courageous fight has created awareness and breakthroughs that continue to save lives today. With the commitment of The Pediatric Cancer Research Foundation and its funding to early stage work, Federal NIH funding has followed on. With optimism and hope, PCRF and it's partners believe in a future where the increased funding will reduce the burdens of these afflicted children on its way to a cure.",
+      "After 30 years of living with the beautiful memory of our inspirational daughter, Erin, Karen and I have learned that every human is on earth for a reason. And for that reason, we celebrate all the partners that dream and pray for a cure for this disease.",
+      {
+        "html": "<strong class=\"jm-pink\">Please join us as we seek to carry on Erin's vision, mission, and pleas for a cure.</strong><br><em class=\"jm-attribution\">– John &amp; Karen Vallely</em>"
+      }
+    ]
+  }
+]
