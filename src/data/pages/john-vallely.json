@@ -89,6 +89,42 @@
     "text": "A heart-gripping story of championship resilience"
   },
   {
+    "type": "photo-carousel",
+    "id": "brxe-rboxpg",
+    "config": {
+      "slidesPerViewDesktop": 5,
+      "slidesPerViewMobile": 2,
+      "spaceBetween": 5,
+      "loop": true,
+      "autoplayDelay": 3000,
+      "speed": 300,
+      "breakpoint": 991
+    },
+    "slides": [
+      { "file": "VipsCafe_24-3.jpg", "alt": "" },
+      { "file": "VipsCafe_24-4.jpg", "alt": "" },
+      { "file": "VipsCafe_24-5.jpg", "alt": "" },
+      { "file": "VipsCafe_24-6.jpg", "alt": "" },
+      { "file": "VipsCafe_24-8.jpg", "alt": "" },
+      { "file": "VipsCafe_24-10.jpg", "alt": "" },
+      { "file": "VipsCafe_24-11.jpg", "alt": "" },
+      { "file": "VipsCafe_24-12.jpg", "alt": "" },
+      { "file": "VipsCafe_24-17.jpg", "alt": "" },
+      { "file": "VipsCafe_24-23.jpg", "alt": "" },
+      { "file": "VipsCafe_24-2.jpg", "alt": "" },
+      { "file": "VipsCafe_24.jpg", "alt": "" },
+      { "file": "JohnValley24-315.jpg", "alt": "" },
+      { "file": "JohnValley24-306.jpg", "alt": "" },
+      { "file": "JohnValley24-299.jpg", "alt": "" },
+      { "file": "JohnValley24-108-1.jpg", "alt": "" },
+      { "file": "JohnValley24-107.jpg", "alt": "" },
+      { "file": "JohnValley24-100.jpg", "alt": "" },
+      { "file": "VipsCafe_24-17-1.jpg", "alt": "" },
+      { "file": "VipsCafe_24-12-1.jpg", "alt": "" },
+      { "file": "VipsCafe_24-10-1.jpg", "alt": "" }
+    ]
+  },
+  {
     "type": "video-popup-grid",
     "id": "brxe-glibgo",
     "tiles": [

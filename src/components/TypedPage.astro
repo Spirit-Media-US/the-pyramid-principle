@@ -12,7 +12,7 @@
 //   dedication-and-players — H2 + body + 2nd H2 + player profile cards
 //   media-contact-card   — H2 + H3 + contact text + bg image
 //   interview-questions  — H2 + numbered list + image collage
-import { srcW } from '../lib/img';
+import { srcW, dims } from '../lib/img';
 
 interface Props { blocks: any[]; }
 const { blocks } = Astro.props;
@@ -159,6 +159,60 @@ function decodeText(s: string): string {
             ))}
           </div>
         </div>
+      </section>
+    );
+  }
+
+  // ── photo-carousel — verified live #brxe-rboxpg ──
+  // Swiper.js horizontal carousel: 5/2 slidesPerView desktop/mobile,
+  // spaceBetween 5px, loop+autoplay 3s, speed 300ms. Slides are bg-image
+  // tiles 250px desktop / 150px mobile. Wrapper <a> opens a PhotoSwipe
+  // lightbox with full-res 2560w sources. Section margin -80px top desktop
+  // / -50px mobile (pulls into the H2 section above). Arrows: #2196f3,
+  // prev left:50px / next right:50px. Init deferred per Trait 5.
+  if (b.type === 'photo-carousel') {
+    const slides = (b.slides || []).map((s: any) => {
+      const thumb = srcW(s.file, 1024);
+      const full = srcW(s.file, 2560);
+      const d = dims(s.file);
+      return { thumb, full, w: d.width, h: d.height, alt: s.alt || '' };
+    });
+    const cfg = b.config || {};
+    return (
+      <section class="jv-photo-carousel" id={b.id}
+               data-slides-desktop={cfg.slidesPerViewDesktop ?? 5}
+               data-slides-mobile={cfg.slidesPerViewMobile ?? 2}
+               data-space-between={cfg.spaceBetween ?? 5}
+               data-loop={cfg.loop === false ? 'false' : 'true'}
+               data-autoplay-delay={cfg.autoplayDelay ?? 3000}
+               data-speed={cfg.speed ?? 300}
+               data-breakpoint={cfg.breakpoint ?? 991}>
+        <div class="swiper jv-photo-swiper">
+          <div class="swiper-wrapper">
+            {slides.map((s) => (
+              <div class="swiper-slide jv-photo-slide">
+                <a class="jv-photo-link"
+                   href={s.full}
+                   data-pswp-src={s.full}
+                   data-pswp-width={s.w}
+                   data-pswp-height={s.h}
+                   target="_blank"
+                   rel="noopener noreferrer">
+                  <img src={s.thumb}
+                       width={s.w} height={s.h}
+                       alt={s.alt}
+                       loading="lazy" decoding="async" />
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+        <button type="button" class="jv-photo-prev" aria-label="Previous photo">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button type="button" class="jv-photo-next" aria-label="Next photo">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
       </section>
     );
   }
@@ -316,6 +370,75 @@ function decodeText(s: string): string {
   const evs = ['scroll', 'click', 'touchstart', 'keydown', 'mousemove'];
   for (const e of evs) window.addEventListener(e, initVideoModal, { once: true, passive: true });
   window.setTimeout(initVideoModal, 8000);
+</script>
+
+<script>
+  // Photo carousel — Swiper.js + PhotoSwipe lightbox. Trait 5 deferred init.
+  // Imports use Vite's `?url` resolution; everything is tree-shaken to the
+  // single carousel module + the lightbox module (~50KB gzip combined).
+  async function initPhotoCarousels() {
+    if ((window as any)._photoCarousels) return;
+    const sections = document.querySelectorAll<HTMLElement>('.jv-photo-carousel');
+    if (sections.length === 0) return;
+    (window as any)._photoCarousels = true;
+
+    const [{ default: Swiper }, { Navigation, Autoplay }, photoswipe, lightboxMod] = await Promise.all([
+      import('swiper'),
+      import('swiper/modules'),
+      import('photoswipe'),
+      import('photoswipe/lightbox'),
+    ]);
+    // Swiper bundled CSS (one of the two import-styles supported by the
+    // package — `swiper/css` is the entry exposed by package.json#exports).
+    await Promise.all([
+      // @ts-expect-error – CSS side-effect imports are valid for Vite
+      import('swiper/css'),
+      // @ts-expect-error
+      import('swiper/css/navigation'),
+      // @ts-expect-error
+      import('photoswipe/style.css'),
+    ]);
+    const PhotoSwipeLightbox = (lightboxMod as any).default;
+
+    sections.forEach(section => {
+      const slidesDesktop = Number(section.dataset.slidesDesktop || 5);
+      const slidesMobile = Number(section.dataset.slidesMobile || 2);
+      const spaceBetween = Number(section.dataset.spaceBetween || 5);
+      const loop = section.dataset.loop !== 'false';
+      const autoplayDelay = Number(section.dataset.autoplayDelay || 3000);
+      const speed = Number(section.dataset.speed || 300);
+      const breakpoint = Number(section.dataset.breakpoint || 991);
+      const swiperEl = section.querySelector<HTMLElement>('.jv-photo-swiper');
+      const prevEl = section.querySelector<HTMLElement>('.jv-photo-prev');
+      const nextEl = section.querySelector<HTMLElement>('.jv-photo-next');
+      if (!swiperEl) return;
+
+      new Swiper(swiperEl, {
+        modules: [Navigation, Autoplay],
+        slidesPerView: slidesMobile,
+        spaceBetween,
+        loop,
+        speed,
+        autoplay: { delay: autoplayDelay, disableOnInteraction: true, pauseOnMouseEnter: false },
+        navigation: prevEl && nextEl ? { prevEl, nextEl } : undefined,
+        breakpoints: {
+          [breakpoint]: { slidesPerView: slidesDesktop, spaceBetween },
+        },
+      });
+
+      // PhotoSwipe lightbox — one instance per carousel section.
+      const lightbox = new PhotoSwipeLightbox({
+        gallery: section,
+        children: 'a.jv-photo-link',
+        pswpModule: () => Promise.resolve(photoswipe),
+      });
+      lightbox.init();
+    });
+  }
+
+  const pcEvs = ['scroll', 'click', 'touchstart', 'keydown', 'mousemove'];
+  for (const e of pcEvs) window.addEventListener(e, initPhotoCarousels, { once: true, passive: true });
+  window.setTimeout(initPhotoCarousels, 8000);
 </script>
 
 <style is:global>
@@ -662,6 +785,91 @@ function decodeText(s: string): string {
   .jv-interview-images { display: flex; flex-direction: column; gap: 16px; }
   .jv-interview-images img {
     width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 8px;
+  }
+
+  /* ── Photo carousel (verified live #brxe-rboxpg) ──
+     Section: margin-top -50px mobile / -80px desktop, pulls into the H2
+     section above. Slides are 250px tall desktop / 150px mobile, bg-cover.
+     Arrows are 50×50 absolute, color #2196f3, prev left:50px / next right:50px.
+     Swiper handles loop+autoplay+slide widths; we just style the visual. */
+  .jv-photo-carousel {
+    position: relative;
+    width: 100%;
+    margin: -50px 0 0;
+    overflow: hidden;
+  }
+  @media (min-width: 768px) {
+    .jv-photo-carousel { margin: -80px 0 0; }
+  }
+  .jv-photo-swiper {
+    width: 100%;
+    overflow: hidden;
+  }
+  .jv-photo-slide {
+    height: 150px;
+    overflow: hidden;
+  }
+  @media (min-width: 768px) {
+    .jv-photo-slide { height: 250px; }
+  }
+  .jv-photo-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    cursor: zoom-in;
+  }
+  .jv-photo-link img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+  .jv-photo-link:hover img {
+    transform: scale(1.05);
+  }
+  /* Navigation arrows — vertically centered on slide, Material blue */
+  .jv-photo-prev,
+  .jv-photo-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    background: transparent;
+    color: rgb(33, 150, 243); /* #2196f3 — Material blue per live DOM */
+    cursor: pointer;
+    padding: 0;
+    transition: opacity 0.2s ease, color 0.2s ease;
+  }
+  .jv-photo-prev { left: 10px; }
+  .jv-photo-next { right: 10px; }
+  @media (min-width: 768px) {
+    .jv-photo-prev { left: 50px; }
+    .jv-photo-next { right: 50px; }
+  }
+  .jv-photo-prev:hover,
+  .jv-photo-next:hover { color: rgb(13, 117, 207); }
+  .jv-photo-prev:focus-visible,
+  .jv-photo-next:focus-visible {
+    outline: 3px solid var(--color-brand-yellow);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  .jv-photo-prev svg,
+  .jv-photo-next svg { display: block; }
+  /* Hide arrows until Swiper has initialized (avoids un-bound clicks) */
+  .jv-photo-carousel:not(:has(.swiper-initialized)) .jv-photo-prev,
+  .jv-photo-carousel:not(:has(.swiper-initialized)) .jv-photo-next {
+    opacity: 0;
+    pointer-events: none;
   }
 
   /* Shared YouTube modal (one element used by all video tiles) */
