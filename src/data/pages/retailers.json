@@ -352,5 +352,37 @@
     "heading": "India",
     "body": "American basketball is becoming more popular in India, with the NBA's 2022-23 season being the most-watched in the country's history. The season drew more than 100 million unique viewers across linear, social media, and digital platforms. The NBA considers India an important market and is trying to grow its brand there.",
     "images": []
+  },
+  {
+    "type": "populations-block",
+    "id": "brxe-qpgplg",
+    "heading": "Populations",
+    "itemsLeft": [
+      { "text": "China: Yao Ming – 1.42B" },
+      { "text": "India – 1.44B" },
+      { "text": "Europe – 745M" },
+      {
+        "text": "Spanish (all) – 575M",
+        "subitems": [
+          "Brazil – 212M",
+          "Spain – 50M",
+          "Mexico – 130M",
+          "Argentina – 46M"
+        ]
+      }
+    ],
+    "itemsRight": [
+      { "text": "Australia – 26M" },
+      { "text": "Middle East – 310M" },
+      { "text": "Philippines – 118M" },
+      { "text": "Canada – 40M" },
+      { "text": "Japan – 124M" }
+    ],
+    "image": {
+      "file": "ag-pic-PllbLCTilUo-unsplash.jpg",
+      "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/9a1ee2a694309048089723564869bfcd54c5eed1-640x480.jpg",
+      "dims": { "_type": "sanity.imageDimensions", "aspectRatio": 1.3333333333333333, "height": 480, "width": 640 },
+      "alt": ""
+    }
   }
 ]

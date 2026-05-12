@@ -125,6 +125,52 @@ function decodeText(s: string): string {
     );
   }
 
+  // ── populations-block — verified live #brxe-qpgplg (Retailers
+  // Section 11, "Populations"). H2 + 2-col bullet list (split into
+  // two <ul>s for a clean 4-left / 5-right desktop split, stacking
+  // on mobile) + below-list image. Source has the list duplicated
+  // for responsive purposes (single-col mobile, 2-col desktop both
+  // present in markup with display:none toggling); rebuilt as a
+  // single semantic structure with CSS-driven layout.
+  if (b.type === 'populations-block') {
+    const left = (b.itemsLeft || []) as any[];
+    const right = (b.itemsRight || []) as any[];
+    const renderItems = (items: any[]) => (
+      <ul>
+        {items.map((it: any) => (
+          <li>
+            {decodeText(it.text)}
+            {it.subitems && it.subitems.length > 0 && (
+              <ul>
+                {it.subitems.map((s: string) => (<li>{decodeText(s)}</li>))}
+              </ul>
+            )}
+          </li>
+        ))}
+      </ul>
+    );
+    const img = b.image || null;
+    return (
+      <section class="jv-pop" id={b.id}>
+        <div class="jv-pop-container">
+          {b.heading && <h2 class="jv-pop-h2">{decodeText(b.heading)}</h2>}
+          <div class="jv-pop-list-grid">
+            {renderItems(left)}
+            {renderItems(right)}
+          </div>
+          {img && img.sanityUrl && (
+            <img class="jv-pop-image"
+                 src={imgUrl(img, 1024)}
+                 width={img?.dims?.width || 640}
+                 height={img?.dims?.height || 480}
+                 alt={img.alt || ''}
+                 loading="lazy" decoding="async" />
+          )}
+        </div>
+      </section>
+    );
+  }
+
   // ── stats-card-grid — verified live #brxe-asxjua (Retailers Section 9,
   // "NBA"). H2 + intro paragraph + N-card grid where each card is a
   // light-gray rounded box with image / colored title / body. Designed
@@ -1708,6 +1754,86 @@ function decodeText(s: string): string {
   .jv-photo-carousel:not(:has(.swiper-initialized)) .jv-photo-next {
     opacity: 0;
     pointer-events: none;
+  }
+
+  /* ── populations-block (verified live #brxe-qpgplg / #brxe-eurzxi /
+       #brxe-mwzgcc / #brxe-ddqmnk / #brxe-jwolrh / #brxe-toitaz /
+       #brxe-qtlbnn / #brxe-mrawvs) — Retailers Section 11.
+     Section: padding 40px 20px mobile / 40px var desktop, bg #fff.
+     H2: Bebas Neue 55px / 40px, color #000, text-align LEFT (verified).
+     List: 2-col grid desktop (4 left + 5 right), 1-col stacked mobile.
+       Each item: DM Sans 18px desktop / Roboto 16px mobile color
+       #616161 line-height 30.6px. Nested <ul> inside item 4 for the
+       Spanish sub-items.
+     Image: full-container width with max-w cap, centered below list,
+       margin-top ~30px. */
+  .jv-pop {
+    background: #fff;
+    padding: 40px 20px;
+  }
+  @media (min-width: 768px) {
+    .jv-pop { padding: 40px var(--section-padding-x-desktop); }
+  }
+  .jv-pop-container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .jv-pop-h2 {
+    margin: 0 0 20px;
+    width: 100%;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 1;
+    letter-spacing: 0;
+    color: #000;
+    text-align: left;
+    text-transform: none;
+  }
+  @media (min-width: 768px) {
+    .jv-pop-h2 { font-size: 55px; line-height: 1; }
+  }
+  .jv-pop-list-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  @media (min-width: 768px) {
+    .jv-pop-list-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+  }
+  .jv-pop-list-grid ul {
+    margin: 0;
+    padding-left: 24px;
+    list-style: disc outside;
+    font-family: 'Roboto', system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    color: #616161;
+  }
+  @media (min-width: 768px) {
+    .jv-pop-list-grid ul {
+      font-family: var(--font-heading);
+      font-size: 18px;
+    }
+  }
+  .jv-pop-list-grid li { margin-bottom: 4px; }
+  .jv-pop-list-grid ul ul {
+    margin: 4px 0 8px;
+    padding-left: 24px;
+    list-style: circle outside;
+  }
+  .jv-pop-image {
+    width: 100%;
+    max-width: 640px;
+    height: auto;
+    aspect-ratio: 640 / 480;
+    object-fit: cover;
+    display: block;
+    margin: 30px auto 0;
   }
 
   /* ── stats-card-grid (verified live #brxe-asxjua / #brxe-vizxhf /

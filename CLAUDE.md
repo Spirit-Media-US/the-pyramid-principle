@@ -115,6 +115,10 @@ Then run: `git checkout dev && git pull origin dev`
     Action: compile a single licensing-review batch for Kevin to clear before main-merge. Replace anything that can't be verified.
   - `/retailers/` NBA Stats Grid copy — cites "200 countries", "50 languages", "26%", "2.3 billion" etc. with no source/citation in source content. Confirm with Kevin if these need attribution or are acceptable as marketing claims.
   - `/retailers/` India section copy — cites "100 million unique viewers" for the NBA 2022-23 season in India with no citation. Confirm with Kevin or remove.
+  - `/retailers/` Populations list — source has the full list duplicated for responsive purposes (single-col mobile markup + 2-col desktop markup, with display:none toggling between them). Rebuilt as a single semantic 2-`<ul>` structure with CSS grid layout (1 col mobile, 2 cols desktop). Visual identical to source on both viewports without the markup duplication.
+  - `/retailers/` Populations list copy — cites 1.42B / 1.44B / 745M / etc. with no source citation. Confirm with Kevin if these need attribution.
+  - `/retailers/` Populations list logical issue — "Spanish (all) – 575M" includes Brazil as a sub-item (Brazil's primary language is Portuguese, not Spanish). Either the parent label should be "Latin America" / "Lusophone + Hispanophone" or Brazil should not be nested under "Spanish". Flag for Kevin to clarify intent.
+  - `/retailers/` Populations image (`ag-pic-PllbLCTilUo-unsplash.jpg`) — Unsplash source, permissive license, no clearance concern. Confirm with Kevin what the photo depicts for proper alt text (currently empty).
 
 ### Phases 5-9
 - [ ] Pending
