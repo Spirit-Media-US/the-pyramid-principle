@@ -562,6 +562,21 @@ const BLOG_CARDS = (_latestBlogPosts as any[]).map((p) => {
 </Layout>
 
 <style>
+  /* content-visibility: auto on below-the-fold sections skips their
+     layout/paint until they're scrolled near. Each section needs an
+     intrinsic-size hint so scrollbars don't jump. Adds ~no visual cost
+     since the user can't see these on first paint. */
+  .hgs-section,
+  .story-section,
+  .based-on-section,
+  .resources-section,
+  .highlights-section,
+  .wooden-section,
+  .latest-blog-section {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 1200px;
+  }
+
   /* ── HERO container ── */
   .home-hero {
     background: var(--color-bg-section);
