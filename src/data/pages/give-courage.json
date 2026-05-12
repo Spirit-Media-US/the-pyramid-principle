@@ -27,17 +27,99 @@
       "breakpoint": 991
     },
     "slides": [
-      { "file": "lets-make-you-feel-better-shot-of-a-little-girl-l-2023-11-27-05-30-11-utc.jpg", "alt": "" },
-      { "file": "cancer-mother-with-a-pink-headscarf-high-fives-her-2024-06-05-20-58-52-utc-ezgif.com-jpg-to-webp-converter.webp", "alt": "" },
-      { "file": "there-you-go-all-done-2023-11-27-05-16-36-utc-ezgif.com-jpg-to-webp-converter.webp", "alt": "" },
-      { "file": "cancer-woman-touching-child-s-hand-2024-10-18-11-04-43-utc-ezgif.com-jpg-to-webp-converter.webp", "alt": "" },
-      { "file": "a-woman-with-cancer-is-next-to-her-daughter-a-gi-2023-11-27-05-20-05-utc-ezgif.com-jpg-to-webp-converter.webp", "alt": "" },
-      { "file": "shot-of-an-adorable-little-girl-having-a-checkup-2023-11-27-04-59-48-utc-ezgif.com-jpg-to-webp-converter.webp", "alt": "" },
-      { "file": "laughing-african-american-boy-patient-taking-male-2023-11-27-05-30-45-utc-ezgif.com-jpg-to-webp-converter.webp", "alt": "" },
-      { "file": "sick-woman-with-cancer-hugging-her-young-grandchil-2023-11-27-05-20-43-utc-ezgif.com-jpg-to-webp-converter.webp", "alt": "" },
-      { "file": "shot-of-an-adorable-little-girl-having-a-checkup-2023-11-27-04-59-48-utc-scaled.jpg", "alt": "" },
-      { "file": "teenage-oncology-patient-talking-with-doctor-onco-2024-10-18-10-17-35-utc-ezgif.com-jpg-to-webp-converter.webp", "alt": "" },
-      { "file": "worried-elderly-woman-with-cancer-2024-10-21-05-33-22-utc-ezgif.com-jpg-to-webp-converter.webp", "alt": "" }
+      {
+        "file": "lets-make-you-feel-better-shot-of-a-little-girl-l-2023-11-27-05-30-11-utc.jpg",
+        "alt": ""
+      },
+      {
+        "file": "cancer-mother-with-a-pink-headscarf-high-fives-her-2024-06-05-20-58-52-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      },
+      {
+        "file": "there-you-go-all-done-2023-11-27-05-16-36-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      },
+      {
+        "file": "cancer-woman-touching-child-s-hand-2024-10-18-11-04-43-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      },
+      {
+        "file": "a-woman-with-cancer-is-next-to-her-daughter-a-gi-2023-11-27-05-20-05-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      },
+      {
+        "file": "shot-of-an-adorable-little-girl-having-a-checkup-2023-11-27-04-59-48-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      },
+      {
+        "file": "laughing-african-american-boy-patient-taking-male-2023-11-27-05-30-45-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      },
+      {
+        "file": "sick-woman-with-cancer-hugging-her-young-grandchil-2023-11-27-05-20-43-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      },
+      {
+        "file": "shot-of-an-adorable-little-girl-having-a-checkup-2023-11-27-04-59-48-utc-scaled.jpg",
+        "alt": ""
+      },
+      {
+        "file": "teenage-oncology-patient-talking-with-doctor-onco-2024-10-18-10-17-35-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      },
+      {
+        "file": "worried-elderly-woman-with-cancer-2024-10-21-05-33-22-utc-ezgif.com-jpg-to-webp-converter.webp",
+        "alt": ""
+      }
     ]
+  },
+  {
+    "type": "donation-section",
+    "id": "brxe-npnnxp",
+    "videoId": "xuYxhPF-W_Y",
+    "videoTitle": "Erin Vallely's Story",
+    "intro": {
+      "paragraphs": [
+        "Erin Vallely's story of courage has affected the lives of hundreds of thousands of pediatric cancer patients.",
+        "Give the gift of courage to 400,000 families fighting cancer. Every contribution makes a real difference in lifting spirits, bringing courage, and empowering victory over cancer."
+      ],
+      "quote": "“Unfortunately, there is an enemy to all men, women, and especially children. That enemy is cancer and it must be defeated! I'm asking you, please give and together we will see victory over cancer!”",
+      "attribution": "– Erin Vallely, The Pyramid Principle (page 132-133)"
+    },
+    "cancerTouches": {
+      "label": "Cancer Touches All:",
+      "body": "Most likely, you or someone in your immediate family has been diagnosed with cancer at some point."
+    },
+    "joinPartners": "Join generous partners in sharing courage with families fighting cancer. Together, let's empower them with victory over cancer.",
+    "tiers": [
+      {
+        "amount": "$25",
+        "impact": "1 family"
+      },
+      {
+        "amount": "$50",
+        "impact": "2 families"
+      },
+      {
+        "amount": "$100",
+        "impact": "4 families"
+      },
+      {
+        "amount": "$500",
+        "impact": "20 families"
+      },
+      {
+        "amount": "$1000",
+        "impact": "40 families"
+      }
+    ],
+    "shellyQuote": {
+      "quote": "“The Pyramid Principle gave me the courage to face my own hard places with hope and faith. The read is a beautiful distraction in the hard. It reminds you that you are not alone and it provides principles to keep you moving on your journey.”",
+      "attribution": "– Shelly of North Carolina"
+    },
+    "ctaHeadingId": "brxe-fwyksz",
+    "ctaHeading": "Give Now AND RECEIVE A FREE AUDIOBOOK OR EBOOK OF THE PYRAMID PRINCIPLE",
+    "givebutterId": "gBVowg",
+    "footerNote": "Donors will receive monthly impact stories like the testimonial above from Shelly"
   }
 ]

@@ -10,6 +10,7 @@
 //   quote-card-grid      — 2-col responsive grid of quote cards
 //   person-profile-card  — alternating 2-col card (text + image stack)
 //   give-courage-banner  — 2-line H2 banner + pink CTA + tax-deductible note
+//   donation-section     — 2-col: inline YouTube + multi-block copy + Givebutter
 //   hero-intro           — eyebrow + H1 + body + sidebar image
 //   highlight-cards      — 4 callout cards with left-border accent
 //   featured-podcasts    — 2 square card links
@@ -753,6 +754,104 @@ function decodeText(s: string): string {
                      alt="Podcast episode" loading="lazy" decoding="async" />
               </a>
             ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // ── donation-section — 2-column section with inline YouTube video on
+  // left and stacked text blocks + Givebutter widget on right. Verified
+  // live #brxe-npnnxp on /give-courage/ Section 2.
+  //
+  //   Section (#brxe-npnnxp): margin 60px 0 desktop / 40px 0 mobile,
+  //     padding 0 20px mobile.
+  //   Inner card (#brxe-fdblis): bg #fff, 1px border rgba(158,158,158,.44),
+  //     border-radius 25px, padding 25px 80px 40px (top/x/bottom) desktop,
+  //     padding-x 20px mobile.
+  //   Left col (#brxe-adavwp): video wrapper, padding 40px 0 desktop /
+  //     20px 0 mobile, border-radius 25px.
+  //   Right col (#brxe-ubarsx): flex-row wrap, holds all text blocks.
+  //   Text blocks separated by margin-top 15px each.
+  //   CTA heading id="brxe-fwyksz" — Section 1 banner's CTA anchors here.
+  //
+  // YouTube embed: youtube-nocookie.com (already in CSP), loading="lazy"
+  // for perf (this is below the fold). User direction: no autoplay,
+  // keep loop=1 for when user clicks play.
+  //
+  // Givebutter widget: <givebutter-widget id="..."></givebutter-widget>.
+  // Script loaded on the page (added in give-courage.astro Layout head
+  // slot). CSP already updated.
+  if (b.type === 'donation-section') {
+    const tiers = b.tiers || [];
+    return (
+      <section class="ds-section" id={b.id}>
+        <div class="ds-card">
+          <div class="ds-row">
+            <div class="ds-col-video">
+              <div class="ds-video-wrap">
+                <iframe class="ds-video"
+                        src={`https://www.youtube-nocookie.com/embed/${b.videoId}?loop=1&playlist=${b.videoId}&rel=0`}
+                        title={b.videoTitle || 'YouTube video'}
+                        loading="lazy"
+                        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+              </div>
+            </div>
+            <div class="ds-col-content">
+              {b.intro && (
+                <div class="ds-block ds-intro">
+                  {(b.intro.paragraphs || []).map((p: string) => (
+                    <p class="ds-p">{decodeText(p)}</p>
+                  ))}
+                  {b.intro.quote && (
+                    <p class="ds-pink-quote">{decodeText(b.intro.quote)}</p>
+                  )}
+                  {b.intro.attribution && (
+                    <p class="ds-attribution">{decodeText(b.intro.attribution)}</p>
+                  )}
+                </div>
+              )}
+              {b.cancerTouches && (
+                <div class="ds-block">
+                  <p class="ds-p">
+                    <strong class="ds-pink-label">{decodeText(b.cancerTouches.label)}</strong>{' '}
+                    {decodeText(b.cancerTouches.body)}
+                  </p>
+                </div>
+              )}
+              {b.joinPartners && (
+                <div class="ds-block">
+                  <p class="ds-p">{decodeText(b.joinPartners)}</p>
+                </div>
+              )}
+              {tiers.length > 0 && (
+                <ul class="ds-block ds-tiers">
+                  {tiers.map((t: any) => (
+                    <li><strong>{t.amount}</strong> impacts <strong>{t.impact}</strong></li>
+                  ))}
+                </ul>
+              )}
+              {b.shellyQuote && (
+                <div class="ds-block ds-testimonial">
+                  <p class="ds-pink-quote">{decodeText(b.shellyQuote.quote)}</p>
+                  <p class="ds-attribution">{decodeText(b.shellyQuote.attribution)}</p>
+                </div>
+              )}
+              {b.ctaHeading && (
+                <h3 class="ds-cta-heading" id={b.ctaHeadingId || 'brxe-fwyksz'}>
+                  {decodeText(b.ctaHeading)}
+                </h3>
+              )}
+              {b.givebutterId && (
+                <div class="ds-widget">
+                  <givebutter-widget id={b.givebutterId}></givebutter-widget>
+                </div>
+              )}
+              {b.footerNote && (
+                <p class="ds-footer-note">{decodeText(b.footerNote)}</p>
+              )}
+            </div>
           </div>
         </div>
       </section>
@@ -3656,6 +3755,150 @@ function decodeText(s: string): string {
     color: #000;
     text-decoration: none;
     transform: translateY(-1px);
+  }
+
+  /* ── donation-section — 2-col video + content card.
+     Verified live #brxe-npnnxp / #brxe-fdblis / #brxe-adavwp / #brxe-ubarsx.
+     Pink quote color #F999CB — matches Give Courage campaign accent.
+     Inner card: white bg, subtle border, rounded 25px. */
+  .ds-section {
+    background: #fff;
+    padding: 40px 20px;
+  }
+  @media (min-width: 768px) {
+    .ds-section { padding: 60px var(--section-padding-x-desktop); }
+  }
+  .ds-card {
+    max-width: var(--container-max);
+    margin-inline: auto;
+    background: #fff;
+    border: 1px solid rgba(158, 158, 158, 0.44);
+    border-radius: 25px;
+    padding: 25px 20px 40px;
+  }
+  @media (min-width: 768px) {
+    .ds-card { padding: 25px 80px 40px; }
+  }
+  .ds-row {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  @media (min-width: 1024px) {
+    .ds-row { flex-direction: row; align-items: flex-start; gap: 40px; }
+  }
+  .ds-col-video {
+    width: 100%;
+    padding: 20px 0;
+    border-radius: 25px;
+  }
+  @media (min-width: 1024px) {
+    .ds-col-video { width: 50%; padding: 40px 0; position: sticky; top: 20px; }
+  }
+  .ds-video-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .ds-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+  .ds-col-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  @media (min-width: 1024px) {
+    .ds-col-content { width: 50%; }
+  }
+  .ds-block { margin-top: 15px; }
+  .ds-block:first-child { margin-top: 0; }
+  .ds-p {
+    margin: 0 0 8px;
+    font-family: var(--font-heading);
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--color-text);
+  }
+  @media (min-width: 768px) {
+    .ds-p { font-size: 18px; }
+  }
+  .ds-pink-quote {
+    margin: 8px 0;
+    font-family: 'Libre Baskerville', Georgia, 'Times New Roman', serif;
+    font-style: italic;
+    font-size: 18px;
+    line-height: 1.6;
+    color: #F999CB;
+  }
+  .ds-pink-label {
+    font-weight: 700;
+    color: #F999CB;
+  }
+  .ds-attribution {
+    margin: 4px 0 0;
+    font-family: var(--font-heading);
+    font-size: 15px;
+    line-height: 1.5;
+    color: #555;
+  }
+  .ds-tiers {
+    list-style: none;
+    margin: 15px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
+  }
+  .ds-tiers li {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--color-text);
+  }
+  @media (min-width: 768px) {
+    .ds-tiers li { font-size: 18px; }
+  }
+  .ds-tiers strong { font-weight: 700; color: var(--color-ink, #111); }
+  .ds-testimonial { margin-top: 20px; }
+  .ds-cta-heading {
+    margin: 20px 0 12px;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 1.1;
+    color: #212121;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  @media (min-width: 768px) {
+    .ds-cta-heading { font-size: 34px; }
+  }
+  .ds-widget {
+    width: 100%;
+    margin: 12px 0;
+    display: flex;
+    justify-content: center;
+  }
+  .ds-widget givebutter-widget { display: block; width: 100%; }
+  .ds-footer-note {
+    margin-top: 15px;
+    width: 100%;
+    text-align: center;
+    font-family: var(--font-heading);
+    font-size: 14px;
+    line-height: 1.5;
+    color: #555;
   }
 
   /* ── give-courage-banner — verified live #brxe-vccsio (3-col row).
