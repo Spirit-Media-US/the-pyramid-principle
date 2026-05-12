@@ -8,6 +8,7 @@
 //   title-card           — centered hero: eyebrow row (— text —) + H1
 //   centered-image       — single centered image with optional download CTA
 //   quote-card-grid      — 2-col responsive grid of quote cards
+//   person-profile-card  — alternating 2-col card (text + image stack)
 //   hero-intro           — eyebrow + H1 + body + sidebar image
 //   highlight-cards      — 4 callout cards with left-border accent
 //   featured-podcasts    — 2 square card links
@@ -171,6 +172,61 @@ function decodeText(s: string): string {
           ))}
         </div>
       </section>
+    );
+  }
+
+  // ── person-profile-card — alternating 2-col card with text on one side
+  // and a vertical image stack on the other. Verified live #brxe-ycmynm /
+  // #brxe-yipzzu (text col) / #brxe-ppyezc (image col) on Section 4 of
+  // the-pyramid-success.
+  //   Outer (#brxe-ycmynm): flex-row, column-gap 40px, align-items center,
+  //     margin-bottom 40px.
+  //   Text col (#brxe-yipzzu): width 50% desktop / 100% mobile, padding-top
+  //     50px desktop (visually centers the text against image height).
+  //     Contains H3 name + bio P + yellow "Learn More" pill with chevron.
+  //   Image col (#brxe-ppyezc): width 50% desktop / 100% mobile, padding-top
+  //     40px mobile (spacing between text and stacked images).
+  //   Images stack vertically with 15px gap (source row-gap on image col).
+  //   Bio (#brxe-mmdtmm): DM Sans 18px desktop / Roboto mobile.
+  //   "Learn More" pill: bg #FFD100, color #000, Raleway 700, 1px solid #f5f5f5
+  //     border, border-radius 10px. Source uses `ion-ios-arrow-forward` icon
+  //     font — rebuild uses inline SVG chevron to avoid the dependency.
+  //   Animation: data-anim="fadeInLeft" or "fadeInRight" per imageSide
+  //     (text-on-left card fades in from left; text-on-right fades from right).
+  //     IO observer + CSS keyframes defined in this file's global style block.
+  if (b.type === 'person-profile-card') {
+    const side = b.imageSide === 'left' ? 'left' : 'right';
+    const images = (b.images || []) as { file?: string; sanityUrl?: string; alt?: string; dims?: any }[];
+    const textAnim = side === 'right' ? 'fadeInLeft' : 'fadeInRight';
+    const imageAnim = side === 'right' ? 'fadeInRight' : 'fadeInLeft';
+    const textCol = (
+      <div class="ppc-text" data-anim={textAnim}>
+        <h3 class="ppc-name">{decodeText(b.name)}</h3>
+        {b.bio && <p class="ppc-bio">{decodeText(b.bio)}</p>}
+        {b.learnMoreHref && (
+          <a class="ppc-cta" href={b.learnMoreHref} target="_blank" rel="noopener noreferrer">
+            Learn More
+            <svg class="ppc-cta-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </a>
+        )}
+      </div>
+    );
+    const imageCol = (
+      <div class="ppc-media" data-anim={imageAnim}>
+        {images.map(img => (
+          <img src={imgUrl(img, 800)}
+               width={img.dims?.width || 600} height={img.dims?.height || 600}
+               alt={img.alt || ''}
+               loading="lazy" decoding="async" />
+        ))}
+      </div>
+    );
+    return (
+      <div class={`ppc-card ppc-${side}`} id={b.id}>
+        {side === 'right' ? <>{textCol}{imageCol}</> : <>{imageCol}{textCol}</>}
+      </div>
     );
   }
 
@@ -1199,6 +1255,33 @@ function decodeText(s: string): string {
   } else {
     initAckPulse();
   }
+</script>
+
+<script>
+  // data-anim reveal observer — mirrors the index.astro pattern. Deferred
+  // to first user interaction (or 8s fallback) per perf-gate trait 5.
+  function initTypedReveal() {
+    if ((window as any)._tpRevealInit) return;
+    (window as any)._tpRevealInit = true;
+    const els = document.querySelectorAll<HTMLElement>('[data-anim]');
+    if (!els.length) return;
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(el => el.classList.add('is-revealed'));
+      return;
+    }
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          (e.target as HTMLElement).classList.add('is-revealed');
+          io.unobserve(e.target);
+        }
+      }
+    }, { rootMargin: '0px 0px -80px 0px', threshold: 0.05 });
+    els.forEach(el => io.observe(el));
+  }
+  const tpEvs = ['scroll', 'click', 'touchstart', 'keydown', 'mousemove'];
+  for (const e of tpEvs) window.addEventListener(e, initTypedReveal, { once: true, passive: true });
+  window.setTimeout(initTypedReveal, 8000);
 </script>
 
 <style is:global>
@@ -3229,6 +3312,127 @@ function decodeText(s: string): string {
     font-weight: 400;
     font-size: 16px;
     color: inherit;
+  }
+
+  /* ── person-profile-card — verified live #brxe-ycmynm + variants.
+     2-col flex (image stack + text), alternating side per imageSide. */
+  .ppc-card {
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding: 0 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-bottom: 40px;
+    align-items: stretch;
+  }
+  @media (min-width: 1024px) {
+    .ppc-card {
+      padding: 0 var(--section-padding-x-desktop);
+      flex-direction: row;
+      column-gap: 40px;
+      align-items: center;
+      margin-bottom: 60px;
+    }
+  }
+  .ppc-text {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+  }
+  @media (min-width: 1024px) {
+    .ppc-text { width: 50%; padding-top: 50px; align-self: flex-start; }
+  }
+  .ppc-name {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 1.1;
+    color: #000;
+    text-transform: uppercase;
+  }
+  @media (min-width: 768px) {
+    .ppc-name { font-size: 40px; }
+  }
+  .ppc-bio {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--color-text);
+  }
+  @media (min-width: 768px) {
+    .ppc-bio { font-size: 18px; }
+  }
+  .ppc-cta {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--color-brand-yellow, #FFD100);
+    color: #000;
+    font-family: 'Raleway', system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 1px solid #f5f5f5;
+    border-radius: 10px;
+    padding: 12px 24px;
+    text-decoration: none;
+    transition: background 0.15s, transform 0.15s;
+  }
+  .ppc-cta:hover {
+    background: #e6bc00;
+    color: #000;
+    text-decoration: none;
+    transform: translateY(-1px);
+  }
+  .ppc-cta-chevron { display: inline-block; }
+  .ppc-media {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+  }
+  @media (min-width: 1024px) {
+    .ppc-media { width: 50%; padding-top: 0; align-self: flex-start; }
+  }
+  @media (max-width: 1023px) {
+    .ppc-media { padding-top: 40px; }
+  }
+  .ppc-media img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+
+  /* ── data-anim — IntersectionObserver-driven reveal animations.
+     Mirrors the index.astro pattern so TypedPage-rendered cards can
+     fade in from left/right as they scroll into view. */
+  [data-anim] { opacity: 0; }
+  [data-anim].is-revealed { animation: ppc-fadeIn 700ms ease-out forwards; }
+  [data-anim="fadeInLeft"].is-revealed  { animation-name: ppc-fadeInLeft; }
+  [data-anim="fadeInRight"].is-revealed { animation-name: ppc-fadeInRight; }
+  @media (prefers-reduced-motion: reduce) {
+    [data-anim] { opacity: 1 !important; animation: none !important; }
+  }
+  @keyframes ppc-fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes ppc-fadeInLeft {
+    from { opacity: 0; transform: translateX(-30px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes ppc-fadeInRight {
+    from { opacity: 0; transform: translateX(30px); }
+    to   { opacity: 1; transform: translateX(0); }
   }
 
   /* ── centered-image — single centered image, optional download CTA.
