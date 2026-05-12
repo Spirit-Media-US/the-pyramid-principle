@@ -21,5 +21,20 @@
         "width": 351
       }
     }
+  },
+  {
+    "type": "video-popup-grid",
+    "id": "brxe-rmemoe",
+    "tiles": [
+      { "videoId": "o2gK7BAIVVo", "label": "Video 1", "poster": "https://i.ytimg.com/vi/o2gK7BAIVVo/maxresdefault.jpg" },
+      { "videoId": "X1pekTqHug0", "label": "Video 2", "poster": "https://i.ytimg.com/vi/X1pekTqHug0/maxresdefault.jpg" },
+      { "videoId": "9CiCEKCO64E", "label": "Video 3", "poster": "https://i.ytimg.com/vi/9CiCEKCO64E/maxresdefault.jpg" },
+      { "videoId": "7pl8MIfGfNE", "label": "Video 4", "poster": "https://i.ytimg.com/vi/7pl8MIfGfNE/maxresdefault.jpg" },
+      { "videoId": "r0mjt_hAL0w", "label": "Video 5", "poster": "https://i.ytimg.com/vi/r0mjt_hAL0w/maxresdefault.jpg" },
+      { "videoId": "zOSkkWJ2agE", "label": "Video 6", "poster": "https://i.ytimg.com/vi/zOSkkWJ2agE/maxresdefault.jpg" },
+      { "videoId": "9AdvJ8rJm5k", "label": "Video 7", "poster": "https://i.ytimg.com/vi/9AdvJ8rJm5k/maxresdefault.jpg" },
+      { "videoId": "bMD7oOWGjmM", "label": "Video 8", "poster": "https://i.ytimg.com/vi/bMD7oOWGjmM/maxresdefault.jpg" },
+      { "videoId": "WIgdfLm2kGg", "label": "Video 9", "poster": "https://i.ytimg.com/vi/WIgdfLm2kGg/maxresdefault.jpg" }
+    ]
   }
 ]
