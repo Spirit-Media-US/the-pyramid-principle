@@ -2508,5 +2508,57 @@
       "width": 2364
     },
     "note": "Rendered from Pyramid-of-Success.pdf page 1 at 200 DPI via pdftoppm. Original PDF served from R2 for the Download button."
+  },
+  "lets-make-you-feel-better-shot-of-a-little-girl-l-2023-11-27-05-30-11-utc.jpg": {
+    "originalUrl": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/lets-make-you-feel-better-shot-of-a-little-girl-l-2023-11-27-05-30-11-utc.jpg",
+    "sanityAssetId": "image-225dd82f40c5166dcbbc0e7af74a02f8e1594190-3967x2646-jpg",
+    "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/225dd82f40c5166dcbbc0e7af74a02f8e1594190-3967x2646.jpg",
+    "alt": "",
+    "size": 1751424,
+    "dimensions": {
+      "_type": "sanity.imageDimensions",
+      "aspectRatio": 1.499244142101285,
+      "height": 2646,
+      "width": 3967
+    }
+  },
+  "shot-of-an-adorable-little-girl-having-a-checkup-2023-11-27-04-59-48-utc-scaled.jpg": {
+    "originalUrl": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/shot-of-an-adorable-little-girl-having-a-checkup-2023-11-27-04-59-48-utc-scaled.jpg",
+    "sanityAssetId": "image-fab3c713682aa8f0605dcf31d24211327e563f9b-2560x1708-jpg",
+    "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/fab3c713682aa8f0605dcf31d24211327e563f9b-2560x1708.jpg",
+    "alt": "",
+    "size": 229984,
+    "dimensions": {
+      "_type": "sanity.imageDimensions",
+      "aspectRatio": 1.4988290398126465,
+      "height": 1708,
+      "width": 2560
+    }
+  },
+  "teenage-oncology-patient-talking-with-doctor-onco-2024-10-18-10-17-35-utc-ezgif.com-jpg-to-webp-converter.webp": {
+    "originalUrl": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/teenage-oncology-patient-talking-with-doctor-onco-2024-10-18-10-17-35-utc-ezgif.com-jpg-to-webp-converter.webp",
+    "sanityAssetId": "image-b8314af386df6797e23b01718f210da666f2cc97-821x547-webp",
+    "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/b8314af386df6797e23b01718f210da666f2cc97-821x547.webp",
+    "alt": "",
+    "size": 23466,
+    "dimensions": {
+      "_type": "sanity.imageDimensions",
+      "aspectRatio": 1.5009140767824498,
+      "height": 547,
+      "width": 821
+    }
+  },
+  "worried-elderly-woman-with-cancer-2024-10-21-05-33-22-utc-ezgif.com-jpg-to-webp-converter.webp": {
+    "originalUrl": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/worried-elderly-woman-with-cancer-2024-10-21-05-33-22-utc-ezgif.com-jpg-to-webp-converter.webp",
+    "sanityAssetId": "image-0bfbb757e6b5367ffc2e4a12d7762140d086a151-864x576-webp",
+    "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/0bfbb757e6b5367ffc2e4a12d7762140d086a151-864x576.webp",
+    "alt": "",
+    "size": 20854,
+    "dimensions": {
+      "_type": "sanity.imageDimensions",
+      "aspectRatio": 1.5,
+      "height": 576,
+      "width": 864
+    }
   }
 }

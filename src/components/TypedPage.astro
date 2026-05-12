@@ -9,6 +9,7 @@
 //   centered-image       — single centered image with optional download CTA
 //   quote-card-grid      — 2-col responsive grid of quote cards
 //   person-profile-card  — alternating 2-col card (text + image stack)
+//   give-courage-banner  — 2-line H2 banner + pink CTA + tax-deductible note
 //   hero-intro           — eyebrow + H1 + body + sidebar image
 //   highlight-cards      — 4 callout cards with left-border accent
 //   featured-podcasts    — 2 square card links
@@ -753,6 +754,33 @@ function decodeText(s: string): string {
               </a>
             ))}
           </div>
+        </div>
+      </section>
+    );
+  }
+
+  // ── give-courage-banner — 2-line H2 + pink CTA + tax-deductible note.
+  // Verified live #brxe-knvtqn / #brxe-vccsio on /give-courage/.
+  //   Container (#brxe-vccsio): flex-row wrap, justify-between, align-stretch
+  //     desktop (padding-top 40px). Flex-column, centered, padding 0 20px mobile.
+  //   H2 line 1 (#brxe-njusge): color #212121, line-height 1em,
+  //     text-align RIGHT desktop / CENTER mobile, width 100%.
+  //     Pink spans on "GIVE" and "COURAGE" (color #F999CB).
+  //   H2 line 2 (#brxe-dvpasv): same color/line-height, text-align LEFT
+  //     desktop / CENTER mobile, width 100%. Pink span on "400,000".
+  //   CTA pill (#brxe-tyylvt): pink bg #F999CB, border 1px rgba(33,33,33,.26),
+  //     box-shadow 0 2px 3px 1px rgba(112,94,0,.47), padding-right 10px,
+  //     margin-top 10px desktop / 0 mobile.
+  //   Tax note H3 (#brxe-onssmv): color #212121, text-align LEFT desktop /
+  //     CENTER mobile, width 100%, padding-top 15px.
+  if (b.type === 'give-courage-banner') {
+    return (
+      <section class="gcb-section" id={b.id}>
+        <div class="gcb-inner">
+          <h2 class="gcb-h2 gcb-h2-1" set:html={b.heading1} />
+          <h2 class="gcb-h2 gcb-h2-2" set:html={b.heading2} />
+          <a class="gcb-cta" href={b.ctaHref}>{b.ctaLabel || 'Give Courage'}</a>
+          {b.taxNote && <h3 class="gcb-tax">{b.taxNote}</h3>}
         </div>
       </section>
     );
@@ -3612,6 +3640,89 @@ function decodeText(s: string): string {
     color: #000;
     text-decoration: none;
     transform: translateY(-1px);
+  }
+
+  /* ── give-courage-banner — verified live #brxe-vccsio ──
+     2-line split-aligned H2 banner + pink CTA pill + tax-deductible note.
+     Desktop: H2-1 right-aligned, H2-2 left-aligned (creates a staircase
+     pull-quote effect). Mobile: all centered. */
+  .gcb-section {
+    background: #fff;
+    padding: 40px 20px 0;
+  }
+  @media (min-width: 768px) {
+    .gcb-section { padding: 40px 0 0; }
+  }
+  .gcb-inner {
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  @media (min-width: 768px) {
+    .gcb-inner { padding: 0 var(--section-padding-x-desktop); align-items: stretch; }
+  }
+  .gcb-h2 {
+    margin: 0;
+    width: 100%;
+    color: #212121;
+    line-height: 1;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 40px;
+    text-align: center;
+  }
+  @media (min-width: 768px) {
+    .gcb-h2 { font-size: 55px; }
+    .gcb-h2-1 { text-align: right; }
+    .gcb-h2-2 { text-align: left; }
+  }
+  .gcb-h2 span { color: #F999CB; }
+  .gcb-cta {
+    align-self: center;
+    display: inline-flex;
+    align-items: center;
+    margin-top: 0;
+    background: #F999CB;
+    color: #000;
+    font-family: 'Raleway', system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 1px solid rgba(33, 33, 33, 0.26);
+    box-shadow: 0 2px 3px 1px rgba(112, 94, 0, 0.47);
+    border-radius: 10px;
+    padding: 12px 28px 12px 28px;
+    padding-right: 10px;
+    text-decoration: none;
+    transition: transform 0.15s, background 0.15s;
+  }
+  @media (min-width: 768px) {
+    .gcb-cta { margin-top: 10px; }
+  }
+  .gcb-cta:hover {
+    background: #f583bd;
+    color: #000;
+    text-decoration: none;
+    transform: translateY(-1px);
+  }
+  .gcb-tax {
+    margin: 0;
+    width: 100%;
+    color: #212121;
+    line-height: 1;
+    padding-top: 15px;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 20px;
+    text-align: center;
+  }
+  @media (min-width: 768px) {
+    .gcb-tax { text-align: left; }
   }
 
   /* ── title-card — centered hero verified live #brxe-7d2e09 ── */
