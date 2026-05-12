@@ -1764,16 +1764,19 @@ function decodeText(s: string): string {
   @media (min-width: 768px) {
     .jv-stats-intro { font-family: var(--font-heading); }
   }
+  /* Grid: 1 col mobile / 4 cols × 1 row desktop per user spec (was
+     2×2). CSS grid makes this declarative. */
   .jv-stats-grid {
     padding: 30px 0 0;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr;
     gap: 20px;
-    align-items: flex-start;
+    align-items: stretch;
+  }
+  @media (min-width: 768px) {
+    .jv-stats-grid { grid-template-columns: repeat(4, 1fr); }
   }
   .jv-stats-card {
-    width: 100%;
     background: #f5f5f5;
     border-radius: 10px;
     padding: 15px;
@@ -1783,14 +1786,17 @@ function decodeText(s: string): string {
     gap: 10px;
     box-sizing: border-box;
   }
-  @media (min-width: 768px) {
-    .jv-stats-card { width: calc(50% - 10px); }
-  }
+  /* Image fit: was `object-fit: cover` which cropped the square
+     `images.png` (NBA Card 3) and chopped the "SOCIAL" wordmark mid-
+     letter. Switched to `contain` + white background so smaller /
+     non-matching-aspect images letter/pillar-box predictably across
+     all 4 cards. Aspect 612/459 kept so all 4 cards share row height. */
   .jv-stats-img {
     width: 100%;
     height: auto;
     aspect-ratio: 612 / 459;
-    object-fit: cover;
+    object-fit: contain;
+    background: #ffffff;
     display: block;
     border-radius: 0;
   }
