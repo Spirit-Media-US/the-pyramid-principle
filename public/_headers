@@ -12,9 +12,8 @@
 # is connected; harmless on pages.dev (no-op).
 
 /
-  Link: <https://assets.spiritmediapublishing.com/fonts/bebas-neue/bebas-neue-400.woff2>; rel=preload; as=font; type=font/woff2; crossorigin
+  Link: <https://assets.spiritmediapublishing.com/fonts/open-sans/open-sans-400.woff2>; rel=preload; as=font; type=font/woff2; crossorigin
   Link: <https://assets.spiritmediapublishing.com/fonts/dm-sans/dm-sans-700.woff2>; rel=preload; as=font; type=font/woff2; crossorigin
-  Link: <https://cdn.sanity.io/images/uenxsjdw/production/fd3d2aa3fdaf328aa82a22c8652143e895c1da29-886x1024.png?w=1000&fm=webp&q=80&fit=max>; rel=preload; as=image
 
 /john-vallely/*
   Link: <https://assets.spiritmediapublishing.com/fonts/bebas-neue/bebas-neue-400.woff2>; rel=preload; as=font; type=font/woff2; crossorigin
