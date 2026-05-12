@@ -1967,6 +1967,16 @@ function decodeText(s: string): string {
   @media (min-width: 768px) {
     .jv-cc { padding: 0 var(--section-padding-x-desktop); }
   }
+  /* Per-section overrides where the default 100/80 vertical chrome
+     is wrong (load-bearing only for Heart-Gripping callout). India
+     and similar text-only country sections use a tighter rhythm. */
+  #brxe-nsyufd.jv-cc {
+    margin: 0;
+    padding: 40px 0 20px;
+  }
+  @media (min-width: 768px) {
+    #brxe-nsyufd.jv-cc { padding: 40px 0; }
+  }
   .jv-cc-container {
     max-width: var(--container-max);
     margin: 0 auto;

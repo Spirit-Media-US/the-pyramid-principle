@@ -114,6 +114,7 @@ Then run: `git checkout dev && git pull origin dev`
     - `EVP-1693249197814.webp` — filename has a Unix timestamp (Aug 28 2023). NBA Stats Card 4 ("Global social responsibility"). Verify source/license.
     Action: compile a single licensing-review batch for Kevin to clear before main-merge. Replace anything that can't be verified.
   - `/retailers/` NBA Stats Grid copy — cites "200 countries", "50 languages", "26%", "2.3 billion" etc. with no source/citation in source content. Confirm with Kevin if these need attribution or are acceptable as marketing claims.
+  - `/retailers/` India section copy — cites "100 million unique viewers" for the NBA 2022-23 season in India with no citation. Confirm with Kevin or remove.
 
 ### Phases 5-9
 - [ ] Pending
