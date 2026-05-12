@@ -211,6 +211,8 @@ function decodeText(s: string): string {
       if (g.width) parts.push('--cg-w: ' + g.width);
       if (g.height) parts.push('--cg-h: ' + g.height);
       if (g.marginTop) parts.push('--cg-mt: ' + g.marginTop);
+      if (g.marginLeft) parts.push('--cg-ml: ' + g.marginLeft);
+      if (g.paddingRight) parts.push('--cg-pr: ' + g.paddingRight);
       if (g.borderTop != null) parts.push('--cg-bt: ' + g.borderTop + 'px');
       if (g.borderRight != null) parts.push('--cg-br: ' + g.borderRight + 'px');
       if (g.borderBottom != null) parts.push('--cg-bb: ' + g.borderBottom + 'px');
@@ -3476,6 +3478,8 @@ function decodeText(s: string): string {
       width: var(--cg-w, 100%);
       height: var(--cg-h, auto);
       margin-top: var(--cg-mt, 0);
+      margin-left: var(--cg-ml, 0);
+      padding-right: var(--cg-pr, 0);
       border-top: var(--cg-bt, 0) solid #fff;
       border-right: var(--cg-br, 0) solid #fff;
       border-bottom: var(--cg-bb, 0) solid #fff;
@@ -3488,7 +3492,8 @@ function decodeText(s: string): string {
        inner img inherits via custom-property cascade and fills the box. */
     .ppc-media-collage > figure.ppc-media-figure {
       width: var(--cg-w, 100%);
-      margin: var(--cg-mt, 0) 0 0 0;
+      margin: var(--cg-mt, 0) 0 0 var(--cg-ml, 0);
+      padding-right: var(--cg-pr, 0);
       display: flex;
       flex-direction: column;
     }
@@ -3523,6 +3528,8 @@ function decodeText(s: string): string {
     .ppc-media-collage > figure.ppc-media-figure {
       width: 100%;
       margin-top: 0;
+      margin-left: 0;
+      padding-right: 0;
     }
     .ppc-media-collage > img,
     .ppc-media-collage > figure.ppc-media-figure > img {

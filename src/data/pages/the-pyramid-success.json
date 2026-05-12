@@ -704,6 +704,32 @@
       }
     ],
     "bio": "A 6’5″ forward, Shackelford played college basketball at UCLA under legendary coach John Wooden. He was one of only 4 players to have started on 3 NCAA championship teams (’67’, ’68’, ’69’). The others are Lew Alcindor, Curtis Rowe, and Henry Bibby. He complemented his teammates as a dead eye pure shooter; most of his shots would be 3 pointers today.",
-    "learnMoreHref": "https://en.wikipedia.org/wiki/Lynn_Shackelford"
+    "learnMoreHref": "https://en.wikipedia.org/wiki/Lynn_Shackelford",
+    "layout": "collage",
+    "collageGeometry": [
+      {
+        "width": "100%",
+        "height": "440px"
+      },
+      {
+        "width": "50%",
+        "height": "500px",
+        "marginTop": "-53px",
+        "borderTop": 10,
+        "borderBottom": 10,
+        "borderLeft": 10,
+        "paddingRight": "6px"
+      },
+      {
+        "width": "50%",
+        "height": "280px",
+        "marginTop": "-47px",
+        "marginLeft": "-5px",
+        "borderTop": 5,
+        "borderBottom": 5,
+        "borderLeft": 5,
+        "objectPosition": "20% 50%"
+      }
+    ]
   }
 ]
