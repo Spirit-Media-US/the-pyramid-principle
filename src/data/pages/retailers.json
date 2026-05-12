@@ -188,5 +188,23 @@
         "href": "https://www.amazon.com.au/dp/B0DGX5YWDC"
       }
     ]
+  },
+  {
+    "type": "amazon-marketplaces",
+    "id": "brxe-fjfpmc",
+    "cardBg": "#2774AE",
+    "headingColor": "#ffd100",
+    "headingAlign": "left",
+    "innerHeading": "Other International Retailers : ",
+    "stores": [
+      { "label": "Denmark",        "href": "https://www.saxo.com/dk/the-pyramid-principle-a-battle-tested-hall-of-famer-discovers-ucla-coach-john-woodens-true-meaning-o_bog_9798893071153" },
+      { "label": "France",         "href": "https://www.bol.com/be/fr/p/the-pyramid-principle-a-battle-tested-hall-of-famer-discovers-ucla-coach-john-wooden-s-true-meaning-of-success/9300000192431968/" },
+      { "label": "Germany",        "href": "https://www.lehmanns.de/shop/sachbuch-ratgeber/73311425-9798893071153-the-pyramid-principle" },
+      { "label": "Hungary",        "href": "https://bookline.hu/product/home.action?_v=Vallely_John_Weissenstein_Paul_The_&type=200&id=6720673" },
+      { "label": "Korea",          "href": "https://product.kyobobook.co.kr/detail/S000214446778" },
+      { "label": "Japan",          "href": "https://www.kinokuniya.co.jp/f/dsg-02-9798893071153" },
+      { "label": "Sweden",         "href": "https://www.akademibokhandeln.se/bok/the-pyramid-principle/9798893071160" },
+      { "label": "United Kingdom", "href": "https://www.best-book-price.co.uk/p/books/the-pyramid-principle/b0dgx5ywdc.html" }
+    ]
   }
 ]

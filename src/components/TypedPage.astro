@@ -135,8 +135,20 @@ function decodeText(s: string): string {
   // for the homepage Free Resources banner).
   if (b.type === 'amazon-marketplaces') {
     const stores = (b.stores || []) as { label: string; href: string }[];
+    // Optional per-instance overrides routed through CSS vars so a
+    // single block type covers both color palettes used on Retailers:
+    //   - Amazon Marketplaces: yellow card, UCLA-blue centered H2
+    //   - Other International Retailers: UCLA-blue card, yellow LEFT H2
+    const cardBg = b.cardBg || 'var(--color-brand-yellow, #ffd100)';
+    const headingColor = b.headingColor || 'var(--color-author-blue, #2774AE)';
+    const headingAlign = b.headingAlign || 'center';
+    const styleVars = [
+      `--amzn-card-bg: ${cardBg}`,
+      `--amzn-h-color: ${headingColor}`,
+      `--amzn-h-align: ${headingAlign}`,
+    ].join('; ');
     return (
-      <section class="jv-amzn" id={b.id}>
+      <section class="jv-amzn" id={b.id} style={styleVars}>
         <div class="jv-amzn-container">
           {b.outerHeading && (
             <h2 class="jv-section-h2-banner-text jv-amzn-outer-h2">{decodeText(b.outerHeading)}</h2>
@@ -1581,7 +1593,7 @@ function decodeText(s: string): string {
   }
   .jv-amzn-card {
     width: 100%;
-    background: var(--color-brand-yellow, #ffd100);
+    background: var(--amzn-card-bg, var(--color-brand-yellow, #ffd100));
     border-radius: 10px;
     padding: 25px;
     display: flex;
@@ -1596,8 +1608,8 @@ function decodeText(s: string): string {
     font-size: 20px;
     line-height: 1;
     letter-spacing: 0;
-    color: var(--color-author-blue, #2774AE);
-    text-align: center;
+    color: var(--amzn-h-color, var(--color-author-blue, #2774AE));
+    text-align: var(--amzn-h-align, center);
     text-transform: uppercase;
     width: 100%;
   }
