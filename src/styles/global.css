@@ -74,40 +74,40 @@
   font-family: 'DM Sans Fallback';
   src: local('Arial'), local('Helvetica'), local('Liberation Sans');
   size-adjust: 122.34%;
-  ascent-override: 81.09%;
-  descent-override: 25.34%;
+  ascent-override: 99.20%;
+  descent-override: 31.00%;
   line-gap-override: 0%;
 }
 @font-face {
   font-family: 'Open Sans Fallback';
   src: local('Arial'), local('Helvetica'), local('Liberation Sans');
   size-adjust: 116.04%;
-  ascent-override: 92.11%;
-  descent-override: 25.25%;
+  ascent-override: 106.88%;
+  descent-override: 29.30%;
   line-gap-override: 0%;
 }
 @font-face {
   font-family: 'Bebas Neue Fallback';
   src: local('Impact'), local('Haettenschweiler'), local('Arial Narrow Bold');
   size-adjust: 104.01%;
-  ascent-override: 86.53%;
-  descent-override: 28.84%;
+  ascent-override: 90.00%;
+  descent-override: 30.00%;
   line-gap-override: 0%;
 }
 @font-face {
   font-family: 'Libre Baskerville Fallback';
   src: local('Georgia Italic'), local('Georgia');
   size-adjust: 117.06%;
-  ascent-override: 82.86%;
-  descent-override: 23.07%;
+  ascent-override: 97.00%;
+  descent-override: 27.00%;
   line-gap-override: 0%;
 }
 @font-face {
   font-family: 'Abel Fallback';
   src: local('Arial'), local('Helvetica'), local('Liberation Sans');
   size-adjust: 102.43%;
-  ascent-override: 95.62%;
-  descent-override: 28.79%;
+  ascent-override: 97.95%;
+  descent-override: 29.49%;
   line-gap-override: 0%;
 }
 
