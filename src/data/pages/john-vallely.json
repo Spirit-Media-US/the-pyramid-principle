@@ -101,27 +101,90 @@
       "breakpoint": 991
     },
     "slides": [
-      { "file": "VipsCafe_24-3.jpg", "alt": "" },
-      { "file": "VipsCafe_24-4.jpg", "alt": "" },
-      { "file": "VipsCafe_24-5.jpg", "alt": "" },
-      { "file": "VipsCafe_24-6.jpg", "alt": "" },
-      { "file": "VipsCafe_24-8.jpg", "alt": "" },
-      { "file": "VipsCafe_24-10.jpg", "alt": "" },
-      { "file": "VipsCafe_24-11.jpg", "alt": "" },
-      { "file": "VipsCafe_24-12.jpg", "alt": "" },
-      { "file": "VipsCafe_24-17.jpg", "alt": "" },
-      { "file": "VipsCafe_24-23.jpg", "alt": "" },
-      { "file": "VipsCafe_24-2.jpg", "alt": "" },
-      { "file": "VipsCafe_24.jpg", "alt": "" },
-      { "file": "JohnValley24-315.jpg", "alt": "" },
-      { "file": "JohnValley24-306.jpg", "alt": "" },
-      { "file": "JohnValley24-299.jpg", "alt": "" },
-      { "file": "JohnValley24-108-1.jpg", "alt": "" },
-      { "file": "JohnValley24-107.jpg", "alt": "" },
-      { "file": "JohnValley24-100.jpg", "alt": "" },
-      { "file": "VipsCafe_24-17-1.jpg", "alt": "" },
-      { "file": "VipsCafe_24-12-1.jpg", "alt": "" },
-      { "file": "VipsCafe_24-10-1.jpg", "alt": "" }
+      {
+        "file": "VipsCafe_24-3.jpg",
+        "alt": ""
+      },
+      {
+        "file": "VipsCafe_24-4.jpg",
+        "alt": ""
+      },
+      {
+        "file": "VipsCafe_24-5.jpg",
+        "alt": ""
+      },
+      {
+        "file": "VipsCafe_24-6.jpg",
+        "alt": ""
+      },
+      {
+        "file": "VipsCafe_24-8.jpg",
+        "alt": ""
+      },
+      {
+        "file": "VipsCafe_24-10.jpg",
+        "alt": ""
+      },
+      {
+        "file": "VipsCafe_24-11.jpg",
+        "alt": ""
+      },
+      {
+        "file": "VipsCafe_24-12.jpg",
+        "alt": ""
+      },
+      {
+        "file": "VipsCafe_24-17.jpg",
+        "alt": ""
+      },
+      {
+        "file": "VipsCafe_24-23.jpg",
+        "alt": ""
+      },
+      {
+        "file": "VipsCafe_24-2.jpg",
+        "alt": ""
+      },
+      {
+        "file": "VipsCafe_24.jpg",
+        "alt": ""
+      },
+      {
+        "file": "JohnValley24-315.jpg",
+        "alt": ""
+      },
+      {
+        "file": "JohnValley24-306.jpg",
+        "alt": ""
+      },
+      {
+        "file": "JohnValley24-299.jpg",
+        "alt": ""
+      },
+      {
+        "file": "JohnValley24-108-1.jpg",
+        "alt": ""
+      },
+      {
+        "file": "JohnValley24-107.jpg",
+        "alt": ""
+      },
+      {
+        "file": "JohnValley24-100.jpg",
+        "alt": ""
+      },
+      {
+        "file": "VipsCafe_24-17-1.jpg",
+        "alt": ""
+      },
+      {
+        "file": "VipsCafe_24-12-1.jpg",
+        "alt": ""
+      },
+      {
+        "file": "VipsCafe_24-10-1.jpg",
+        "alt": ""
+      }
     ]
   },
   {
@@ -176,12 +239,21 @@
     ]
   },
   {
-    "type": "dedication-and-players",
+    "type": "dedication",
     "id": "brxe-zzvjem",
-    "dedicationHeading": "DEDICATION",
-    "dedicationBody": "My son Eric is a powerful force of courage and commitment and was a cornerstone of stability when it felt like my world was falling apart. When his nine-year-old younger sister was diagnosed with cancer, Eric became a special teammate and champion of hers. It was hard for me to even see straight after we lost Erin at age twelve, but Eric remained steadfast and kept me grounded by saying, “Dad, we are still a family.” Eric would go off to school at UCLA, play on two NCAA championship volleyball teams, graduate on time, and start his adult life. He has always been the special glue that helps keep us together. He married his wife Suzanne, and they have our talented granddaughter Vivian, who attends Pepperdine University and competes on the swim and dive team. It is with great joy that Karen and I honor and dedicate our family story to our son, Eric Vallely.",
-    "playersHeading": "John Vallely played beside college basketball greats…",
-    "playerCards": [
+    "heading": "DEDICATION",
+    "paragraphs": [
+      "My son Eric is a powerful force of courage and commitment and was a cornerstone of stability when it felt like my world was falling apart.",
+      "When his nine-year-old younger sister was diagnosed with cancer, Eric became a special teammate and champion of hers. It was hard for me to even see straight after we lost Erin at age twelve, but Eric remained steadfast and kept me grounded by saying, “Dad, we are still a family.”",
+      "Eric would go off to school at UCLA, play on two NCAA championship volleyball teams, graduate on time, and start his adult life.",
+      "He has always been the special glue that helps keep us together. He married his wife Suzanne, and they have our talented granddaughter Vivian, who attends Pepperdine University and competes on the swim and dive team. It is with great joy that Karen and I honor and dedicate our family story to our son, Eric Vallely."
+    ]
+  },
+  {
+    "type": "player-grid",
+    "id": "brxe-players-grid",
+    "heading": "John Vallely played beside college basketball greats…",
+    "cards": [
       {
         "name": "Kareem Abdul-Jabbar",
         "href": "https://en.wikipedia.org/wiki/Kareem_Abdul-Jabbar ",

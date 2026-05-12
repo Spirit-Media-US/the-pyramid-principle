@@ -249,6 +249,57 @@ function decodeText(s: string): string {
     );
   }
 
+  // ── dedication — verified live #brxe-zzvjem ──
+  // Standalone section: H2 "DEDICATION" + 4-paragraph body. Single centered
+  // flex column. Desktop: margin-top 80px, padding 40px 0, inner container
+  // padding 40px 0, body width 900px. Mobile: margin-top 40px, padding 0,
+  // inner padding 20px, body width auto. H2: Bebas Neue 55/40px, weight 700,
+  // color #1d1d1f. Body: DM Sans 18px desktop / Roboto 16px mobile, color
+  // rgb(97,97,97). Body margin: 10px 0 30px desktop, 15px 0 0 mobile.
+  if (b.type === 'dedication') {
+    const paragraphs = b.paragraphs && b.paragraphs.length
+      ? b.paragraphs
+      : (b.body ? [b.body] : []);
+    return (
+      <section class="jv-dedication" id={b.id}>
+        <div class="jv-dedication-container">
+          <h2 class="jv-dedication-h2">{b.heading || 'DEDICATION'}</h2>
+          <div class="jv-dedication-body">
+            {paragraphs.map((p: string) => (
+              <p>{decodeText(p)}</p>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // ── player-grid — reuses the existing player-card layout ──
+  // Split out from the legacy dedication-and-players block.
+  if (b.type === 'player-grid') {
+    return (
+      <section class="jv-players">
+        <div class="jv-players-container">
+          {b.heading && <h2 class="jv-section-h2 jv-center jv-players-h2">{decodeText(b.heading)}</h2>}
+          <div class="jv-player-grid">
+            {(b.cards || []).map((p: any) => (
+              <a class="jv-player-card" href={p.href} target="_blank" rel="noopener noreferrer">
+                {p.image && p.image.sanityUrl && (
+                  <img src={imgUrl(p.image, 300)}
+                       width={p.image?.dims?.width || 220}
+                       height={p.image?.dims?.height || 220}
+                       alt={p.name} loading="lazy" decoding="async" />
+                )}
+                <span class="jv-player-name">{p.name}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // ── legacy combined dedication+players (kept for back-compat only) ──
   if (b.type === 'dedication-and-players') {
     return (
       <section class="jv-dedication">
@@ -724,18 +775,84 @@ function decodeText(s: string): string {
     color: var(--color-brand-yellow);
   }
 
-  /* Dedication + players */
-  .jv-dedication { background: #fff; padding: 64px 0; }
+  /* ── Dedication (verified live #brxe-zzvjem) ──
+     Section: bg #fff, margin-top 40px mobile / 80px desktop, padding 0 mobile
+     / 40px 0 desktop, flex column align-items center.
+     Inner container (#brxe-hziqvi): padding 20px mobile / 40px 0 desktop,
+     flex column align/justify center wrap.
+     H2 (#brxe-ujrumo): Bebas Neue 40/55px weight 700, color #1d1d1f,
+     line-height 1.
+     Body (#brxe-kgamgc): width 350px mobile / 900px desktop, max 100%,
+     margin-top 15px mobile / 10px desktop, margin-bottom 0 mobile / 30px
+     desktop. Mobile font Roboto 16px line-height 1.3. Desktop DM Sans 18px
+     line-height 1.7. Color rgb(97,97,97). */
+  .jv-dedication {
+    background: #fff;
+    margin-top: 40px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  @media (min-width: 768px) {
+    .jv-dedication { margin-top: 80px; padding: 40px 0; }
+  }
   .jv-dedication-container {
-    max-width: 900px; margin-inline: auto;
+    width: 100%;
+    max-width: var(--container-max, 1250px);
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  @media (min-width: 768px) {
+    .jv-dedication-container { padding: 40px 0; }
+  }
+  .jv-dedication-h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 1;
+    letter-spacing: 0;
+    color: #1d1d1f;
+    text-transform: none;
+    text-align: center;
+  }
+  @media (min-width: 768px) {
+    .jv-dedication-h2 { font-size: 55px; line-height: 1; }
+  }
+  .jv-dedication-body {
+    width: 100%;
+    max-width: 900px;
+    margin: 15px 0 0;
+    font-family: 'Roboto', system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.3;
+    color: rgb(97, 97, 97);
+  }
+  @media (min-width: 768px) {
+    .jv-dedication-body {
+      margin: 10px 0 30px;
+      font-family: var(--font-heading);
+      font-size: 18px;
+      line-height: 1.7;
+    }
+  }
+  .jv-dedication-body p { margin: 0 0 1em; }
+  .jv-dedication-body p:last-child { margin-bottom: 0; }
+
+  /* ── Players grid (split-out #brxe-players-grid) ── */
+  .jv-players { background: #fff; padding: 32px 0 64px; }
+  .jv-players-container {
+    max-width: var(--container-max); margin-inline: auto;
     padding: 0 var(--section-padding-x-mobile); text-align: center;
   }
-  @media (min-width: 768px) { .jv-dedication-container { padding: 0 var(--section-padding-x-desktop); } }
-  .jv-dedication-body {
-    margin: 0 auto 40px; max-width: 720px; font-size: 1rem; line-height: 1.7; color: var(--color-text);
-    text-align: left;
-  }
-  .jv-players-h2 { font-size: clamp(1.5rem, 3.5vw, 2.25rem); margin-top: 24px; }
+  @media (min-width: 768px) { .jv-players-container { padding: 0 var(--section-padding-x-desktop); } }
+  .jv-players-h2 { font-size: clamp(1.5rem, 3.5vw, 2.25rem); margin-top: 0; }
   .jv-player-grid {
     display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 32px;
   }
