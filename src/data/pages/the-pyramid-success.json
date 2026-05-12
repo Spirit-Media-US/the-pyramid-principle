@@ -78,6 +78,7 @@
     "type": "person-profile-card",
     "name": "Coach Wetzel",
     "imageSide": "right",
+    "layout": "collage",
     "images": [
       {
         "file": "300997137_574550444456709_3309129472617208593_n.jpg",

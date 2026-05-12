@@ -196,9 +196,11 @@ function decodeText(s: string): string {
   //     IO observer + CSS keyframes defined in this file's global style block.
   if (b.type === 'person-profile-card') {
     const side = b.imageSide === 'left' ? 'left' : 'right';
+    const layout = b.layout === 'collage' ? 'collage' : 'stack';
     const images = (b.images || []) as { file?: string; sanityUrl?: string; alt?: string; dims?: any }[];
     const textAnim = side === 'right' ? 'fadeInLeft' : 'fadeInRight';
     const imageAnim = side === 'right' ? 'fadeInRight' : 'fadeInLeft';
+    const collageClass = ['ppc-collage-hero', 'ppc-collage-bl', 'ppc-collage-br'];
     const textCol = (
       <div class="ppc-text" data-anim={textAnim}>
         <h3 class="ppc-name">{decodeText(b.name)}</h3>
@@ -214,9 +216,10 @@ function decodeText(s: string): string {
       </div>
     );
     const imageCol = (
-      <div class="ppc-media" data-anim={imageAnim}>
-        {images.map(img => (
+      <div class={`ppc-media${layout === 'collage' ? ' ppc-media-collage' : ''}`} data-anim={imageAnim}>
+        {images.map((img, i) => (
           <img src={imgUrl(img, 800)}
+               class={layout === 'collage' ? collageClass[i] || '' : ''}
                width={img.dims?.width || 600} height={img.dims?.height || 600}
                alt={img.alt || ''}
                loading="lazy" decoding="async" />
@@ -3410,6 +3413,60 @@ function decodeText(s: string): string {
     display: block;
     border-radius: 8px;
     object-fit: cover;
+  }
+
+  /* Collage variant — verified live #brxe-ppyezc on Coach Wetzel card.
+     Row 1: hero image full-width × 440px. Row 2: two square photos at
+     50% width each, overlapping the hero with negative margins.
+     White borders create the inset / scattered layered effect. */
+  .ppc-media-collage {
+    flex-direction: row;
+    flex-wrap: wrap;
+    row-gap: 0;
+    column-gap: 0;
+  }
+  .ppc-media-collage .ppc-collage-hero {
+    width: 100%;
+    height: 440px;
+    border-radius: 0;
+    object-fit: cover;
+  }
+  .ppc-media-collage .ppc-collage-bl {
+    width: 50%;
+    height: 213px;
+    margin-top: -13px;
+    border-top: 5px solid #fff;
+    border-bottom: 5px solid #fff;
+    border-radius: 0;
+    object-fit: cover;
+    object-position: 20% 50%;
+  }
+  .ppc-media-collage .ppc-collage-br {
+    width: 50%;
+    height: 200px;
+    margin-top: -53px;
+    border-top: 10px solid #fff;
+    border-bottom: 10px solid #fff;
+    border-left: 10px solid #fff;
+    border-radius: 0;
+    object-fit: cover;
+  }
+  /* Mobile fallback: stack vertically, drop collage offsets entirely. */
+  @media (max-width: 1023px) {
+    .ppc-media-collage {
+      flex-direction: column;
+      gap: 15px;
+    }
+    .ppc-media-collage .ppc-collage-hero,
+    .ppc-media-collage .ppc-collage-bl,
+    .ppc-media-collage .ppc-collage-br {
+      width: 100%;
+      height: auto;
+      margin-top: 0;
+      border: 0;
+      border-radius: 8px;
+      object-position: center center;
+    }
   }
 
   /* ── data-anim — IntersectionObserver-driven reveal animations.
