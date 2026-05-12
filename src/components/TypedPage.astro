@@ -782,8 +782,10 @@ function decodeText(s: string): string {
     column-gap: 0;
     row-gap: 20px;
   }
+  /* Desktop: switch to flex-start so partial last rows (4+2 on Paul,
+     4+4+1 on Vallely) stay left-aligned instead of stretching to fill. */
   @media (min-width: 768px) {
-    .jv-video-grid { column-gap: 15px; }
+    .jv-video-grid { justify-content: flex-start; column-gap: 15px; }
   }
   .jv-video-tile-wrap {
     width: 49%;

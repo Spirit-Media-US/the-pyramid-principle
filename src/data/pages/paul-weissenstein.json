@@ -21,5 +21,41 @@
         "width": 720
       }
     }
+  },
+  {
+    "type": "video-popup-grid",
+    "id": "brxe-ygqgel",
+    "tiles": [
+      {
+        "videoId": "al3afXn0w8s",
+        "label": "Video 1",
+        "poster": "https://i.ytimg.com/vi/al3afXn0w8s/maxresdefault.jpg"
+      },
+      {
+        "videoId": "ac5euBedZ3g",
+        "label": "Video 2",
+        "poster": "https://i.ytimg.com/vi/ac5euBedZ3g/maxresdefault.jpg"
+      },
+      {
+        "videoId": "FGTitMFTgcE",
+        "label": "Video 3",
+        "poster": "https://i.ytimg.com/vi/FGTitMFTgcE/maxresdefault.jpg"
+      },
+      {
+        "videoId": "Uz7vX4b4_hM",
+        "label": "Video 4",
+        "poster": "https://i.ytimg.com/vi/Uz7vX4b4_hM/maxresdefault.jpg"
+      },
+      {
+        "videoId": "uLmuVGuX6H0",
+        "label": "Video 5",
+        "poster": "https://i.ytimg.com/vi/uLmuVGuX6H0/maxresdefault.jpg"
+      },
+      {
+        "videoId": "lYslLXvxbvs",
+        "label": "Video 6",
+        "poster": "https://i.ytimg.com/vi/lYslLXvxbvs/maxresdefault.jpg"
+      }
+    ]
   }
 ]
