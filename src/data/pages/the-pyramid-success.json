@@ -644,7 +644,34 @@
       }
     ],
     "bio": "Wilton Norman Chamberlain (August 21, 1936 – October 12, 1999) was an American professional basketball player. Standing 7 ft 1 in (2.16 m) tall, he played center in the National Basketball Association (NBA) for 14 seasons. Widely regarded as one of the greatest basketball players of all time, Chamberlain was enshrined in the Naismith Memorial Basketball Hall of Fame in 1978 and elected to the NBA's 35th, 50th, and 75th anniversary teams.",
-    "learnMoreHref": "https://en.wikipedia.org/wiki/Wilt_Chamberlain"
+    "learnMoreHref": "https://en.wikipedia.org/wiki/Wilt_Chamberlain",
+    "layout": "collage",
+    "collageGeometry": [
+      {
+        "width": "100%",
+        "height": "490px",
+        "objectPosition": "top"
+      },
+      {
+        "width": "60%",
+        "height": "378px",
+        "marginTop": "-17px",
+        "borderTop": 10,
+        "borderRight": 0,
+        "borderBottom": 5,
+        "borderLeft": 0,
+        "objectPosition": "top"
+      },
+      {
+        "width": "40%",
+        "height": "365px",
+        "marginTop": "-104px",
+        "borderTop": 10,
+        "borderBottom": 10,
+        "borderLeft": 10,
+        "objectPosition": "top"
+      }
+    ]
   },
   {
     "type": "person-profile-card",
