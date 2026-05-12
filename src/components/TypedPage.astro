@@ -218,12 +218,21 @@ function decodeText(s: string): string {
       if (g.objectPosition) parts.push('--cg-op: ' + g.objectPosition);
       return parts.join('; ');
     });
-    const bioParagraphs: string[] = Array.isArray(b.bio) ? b.bio : (b.bio ? [b.bio] : []);
+    // Bio accepts: string (single para text), string[] (multi-para text),
+    // or {html: string} / { html: string }[] for paragraphs that need inline
+    // markup (e.g. <i>Sports Illustrated</i>). HTML strings are checked-in
+    // content, not user input, so set:html is safe here.
+    const rawBio = b.bio;
+    const bioParagraphs: any[] = Array.isArray(rawBio)
+      ? rawBio
+      : (rawBio ? [rawBio] : []);
     const textCol = (
       <div class="ppc-text" data-anim={textAnim}>
         <h3 class="ppc-name">{decodeText(b.name)}</h3>
-        {bioParagraphs.map((p: string) => (
-          <p class="ppc-bio">{decodeText(p)}</p>
+        {bioParagraphs.map((p: any) => (
+          p && typeof p === 'object' && p.html
+            ? <p class="ppc-bio" set:html={p.html} />
+            : <p class="ppc-bio">{decodeText(p)}</p>
         ))}
         {b.learnMoreHref && (
           <a class="ppc-cta" href={b.learnMoreHref} target="_blank" rel="noopener noreferrer">

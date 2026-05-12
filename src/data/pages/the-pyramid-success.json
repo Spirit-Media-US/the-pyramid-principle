@@ -392,8 +392,37 @@
         }
       }
     ],
-    "bio": "Cunningham played basketball at UCLA on the varsity team from 1960 to 1962. He played in the first Final Four appearance for the Bruins in the 1962 NCAA tournament. He appeared on the cover of Sports Illustrated on March 19, 1962. Cunningham was selected by the Cincinnati Royals in the seventh round as the 58th pick of the 1962 NBA draft.",
-    "learnMoreHref": "https://en.wikipedia.org/wiki/Gary_Cunningham"
+    "bio": [
+      {
+        "html": "Cunningham played basketball at UCLA on the varsity team from 1960 to 1962. He played in the first Final Four appearance for the Bruins in the 1962 NCAA tournament. He appeared on the cover of <i>Sports Illustrated</i> on March 19, 1962. Cunningham was selected by the Cincinnati Royals in the seventh round as the 58th pick of the 1962 NBA draft."
+      }
+    ],
+    "learnMoreHref": "https://en.wikipedia.org/wiki/Gary_Cunningham",
+    "layout": "collage",
+    "collageGeometry": [
+      {
+        "width": "100%",
+        "height": "440px"
+      },
+      {
+        "width": "60%",
+        "height": "378px",
+        "marginTop": "-113px",
+        "borderTop": 10,
+        "borderRight": 10,
+        "borderBottom": 5,
+        "borderLeft": 0,
+        "objectPosition": "20% 50%"
+      },
+      {
+        "width": "40%",
+        "height": "365px",
+        "marginTop": "-53px",
+        "borderTop": 10,
+        "borderBottom": 10,
+        "objectPosition": "top"
+      }
+    ]
   },
   {
     "type": "person-profile-card",
