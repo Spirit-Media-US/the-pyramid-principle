@@ -17,11 +17,71 @@
     "image": {
       "file": "pyramid-of-success.png",
       "alt": "Coach John Wooden's Pyramid of Success — the 15-block leadership and character framework",
-      "dims": { "width": 2364, "height": 1704 }
+      "dims": {
+        "width": 2364,
+        "height": 1704
+      }
     },
     "maxWidth": 900,
     "downloadHref": "https://assets.spiritmediapublishing.com/the-pyramid-principle/pyramid-of-success.pdf",
     "downloadLabel": "Download PDF",
     "downloadFilename": "pyramid-of-success.pdf"
+  },
+  {
+    "type": "quote-pillars",
+    "id": "brxe-emdmmr",
+    "leftImage": {
+      "file": "Untitled-design-2.png",
+      "alt": "",
+      "dims": {
+        "width": 500,
+        "height": 500
+      }
+    },
+    "rightImage": {
+      "file": "Untitled-design-3-1.png",
+      "alt": "",
+      "dims": {
+        "width": 500,
+        "height": 500
+      }
+    },
+    "quotes": [
+      {
+        "body": "“I don’t feel that you’re ready to leave the world yet, you have too much to accomplish and more to affect the world of cancer by living, rather than dying, and joining Erin.”",
+        "attribution": "Greg George",
+        "attributionPosition": "prefix"
+      },
+      {
+        "body": "“If you are who you say you are, I'd like some of that.”",
+        "attribution": "prayer by John Vallely",
+        "attributionPosition": "suffix"
+      },
+      {
+        "body": "“Jesus please come into my life. I'm giving my life over to you.”",
+        "attribution": "prayer by John Vallely",
+        "attributionPosition": "suffix"
+      },
+      {
+        "body": "“Daddy, please pray for me!”",
+        "attribution": "Erin Vallely before first cancer surgery",
+        "attributionPosition": "suffix"
+      },
+      {
+        "body": "“God, where are you and why are we alone in this?”",
+        "attribution": "prayer of John Vallely over Erin's cancer",
+        "attributionPosition": "suffix"
+      },
+      {
+        "body": "“Please help me!”",
+        "attribution": "Erin Vallely during intense pain of 2nd round of cancer.",
+        "attributionPosition": "suffix"
+      },
+      {
+        "body": "“God is my hero. He prays for me all the time.”",
+        "attribution": "11-year-old Erin on card to her oncologist.",
+        "attributionPosition": "suffix"
+      }
+    ]
   }
 ]
