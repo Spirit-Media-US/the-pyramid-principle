@@ -529,9 +529,13 @@ function blogHref(originalHref: string): string {
                  alt={card.title}
                  loading="lazy" decoding="async" />
             <h3 class="blog-card-h3">{card.title}</h3>
-            <a class="blog-card-cta" href={blogHref(card.href)} data-pending-blog="true">
-              Read full article
-            </a>
+            {/* Phase 4 pending: blog routes don't exist yet. CTA rendered as a
+                non-clickable <span> until Sanity blog is wired (see CLAUDE.md
+                Phase 4). data-pending-blog="true" remains as the audit hook
+                + CSS disabled-state selector. */}
+            <span class="blog-card-cta" data-pending-blog="true" aria-disabled="true">
+              Coming soon
+            </span>
           </article>
         ))}
       </div>
@@ -1401,6 +1405,17 @@ function blogHref(originalHref: string): string {
     box-shadow: rgba(112, 94, 0, 0.6) 0px 3px 5px 1px;
     text-decoration: none;
     color: var(--color-ink);
+  }
+  /* Pending blog routes (Phase 4) — visually de-emphasized + non-interactive. */
+  .blog-card-cta[data-pending-blog="true"] {
+    opacity: 0.55;
+    cursor: default;
+    pointer-events: none;
+    user-select: none;
+  }
+  .blog-card-cta[data-pending-blog="true"]:hover {
+    background: var(--color-brand-yellow);
+    box-shadow: rgba(112, 94, 0, 0.47) 0px 2px 3px 1px;
   }
 
   /* ── On-enter reveal animations ──
