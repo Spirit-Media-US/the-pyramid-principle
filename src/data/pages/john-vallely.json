@@ -283,6 +283,20 @@
         }
       },
       {
+        "name": "Sidney Wicks",
+        "href": "https://sicovers.com/featured/ucla-sidney-wicks-november-30-1970-sports-illustrated-cover.html",
+        "image": {
+          "file": "ucla-sidney-wicks-november-30-1970-sports-illustrated-cover.jpg",
+          "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/2d4f3d58f8e5a25c7ccb9d1eecbbdf2d5ad39289-665x900.jpg",
+          "dims": {
+            "_type": "sanity.imageDimensions",
+            "aspectRatio": 0.7388888888888889,
+            "height": 900,
+            "width": 665
+          }
+        }
+      },
+      {
         "name": "Curtis Rowe",
         "href": "https://en.wikipedia.org/wiki/Curtis_Rowe ",
         "image": {
@@ -316,8 +330,8 @@
     "type": "media-contact-card",
     "id": "brxe-nglrme",
     "heading": "Schedule John Vallely to be a guest on your show",
-    "sub": "Media Contact :",
-    "body": "",
+    "sub": "MEDIA CONTACT :",
+    "body": "Jeremy Lorin\nSpirit Media Inc\n1-888-800-3744\njeremy@spiritmediapublishing.com",
     "image": {
       "file": "29136_web.wooden.6.7.reaction.vallely.jpg",
       "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/1db07233c21b6b002132c47364fed7f03323722e-650x432.jpg",
@@ -333,7 +347,7 @@
     "type": "interview-questions",
     "id": "brxe-ferycf",
     "heading": "An Interview with John Vallely will bring value to your audience.",
-    "sub": "Interview questions:",
+    "sub": "Interview Questions:",
     "items": [
       "Tell us about your success on the court.",
       "What was it like to play for a legendary coach?",

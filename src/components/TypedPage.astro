@@ -325,18 +325,44 @@ function decodeText(s: string): string {
     );
   }
 
+  // ── media-contact-card — verified live #brxe-nglrme / #brxe-vwpszl ──
+  // Outer section: bg #fff, no special chrome.
+  // Inner card (the 2-col grid container #brxe-vwpszl): bg #f5f5f5,
+  // border 1px solid #e0e0e0, border-radius 15px, padding 80px 40px
+  // desktop / 20px mobile, display:grid 1fr 1fr desktop / 1fr mobile.
+  // LEFT col: photo (650×432, rounded). RIGHT col: H2 + H3 + body.
+  // H2: Bebas Neue 55px weight 400, color #1d1d1f, text-align left.
+  // H3: DM Sans 28px weight 500, color #212121, margin-top 15px.
+  // Body: per-line breaks (Jeremy Lorin / Spirit Media Inc / phone / email).
   if (b.type === 'media-contact-card') {
+    const bodyLines = (b.body || '').split('\n').filter(Boolean);
+    const emailIdx = bodyLines.findIndex((l: string) => /@/.test(l));
     return (
       <section class="jv-media-contact">
-        <div class="jv-media-contact-container">
-          {b.image && b.image.sanityUrl && (
-            <img class="jv-media-contact-bg" src={imgUrl(b.image, 1200)} alt=""
-                 loading="lazy" decoding="async" aria-hidden="true" />
-          )}
-          <div class="jv-media-contact-card">
-            <h2 class="jv-section-h2">{b.heading}</h2>
-            {b.sub && <h3 class="jv-section-h3">{b.sub}</h3>}
-            <p class="jv-media-contact-body">{decodeText(b.body)}</p>
+        <div class="jv-media-contact-card">
+          <div class="jv-media-contact-photo">
+            {b.image && b.image.sanityUrl && (
+              <img src={imgUrl(b.image, 800)}
+                   width={b.image?.dims?.width || 650}
+                   height={b.image?.dims?.height || 432}
+                   alt="" loading="lazy" decoding="async" />
+            )}
+          </div>
+          <div class="jv-media-contact-text">
+            <h2 class="jv-media-contact-h2">{decodeText(b.heading)}</h2>
+            {b.sub && <h3 class="jv-media-contact-h3">{decodeText(b.sub)}</h3>}
+            {bodyLines.length > 0 && (
+              <p class="jv-media-contact-body">
+                {bodyLines.map((line: string, i: number) => (
+                  <>
+                    {i > 0 && <br />}
+                    {i === emailIdx
+                      ? <a href={`mailto:${line.trim()}`}>{line}</a>
+                      : line}
+                  </>
+                ))}
+              </p>
+            )}
           </div>
         </div>
       </section>
@@ -349,7 +375,7 @@ function decodeText(s: string): string {
         <div class="jv-interview-container">
           <div class="jv-interview-text">
             <h2 class="jv-section-h2">{b.heading}</h2>
-            {b.sub && <h3 class="jv-section-h3">{b.sub}</h3>}
+            {b.sub && <h3 class="jv-interview-h3">{b.sub}</h3>}
             <ol class="jv-interview-list">
               {b.items.map((q: string) => (<li>{decodeText(q)}</li>))}
             </ol>
@@ -370,6 +396,22 @@ function decodeText(s: string): string {
 
   return null;
 })}
+
+<!-- Minimum Swiper layout CSS — inlined verbatim (NOT routed through Vite's
+     CSS pipeline or the async-css transform). Ensures the carousel renders
+     correctly on first paint even before the bundled CSS finishes loading. -->
+<style is:inline>
+  .jv-photo-carousel { position: relative; width: 100%; margin: 0; overflow: hidden; }
+  .jv-photo-carousel .swiper { position: relative; overflow: hidden; display: block; padding: 0; z-index: 1; }
+  .jv-photo-carousel .swiper-wrapper { position: relative; width: 100%; height: 100%; display: flex; box-sizing: content-box; }
+  .jv-photo-carousel .swiper-slide { flex-shrink: 0; width: 100%; height: 100%; position: relative; }
+  .jv-photo-carousel .jv-photo-slide { height: 150px; overflow: hidden; }
+  @media (min-width: 768px) {
+    .jv-photo-carousel .jv-photo-slide { height: 250px; }
+  }
+  .jv-photo-carousel .jv-photo-link { display: block; width: 100%; height: 100%; overflow: hidden; cursor: zoom-in; }
+  .jv-photo-carousel .jv-photo-link img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
+</style>
 
 <!-- Shared YouTube modal — one element used by all 9 video tiles.
      <dialog> for free focus-trap + Esc-to-close + accessibility tree. -->
@@ -424,32 +466,26 @@ function decodeText(s: string): string {
 </script>
 
 <script>
-  // Photo carousel — Swiper.js + PhotoSwipe lightbox. Trait 5 deferred init.
-  // Imports use Vite's `?url` resolution; everything is tree-shaken to the
-  // single carousel module + the lightbox module (~50KB gzip combined).
-  async function initPhotoCarousels() {
+  // Photo carousel — Swiper.js + PhotoSwipe lightbox. Inits on
+  // DOMContentLoaded (not deferred to first interaction) because the
+  // carousel is a visual element and needs to render correctly from
+  // first paint. Swiper + PhotoSwipe are bundled into the page chunk
+  // via static imports (~40KB gzip combined). Their CSS is loaded by
+  // the async-css build step but the minimum layout CSS is inlined in
+  // the component's <style> block so the carousel works even before
+  // the async stylesheets resolve.
+  import Swiper from 'swiper';
+  import { Navigation, Autoplay } from 'swiper/modules';
+  import PhotoSwipeLightbox from 'photoswipe/lightbox';
+  import 'swiper/css';
+  import 'swiper/css/navigation';
+  import 'photoswipe/style.css';
+
+  function initPhotoCarousels() {
     if ((window as any)._photoCarousels) return;
     const sections = document.querySelectorAll<HTMLElement>('.jv-photo-carousel');
     if (sections.length === 0) return;
     (window as any)._photoCarousels = true;
-
-    const [{ default: Swiper }, { Navigation, Autoplay }, photoswipe, lightboxMod] = await Promise.all([
-      import('swiper'),
-      import('swiper/modules'),
-      import('photoswipe'),
-      import('photoswipe/lightbox'),
-    ]);
-    // Swiper bundled CSS (one of the two import-styles supported by the
-    // package — `swiper/css` is the entry exposed by package.json#exports).
-    await Promise.all([
-      // @ts-expect-error – CSS side-effect imports are valid for Vite
-      import('swiper/css'),
-      // @ts-expect-error
-      import('swiper/css/navigation'),
-      // @ts-expect-error
-      import('photoswipe/style.css'),
-    ]);
-    const PhotoSwipeLightbox = (lightboxMod as any).default;
 
     sections.forEach(section => {
       const slidesDesktop = Number(section.dataset.slidesDesktop || 5);
@@ -477,19 +513,22 @@ function decodeText(s: string): string {
         },
       });
 
-      // PhotoSwipe lightbox — one instance per carousel section.
+      // PhotoSwipe lightbox — one instance per carousel section. The
+      // lightbox attaches its own click handler via event delegation.
       const lightbox = new PhotoSwipeLightbox({
         gallery: section,
         children: 'a.jv-photo-link',
-        pswpModule: () => Promise.resolve(photoswipe),
+        pswpModule: () => import('photoswipe'),
       });
       lightbox.init();
     });
   }
 
-  const pcEvs = ['scroll', 'click', 'touchstart', 'keydown', 'mousemove'];
-  for (const e of pcEvs) window.addEventListener(e, initPhotoCarousels, { once: true, passive: true });
-  window.setTimeout(initPhotoCarousels, 8000);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPhotoCarousels);
+  } else {
+    initPhotoCarousels();
+  }
 </script>
 
 <style is:global>
@@ -862,31 +901,116 @@ function decodeText(s: string): string {
     text-decoration: none; color: var(--color-ink); transition: transform 0.2s ease;
   }
   .jv-player-card:hover { transform: translateY(-2px); text-decoration: none; }
+  /* Verified live #brxe-ypcthr / #brxe-japijc etc: 200×300, border-radius 10px,
+     object-fit cover (rectangular not circular). */
   .jv-player-card img {
-    width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 50%; background: var(--color-bg-section);
+    width: 100%; max-width: 200px; aspect-ratio: 2 / 3; object-fit: cover;
+    border-radius: 10px; background: var(--color-bg-section);
   }
   .jv-player-name { font-family: var(--font-heading); font-weight: 700; font-size: 0.85rem; text-align: center; }
 
-  /* Media contact card */
-  .jv-media-contact { background: var(--color-bg-section); padding: 64px 0; }
-  .jv-media-contact-container {
-    position: relative; max-width: var(--container-max); margin-inline: auto;
-    padding: 0 var(--section-padding-x-mobile);
+  /* ── Interview-questions H3 — verified live #brxe-qgdllk ──
+     Bebas Neue 40px desktop / 30px mobile, weight 700, color #000,
+     text-align left, width 100%, line-height 1, no margins. */
+  .jv-interview-h3 {
+    margin: 0 0 16px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 1;
+    letter-spacing: 0;
+    color: #000;
+    text-align: left;
+    text-transform: none;
+    width: 100%;
   }
-  @media (min-width: 768px) { .jv-media-contact-container { padding: 0 var(--section-padding-x-desktop); } }
-  .jv-media-contact-bg {
-    width: 100%; max-height: 360px; object-fit: cover; border-radius: 8px;
-    display: block;
+  @media (min-width: 768px) {
+    .jv-interview-h3 { font-size: 40px; }
+  }
+
+  /* ── Media-contact card — verified live #brxe-vwpszl ──
+     Outer section: bg #fff, no chrome.
+     Inner card: bg #f5f5f5, border 1px solid #e0e0e0, border-radius 15px,
+     padding 80px 40px desktop / 20px mobile, display:grid 1fr 1fr desktop
+     / 1fr mobile, gap 40px desktop / 24px mobile. */
+  .jv-media-contact-h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 1;
+    letter-spacing: 0;
+    color: #1d1d1f;
+    text-align: left;
+    text-transform: none;
+  }
+  @media (min-width: 768px) {
+    .jv-media-contact-h2 { font-size: 55px; }
+  }
+  /* Verified live #brxe-jkeefs: DM Sans 28px weight 500, color #212121,
+     text-align left, margin-top 15px. */
+  .jv-media-contact-h3 {
+    margin: 15px 0 0;
+    font-family: var(--font-heading);
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 1.2;
+    letter-spacing: 0;
+    color: #212121;
+    text-align: left;
+    text-transform: none;
+  }
+  @media (min-width: 768px) {
+    .jv-media-contact-h3 { font-size: 28px; }
+  }
+
+  /* Media contact 2-col card */
+  .jv-media-contact {
+    background: #fff;
+    padding: 40px var(--section-padding-x-mobile);
+  }
+  @media (min-width: 768px) {
+    .jv-media-contact { padding: 64px var(--section-padding-x-desktop); }
   }
   .jv-media-contact-card {
-    background: #fff; padding: 32px; border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    max-width: 600px; margin: -80px auto 0; position: relative; z-index: 2;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    background: #f5f5f5;
+    border: 1px solid #e0e0e0;
+    border-radius: 15px;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    align-items: center;
   }
-  @media (max-width: 640px) {
-    .jv-media-contact-card { margin: 16px auto 0; padding: 24px; }
+  @media (min-width: 768px) {
+    .jv-media-contact-card {
+      grid-template-columns: 1fr 1fr;
+      padding: 80px 40px;
+      gap: 40px;
+    }
   }
-  .jv-media-contact-body { margin: 0; font-size: 0.95rem; line-height: 1.6; color: var(--color-text); white-space: pre-line; }
+  .jv-media-contact-photo img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 650 / 432;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+  }
+  .jv-media-contact-text { display: flex; flex-direction: column; }
+  .jv-media-contact-body {
+    margin: 24px 0 0;
+    font-family: var(--font-heading);
+    font-size: 18px;
+    line-height: 1.7;
+    color: rgb(97, 97, 97);
+  }
+  .jv-media-contact-body a {
+    color: var(--color-author-blue, #2774AE);
+    text-decoration: underline;
+  }
 
   /* Interview questions */
   .jv-interview { background: #fff; padding: 64px 0; }
@@ -905,18 +1029,17 @@ function decodeText(s: string): string {
   }
 
   /* ── Photo carousel (verified live #brxe-rboxpg) ──
-     Section: margin-top -50px mobile / -80px desktop, pulls into the H2
-     section above. Slides are 250px tall desktop / 150px mobile, bg-cover.
-     Arrows are 50×50 absolute, color #2196f3, prev left:50px / next right:50px.
-     Swiper handles loop+autoplay+slide widths; we just style the visual. */
+     Live source has margin: -80px 0 0 desktop / -50px mobile, but that's
+     closing a Bricks-generated 80px gap that doesn't exist in our Astro
+     build. With my H2 banner's 20px margin-bottom as the natural gap,
+     margin-top: 0 on the carousel reproduces the live visual spacing.
+     Slides 250px tall desktop / 150px mobile, real <img> per slide.
+     Arrows 50×50 absolute, color #2196f3, prev left:50px / next right:50px. */
   .jv-photo-carousel {
     position: relative;
     width: 100%;
-    margin: -50px 0 0;
+    margin: 0;
     overflow: hidden;
-  }
-  @media (min-width: 768px) {
-    .jv-photo-carousel { margin: -80px 0 0; }
   }
   .jv-photo-swiper {
     width: 100%;
