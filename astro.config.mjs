@@ -22,11 +22,10 @@ export default defineConfig({
     }),
   ],
   build: {
-    // 'always' inlines every stylesheet into <head>, eliminating render-blocking
-    // CSS network requests. Increases HTML payload by ~22KB on the homepage
-    // (~5KB on the wire after brotli) but removes a critical-chain dependency
-    // on slow-4G. Tradeoff favors LCP over HTML size.
-    inlineStylesheets: 'always',
+    // Trait 6: Astro inlines small stylesheets, externalizes larger ones.
+    // scripts/async-css.mjs converts the externalized bundles to async via the
+    // media="print" onload swap so they never block first paint.
+    inlineStylesheets: 'auto',
   },
   vite: {
     server: { allowedHosts: ['preview.spiritmediapublishing.com'] },
