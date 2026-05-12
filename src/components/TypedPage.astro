@@ -174,36 +174,30 @@ function decodeText(s: string): string {
     );
   }
 
-  // ── pdf-viewer — embeds an interactive PDF viewer (toolbar with zoom,
-  // page navigation, search, fullscreen). Replaces source's WordPress
-  // "3D Flip Book" plugin at #brxe-wvkmbg.
+  // ── pdf-viewer — embeds a PDF directly via native browser PDF viewer.
+  // Replaces source's WordPress "3D Flip Book" plugin at #brxe-wvkmbg.
   //
-  // Uses Mozilla's hosted PDF.js viewer (https://mozilla.github.io/pdf.js/web/viewer.html?file=...)
-  // via iframe. The R2 origin must serve the PDF with CORS open — verified
-  // for assets.spiritmediapublishing.com on 2026-05-12 (Access-Control-Allow-Origin: *).
+  // Uses `<iframe src="<pdf-url>">` directly — every desktop browser
+  // (Chrome, Firefox, Safari, Edge) renders PDFs natively in iframes
+  // with a built-in toolbar (zoom, page nav, search, download). No
+  // external CDN dependency, no CORS concerns.
   //
-  // CAVEAT — Mozilla labels that viewer URL as a DEMO and asks people not
-  // to hotlink. The Phase 6 polish task is to self-host pdfjs-dist in
-  // /public/pdfjs/ and switch the iframe src. Acceptable for now per user
-  // direction; if Mozilla blocks the hotlink or breaks compatibility, the
-  // viewer will fail gracefully (iframe renders empty or with their site).
+  // Mobile fallback: iOS Safari and some Android browsers refuse to
+  // render PDFs in iframes and instead show a download prompt. The
+  // yellow-pill "Download PDF" CTA below covers that case — users on
+  // mobile see an empty/grey iframe and the Download button works.
   //
-  // Below the viewer: a yellow-pill "Download PDF" CTA pointing at the
-  // original PDF on R2 (so users can still grab the file even if the
-  // embedded viewer fails).
+  // CSP: page's `frame-src` must include the PDF's origin
+  // (https://assets.spiritmediapublishing.com — added in public/_headers).
   if (b.type === 'pdf-viewer') {
-    const viewerBase = 'https://mozilla.github.io/pdf.js/web/viewer.html';
-    const viewerSrc = `${viewerBase}?file=${encodeURIComponent(b.pdfUrl)}`;
     return (
       <section class="pv-section" id={b.id}>
         <div class="pv-inner">
           <div class="pv-frame-wrap">
             <iframe class="pv-frame"
-                    src={viewerSrc}
+                    src={b.pdfUrl}
                     title={b.title || 'PDF viewer'}
-                    loading="lazy"
-                    allowfullscreen
-                    allow="fullscreen"></iframe>
+                    loading="lazy"></iframe>
           </div>
           {b.downloadUrl && (
             <a class="pv-download" href={b.downloadUrl}
