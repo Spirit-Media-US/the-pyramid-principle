@@ -6,7 +6,7 @@
 // Block types handled:
 //   _meta                — page title/description (no markup)
 //   title-card           — centered hero: eyebrow row (— text —) + H1
-//   pdf-viewer           — embedded PDF.js viewer iframe
+//   centered-image       — single centered image with optional download CTA
 //   quote-card-grid      — 2-col responsive grid of quote cards
 //   hero-intro           — eyebrow + H1 + body + sidebar image
 //   highlight-cards      — 4 callout cards with left-border accent
@@ -174,35 +174,34 @@ function decodeText(s: string): string {
     );
   }
 
-  // ── pdf-viewer — embeds a PDF directly via native browser PDF viewer.
-  // Replaces source's WordPress "3D Flip Book" plugin at #brxe-wvkmbg.
-  //
-  // Uses `<iframe src="<pdf-url>">` directly — every desktop browser
-  // (Chrome, Firefox, Safari, Edge) renders PDFs natively in iframes
-  // with a built-in toolbar (zoom, page nav, search, download). No
-  // external CDN dependency, no CORS concerns.
-  //
-  // Mobile fallback: iOS Safari and some Android browsers refuse to
-  // render PDFs in iframes and instead show a download prompt. The
-  // yellow-pill "Download PDF" CTA below covers that case — users on
-  // mobile see an empty/grey iframe and the Download button works.
-  //
-  // CSP: page's `frame-src` must include the PDF's origin
-  // (https://assets.spiritmediapublishing.com — added in public/_headers).
-  if (b.type === 'pdf-viewer') {
+  // ── centered-image — single centered image with optional download CTA.
+  // Replaces source's WordPress 3D Flip Book plugin (#brxe-wvkmbg /
+  // #brxe-icfhke) at the Pyramid of Success section. A static PNG
+  // (rendered from the source PDF) carries the visual; the original
+  // PDF is served from R2 via the yellow-pill Download CTA below.
+  // Section padding follows SMP standard: 40px top mobile / 80px top +
+  // 60px bottom desktop.
+  if (b.type === 'centered-image') {
+    const file = b.image?.file || b.image?.sanityUrl;
+    const dims = b.image?.dims || { width: 1200, height: 900 };
+    const maxW = b.maxWidth || 800;
+    const srcMobile = srcW(file, Math.min(800, maxW));
+    const srcDesktop = srcW(file, Math.min(1600, maxW * 2));
     return (
-      <section class="pv-section" id={b.id}>
-        <div class="pv-inner">
-          <div class="pv-frame-wrap">
-            <iframe class="pv-frame"
-                    src={b.pdfUrl}
-                    title={b.title || 'PDF viewer'}
-                    loading="lazy"></iframe>
-          </div>
-          {b.downloadUrl && (
-            <a class="pv-download" href={b.downloadUrl}
+      <section class="ci-section" id={b.id}>
+        <div class="ci-inner">
+          <img class="ci-image"
+               src={srcDesktop}
+               srcset={`${srcMobile} 800w, ${srcDesktop} 1600w`}
+               sizes={`(max-width: 768px) 100vw, ${maxW}px`}
+               width={dims.width} height={dims.height}
+               style={`max-width: ${maxW}px;`}
+               alt={b.image?.alt || b.alt || ''}
+               loading="lazy" decoding="async" />
+          {b.downloadHref && (
+            <a class="ci-download" href={b.downloadHref}
                target="_blank" rel="noopener noreferrer"
-               download>
+               download={b.downloadFilename || true}>
               {b.downloadLabel || 'Download PDF'}
             </a>
           )}
@@ -3232,19 +3231,16 @@ function decodeText(s: string): string {
     color: inherit;
   }
 
-  /* ── pdf-viewer — embedded PDF.js viewer iframe + download CTA.
-     Replaces source's 3D Flip Book plugin at #brxe-wvkmbg. Viewer is
-     hosted on mozilla.github.io (demo URL — flagged for Phase 6 self-host).
-     Source flip-book container (#brxe-icfhke) was 100% width × 450px tall.
-     Rebuild uses similar viewer dimensions, max 800px wide centered. */
-  .pv-section {
+  /* ── centered-image — single centered image, optional download CTA.
+     Replaces source's 3D Flip Book plugin at #brxe-wvkmbg. */
+  .ci-section {
     background: #fff;
     padding: 40px 0 32px;
   }
   @media (min-width: 768px) {
-    .pv-section { padding: 80px 0 60px; }
+    .ci-section { padding: 80px 0 60px; }
   }
-  .pv-inner {
+  .ci-inner {
     max-width: var(--container-max);
     margin-inline: auto;
     padding: 0 var(--section-padding-x-mobile);
@@ -3254,27 +3250,15 @@ function decodeText(s: string): string {
     gap: 24px;
   }
   @media (min-width: 768px) {
-    .pv-inner { padding: 0 var(--section-padding-x-desktop); gap: 32px; }
+    .ci-inner { padding: 0 var(--section-padding-x-desktop); gap: 32px; }
   }
-  .pv-frame-wrap {
+  .ci-image {
     width: 100%;
-    max-width: 800px;
-    height: 380px;
-    background: #f5f5f5;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-  }
-  @media (min-width: 768px) {
-    .pv-frame-wrap { height: 450px; }
-  }
-  .pv-frame {
-    width: 100%;
-    height: 100%;
-    border: 0;
+    height: auto;
     display: block;
+    border-radius: 8px;
   }
-  .pv-download {
+  .ci-download {
     display: inline-flex;
     align-items: center;
     background: var(--color-brand-yellow, #FFD100);
@@ -3290,7 +3274,7 @@ function decodeText(s: string): string {
     text-decoration: none;
     transition: background 0.15s, transform 0.15s;
   }
-  .pv-download:hover {
+  .ci-download:hover {
     background: #e6bc00;
     color: #000;
     text-decoration: none;

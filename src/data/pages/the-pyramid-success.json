@@ -12,12 +12,17 @@
     "h1": "The Pyramid Success"
   },
   {
-    "type": "pdf-viewer",
+    "type": "centered-image",
     "id": "brxe-wvkmbg",
-    "pdfUrl": "https://assets.spiritmediapublishing.com/the-pyramid-principle/pyramid-of-success.pdf",
-    "title": "Pyramid of Success",
-    "downloadUrl": "https://assets.spiritmediapublishing.com/the-pyramid-principle/pyramid-of-success.pdf",
-    "downloadLabel": "Download PDF"
+    "image": {
+      "file": "pyramid-of-success.png",
+      "alt": "Coach John Wooden's Pyramid of Success diagram",
+      "dims": { "width": 2364, "height": 1704 }
+    },
+    "maxWidth": 800,
+    "downloadHref": "https://assets.spiritmediapublishing.com/the-pyramid-principle/pyramid-of-success.pdf",
+    "downloadLabel": "Download PDF",
+    "downloadFilename": "pyramid-of-success.pdf"
   },
   {
     "type": "quote-card-grid",
