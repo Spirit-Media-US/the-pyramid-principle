@@ -2494,19 +2494,5 @@
       "height": 3816,
       "width": 5707
     }
-  },
-  "pyramid-of-success.png": {
-    "originalUrl": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/Pyramid-of-Success.pdf",
-    "sanityAssetId": "image-3779c422dc6facf32f22a7704cd9535186c215af-2364x1704-png",
-    "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/3779c422dc6facf32f22a7704cd9535186c215af-2364x1704.png",
-    "alt": "Coach John Wooden's Pyramid of Success — the 15-block leadership and character framework",
-    "size": 2552691,
-    "dimensions": {
-      "_type": "sanity.imageDimensions",
-      "aspectRatio": 1.3873239436619718,
-      "height": 1704,
-      "width": 2364
-    },
-    "note": "Rendered from Pyramid-of-Success.pdf page 1 at 200 DPI via pdftoppm. Source asset is a single-page PDF — kept as PDF in public/pdfs/ for the Download CTA."
   }
 }

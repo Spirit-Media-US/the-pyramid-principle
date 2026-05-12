@@ -6,7 +6,7 @@
 // Block types handled:
 //   _meta                — page title/description (no markup)
 //   title-card           — centered hero: eyebrow row (— text —) + H1
-//   centered-image       — single centered image, optional download CTA
+//   pdf-viewer           — embedded PDF.js viewer iframe
 //   quote-pillars        — 3-col: decorative image + 2-col quote grid + image
 //   hero-intro           — eyebrow + H1 + body + sidebar image
 //   highlight-cards      — 4 callout cards with left-border accent
@@ -196,35 +196,41 @@ function decodeText(s: string): string {
     );
   }
 
-  // ── centered-image — single centered image with optional download CTA.
-  // Replaces source's 3D Flip Book plugin (#brxe-wvkmbg / #brxe-icfhke),
-  // which served a single-page PDF. The static PNG (rendered from page 1
-  // of the PDF at 200 DPI) is web-suitable; the original PDF is available
-  // for download via the yellow pill CTA when `downloadHref` is set.
-  // Source container #brxe-wvkmbg had no padding overrides — uses Bricks
-  // default section padding. Rebuild applies the standard SMP section
-  // padding pattern (40px top mobile / 80px top + 60px bottom desktop).
-  if (b.type === 'centered-image') {
-    const file = b.image?.file || b.image?.sanityUrl;
-    const dims = b.image?.dims || { width: 1200, height: 900 };
-    const maxW = b.maxWidth || 900;
-    const srcMobile = srcW(file, Math.min(800, maxW));
-    const srcDesktop = srcW(file, Math.min(1400, maxW * 2));
+  // ── pdf-viewer — embeds an interactive PDF viewer (toolbar with zoom,
+  // page navigation, search, fullscreen). Replaces source's WordPress
+  // "3D Flip Book" plugin at #brxe-wvkmbg.
+  //
+  // Uses Mozilla's hosted PDF.js viewer (https://mozilla.github.io/pdf.js/web/viewer.html?file=...)
+  // via iframe. The R2 origin must serve the PDF with CORS open — verified
+  // for assets.spiritmediapublishing.com on 2026-05-12 (Access-Control-Allow-Origin: *).
+  //
+  // CAVEAT — Mozilla labels that viewer URL as a DEMO and asks people not
+  // to hotlink. The Phase 6 polish task is to self-host pdfjs-dist in
+  // /public/pdfjs/ and switch the iframe src. Acceptable for now per user
+  // direction; if Mozilla blocks the hotlink or breaks compatibility, the
+  // viewer will fail gracefully (iframe renders empty or with their site).
+  //
+  // Below the viewer: a yellow-pill "Download PDF" CTA pointing at the
+  // original PDF on R2 (so users can still grab the file even if the
+  // embedded viewer fails).
+  if (b.type === 'pdf-viewer') {
+    const viewerBase = 'https://mozilla.github.io/pdf.js/web/viewer.html';
+    const viewerSrc = `${viewerBase}?file=${encodeURIComponent(b.pdfUrl)}`;
     return (
-      <section class="ci-section" id={b.id}>
-        <div class="ci-inner">
-          <img class="ci-image"
-               src={srcDesktop}
-               srcset={`${srcMobile} 800w, ${srcDesktop} 1400w`}
-               sizes={`(max-width: 768px) 100vw, ${maxW}px`}
-               width={dims.width} height={dims.height}
-               style={`max-width: ${maxW}px;`}
-               alt={b.image?.alt || b.alt || ''}
-               loading="lazy" decoding="async" />
-          {b.downloadHref && (
-            <a class="ci-download" href={b.downloadHref}
+      <section class="pv-section" id={b.id}>
+        <div class="pv-inner">
+          <div class="pv-frame-wrap">
+            <iframe class="pv-frame"
+                    src={viewerSrc}
+                    title={b.title || 'PDF viewer'}
+                    loading="lazy"
+                    allowfullscreen
+                    allow="fullscreen"></iframe>
+          </div>
+          {b.downloadUrl && (
+            <a class="pv-download" href={b.downloadUrl}
                target="_blank" rel="noopener noreferrer"
-               download={b.downloadFilename || true}>
+               download>
               {b.downloadLabel || 'Download PDF'}
             </a>
           )}
@@ -3283,34 +3289,49 @@ function decodeText(s: string): string {
     color: inherit;
   }
 
-  /* ── centered-image — single centered image, optional download CTA.
-     Replaces source's 3D Flip Book plugin at #brxe-wvkmbg. */
-  .ci-section {
+  /* ── pdf-viewer — embedded PDF.js viewer iframe + download CTA.
+     Replaces source's 3D Flip Book plugin at #brxe-wvkmbg. Viewer is
+     hosted on mozilla.github.io (demo URL — flagged for Phase 6 self-host).
+     Source flip-book container (#brxe-icfhke) was 100% width × 450px tall.
+     Rebuild uses similar viewer dimensions, max 800px wide centered. */
+  .pv-section {
     background: #fff;
     padding: 40px 0 32px;
   }
   @media (min-width: 768px) {
-    .ci-section { padding: 80px 0 60px; }
+    .pv-section { padding: 80px 0 60px; }
   }
-  .ci-inner {
+  .pv-inner {
     max-width: var(--container-max);
     margin-inline: auto;
     padding: 0 var(--section-padding-x-mobile);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 32px;
+    gap: 24px;
   }
   @media (min-width: 768px) {
-    .ci-inner { padding: 0 var(--section-padding-x-desktop); gap: 40px; }
+    .pv-inner { padding: 0 var(--section-padding-x-desktop); gap: 32px; }
   }
-  .ci-image {
+  .pv-frame-wrap {
     width: 100%;
-    height: auto;
-    display: block;
+    max-width: 800px;
+    height: 380px;
+    background: #f5f5f5;
     border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   }
-  .ci-download {
+  @media (min-width: 768px) {
+    .pv-frame-wrap { height: 450px; }
+  }
+  .pv-frame {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+  .pv-download {
     display: inline-flex;
     align-items: center;
     background: var(--color-brand-yellow, #FFD100);
@@ -3326,7 +3347,7 @@ function decodeText(s: string): string {
     text-decoration: none;
     transition: background 0.15s, transform 0.15s;
   }
-  .ci-download:hover {
+  .pv-download:hover {
     background: #e6bc00;
     color: #000;
     text-decoration: none;
