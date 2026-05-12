@@ -28,5 +28,45 @@
       },
       "alt": ""
     }
+  },
+  {
+    "type": "section-h2",
+    "id": "brxe-najbcz",
+    "text": "Greatest American Basketball Story of All Time",
+    "align": "center"
+  },
+  {
+    "type": "metadata-list",
+    "id": "brxe-txqwye",
+    "items": [
+      { "label": "Paperback ISBN:",                       "value": "979-8-89307-115-3" },
+      { "label": "Hardback ISBN:",                        "value": "979-8-89307-116-0" },
+      { "label": "Audiobook ISBN:",                       "value": "979-8-89307-118-4" },
+      { "label": "eBook ISBN:",                           "value": "979-8-89307-117-7" },
+      { "label": "Library of Congress Control Number:",   "value": "2024918727" }
+    ]
+  },
+  {
+    "type": "categories-publisher",
+    "id": "brxe-bgdzcm",
+    "categoriesHeading": "Look for it under:",
+    "categories": [
+      ["Books", "Self-Help", "Personal Transformation"],
+      ["Books", "Biographies", "Sports Biographies"]
+    ],
+    "publisher": {
+      "logo": {
+        "file": "spirit-media-logo.webp",
+        "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/a2d2ba59a25f58b652bb7b45727892bbcc9129d5-300x51.webp",
+        "dims": { "_type": "sanity.imageDimensions", "aspectRatio": 5.882352941176471, "height": 51, "width": 300 },
+        "alt": "Spirit Media Publishing"
+      },
+      "lines": [
+        { "type": "link", "href": "https://spiritmediapublishing.com/", "text": "spiritmediapublishing.com" },
+        { "type": "text", "text": "8045 Arco Corporate Dr STE 130" },
+        { "type": "text", "text": "Raleigh, NC 27617" },
+        { "type": "tel", "href": "tel:+18888003744", "text": "1 (888) 800-3744" }
+      ]
+    }
   }
 ]

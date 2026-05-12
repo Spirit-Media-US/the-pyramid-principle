@@ -115,10 +115,96 @@ function decodeText(s: string): string {
   // ── section-h2 — standalone H2 banner used as a section break ──
   // Verified live #brxe-vflqgb: Bebas Neue 55px weight 700, color #000,
   // text-align left, margin 40px 0 20px, full container width.
+  // Optional `align: 'center'` for variants like #brxe-najbcz (Retailers).
   if (b.type === 'section-h2') {
+    const styleStr = b.align ? `text-align: ${b.align};` : '';
     return (
       <section class="jv-section-h2-banner" id={b.id}>
-        <h2 class="jv-section-h2-banner-text">{b.text}</h2>
+        <h2 class="jv-section-h2-banner-text" style={styleStr}>{b.text}</h2>
+      </section>
+    );
+  }
+
+  // ── metadata-list — verified live #brxe-txqwye (Retailers ISBN list).
+  // Rows of label/value pairs. Source uses double-H3 markup (Bricks
+  // editor quirk); re-rendered here as a semantic <dl>/<dt>/<dd> for
+  // accessibility. Label: Montserrat 15px wt 700 uppercase #212121.
+  // Value: Montserrat 14-15px wt 400 #424242.
+  if (b.type === 'metadata-list') {
+    const items = (b.items || []) as { label: string; value: string }[];
+    return (
+      <section class="jv-meta-list" id={b.id}>
+        <dl class="jv-meta-list-inner">
+          {items.map(it => (
+            <div class="jv-meta-row">
+              <dt class="jv-meta-label">{decodeText(it.label)}</dt>
+              <dd class="jv-meta-value">{decodeText(it.value)}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+    );
+  }
+
+  // ── categories-publisher — verified live #brxe-bgdzcm (Retailers).
+  // Two-column on desktop, stacked on mobile.
+  // LEFT  : H3 "Look for it under:" + 1-N breadcrumb rows of strings.
+  //         Source rendered each crumb as an H3 with an Ion arrow icon
+  //         between them. Re-semanticized as <nav><ol> breadcrumbs with
+  //         a literal "›" character between crumbs.
+  // RIGHT : Publisher logo image + multi-line address/contact block.
+  //         Phone line auto-rendered as <a href="tel:…"> for mobile
+  //         click-to-call.
+  if (b.type === 'categories-publisher') {
+    const cats = (b.categories || []) as string[][];
+    const pub = b.publisher || {};
+    return (
+      <section class="jv-cp" id={b.id}>
+        <div class="jv-cp-container">
+          <div class="jv-cp-left">
+            {b.categoriesHeading && (
+              <h3 class="jv-cp-heading">{decodeText(b.categoriesHeading)}</h3>
+            )}
+            {cats.map(crumbs => (
+              <nav class="jv-cp-crumbs" aria-label="Book category">
+                <ol class="jv-cp-crumbs-ol">
+                  {crumbs.map((c, i) => (
+                    <>
+                      <li class="jv-cp-crumb">{decodeText(c)}</li>
+                      {i < crumbs.length - 1 && (
+                        <li class="jv-cp-sep" aria-hidden="true">›</li>
+                      )}
+                    </>
+                  ))}
+                </ol>
+              </nav>
+            ))}
+          </div>
+          <div class="jv-cp-right">
+            {pub.logo && pub.logo.sanityUrl && (
+              <img class="jv-cp-logo"
+                   src={imgUrl(pub.logo, 600)}
+                   width={pub.logo?.dims?.width || 300}
+                   height={pub.logo?.dims?.height || 51}
+                   alt={pub.logo.alt || 'Spirit Media Publishing'}
+                   loading="lazy" decoding="async" />
+            )}
+            {pub.lines && (
+              <div class="jv-cp-pubtext">
+                {(pub.lines as any[]).map((line, i) => (
+                  <>
+                    {i > 0 && <br />}
+                    {line.type === 'link'
+                      ? <a href={line.href} target="_blank" rel="noopener noreferrer">{line.text}</a>
+                      : line.type === 'tel'
+                        ? <a href={line.href}>{line.text}</a>
+                        : line.text}
+                  </>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
       </section>
     );
   }
@@ -1416,6 +1502,159 @@ function decodeText(s: string): string {
   .jv-photo-carousel:not(:has(.swiper-initialized)) .jv-photo-next {
     opacity: 0;
     pointer-events: none;
+  }
+
+  /* ── metadata-list (verified live #brxe-txqwye / #brxe-kbhuxb /
+       #brxe-fyvzeq / #brxe-qgqstb) — Retailers ISBN list.
+     Container is a <dl> flex-row-wrap; each <dt>/<dd> pair stacked
+     in a column. Label is small uppercase Montserrat-bold; value is
+     same size, normal-case, lighter weight, slightly lighter color. */
+  .jv-meta-list {
+    background: #fff;
+    padding: 0 20px;
+  }
+  @media (min-width: 768px) {
+    .jv-meta-list { padding: 0 var(--section-padding-x-desktop); }
+  }
+  .jv-meta-list-inner {
+    max-width: var(--container-max);
+    margin: 40px auto 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px 8px;
+  }
+  .jv-meta-row {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+    margin: 0;
+  }
+  .jv-meta-label {
+    margin: 0;
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 1.2;
+    color: #212121;
+    text-transform: uppercase;
+  }
+  .jv-meta-value {
+    margin: 0;
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.2;
+    color: #424242;
+  }
+
+  /* ── categories-publisher (verified live #brxe-bgdzcm / #brxe-tbcxbf
+       / #brxe-jubkoq / #brxe-pdjzcf) — Retailers categories + publisher.
+     Two-column row-gap 15px mobile / split on desktop. */
+  .jv-cp {
+    background: #fff;
+    padding: 0 20px 40px;
+  }
+  @media (min-width: 768px) {
+    .jv-cp { padding: 0 var(--section-padding-x-desktop) 80px; }
+  }
+  .jv-cp-container {
+    max-width: var(--container-max);
+    margin: 15px auto 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  @media (min-width: 768px) {
+    .jv-cp-container { flex-direction: row; align-items: center; gap: 40px; }
+  }
+  .jv-cp-left {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+  .jv-cp-right {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  @media (min-width: 768px) {
+    .jv-cp-left, .jv-cp-right { width: 50%; }
+  }
+  .jv-cp-heading {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 1;
+    color: #212121;
+    text-align: center;
+    text-transform: none;
+    width: 100%;
+  }
+  @media (min-width: 768px) {
+    .jv-cp-heading { font-size: 40px; line-height: 1; }
+  }
+  .jv-cp-crumbs { margin: 0; width: 100%; }
+  .jv-cp-crumbs-ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: baseline;
+    gap: 0 6px;
+  }
+  .jv-cp-crumb {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1.4;
+    color: #212121;
+    text-transform: none;
+  }
+  @media (min-width: 768px) {
+    .jv-cp-crumb { font-size: 21px; }
+  }
+  .jv-cp-sep {
+    margin: 0;
+    color: #757575;
+    font-size: 18px;
+    line-height: 1.4;
+  }
+  .jv-cp-logo {
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    aspect-ratio: 300 / 51;
+    margin: 0 auto 12px;
+  }
+  .jv-cp-pubtext {
+    margin: 0 0 30px;
+    font-family: var(--font-body, 'Open Sans'), system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #424242;
+    text-align: center;
+  }
+  @media (min-width: 768px) {
+    .jv-cp-pubtext { font-size: 15px; }
+  }
+  .jv-cp-pubtext a {
+    color: var(--color-author-blue, #2774AE);
+    text-decoration: underline;
   }
 
   /* ── retailer-hero (verified live #brxe-zqgdua / #brxe-onaeze /
