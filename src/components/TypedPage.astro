@@ -527,9 +527,19 @@ function decodeText(s: string): string {
     const images = (b.images || []) as any[];
     const borderColor = b.borderColor || '#ffffff';
     const bg = b.bg || '#fafafa';
+    // Optional per-instance alignment overrides. `verticalAlign` =
+    // align-items on the row container. `headingAlign` = text-align
+    // on the H2 at mobile widths (desktop stays left).
+    const vAlign = b.verticalAlign || 'flex-start';
+    const hAlignMobile = b.headingAlignMobile || b.headingAlign || 'left';
+    const styleVars = [
+      `--collage-border: ${borderColor}`,
+      `--collage-bg: ${bg}`,
+      `--collage-align: ${vAlign}`,
+      `--collage-h-align-mobile: ${hAlignMobile}`,
+    ].join('; ');
     return (
-      <section class="jv-collage" id={b.id}
-               style={`--collage-border: ${borderColor}; --collage-bg: ${bg};`}>
+      <section class="jv-collage" id={b.id} style={styleVars}>
         <div class="jv-collage-container">
           <div class="jv-collage-left">
             {images.slice(0, 3).map((im: any, i: number) => {
@@ -1773,7 +1783,7 @@ function decodeText(s: string): string {
   @media (min-width: 768px) {
     .jv-collage-container {
       flex-direction: row;
-      align-items: flex-start;
+      align-items: var(--collage-align, flex-start);
       padding: 80px var(--section-padding-x-desktop);
       gap: 40px;
     }
@@ -1807,7 +1817,11 @@ function decodeText(s: string): string {
   @media (min-width: 768px) {
     .jv-collage-img-1 {
       width: 100%;
-      aspect-ratio: 1000 / 600;
+      /* No hardcoded aspect-ratio — let the image's intrinsic
+         width/height attributes work. The Wooden About UCLA photo
+         (1000x600) and the Retailers Bestseller book card (309x438)
+         have very different aspect ratios; forcing one would crop
+         the other. */
       object-fit: cover;
     }
     .jv-collage-img-2 {
@@ -1835,14 +1849,15 @@ function decodeText(s: string): string {
     font-family: var(--font-display);
     font-weight: 700;
     font-size: 40px;
-    line-height: 1;
+    line-height: 1.2;
     letter-spacing: 0;
     color: #212121;
-    text-align: left;
+    text-align: var(--collage-h-align-mobile, left);
     text-transform: none;
   }
   @media (min-width: 768px) {
-    .jv-collage-h2 { font-size: 55px; }
+    /* Desktop always left-aligned; mobile honors --collage-h-align-mobile. */
+    .jv-collage-h2 { font-size: 55px; line-height: 1; text-align: left; }
   }
   .jv-collage-body {
     margin: 10px 0 20px;

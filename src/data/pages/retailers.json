@@ -68,5 +68,27 @@
         { "type": "tel", "href": "tel:+18888003744", "text": "1 (888) 800-3744" }
       ]
     }
+  },
+  {
+    "type": "image-collage-card",
+    "id": "brxe-nipgxe",
+    "borderColor": "transparent",
+    "bg": "#ffffff",
+    "verticalAlign": "center",
+    "headingAlignMobile": "center",
+    "headingHtml": "Projected to be <span style=\"color:#2774ae;\">#1 Bestseller</span> worldwide.",
+    "images": [
+      {
+        "file": "image-e1726579729174.png",
+        "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/89c2511ddf1e9179e484cd41b94c4acbe34d565b-309x438.png",
+        "dims": {
+          "_type": "sanity.imageDimensions",
+          "aspectRatio": 0.7054794520547945,
+          "height": 438,
+          "width": 309
+        },
+        "alt": ""
+      }
+    ]
   }
 ]
