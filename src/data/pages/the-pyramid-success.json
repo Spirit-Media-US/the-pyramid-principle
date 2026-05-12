@@ -106,7 +106,29 @@
       }
     ],
     "bio": "Wetzel coached Orange Coast basketball players like John Vallely and Bruce Chapman, and volleyball standouts like Steve Timmons and Brian Lewis, going 231-61 (a .791 winning percentage) in 11 volleyball seasons and 58-38 (.604) in three years as the Pirates' basketball coach, which was during the height of the program's throne in terms of the gym rocking and points flowing.",
-    "learnMoreHref": "https://www.latimes.com/socal/daily-pilot/news/tn-dpt-xpm-1999-12-24-export64078-story.html"
+    "learnMoreHref": "https://www.latimes.com/socal/daily-pilot/news/tn-dpt-xpm-1999-12-24-export64078-story.html",
+    "collageGeometry": [
+      {
+        "width": "100%",
+        "height": "440px"
+      },
+      {
+        "width": "50%",
+        "height": "213px",
+        "marginTop": "-13px",
+        "borderTop": 5,
+        "borderBottom": 5,
+        "objectPosition": "20% 50%"
+      },
+      {
+        "width": "50%",
+        "height": "200px",
+        "marginTop": "-53px",
+        "borderTop": 10,
+        "borderBottom": 10,
+        "borderLeft": 10
+      }
+    ]
   },
   {
     "type": "person-profile-card",
@@ -139,7 +161,32 @@
       }
     ],
     "bio": "Jerry Norman coached at UCLA from the fall of 1959 to the spring of 1968. He was the driving force behind the UCLA basketball dynasty.",
-    "learnMoreHref": "https://en.wikipedia.org/wiki/Jerry_Norman_(basketball)"
+    "learnMoreHref": "https://en.wikipedia.org/wiki/Jerry_Norman_(basketball)",
+    "layout": "collage",
+    "collageGeometry": [
+      {
+        "width": "100%",
+        "height": "440px"
+      },
+      {
+        "width": "60%",
+        "height": "378px",
+        "marginTop": "-163px",
+        "borderTop": 10,
+        "borderRight": 10,
+        "borderBottom": 5,
+        "borderLeft": 0,
+        "objectPosition": "20% 50%"
+      },
+      {
+        "width": "40%",
+        "height": "365px",
+        "marginTop": "-53px",
+        "borderTop": 10,
+        "borderBottom": 10,
+        "objectPosition": "top"
+      }
+    ]
   },
   {
     "type": "person-profile-card",

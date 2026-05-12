@@ -198,9 +198,26 @@ function decodeText(s: string): string {
     const side = b.imageSide === 'left' ? 'left' : 'right';
     const layout = b.layout === 'collage' ? 'collage' : 'stack';
     const images = (b.images || []) as { file?: string; sanityUrl?: string; alt?: string; dims?: any }[];
+    const geometry = (b.collageGeometry || []) as any[];
     const textAnim = side === 'right' ? 'fadeInLeft' : 'fadeInRight';
     const imageAnim = side === 'right' ? 'fadeInRight' : 'fadeInLeft';
-    const collageClass = ['ppc-collage-hero', 'ppc-collage-bl', 'ppc-collage-br'];
+    // For collage: pre-compute CSS-var inline style strings for each image
+    // (one entry per image, indexed by position). The .ppc-media-collage CSS
+    // reads these vars at desktop sizes; mobile rules reset to vertical stack.
+    const collageStyles = (b.images || []).map((_: any, i: number) => {
+      if (layout !== 'collage') return '';
+      const g = geometry[i] || {};
+      const parts: string[] = [];
+      if (g.width) parts.push('--cg-w: ' + g.width);
+      if (g.height) parts.push('--cg-h: ' + g.height);
+      if (g.marginTop) parts.push('--cg-mt: ' + g.marginTop);
+      if (g.borderTop != null) parts.push('--cg-bt: ' + g.borderTop + 'px');
+      if (g.borderRight != null) parts.push('--cg-br: ' + g.borderRight + 'px');
+      if (g.borderBottom != null) parts.push('--cg-bb: ' + g.borderBottom + 'px');
+      if (g.borderLeft != null) parts.push('--cg-bl: ' + g.borderLeft + 'px');
+      if (g.objectPosition) parts.push('--cg-op: ' + g.objectPosition);
+      return parts.join('; ');
+    });
     const textCol = (
       <div class="ppc-text" data-anim={textAnim}>
         <h3 class="ppc-name">{decodeText(b.name)}</h3>
@@ -215,11 +232,12 @@ function decodeText(s: string): string {
         )}
       </div>
     );
+    const mediaClass = layout === 'collage' ? 'ppc-media ppc-media-collage' : 'ppc-media';
     const imageCol = (
-      <div class={`ppc-media${layout === 'collage' ? ' ppc-media-collage' : ''}`} data-anim={imageAnim}>
+      <div class={mediaClass} data-anim={imageAnim}>
         {images.map((img, i) => (
           <img src={imgUrl(img, 800)}
-               class={layout === 'collage' ? collageClass[i] || '' : ''}
+               style={collageStyles[i] || ''}
                width={img.dims?.width || 600} height={img.dims?.height || 600}
                alt={img.alt || ''}
                loading="lazy" decoding="async" />
@@ -3415,57 +3433,43 @@ function decodeText(s: string): string {
     object-fit: cover;
   }
 
-  /* Collage variant — verified live #brxe-ppyezc on Coach Wetzel card.
-     Row 1: hero image full-width × 440px. Row 2: two square photos at
-     50% width each, overlapping the hero with negative margins.
-     White borders create the inset / scattered layered effect. */
-  .ppc-media-collage {
-    flex-direction: row;
-    flex-wrap: wrap;
-    row-gap: 0;
-    column-gap: 0;
+  /* Collage variant — data-driven per-image geometry via CSS custom
+     properties. Each img inline-styles its own --cg-* vars (set by the
+     person-profile-card renderer from the block's `collageGeometry` array).
+     The desktop rules below read those vars; mobile rules override to a
+     clean vertical stack (no overlap, no white borders, full width). */
+  @media (min-width: 1024px) {
+    .ppc-media-collage {
+      flex-direction: row;
+      flex-wrap: wrap;
+      row-gap: 0;
+      column-gap: 0;
+    }
+    .ppc-media-collage img {
+      width: var(--cg-w, 100%);
+      height: var(--cg-h, auto);
+      margin-top: var(--cg-mt, 0);
+      border-top: var(--cg-bt, 0) solid #fff;
+      border-right: var(--cg-br, 0) solid #fff;
+      border-bottom: var(--cg-bb, 0) solid #fff;
+      border-left: var(--cg-bl, 0) solid #fff;
+      border-radius: 0;
+      object-position: var(--cg-op, center);
+      object-fit: cover;
+    }
   }
-  .ppc-media-collage .ppc-collage-hero {
-    width: 100%;
-    height: 440px;
-    border-radius: 0;
-    object-fit: cover;
-  }
-  .ppc-media-collage .ppc-collage-bl {
-    width: 50%;
-    height: 213px;
-    margin-top: -13px;
-    border-top: 5px solid #fff;
-    border-bottom: 5px solid #fff;
-    border-radius: 0;
-    object-fit: cover;
-    object-position: 20% 50%;
-  }
-  .ppc-media-collage .ppc-collage-br {
-    width: 50%;
-    height: 200px;
-    margin-top: -53px;
-    border-top: 10px solid #fff;
-    border-bottom: 10px solid #fff;
-    border-left: 10px solid #fff;
-    border-radius: 0;
-    object-fit: cover;
-  }
-  /* Mobile fallback: stack vertically, drop collage offsets entirely. */
   @media (max-width: 1023px) {
     .ppc-media-collage {
       flex-direction: column;
       gap: 15px;
     }
-    .ppc-media-collage .ppc-collage-hero,
-    .ppc-media-collage .ppc-collage-bl,
-    .ppc-media-collage .ppc-collage-br {
+    .ppc-media-collage img {
       width: 100%;
       height: auto;
       margin-top: 0;
       border: 0;
       border-radius: 8px;
-      object-position: center center;
+      object-position: center;
     }
   }
 
