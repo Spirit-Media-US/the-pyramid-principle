@@ -382,15 +382,17 @@ function blogHref(originalHref: string): string {
 
     <div class="cori-grid">
       <div class="cori-video-col" data-anim="slideInLeft">
-        <div class="cori-video-wrap">
-          <iframe
-            src="https://www.youtube-nocookie.com/embed/Pk7Ox-0b_0Y?rel=0"
-            title="The Pyramid Principle — Cori Close endorsement"
-            loading="lazy"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen></iframe>
+        <div class="cori-video-container">
+          <div class="cori-video-backdrop" aria-hidden="true"></div>
+          <div class="cori-video-wrap">
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/Pk7Ox-0b_0Y?rel=0"
+              title="The Pyramid Principle — Cori Close endorsement"
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen></iframe>
+          </div>
         </div>
-        <hr class="cori-divider" aria-hidden="true" />
       </div>
 
       <div class="cori-text-col" data-anim="slideInRight">
@@ -1013,11 +1015,33 @@ function blogHref(originalHref: string): string {
     .cori-grid { grid-template-columns: 1fr 1fr; gap: 48px; }
   }
 
+  /* Video container — positioning context for the blue rect backdrop. */
+  .cori-video-container {
+    position: relative;
+    /* Top padding makes room for the backdrop poking up above the video. */
+    padding-top: 50px;
+    padding-left: 25px;
+  }
+  /* UCLA blue rectangle behind+offset-upper-left of the video.
+     Source #brxe-gmixdg: 431x320 UCLA blue (#2774AE), positioned
+     ~67px above and ~27px left of the 539x303 iframe. We translate
+     that into wrap-relative offsets via padding-top/padding-left
+     on the container above. */
+  .cori-video-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(80% + 25px);
+    height: 100%;
+    background: var(--color-author-blue, #2774AE);
+    z-index: 0;
+  }
   .cori-video-wrap {
     position: relative;
     padding-top: 56.25%; /* 16:9 */
     width: 100%;
     background: #000;
+    z-index: 1;
   }
   .cori-video-wrap iframe {
     position: absolute;
@@ -1026,10 +1050,11 @@ function blogHref(originalHref: string): string {
     height: 100%;
     border: 0;
   }
-  .cori-divider {
-    border: 0;
-    border-top: 1px solid var(--color-border);
-    margin: 24px 0 0;
+  @media (max-width: 767px) {
+    /* Tighter offsets on mobile so the backdrop doesn't overflow
+       the narrow card. */
+    .cori-video-container { padding-top: 20px; padding-left: 12px; }
+    .cori-video-backdrop { width: calc(80% + 12px); }
   }
 
   .cori-h2 {
