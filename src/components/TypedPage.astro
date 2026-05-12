@@ -371,6 +371,38 @@ function decodeText(s: string): string {
     );
   }
 
+  // ── acknowledgements-card — verified live #brxe-ozjayj / #brxe-klreld ──
+  // Centered card: 3D book image + italic-serif H2 + verbatim paragraph
+  // body. Reuses self-hosted Libre Baskerville italic font that was
+  // loaded for the homepage Wooden quote. Card pulses once on first
+  // intersection with the viewport (deferred init, IntersectionObserver).
+  // Paragraphs come through with literal "<br>" markers preserved from
+  // the source (P12, P15, P18, P20 have intra-paragraph line breaks).
+  // They render via set:html so the <br>s emit as real breaks; content
+  // is static and trusted (no user-supplied HTML).
+  if (b.type === 'acknowledgements-card') {
+    const paragraphs = (b.paragraphs || []) as string[];
+    const img = b.image || null;
+    return (
+      <section class="jv-ack" id={b.id}>
+        <div class="jv-ack-card">
+          {img && img.sanityUrl && (
+            <img class="jv-ack-book"
+                 src={imgUrl(img, 600)}
+                 width={img?.dims?.width || 886}
+                 height={img?.dims?.height || 1024}
+                 alt={img.alt || ''}
+                 loading="lazy" decoding="async" />
+          )}
+          <h2 class="jv-ack-h2">{decodeText(b.heading || 'Acknowledgements')}</h2>
+          <div class="jv-ack-body">
+            {paragraphs.map((p) => (<p set:html={p} />))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   // ── interview-questions — verified live #brxe-ferycf ──
   // Layout: centered H2 across the top, then two-column body below.
   // LEFT col (#brxe-pyqwwq) — H3 + numbered list.
@@ -548,6 +580,27 @@ function decodeText(s: string): string {
     document.addEventListener('DOMContentLoaded', initPhotoCarousels);
   } else {
     initPhotoCarousels();
+  }
+
+  // Acknowledgements card — fire the one-shot pulse animation on first
+  // viewport intersection. No-op when there's no .jv-ack-card on the page.
+  function initAckPulse() {
+    const cards = document.querySelectorAll<HTMLElement>('.jv-ack-card');
+    if (!cards.length || typeof IntersectionObserver === 'undefined') return;
+    const io = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('jv-ack-pulse-active');
+          io.unobserve(entry.target);
+        }
+      }
+    }, { threshold: 0.1 });
+    cards.forEach(c => io.observe(c));
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAckPulse);
+  } else {
+    initAckPulse();
   }
 </script>
 
@@ -1248,6 +1301,93 @@ function decodeText(s: string): string {
     opacity: 0;
     pointer-events: none;
   }
+
+  /* ── Acknowledgements card (verified live #brxe-ozjayj / #brxe-klreld) ──
+     Outer section: bg #fff, flex column align-items center, no padding/margin.
+     Card: bg #f5f5f5, border 1px solid #e0e0e0, border-radius 15px.
+     Desktop: max-width 1250px, margin 0 15px 100px, padding 80px.
+     Mobile:  width auto, margin 40px 20px 60px, padding 40px 20px.
+     H2: Libre Baskerville italic, 55px desktop / 25px mobile, color #1d1d1f,
+        line-height 1.3, letter-spacing 1px, text-align center, padding-bottom
+        40px desktop / 20px mobile.
+     Body: DM Sans (desktop) / Roboto (mobile) 18px, line-height 30.6px,
+        color #616161, text-align left. Width 1088px desktop / 309px mobile.
+     Card pulses once on first viewport intersection (.jv-ack-pulse-active). */
+  .jv-ack {
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+  }
+  .jv-ack-card {
+    width: 100%;
+    max-width: 1250px;
+    margin: 40px 20px 60px;
+    padding: 40px 20px;
+    background: #f5f5f5;
+    border: 1px solid #e0e0e0;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+  }
+  @media (min-width: 768px) {
+    .jv-ack-card { margin: 0 15px 100px; padding: 80px; }
+  }
+  .jv-ack-book {
+    width: 185px;
+    height: auto;
+    aspect-ratio: 886 / 1024;
+    object-fit: contain;
+    display: block;
+    margin: 0 0 40px;
+  }
+  @media (min-width: 768px) {
+    .jv-ack-book { width: 326px; }
+  }
+  .jv-ack-h2 {
+    margin: 0;
+    padding: 0 0 20px;
+    font-family: 'Libre Baskerville', Georgia, serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 25px;
+    line-height: 1.3;
+    letter-spacing: 1px;
+    color: #1d1d1f;
+    text-align: center;
+    text-transform: none;
+  }
+  @media (min-width: 768px) {
+    .jv-ack-h2 { font-size: 55px; padding-bottom: 40px; }
+  }
+  .jv-ack-body {
+    margin: 10px 0 20px;
+    width: 100%;
+    max-width: 1088px;
+    font-family: 'Roboto', system-ui, sans-serif;
+    font-size: 18px;
+    line-height: 1.7;
+    color: #616161;
+    text-align: left;
+  }
+  @media (min-width: 768px) {
+    .jv-ack-body { font-family: var(--font-heading); }
+  }
+  .jv-ack-body p { margin: 0 0 1em; }
+  .jv-ack-body p:last-child { margin-bottom: 0; }
+
+  /* Pulse-once on first viewport intersection. JS adds the
+     .jv-ack-pulse-active class; without JS the card simply appears
+     without animation (no visibility-hiding fallback). */
+  @keyframes jvAckPulse {
+    0%   { transform: scale(0.97); }
+    50%  { transform: scale(1.015); }
+    100% { transform: scale(1); }
+  }
+  .jv-ack-card.jv-ack-pulse-active { animation: jvAckPulse 1s ease-out both; }
 
   /* Shared YouTube modal (one element used by all video tiles) */
   .yt-modal {

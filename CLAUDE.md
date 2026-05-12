@@ -81,6 +81,7 @@ Then run: `git checkout dev && git pull origin dev`
   - Live source uses `Libre Baskerville` (quote) + `Abel` (cite) on the Wooden section. Both self-hosted from R2. Live H6 "A Heart-Gripping Story of Heroic Love and Legacy" uses Montserrat 20px 700.
   - Bricks shape-divider above John Vallely hero section dropped in migration — visually weak in the original, looked like a rendering bug in the rebuild. Confirm with Kevin whether to add it back with proper sizing.
   - `/paul-weissenstein/` hero body paragraph: source text ends without a period ("…into motion picture projects"). Preserved verbatim per Phase 3 fidelity. Confirm with client whether to add the period.
+  - `/paul-weissenstein/` Acknowledgements — all personal names preserved verbatim. Flag for client review: (a) "Grace Westlin" spelling, (b) all named individuals + book titles + Psalm 96:3 quotation, (c) source has a few visibly-odd mid-sentence single `<br>`s preserved verbatim — P12 between "leading Princeton to success." and "Thank you to the Day One's", P15 inside "double<br>rainbow", P18 inside "His<br>faithfulness", P20 between the quote and `~ Coach John Wooden.` attribution. Confirm whether these are intentional line breaks or transcription artefacts.
 
 ### Phases 5-9
 - [ ] Pending
