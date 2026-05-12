@@ -125,6 +125,40 @@ function decodeText(s: string): string {
     );
   }
 
+  // ── amazon-marketplaces — verified live #brxe-xodthq / #brxe-dunvhj /
+  // #brxe-yqloaa / #brxe-eaupau / #brxe-spkuhj. Retailers section 4.
+  // Outer section: full-width white background with a centered outer H2.
+  // Inner yellow card (#FFD100, border-radius 10px, padding 25px) holds
+  // an inner H2 (Montserrat 20px wt 700 UCLA blue uppercase) and a
+  // flex-wrap grid of country buttons. Each button is a .pill-cta-gray
+  // (light-gray pill on yellow card — the same component already used
+  // for the homepage Free Resources banner).
+  if (b.type === 'amazon-marketplaces') {
+    const stores = (b.stores || []) as { label: string; href: string }[];
+    return (
+      <section class="jv-amzn" id={b.id}>
+        <div class="jv-amzn-container">
+          {b.outerHeading && (
+            <h2 class="jv-section-h2-banner-text jv-amzn-outer-h2">{decodeText(b.outerHeading)}</h2>
+          )}
+          <div class="jv-amzn-card">
+            {b.innerHeading && (
+              <h2 class="jv-amzn-inner-h2">{decodeText(b.innerHeading)}</h2>
+            )}
+            <div class="jv-amzn-grid">
+              {stores.map(s => (
+                <a class="pill-cta-gray jv-amzn-btn"
+                   href={s.href}
+                   target="_blank"
+                   rel="noopener noreferrer">{decodeText(s.label)}</a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   // ── metadata-list — verified live #brxe-txqwye (Retailers ISBN list).
   // Rows of label/value pairs. Source uses double-H3 markup (Bricks
   // editor quirk); re-rendered here as a semantic <dl>/<dt>/<dd> for
@@ -1512,6 +1546,75 @@ function decodeText(s: string): string {
   .jv-photo-carousel:not(:has(.swiper-initialized)) .jv-photo-next {
     opacity: 0;
     pointer-events: none;
+  }
+
+  /* ── amazon-marketplaces (verified live #brxe-xodthq / #brxe-dunvhj /
+       #brxe-yqloaa / #brxe-eaupau / #brxe-spkuhj). Retailers section 4.
+     Outer section: white bg, padding 80px top mobile / desktop.
+     Outer H2: Bebas Neue 40px mobile / 55px desktop, text-align center.
+     Inner card: bg #FFD100, border-radius 10px, padding 25px, flex
+     column align-items center.
+     Inner H2: Montserrat 20px wt 700 UCLA blue (#2774AE) uppercase.
+     Button grid: flex row wrap, justify-content center, gap 10px.
+     Buttons reuse .pill-cta-gray (light-gray pill on yellow card —
+     same component used on the homepage Free Resources banner). */
+  .jv-amzn {
+    background: #fff;
+    padding: 0 20px;
+  }
+  @media (min-width: 768px) {
+    .jv-amzn { padding: 0 var(--section-padding-x-desktop); }
+  }
+  .jv-amzn-container {
+    max-width: var(--container-max);
+    margin: 80px auto 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .jv-amzn-outer-h2 {
+    /* Inherits .jv-section-h2-banner-text base: Bebas Neue + clamp font.
+       Override here for centered alignment + tighter line-height. */
+    margin: 0 0 20px;
+    text-align: center;
+    width: 100%;
+  }
+  .jv-amzn-card {
+    width: 100%;
+    background: var(--color-brand-yellow, #ffd100);
+    border-radius: 10px;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+  .jv-amzn-inner-h2 {
+    margin: 0;
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1;
+    letter-spacing: 0;
+    color: var(--color-author-blue, #2774AE);
+    text-align: center;
+    text-transform: uppercase;
+    width: 100%;
+  }
+  .jv-amzn-grid {
+    margin: 10px 0 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+  }
+  .jv-amzn-btn {
+    /* Inherits .pill-cta-gray (light-gray pill, black text, uppercase).
+       No further overrides — keep site-wide pill style. */
+    margin: 0;
   }
 
   /* ── metadata-list (verified live #brxe-txqwye / #brxe-kbhuxb /

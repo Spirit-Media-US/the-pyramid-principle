@@ -70,6 +70,26 @@
     }
   },
   {
+    "type": "amazon-marketplaces",
+    "id": "brxe-xodthq",
+    "outerHeading": "Find The Pyramid Principle in English internationally",
+    "innerHeading": "Amazon Global Marketplaces :",
+    "stores": [
+      { "label": "United States",  "href": "https://www.amazon.com/dp/B0DGY1WNQG" },
+      { "label": "United Kingdom", "href": "https://www.amazon.co.uk/dp/B0DGX5YWDC" },
+      { "label": "Germany",        "href": "https://www.amazon.de/dp/B0DGX5YWDC" },
+      { "label": "France",         "href": "https://www.amazon.fr/dp/B0DGX5YWDC" },
+      { "label": "Spain",          "href": "https://www.amazon.es/dp/B0DGX5YWDC" },
+      { "label": "Italy",          "href": "https://www.amazon.it/dp/B0DGX5YWDC" },
+      { "label": "Netherland",     "href": "https://www.amazon.nl/dp/B0DGX5YWDC" },
+      { "label": "Poland",         "href": "https://www.amazon.pl/dp/B0DGX5YWDC" },
+      { "label": "Sweden",         "href": "https://www.amazon.se/dp/B0DGX5YWDC" },
+      { "label": "Japan",          "href": "https://www.amazon.co.jp/dp/B0DGX5YWDC" },
+      { "label": "Canada",         "href": "https://www.amazon.ca/dp/B0DGX5YWDC" },
+      { "label": "Australia",      "href": "https://www.amazon.com.au/dp/B0DGX5YWDC" }
+    ]
+  },
+  {
     "type": "image-collage-card",
     "id": "brxe-nipgxe",
     "borderColor": "transparent",

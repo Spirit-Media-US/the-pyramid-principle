@@ -89,6 +89,10 @@ Then run: `git checkout dev && git pull origin dev`
   - `/retailers/` LCCN 2024918727 — verify with Kevin.
   - `/retailers/` Spirit Media publisher URL — source lists `www.wordpress-1227270-4701771.cloudwaysapps.com` (Cloudways staging). Set to placeholder `https://spiritmediapublishing.com/` in the build. Confirm the canonical publisher URL with Kevin and update both the Retailers page and the footer Spirit Media link to match.
   - `/retailers/` semantic re-shape — source uses double-H3 markup for ISBN label/value pairs (Bricks editor quirk) and H3-per-crumb for BISAC category breadcrumbs. The rebuild re-semanticizes these as `<dl>/<dt>/<dd>` (ISBN) and `<nav><ol>` with literal `›` separators (breadcrumbs) for accessibility. Phase 6 polish if Kevin wants to revert.
+  - `/retailers/` Amazon Global Marketplaces inner H2 — source reads "Amazon Global Marketplaces :" with an awkward space before the colon. Preserved verbatim per Phase 3 fidelity. Confirm with Kevin whether to tidy to "Amazon Global Marketplaces:" (no space).
+  - `/retailers/` Amazon "Netherland" button — source spelling is "Netherland" (singular). Preserved verbatim. Confirm with Kevin whether to correct to "Netherlands".
+  - `/retailers/` US Amazon URL — source had the full search-result tracking URL with `?_encoding=UTF8&dib_tag=se&dib=…&qid=…&sr=8-4` (the tracking params attribute the click to a specific in-app search). Stripped to the clean canonical `/dp/B0DGY1WNQG`.
+  - `/retailers/` Australia Amazon URL FIXED — source had `https://www.amazon.ca/dp/B0DGX5YWDC` (Canada URL) for the Australia button — a copy-paste error in the live build. Replaced with `https://www.amazon.com.au/dp/B0DGX5YWDC`. Confirm with Kevin that the book is actually listed on amazon.com.au under this ASIN; if not yet listed there, the button should either link to a fallback URL or be hidden until launch.
 
 ### Phases 5-9
 - [ ] Pending
