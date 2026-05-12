@@ -10,5 +10,18 @@
     "id": "brxe-7d2e09",
     "eyebrow": "The Pyramid Principle",
     "h1": "The Pyramid Success"
+  },
+  {
+    "type": "centered-image",
+    "id": "brxe-wvkmbg",
+    "image": {
+      "file": "pyramid-of-success.png",
+      "alt": "Coach John Wooden's Pyramid of Success — the 15-block leadership and character framework",
+      "dims": { "width": 2364, "height": 1704 }
+    },
+    "maxWidth": 900,
+    "downloadHref": "https://assets.spiritmediapublishing.com/the-pyramid-principle/pyramid-of-success.pdf",
+    "downloadLabel": "Download PDF",
+    "downloadFilename": "pyramid-of-success.pdf"
   }
 ]

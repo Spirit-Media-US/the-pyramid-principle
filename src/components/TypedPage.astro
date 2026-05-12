@@ -6,6 +6,7 @@
 // Block types handled:
 //   _meta                — page title/description (no markup)
 //   title-card           — centered hero: eyebrow row (— text —) + H1
+//   centered-image       — single centered image, optional download CTA
 //   hero-intro           — eyebrow + H1 + body + sidebar image
 //   highlight-cards      — 4 callout cards with left-border accent
 //   featured-podcasts    — 2 square card links
@@ -122,6 +123,43 @@ function decodeText(s: string): string {
     return (
       <section class="jv-section-h2-banner" id={b.id}>
         <h2 class="jv-section-h2-banner-text" style={styleStr}>{b.text}</h2>
+      </section>
+    );
+  }
+
+  // ── centered-image — single centered image with optional download CTA.
+  // Replaces source's 3D Flip Book plugin (#brxe-wvkmbg / #brxe-icfhke),
+  // which served a single-page PDF. The static PNG (rendered from page 1
+  // of the PDF at 200 DPI) is web-suitable; the original PDF is available
+  // for download via the yellow pill CTA when `downloadHref` is set.
+  // Source container #brxe-wvkmbg had no padding overrides — uses Bricks
+  // default section padding. Rebuild applies the standard SMP section
+  // padding pattern (40px top mobile / 80px top + 60px bottom desktop).
+  if (b.type === 'centered-image') {
+    const file = b.image?.file || b.image?.sanityUrl;
+    const dims = b.image?.dims || { width: 1200, height: 900 };
+    const maxW = b.maxWidth || 900;
+    const srcMobile = srcW(file, Math.min(800, maxW));
+    const srcDesktop = srcW(file, Math.min(1400, maxW * 2));
+    return (
+      <section class="ci-section" id={b.id}>
+        <div class="ci-inner">
+          <img class="ci-image"
+               src={srcDesktop}
+               srcset={`${srcMobile} 800w, ${srcDesktop} 1400w`}
+               sizes={`(max-width: 768px) 100vw, ${maxW}px`}
+               width={dims.width} height={dims.height}
+               style={`max-width: ${maxW}px;`}
+               alt={b.image?.alt || b.alt || ''}
+               loading="lazy" decoding="async" />
+          {b.downloadHref && (
+            <a class="ci-download" href={b.downloadHref}
+               target="_blank" rel="noopener noreferrer"
+               download={b.downloadFilename || true}>
+              {b.downloadLabel || 'Download PDF'}
+            </a>
+          )}
+        </div>
       </section>
     );
   }
@@ -3075,6 +3113,56 @@ function decodeText(s: string): string {
     height: 100%;
     border: 0;
     display: block;
+  }
+
+  /* ── centered-image — single centered image, optional download CTA.
+     Replaces source's 3D Flip Book plugin at #brxe-wvkmbg. */
+  .ci-section {
+    background: #fff;
+    padding: 40px 0 32px;
+  }
+  @media (min-width: 768px) {
+    .ci-section { padding: 80px 0 60px; }
+  }
+  .ci-inner {
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding: 0 var(--section-padding-x-mobile);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+  }
+  @media (min-width: 768px) {
+    .ci-inner { padding: 0 var(--section-padding-x-desktop); gap: 40px; }
+  }
+  .ci-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+  }
+  .ci-download {
+    display: inline-flex;
+    align-items: center;
+    background: var(--color-brand-yellow, #FFD100);
+    color: #000;
+    font-family: 'Raleway', system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 1px solid #f5f5f5;
+    border-radius: 10px;
+    padding: 12px 28px;
+    text-decoration: none;
+    transition: background 0.15s, transform 0.15s;
+  }
+  .ci-download:hover {
+    background: #e6bc00;
+    color: #000;
+    text-decoration: none;
+    transform: translateY(-1px);
   }
 
   /* ── title-card — centered hero verified live #brxe-7d2e09 ── */
