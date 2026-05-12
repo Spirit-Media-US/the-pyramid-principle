@@ -1882,9 +1882,21 @@ function decodeText(s: string): string {
     color: #616161;
   }
   @media (min-width: 768px) {
-    .jv-langs-list { font-family: var(--font-heading); font-size: 18px; }
+    .jv-langs-list {
+      font-family: var(--font-heading);
+      font-size: 18px;
+      /* 2-col list per verified source (#brxe-smsmgy column-count: 2,
+         column-gap: 20px). Browser auto-balances 20 items → 10/10. */
+      column-count: 2;
+      column-gap: 20px;
+    }
   }
-  .jv-langs-list li { margin-bottom: 4px; }
+  /* Prevent list items from breaking across columns. */
+  .jv-langs-list li {
+    margin-bottom: 4px;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
   .jv-langs-list strong { font-weight: 700; }
 
   /* ── populations-block (verified live #brxe-qpgplg / #brxe-eurzxi /
