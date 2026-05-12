@@ -218,10 +218,13 @@ function decodeText(s: string): string {
       if (g.objectPosition) parts.push('--cg-op: ' + g.objectPosition);
       return parts.join('; ');
     });
+    const bioParagraphs: string[] = Array.isArray(b.bio) ? b.bio : (b.bio ? [b.bio] : []);
     const textCol = (
       <div class="ppc-text" data-anim={textAnim}>
         <h3 class="ppc-name">{decodeText(b.name)}</h3>
-        {b.bio && <p class="ppc-bio">{decodeText(b.bio)}</p>}
+        {bioParagraphs.map((p: string) => (
+          <p class="ppc-bio">{decodeText(p)}</p>
+        ))}
         {b.learnMoreHref && (
           <a class="ppc-cta" href={b.learnMoreHref} target="_blank" rel="noopener noreferrer">
             Learn More

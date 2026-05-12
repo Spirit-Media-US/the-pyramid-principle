@@ -275,8 +275,36 @@
         }
       }
     ],
-    "bio": "At UCLA, he was a member of three national championship teams coached by John Wooden: 1969, 1970, and 1971. He was one of only 4 players to have started on 3 NCAA championship teams; the others were all teammates at UCLA: Lew Alcindor, Henry Bibby, and Lynn Shackelford. In 1993, Rowe was inducted to the UCLA Athletics Hall of Fame.",
-    "learnMoreHref": "https://en.wikipedia.org/wiki/Curtis_Rowe"
+    "bio": [
+      "At UCLA, he was a member of three national championship teams coached by John Wooden: 1969, 1970, and 1971. He was one of only 4 players to have started on 3 NCAA championship teams; the others were all teammates at UCLA: Lew Alcindor, Henry Bibby, and Lynn Shackelford.",
+      "In 1993, Rowe was inducted to the UCLA Athletics Hall of Fame."
+    ],
+    "learnMoreHref": "https://en.wikipedia.org/wiki/Curtis_Rowe",
+    "layout": "collage",
+    "collageGeometry": [
+      {
+        "width": "100%",
+        "height": "440px"
+      },
+      {
+        "width": "60%",
+        "height": "378px",
+        "marginTop": "-113px",
+        "borderTop": 10,
+        "borderRight": 10,
+        "borderBottom": 5,
+        "borderLeft": 0,
+        "objectPosition": "20% 50%"
+      },
+      {
+        "width": "40%",
+        "height": "365px",
+        "marginTop": "-53px",
+        "borderTop": 10,
+        "borderBottom": 10,
+        "objectPosition": "top"
+      }
+    ]
   },
   {
     "type": "person-profile-card",
