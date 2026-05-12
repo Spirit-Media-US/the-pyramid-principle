@@ -20,24 +20,8 @@
     "downloadLabel": "Download PDF"
   },
   {
-    "type": "quote-pillars",
+    "type": "quote-card-grid",
     "id": "brxe-emdmmr",
-    "leftImage": {
-      "file": "Untitled-design-2.png",
-      "alt": "",
-      "dims": {
-        "width": 500,
-        "height": 500
-      }
-    },
-    "rightImage": {
-      "file": "Untitled-design-3-1.png",
-      "alt": "",
-      "dims": {
-        "width": 500,
-        "height": 500
-      }
-    },
     "quotes": [
       {
         "body": "“I don’t feel that you’re ready to leave the world yet, you have too much to accomplish and more to affect the world of cancer by living, rather than dying, and joining Erin.”",

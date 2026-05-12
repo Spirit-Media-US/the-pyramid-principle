@@ -7,7 +7,7 @@
 //   _meta                — page title/description (no markup)
 //   title-card           — centered hero: eyebrow row (— text —) + H1
 //   pdf-viewer           — embedded PDF.js viewer iframe
-//   quote-pillars        — 3-col: decorative image + 2-col quote grid + image
+//   quote-card-grid      — 2-col responsive grid of quote cards
 //   hero-intro           — eyebrow + H1 + body + sidebar image
 //   highlight-cards      — 4 callout cards with left-border accent
 //   featured-podcasts    — 2 square card links
@@ -128,69 +128,47 @@ function decodeText(s: string): string {
     );
   }
 
-  // ── quote-pillars — 3-col composition: decorative image left, 2-col
-  // quote grid in the middle, decorative image right. Verified live
-  // #brxe-emdmmr (the-pyramid-success Section 3).
+  // ── quote-card-grid — 2-col responsive grid of quote cards.
+  // Verified live #brxe-emdmmr (the-pyramid-success Section 3).
   //   Section #brxe-emdmmr: padding-top 40px, padding-bottom 80px desktop;
   //     40px / 40px mobile.
-  //   Source pillars (#brxe-oooaaw, #brxe-tfckos): position:absolute
-  //     bottom:0 left/right:0, width 35%, z-index -60 (behind content);
-  //     visibility:hidden on mobile. Rebuild simplifies to a real 3-col
-  //     flex layout per user direction — image columns ~22% each desktop,
-  //     hidden on mobile (matches source behavior).
-  //   Quote grid (#brxe-odfknv): flex-row, flex-wrap, justify-between,
-  //     row-gap 20px. Cards (#brxe-axixep): width 48% desktop. Mobile:
-  //     width 100%, bg #f5f5f5, border 1px #e0e0e0, asymmetric border-
-  //     radius (top-left + bottom-right 25px), no shadow. Desktop:
-  //     bg #fff, border-left 5px UCLA-blue (#2774AE), padding-left 40px,
-  //     box-shadow 1px 1px 2px 1px #e0e0e0.
+  //   Grid (#brxe-odfknv): flex-row, flex-wrap, justify-between, row-gap 20px.
+  //   Card (#brxe-axixep): width 48% desktop.
+  //     Desktop: bg #fff, border-left 5px UCLA-blue (#2774AE), padding-left 40px,
+  //       box-shadow 1px 1px 2px 1px #e0e0e0.
+  //     Mobile: width 100%, bg #f5f5f5, border 1px #e0e0e0, asymmetric border-
+  //       radius (top-left + bottom-right 25px), no shadow.
   //   Quote body (#brxe-yaqrkn): Libre Baskerville italic 20px,
   //     color #212121 desktop / #424242 mobile. (Source declares
-  //     font-weight 700, but only the 400-italic woff2 is hosted — the
-  //     browser will synth-bold or fall back to Georgia italic.)
+  //     font-weight 700; only the 400-italic woff2 is hosted in R2.)
   //   Attribution span: font-style: normal, font-weight: 400, font-size: 16px
-  //     (source inline style preserved).
-  if (b.type === 'quote-pillars') {
-    const leftImg = b.leftImage ? imgUrl(b.leftImage, 600) : '';
-    const rightImg = b.rightImage ? imgUrl(b.rightImage, 600) : '';
-    const leftDims = b.leftImage?.dims || { width: 500, height: 500 };
-    const rightDims = b.rightImage?.dims || { width: 500, height: 500 };
+  //     (source inline style preserved verbatim).
+  //
+  // Source pillars (#brxe-oooaaw, #brxe-tfckos) — Untitled-design-2.png and
+  // Untitled-design-3-1.png — were position:absolute decorative bg layers
+  // (z-index -60, width 35%, hidden on mobile). Dropped from the rebuild
+  // per user direction; may return as Phase 6 polish.
+  if (b.type === 'quote-card-grid') {
     return (
-      <section class="qp-section" id={b.id}>
-        <div class="qp-grid">
-          {leftImg && (
-            <img class="qp-pillar qp-pillar-left"
-                 src={leftImg}
-                 width={leftDims.width} height={leftDims.height}
-                 alt={b.leftImage?.alt || ''}
-                 loading="lazy" decoding="async" />
-          )}
-          <div class="qp-quotes">
-            {(b.quotes || []).map((q: any) => (
-              <blockquote class="qp-quote">
-                {q.attributionPosition === 'prefix' ? (
-                  <p>
-                    <span class="qp-attribution">{decodeText(q.attribution)}:</span>{' '}
-                    {decodeText(q.body)}
-                  </p>
-                ) : q.attributionPosition === 'suffix' ? (
-                  <p>
-                    {decodeText(q.body)}{' '}
-                    <span class="qp-attribution">— {decodeText(q.attribution)}</span>
-                  </p>
-                ) : (
-                  <p>{decodeText(q.body)}</p>
-                )}
-              </blockquote>
-            ))}
-          </div>
-          {rightImg && (
-            <img class="qp-pillar qp-pillar-right"
-                 src={rightImg}
-                 width={rightDims.width} height={rightDims.height}
-                 alt={b.rightImage?.alt || ''}
-                 loading="lazy" decoding="async" />
-          )}
+      <section class="qcg-section" id={b.id}>
+        <div class="qcg-grid">
+          {(b.quotes || []).map((q: any) => (
+            <blockquote class="qcg-card">
+              {q.attributionPosition === 'prefix' ? (
+                <p>
+                  <span class="qcg-attribution">{decodeText(q.attribution)}:</span>{' '}
+                  {decodeText(q.body)}
+                </p>
+              ) : q.attributionPosition === 'suffix' ? (
+                <p>
+                  {decodeText(q.body)}{' '}
+                  <span class="qcg-attribution">— {decodeText(q.attribution)}</span>
+                </p>
+              ) : (
+                <p>{decodeText(q.body)}</p>
+              )}
+            </blockquote>
+          ))}
         </div>
       </section>
     );
@@ -3190,56 +3168,27 @@ function decodeText(s: string): string {
     display: block;
   }
 
-  /* ── quote-pillars — verified live #brxe-emdmmr.
-     3-col on desktop: decorative image | quote grid (2-col) | decorative image.
-     Mobile: images hidden, single-col quote stack (matches source's
-     mobile visibility:hidden on the absolute-positioned pillars). */
-  .qp-section {
+  /* ── quote-card-grid — verified live #brxe-emdmmr / #brxe-odfknv / #brxe-axixep.
+     2-col flex-wrap grid. Single-column stack on mobile with rounded gray
+     cards; 2-col on desktop with UCLA-blue left-border + shadow cards. */
+  .qcg-section {
     background: #fff;
     padding: 40px 0;
   }
   @media (min-width: 768px) {
-    .qp-section { padding: 40px 0 80px; }
+    .qcg-section { padding: 40px 0 80px; }
   }
-  .qp-grid {
+  .qcg-grid {
     max-width: var(--container-max);
     margin-inline: auto;
     padding: 0 15px;
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 20px;
   }
   @media (min-width: 1024px) {
-    .qp-grid {
+    .qcg-grid {
       padding: 0 var(--section-padding-x-desktop);
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      gap: 32px;
-    }
-  }
-  .qp-pillar {
-    display: none;
-  }
-  @media (min-width: 1024px) {
-    .qp-pillar {
-      display: block;
-      width: 18%;
-      height: auto;
-      flex-shrink: 0;
-      align-self: flex-end;
-    }
-  }
-  .qp-quotes {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 100%;
-  }
-  @media (min-width: 1024px) {
-    .qp-quotes {
-      flex: 1;
       flex-direction: row;
       flex-wrap: wrap;
       justify-content: space-between;
@@ -3248,7 +3197,7 @@ function decodeText(s: string): string {
       column-gap: 0;
     }
   }
-  .qp-quote {
+  .qcg-card {
     margin: 0;
     background: #f5f5f5;
     border: 1px solid #e0e0e0;
@@ -3256,7 +3205,7 @@ function decodeText(s: string): string {
     border-bottom-right-radius: 25px;
     padding: 20px;
   }
-  .qp-quote p {
+  .qcg-card p {
     margin: 0;
     font-family: 'Libre Baskerville', Georgia, 'Times New Roman', serif;
     font-style: italic;
@@ -3266,7 +3215,7 @@ function decodeText(s: string): string {
     line-height: 1.5;
   }
   @media (min-width: 1024px) {
-    .qp-quote {
+    .qcg-card {
       width: 48%;
       background: #fff;
       border: 0;
@@ -3277,12 +3226,12 @@ function decodeText(s: string): string {
       display: flex;
       align-items: center;
     }
-    .qp-quote p {
+    .qcg-card p {
       font-size: 20px;
       color: #212121;
     }
   }
-  .qp-attribution {
+  .qcg-attribution {
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
