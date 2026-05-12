@@ -78,18 +78,20 @@ function decodeText(s: string): string {
                    loading="lazy" decoding="async" />
             )}
             <p class="jv-body">{decodeText(b.body)}</p>
-            <div class="jv-highlight-stack">
-              {cards.map(c => (
-                <div class="jv-highlight-card">
-                  {c.lines.map((line, i) => (
-                    <>
-                      {i > 0 && <br />}
-                      {line}
-                    </>
-                  ))}
-                </div>
-              ))}
-            </div>
+            {cards.length > 0 && (
+              <div class="jv-highlight-stack">
+                {cards.map(c => (
+                  <div class="jv-highlight-card">
+                    {c.lines.map((line, i) => (
+                      <>
+                        {i > 0 && <br />}
+                        {line}
+                      </>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
           {b.image && b.image.sanityUrl && (
             <div class="jv-hero-right">

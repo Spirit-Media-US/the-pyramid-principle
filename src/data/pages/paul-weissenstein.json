@@ -1,45 +1,25 @@
-{
-  "slug": "paul-weissenstein",
-  "path": "/tpp/paul-weissenstein/",
-  "title": "The Pyramid Principle | Paul Weissenstein",
-  "description": "",
-  "h1": [
-    "America's Favorite Strength Coach"
-  ],
-  "blocks": [
-    {
-      "tag": "h6",
-      "text": "Paul Weissenstein"
-    },
-    {
-      "tag": "h1",
-      "text": "America's Favorite Strength Coach"
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/09/image-1.png",
-      "alt": "",
-      "naturalWidth": 151,
-      "naturalHeight": 150
-    },
-    {
-      "tag": "p",
-      "text": "About Paul Weissenstein: Paul Weissenstein is a former collegiate Division 1 strength and performance coach, most notably working with Hall of Fame basketball coach, Bill Self at the University of Illinois. Most recently, Paul coached at Sierra Canyon High School before transitioning into writing, producing, and adapting books into motion picture projects"
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/10/3D-Book-1-886x1024.png",
-      "alt": "",
-      "naturalWidth": 886,
-      "naturalHeight": 1024
-    },
-    {
-      "tag": "h2",
-      "text": "Acknowledgements"
-    },
-    {
-      "tag": "p",
-      "text": "Thank you to John, Karen, and Eric Vallely for letting me be a part of your incredible life journey and help tell your powerful story.Thank you for living your life with competitive greatness and as an example and a testimony to your “faith through prayer.” The “patience” that holds the Pyramid together held this project together as you live out Coach Wooden’s Pyramid Principles in every aspect. Your story makes me believe in miracles, teamwork, prayer, and love.Thank you to my Mom for your relentless prayers and endless support of my lifetime of crazy dreams, including Wake Forest Football, which led to this writer’s dream through “Brian’s Song.” To my brother Steve, basketball coaching legend and Hall of Famer “Coach Wise,” who believed in and supported the journey, your life and career influence makes me believe in this story and its message.To writing partner Grace Westlin, thank you for believing in this project at the counter of Vernetti. Thank you for showing up to write with an untested novelist and preparing for a “red letter game” that was not scheduled yet. Thanks for bringing inspiration, creative magic, a voice, a muse, and a much needed editor’s skillset to a desk so I could create while driving that thirteen miles of magic on Sunset Blvd. You represent Coach Wooden’s “team spirit” at the highest level.Thank you to Art Leeds, who “played” for Coach Wooden and set legal screens for years to get me open to “heave up” shots, until we made this shot. You are a pure swish shooter with a rhythmic dribble. Thanks to Bill Ewing, a studio legend, who looked ahead to the sideline cutter and gave me the perfect assist while teaching me story, structure, and the importance of “writing is rewriting is rewriting” towards building a “masterpiece.” Thank you for remaining undying in your support and prayer while dealing with my rough drafts as we moved this story towards the screen. Thanks to Izzy Centeno, who created endless masterpiece versions of publisher and film pitch decks while disregarding my plea, “Just ten pages, Izzy.” Thanks to Keith Osburn for your relentless search for film partners, which led to this publishing partner. Thanks to Alfred Hopton for your belief without evidence. You are a team of All-American producing partners.Thank you to publisher CEO Kevin White for believing in this story. You came into the game and added quick points and energy to the team. Thank you for your faithful response to God’s calling in Psalm 96:3, “Publish God’s glorious deeds, tell everyone about the amazing things He does.” You are the best new publisher in the game.To agent Greg Ray, thanks for believing in me and taking a chance on an unproven, “unrecruited” writer despite your “Who’s Who” list of Best Selling authors. Like an assistant coach or GM who seeks out unranked players and develops them, you are the best agent in the game.Thanks to Anthony George, the best concierge/assistant in the world, for typing many pages into the twilight hours.Thanks to Jeff, Robbie, and Michael Feinberg. We began this search for a Coach Wooden story in a Hidden Hills weight room, where your commitment to success and Coach Wooden’s Principles inspired me. Jeff, your facility donation at Sierra Canyon High School gave me a place to train, and dream for years with the best coaches and athletic directors in the country. You are a Hall of Fame family. “Why do you think they call it a workout?” ~ Robbie Feinberg.Thank you to Sierra Canyon Athletic Director David Sobel. Your support of this coach/writer’s journey has empowered me, as well as every coach at S.C. You are an All-Star A.D. Thanks to coaches Bill Self and Rob Judson, who taught me about the power of the bench and the strength of teamwork on an Elite 8 team at Illinois, along with the power of prayer every day at practice. Those lessons led me to place this strong, prayerful team around this project.Thanks to former NU greats Craig Robinson (and your book “A Game of Character”) and Gary Barnett (and your book “High Hopes: Taking the Purple to Pasadena”), both of which led me to believe in the power of writing. Thanks to Larry Lilja for giving me the shot at NU.Thanks to NU’s second winningest coach Bill Carmody for taking a strength coach on the road. Thanks to former NU assistant coach Mitch Henderson for showing me how to overcome the odds by “making shots” while leading Princeton to success.Thank you to the Day One’s for inspiring me to believe, by leaping over high hurdles, and reaching your dreams! Derek Glasser, James Harden, Malik Story, Petey Kass, Jesse Kass, Jason Deutchman, Will Freedman, and Coach Roy White.Thanks to John, Lynn, Jane, and Charlotte Wirtz for the prayers. Lynn, thanks for bringing me to Willow Creek Church to hear the faith players of the Chicago Bears speak, which inspired my life. Might readers find in John’s story what Mike Singletary taught me that night.Thank you for, “Be a dreamer, a star gazer, a rainbow chaser.” I chased that rainbow right to this story.Thank you to the management and staff at Café Gratitude, Bettola, and Vernetti on Larchmont Blvd. below that miraculous doublerainbow. Your unending kindness and magic inspired me to keep writing.Thank you to all the families, athletes and coaches, who supported and inspired me in this journey, by jumping high obstacles.Thank you to that little fighter Erin, who makes me believe in faith through prayer.Ultimately, thank you to our God, Who painted Erin’s double rainbow and mine, parallel together in the sky, to remind me of Hisfaithfulness.I love you all!“The most important thing in the world is family and love.”~ Coach John Wooden."
+[
+  {
+    "type": "_meta",
+    "title": "The Pyramid Principle | Paul Weissenstein",
+    "description": "About Paul Weissenstein — a former collegiate Division 1 strength and performance coach who worked with Bill Self at the University of Illinois, and co-author of The Pyramid Principle.",
+    "slug": "paul-weissenstein"
+  },
+  {
+    "type": "hero-intro",
+    "id": "brxe-957758",
+    "eyebrow": "Paul Weissenstein",
+    "h1": "America's Favorite Strength Coach",
+    "body": "About Paul Weissenstein: Paul Weissenstein is a former collegiate Division 1 strength and performance coach, most notably working with Hall of Fame basketball coach, Bill Self at the University of Illinois. Most recently, Paul coached at Sierra Canyon High School before transitioning into writing, producing, and adapting books into motion picture projects",
+    "image": {
+      "file": "image-1.png",
+      "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/2fb41ba13d9afc18ce59e86a84e914671aae7106-720x714.png",
+      "dims": {
+        "_type": "sanity.imageDimensions",
+        "aspectRatio": 1.0084033613445378,
+        "height": 714,
+        "width": 720
+      }
     }
-  ]
-}
+  }
+]

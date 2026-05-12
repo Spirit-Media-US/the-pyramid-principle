@@ -80,6 +80,7 @@ Then run: `git checkout dev && git pull origin dev`
   - "John Valley" (sic) typo preserved on Highlights items 5+6 of col 2 (live source has it).
   - Live source uses `Libre Baskerville` (quote) + `Abel` (cite) on the Wooden section. Both self-hosted from R2. Live H6 "A Heart-Gripping Story of Heroic Love and Legacy" uses Montserrat 20px 700.
   - Bricks shape-divider above John Vallely hero section dropped in migration — visually weak in the original, looked like a rendering bug in the rebuild. Confirm with Kevin whether to add it back with proper sizing.
+  - `/paul-weissenstein/` hero body paragraph: source text ends without a period ("…into motion picture projects"). Preserved verbatim per Phase 3 fidelity. Confirm with client whether to add the period.
 
 ### Phases 5-9
 - [ ] Pending
