@@ -1336,7 +1336,7 @@ const BLOG_CARDS = (_latestBlogPosts as any[]).map((p) => {
     margin: 0;
     padding: 0;
     border: 0;
-    font-family: 'Libre Baskerville', Georgia, 'Times New Roman', serif;
+    font-family: 'Libre Baskerville', 'Libre Baskerville Fallback', Georgia, 'Times New Roman', serif;
     font-weight: 400;
     font-style: italic;
     font-size: clamp(1.5rem, 3.5vw, 3rem); /* slightly downsized to fit card column */
@@ -1349,7 +1349,7 @@ const BLOG_CARDS = (_latestBlogPosts as any[]).map((p) => {
   /* Verified live DOM: Abel 30px regular, color #616161 (body gray) */
   .wooden-cite {
     margin: 0;
-    font-family: 'Abel', 'DM Sans', system-ui, sans-serif;
+    font-family: 'Abel', 'Abel Fallback', 'DM Sans', system-ui, sans-serif;
     font-weight: 400;
     font-size: clamp(1.25rem, 2.5vw, 1.875rem); /* ~30px desktop */
     color: var(--color-text); /* #616161 */
