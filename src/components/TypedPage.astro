@@ -229,7 +229,7 @@ function decodeText(s: string): string {
   // Modal JS deferred per Trait 5.
   if (b.type === 'video-popup-grid') {
     return (
-      <section class="jv-videos">
+      <section class="jv-videos" id={b.id}>
         <div class="jv-videos-container">
           {b.heading && <h2 class="jv-section-h2 jv-videos-h2">{b.heading}</h2>}
           <div class="jv-video-grid">
@@ -866,11 +866,17 @@ function decodeText(s: string): string {
      full-bleed YouTube poster as bg-image, play icon centered. */
   .jv-videos {
     background: #fff;
-    margin: -40px 0 40px;
-    padding: 0 var(--section-padding-x-mobile);
+    /* Section owns its own top spacing (Option A pattern). Was
+       margin: -40px 0 40px / 100px 0 0 — the negative mobile margin
+       pulled the grid into the hero by 40px on every bio page,
+       creating the flush look on Wooden. Now: padding-top 40 mobile
+       / 80 desktop. Bottom padding preserves the prior 40px gap
+       toward the next section on mobile. */
+    margin: 0;
+    padding: 40px var(--section-padding-x-mobile);
   }
   @media (min-width: 768px) {
-    .jv-videos { margin: 100px 0 0; padding: 0 var(--section-padding-x-desktop); }
+    .jv-videos { padding: 80px var(--section-padding-x-desktop) 0; }
   }
   .jv-videos-container {
     max-width: var(--container-max);
