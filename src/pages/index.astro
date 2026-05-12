@@ -373,9 +373,9 @@ function blogHref(originalHref: string): string {
       <div class="resources-banner" data-anim="zoomIn">
         <h2 class="resources-heading">{FREE_RES_H2}</h2>
         <div class="resources-pills">
-          <a class="pill-cta" href="/free-resources/">{PDF_SAMPLE.text}</a>
-          <a class="pill-cta" href="/free-resources/">{BOOK_CLUB.text}</a>
-          <a class="pill-cta" href="/the-pyramid-success/">{PYRAMID_LINK.text}</a>
+          <a class="pill-cta-white" href="/free-resources/">{PDF_SAMPLE.text}</a>
+          <a class="pill-cta-white" href="/free-resources/">{BOOK_CLUB.text}</a>
+          <a class="pill-cta-white" href="/the-pyramid-success/">{PYRAMID_LINK.text}</a>
         </div>
       </div>
     </div>
@@ -937,42 +937,58 @@ function blogHref(originalHref: string): string {
     .based-img-br { width: calc((100% - 15px) / 2); }
   }
 
-  /* ── Free Resources + Cori Close section ── */
+  /* ── Free Resources + Cori Close section ──
+     3-layer composition:
+       1. Section bg light gray #F5F5F5 with vertical padding — a
+          "tray" that the inner cards float on top of.
+       2. Yellow rounded card (.resources-banner) with H2 + white pills.
+       3. White rounded card (.cori-grid) below — same max-width so
+          they align horizontally. */
   .resources-section {
-    /* Match the .based-on-section above (#F5F5F5) so the two
-       sections flow visually as one continuous light-gray band. */
     background: #f5f5f5;
-    padding: 0;
+    padding: 50px 0 60px;
+  }
+  @media (min-width: 768px) {
+    .resources-section { padding: 70px 0 80px; }
   }
   .resources-banner-wrap {
     width: 100%;
     max-width: var(--container-max);
     margin-inline: auto;
-    padding: 0 var(--section-padding-x-mobile);
+    padding: 0 20px;
+    box-sizing: border-box;
   }
   @media (min-width: 768px) {
-    .resources-banner-wrap { padding: 0 var(--section-padding-x-desktop); }
+    .resources-banner-wrap { padding: 0 70px; }
   }
   .resources-banner {
-    /* Per user direction: drop the source's #FFD100 inner-banner fill
-       and let the H2 + pills sit on the section's white bg. Yellow
-       moves to the pills (.pill-cta) instead. */
-    background: transparent;
-    padding: 24px 20px;
+    /* Yellow rounded card (LAYER 2). Source #brxe-wyhmys: bg #FFD100,
+       border-radius 10px, padding 25px, width 1190px max-content. */
+    background: var(--color-brand-yellow, #FFD100);
+    border-radius: 10px;
+    padding: 30px 24px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 16px;
+    gap: 20px;
     text-align: center;
+    box-sizing: border-box;
+    max-width: 1140px;
+    margin: 0 auto 30px;
   }
   @media (min-width: 768px) {
-    .resources-banner { padding: 25px; gap: 18px; }
+    .resources-banner {
+      padding: 40px 30px;
+      gap: 24px;
+      margin-bottom: 40px;
+    }
   }
   .resources-heading {
+    /* User spec: UCLA blue #2774AE, Bebas Neue. */
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: clamp(1.5rem, 3vw, 2rem);
-    color: var(--color-ink);
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    color: var(--color-author-blue, #2774AE);
     text-transform: none;
     margin: 0;
     line-height: 1.1;
@@ -995,12 +1011,14 @@ function blogHref(originalHref: string): string {
   .cori-grid {
     width: 100%;
     max-width: 1140px;
-    margin: 0 auto 40px;
+    margin: 0 auto;
     padding: 30px 20px 40px;
     border: 1px solid #e0e0e0;
     border-radius: 15px;
-    /* Explicit white — section bg is now #F5F5F5, so the card needs
-       to stand out as a clean white panel on the gray surround. */
+    /* White panel on the section's light-gray tray (LAYER 3). Same
+       max-width 1140 as the yellow banner above so the two cards
+       align horizontally. Section's padding-bottom handles whitespace
+       below; no margin-bottom needed on the card itself. */
     background: #ffffff;
     overflow: visible;
     display: grid;
@@ -1011,7 +1029,6 @@ function blogHref(originalHref: string): string {
   }
   @media (min-width: 768px) {
     .cori-grid {
-      margin: 0 70px 60px;
       padding: 50px 30px;
     }
   }

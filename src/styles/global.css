@@ -361,6 +361,32 @@
     color: var(--color-ink);
   }
 
+  /* White pill variant — used on the yellow Free Resources banner
+     where the standard yellow pill would be yellow-on-yellow. White
+     bg + black text gives high contrast on the yellow card. */
+  .pill-cta-white {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    color: var(--color-ink);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 12px 28px;
+    border-radius: 999px;
+    border: none;
+    transition: background 0.15s ease, color 0.15s ease;
+    text-decoration: none;
+  }
+  .pill-cta-white:hover {
+    background: var(--color-ink);
+    color: #ffffff;
+    text-decoration: none;
+  }
+
   /* Square rectangular CTA — for the "Limited Time" hero in-flow CTA only.
      Use .yellow-cta when you want the squared button shape. */
   .page-img {
