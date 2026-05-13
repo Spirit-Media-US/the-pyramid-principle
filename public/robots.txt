@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://SITE_DOMAIN/sitemap-index.xml
+Sitemap: https://thepyramidprinciple.com/sitemap-index.xml
