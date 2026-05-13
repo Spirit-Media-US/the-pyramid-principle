@@ -25,6 +25,8 @@ node_modules/
 # Site-icon exceptions — favicon suite is a site asset, not content media.
 # iOS/Android browsers probe these paths on the origin by default.
 !public/apple-touch-icon.png
+!public/favicon-16x16.png
+!public/favicon-32x32.png
 
 # OS
 .DS_Store
