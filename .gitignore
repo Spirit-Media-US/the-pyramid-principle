@@ -22,6 +22,10 @@ node_modules/
 *.pdf
 *.bak
 
+# Site-icon exceptions — favicon suite is a site asset, not content media.
+# iOS/Android browsers probe these paths on the origin by default.
+!public/apple-touch-icon.png
+
 # OS
 .DS_Store
 Thumbs.db
