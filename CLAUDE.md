@@ -217,6 +217,36 @@ Goal was both mobile + desktop ≥ 95. Outcome: **desktop hit, mobile 7 points s
 - d9e1a2d — content-visibility on below-fold sections
 - Plus reverts at 7184175, 29e8612, 0800a8a, ccdab4d cleaning up the experiments.
 
+### Phase 6 — Post-launch checklist sweep (2026-05-13)
+
+After Kevin promoted the site to `https://thepyramidprinciple.com` on 2026-05-12, a 58-point post-launch checklist sweep against the live origin surfaced gaps. Kevin authorized fixing everything we could ourselves; this session shipped 5 commits to dev:
+
+| Commit | Fix | What changed |
+|---|---|---|
+| 68b422e | `robots.txt` `SITE_DOMAIN` placeholder | `public/robots.txt` — sitemap line now `https://thepyramidprinciple.com/sitemap-index.xml` |
+| ca9b4b5 | Remove unverified 100 Club pill | `src/layouts/Layout.astro` — stripped `<span class="hundred-club-pill">` from footer + the matching CSS rule. Footer copy line now ends naturally at "Powered by Spirit Media". |
+| b8e1b3c | www → apex 301 redirect | Cloudflare Dynamic Redirect rule added on zone `4c373d6ae0a6b61132ee48e96b10ea2e` (ruleset `384673be663745f0acb3ac610e2da2e5`, rule id `13325f6cd48a4da3a6b93647b97569c3`). Preserves path + query. Empty commit — pure infra change. |
+| 69dda46 | Missing meta tags + apple-touch-icon | `src/layouts/Layout.astro` — added `<meta name="author">`, `<meta name="theme-color" content="#FFD100">`, `<meta name="twitter:image">`, `<meta property="og:image:width/height/alt">`, `<link rel="apple-touch-icon">`. Generated `public/apple-touch-icon.png` (180×180, brand-yellow ground, black pyramid path from `favicon.svg`) via sharp. Added precise `.gitignore` negation `!public/apple-touch-icon.png` so the icon ships (the global `*.png` media-block rule still holds for content media). |
+| 7fb2dd9 | Deduplicate homepage H1 | `src/pages/index.astro` — mobile hero changed from `<h1>` to `<p role="heading" aria-level="1">`. Page now has a single literal `<h1>` (desktop variant); screen-reader users on mobile still hear the visible mobile hero as a level-1 heading. Visual unchanged. |
+
+**TLS / certs — apex AND www are live**, both with Google Trust Services certs issued 2026-05-12 (valid through 2026-08-10). The earlier "TLS provisioning pending" note was already stale at the time of the sweep — flagged.
+
+**Verified clean on `https://dev.the-pyramid-principle.pages.dev/`** after `git pushd origin dev` (Wrangler deploy alias `9683d72c`):
+- robots.txt resolves with apex domain
+- 0 occurrences of "100 Club" / "hundred-club" in served HTML
+- All 6 new meta tags present
+- `/apple-touch-icon.png` → HTTP 200, content-type `image/png`
+- DOM contains exactly 1 `<h1>` (comment-strip count, not literal regex match)
+- www → apex 301 verified live on the prod zone with root, path, and query-string cases
+
+**Dev → main merge still requires Kevin's approval** per team-rules. Not coordinated in this session.
+
+### Post-launch CARs (deferred — not blocking, log here so Phase 7 picks them up)
+
+- **Google Search Console verification** — needs (a) GSC property access for `thepyramidprinciple.com` granted to whoever will paste the verification token, and (b) the verification HTML or DNS TXT value. Once we have either, drop `google<hex>.html` in `public/` or add the TXT to the CF DNS record. Then submit the sitemap inside GSC. **Blocker: need Kevin to grant GSC property + share the token.**
+- **CTA click tracking (GA4 conversion events)** — homepage and `/retailers/` Amazon retailer cards, `/give-courage/` Givebutter widget click, `/give-courage/` and homepage "Give Courage" CTAs, header "In The News" + "Reviews" pills, retailer-page international Amazon buttons. Wire `gtag('event','click', { event_category:'cta', event_label:<retailer-or-button> })` on each anchor. Bundle with the Phase 7 perf work since both touch JS already deferred behind first-interaction. **Not breaking anything today — log + ship in Phase 7.**
+- **100 Club pill** — removed pending (a) Phase 7 perf work that gets mobile Perf ≥ 95 on median-of-5 (currently 88), AND (b) TPP entry added to the canonical R2 registry `assets.spiritmediapublishing.com/100club-sites.json`. Once both clear, re-import the shared `HundredClubBadge.astro` component into `Layout.astro` (the component is still in `src/components/`) and it will render conditionally based on the registry. Do NOT re-add a hardcoded decorative pill.
+
 ### Phases 7-9
 
 ## DNS Pattern
