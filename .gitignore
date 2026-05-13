@@ -27,6 +27,7 @@ node_modules/
 !public/apple-touch-icon.png
 !public/favicon-16x16.png
 !public/favicon-32x32.png
+!public/og-image.jpg
 
 # OS
 .DS_Store
