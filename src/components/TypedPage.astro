@@ -5801,13 +5801,17 @@ function decodeText(s: string): string {
   .vfs-field textarea:focus {
     border-color: var(--color-author-blue, #2774AE);
   }
-  .vfs-submit-row { display: flex; justify-content: flex-start; }
+  .vfs-submit-row { display: flex; }
   /* Live .bricks-button.bricks-background-primary:
        bg #ffd100, color #000, font-family Raleway 700,
-       1px solid #f5f5f5 border, 10px radius, .5em 1em padding. */
+       1px solid #f5f5f5 border, 10px radius, .5em 1em padding.
+     width: 100% so the button spans the full form column — matches
+     the inputs above it for a cleaner CTA-style submit. */
   .vfs-submit {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
+    width: 100%;
     background: var(--color-brand-yellow);
     color: #000;
     font-family: 'Raleway', system-ui, sans-serif;
