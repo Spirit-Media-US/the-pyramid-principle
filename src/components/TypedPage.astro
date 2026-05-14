@@ -1211,29 +1211,31 @@ function decodeText(s: string): string {
     const [mu, md] = (b.recipient || 'kevin@spiritmediapublishing.com').split('@');
     return (
       <section class="vfs-section" id={b.id}>
-        <div class="vfs-grid">
-          <div class="vfs-text-col">
-            {b.h2 && <h2 class="vfs-h2">{decodeText(b.h2)}</h2>}
-            {b.body && <p class="vfs-body">{decodeText(b.body)}</p>}
-          </div>
-          <div class="vfs-form-col">
-            <form class="vfs-form" data-mu={mu} data-md={md} data-subject={b.subject || 'Victory Over Cancer — message from website visitor'} novalidate>
-              <div class="vfs-field">
-                <label class="vfs-sr-only" for="vfs-name">Your name</label>
-                <input id="vfs-name" name="name" type="text" placeholder="Your Name" autocomplete="name" />
-              </div>
-              <div class="vfs-field">
-                <label class="vfs-sr-only" for="vfs-email">Your email</label>
-                <input id="vfs-email" name="email" type="email" placeholder="Your Email" autocomplete="email" required />
-              </div>
-              <div class="vfs-field">
-                <label class="vfs-sr-only" for="vfs-message">Your message</label>
-                <textarea id="vfs-message" name="message" placeholder="Your Message" rows="5" required></textarea>
-              </div>
-              <div class="vfs-submit-row">
-                <button type="submit" class="vfs-submit">Send</button>
-              </div>
-            </form>
+        <div class="vfs-card">
+          <div class="vfs-grid">
+            <div class="vfs-text-col">
+              {b.h2 && <h2 class="vfs-h2">{decodeText(b.h2)}</h2>}
+              {b.body && <p class="vfs-body">{decodeText(b.body)}</p>}
+            </div>
+            <div class="vfs-form-col">
+              <form class="vfs-form" data-mu={mu} data-md={md} data-subject={b.subject || 'Victory Over Cancer — message from website visitor'} novalidate>
+                <div class="vfs-field">
+                  <label class="vfs-sr-only" for="vfs-name">Your name</label>
+                  <input id="vfs-name" name="name" type="text" placeholder="Your Name" autocomplete="name" />
+                </div>
+                <div class="vfs-field">
+                  <label class="vfs-sr-only" for="vfs-email">Your email</label>
+                  <input id="vfs-email" name="email" type="email" placeholder="Your Email" autocomplete="email" required />
+                </div>
+                <div class="vfs-field">
+                  <label class="vfs-sr-only" for="vfs-message">Your message</label>
+                  <textarea id="vfs-message" name="message" placeholder="Your Message" rows="5" required></textarea>
+                </div>
+                <div class="vfs-submit-row">
+                  <button type="submit" class="vfs-submit">Send</button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </section>
@@ -5666,35 +5668,59 @@ function decodeText(s: string): string {
   }
 
   /* ── victory-form-section — PCRF Copy Section 1.
-     2-col on desktop: H2 + body left, form right. Stacks on mobile. */
+     Live source has the entire Section 1 wrapped in a card
+     (#brxe-vnhmqt): bg #f7f7f7, 1px solid #c4c4c4 border,
+     border-radius 25px, padding 40px. Both the text column and
+     the form sit INSIDE this card. */
   .vfs-section {
     background: #fff;
-    padding: 48px 0;
+    padding: 32px 0 48px;
   }
   @media (min-width: 768px) {
-    .vfs-section { padding: 80px 0; }
+    .vfs-section { padding: 60px 0 80px; }
   }
-  .vfs-grid {
+  .vfs-card {
     max-width: var(--container-max);
     margin-inline: auto;
-    padding: 0 var(--section-padding-x-mobile);
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 32px;
-    align-items: start;
+    margin-top: 0;
+    /* Outer page padding (section-padding-x) sits OUTSIDE the card;
+       the card itself has its own internal padding matching the
+       live source. */
+    width: calc(100% - 2 * var(--section-padding-x-mobile));
+    background: #f7f7f7;
+    border: 1px solid #c4c4c4;
+    border-radius: 25px;
+    padding: 24px;
   }
   @media (min-width: 768px) {
-    .vfs-grid { padding: 0 var(--section-padding-x-desktop); }
+    .vfs-card {
+      width: calc(100% - 2 * var(--section-padding-x-desktop));
+      padding: 40px;
+    }
+  }
+  .vfs-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    align-items: start;
   }
   @media (min-width: 1024px) {
-    .vfs-grid { grid-template-columns: 1fr 1fr; gap: 64px; }
+    .vfs-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+  }
+  .vfs-text-col {
+    /* Live source has padding-right: 40px on the text column to
+       create breathing room between it and the form on desktop. */
+    padding-right: 0;
+  }
+  @media (min-width: 1024px) {
+    .vfs-text-col { padding-right: 40px; }
   }
   .vfs-h2 {
-    margin: 0 0 16px;
-    color: var(--color-ink);
+    margin: 0 0 15px;
+    color: #000;
     font-family: var(--font-display);
     font-weight: 400;
-    font-size: clamp(2.5rem, 5vw, 3.4375rem); /* 40px → 55px */
+    font-size: clamp(2.5rem, 5vw, 3.4375rem); /* 40px → 55px (Bricks h2) */
     line-height: 1.05;
     letter-spacing: 0.01em;
   }
@@ -5706,9 +5732,12 @@ function decodeText(s: string): string {
     max-width: 540px;
   }
   .vfs-form {
+    /* Live #brxe-asarxp has padding-top: 20px. Match it so the
+       form's first field aligns visually with the H2 on desktop. */
+    padding-top: 20px;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 0;
     width: 100%;
     max-width: 520px;
   }
@@ -5723,18 +5752,35 @@ function decodeText(s: string): string {
     white-space: nowrap;
     border: 0;
   }
+  /* Live form-group spacing: 20px padding-bottom between fields. */
+  .vfs-field {
+    padding: 0 0 20px;
+    width: 100%;
+  }
+  /* Live Bricks input defaults: 1px solid currentcolor border, no
+     background, 40px line-height, 0 12px padding, full width. We
+     adopt the same dimensions but use --color-border and white bg
+     so the inputs visually pop against the #f7f7f7 card. */
   .vfs-field input,
   .vfs-field textarea {
     width: 100%;
-    padding: 14px 16px;
+    padding: 0 12px;
     font-family: var(--font-heading);
     font-size: 1rem;
+    line-height: 40px;
     color: var(--color-ink);
     background: #fff;
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    box-shadow: 0 1px 2px -1px rgba(0,0,0,0.06);
-    transition: border-color 0.15s, box-shadow 0.15s;
+    border: 1px solid #c4c4c4;
+    border-radius: 0;
+    outline: none;
+    box-shadow: none;
+    transition: border-color 0.15s;
+  }
+  .vfs-field textarea {
+    line-height: 1.5;
+    padding: 10px 12px;
+    min-height: 120px;
+    resize: vertical;
   }
   .vfs-field input::placeholder,
   .vfs-field textarea::placeholder {
@@ -5742,20 +5788,17 @@ function decodeText(s: string): string {
   }
   .vfs-field input:focus,
   .vfs-field textarea:focus {
-    outline: none;
     border-color: var(--color-author-blue, #2774AE);
-    box-shadow: 0 0 0 3px rgba(39, 116, 174, 0.15);
-  }
-  .vfs-field textarea {
-    resize: vertical;
-    min-height: 140px;
   }
   .vfs-submit-row { display: flex; justify-content: flex-start; }
+  /* Live .bricks-button.bricks-background-primary:
+       bg #ffd100, color #000, font-family Raleway 700,
+       1px solid #f5f5f5 border, 10px radius, .5em 1em padding. */
   .vfs-submit {
     display: inline-flex;
     align-items: center;
     background: var(--color-brand-yellow);
-    color: var(--color-ink);
+    color: #000;
     font-family: 'Raleway', system-ui, sans-serif;
     font-weight: 700;
     font-size: 14px;
@@ -5763,7 +5806,7 @@ function decodeText(s: string): string {
     letter-spacing: 0.05em;
     border: 1px solid #f5f5f5;
     border-radius: 10px;
-    padding: 14px 32px;
+    padding: 12px 32px;
     cursor: pointer;
     transition: background 0.15s, transform 0.15s;
   }
