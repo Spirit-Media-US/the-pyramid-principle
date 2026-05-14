@@ -1,4 +1,18 @@
 {
+  "Capture-tim-dekay.jpg": {
+    "originalUrl": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/Capture.jpg",
+    "sanityAssetId": "image-d243c73ed93ac8765c4dd39fdae8446441f0ec7d-930x976-jpg",
+    "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/d243c73ed93ac8765c4dd39fdae8446441f0ec7d-930x976.jpg",
+    "alt": "Tim Dekay — actor (TV's 'White Collar', 'Oppenheimer')",
+    "size": 55365,
+    "dimensions": {
+      "_type": "sanity.imageDimensions",
+      "aspectRatio": 0.9528688524590164,
+      "height": 976,
+      "width": 930
+    },
+    "note": "Disambiguated from /2024/09/Capture.jpg (John Vallely sailboat photo at 611×936) which collides on filename. The /2024/11/ version is Tim Dekay's headshot used in /reviews/."
+  },
   "TPP-Book-Club-Discussion-Guide-cover.png": {
     "originalUrl": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/TPP-Book-Club-Discussion-Guide.pdf",
     "sanityAssetId": "image-1088fcfa37102daa1fb2d4391a16abd054a4557b-1700x2200-png",
