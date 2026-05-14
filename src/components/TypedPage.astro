@@ -24,6 +24,9 @@
 //   interview-questions  — H2 + numbered list + image collage
 //   download-hero        — 2-col hero for /download/ (eyebrow + H1 + body + stats + book img)
 //   audio-section        — H2 + native <audio controls> + Download Now link
+//   share-review-cta     — Reviews page top: eyebrow + H1 + subtitle + 2 logos + CTA
+//   pull-quote-row       — Reviews page 3-up colored quote cards (Libre Baskerville italic)
+//   review-card-list     — Reviews page alternating image+text testimonial rows
 import { srcW, dims } from '../lib/img';
 
 interface Props { blocks: any[]; }
@@ -451,6 +454,139 @@ function decodeText(s: string): string {
             <span class="tc-eyebrow-divider" aria-hidden="true"></span>
           </div>
           <h1 class="tc-h1">{b.h1}</h1>
+        </div>
+      </section>
+    );
+  }
+
+  // ── share-review-cta — Reviews Section 1 (#brxe-zuufjz).
+  // Eyebrow row (— THE PYRAMID PRINCIPLE —) + H1 + subtitle + 2-col logo
+  // row (Goodreads + Amazon) + yellow CTA pill below. Reuses title-card's
+  // eyebrow + H1 styling so the page-top brand block is consistent across
+  // /the-pyramid-success/, /free-resources/, and /reviews/.
+  if (b.type === 'share-review-cta') {
+    const logos = (b.logos || []) as any[];
+    return (
+      <section class="srv-section" id={b.id}>
+        <div class="srv-inner">
+          {b.eyebrow && (
+            <div class="tc-eyebrow-row">
+              <span class="tc-eyebrow-divider" aria-hidden="true"></span>
+              <h3 class="tc-eyebrow">{b.eyebrow}</h3>
+              <span class="tc-eyebrow-divider" aria-hidden="true"></span>
+            </div>
+          )}
+          {b.h1 && <h1 class="srv-h1">{b.h1}</h1>}
+          {b.subtitle && <p class="srv-subtitle">{decodeText(b.subtitle)}</p>}
+          {logos.length > 0 && (
+            <div class="srv-logo-row">
+              {logos.map((l: any) => (
+                <a class="srv-logo-link" href={l.href}
+                   target="_blank" rel="noopener noreferrer"
+                   aria-label={l.image?.alt || ''}>
+                  <img src={srcW(l.image.file, 400)}
+                       srcset={`${srcW(l.image.file, 240)} 240w, ${srcW(l.image.file, 400)} 400w, ${srcW(l.image.file, 600)} 600w`}
+                       sizes="(max-width: 768px) 45vw, 220px"
+                       width={l.image?.dims?.width || 800}
+                       height={l.image?.dims?.height || 353}
+                       alt={l.image?.alt || ''}
+                       loading="lazy" decoding="async" />
+                </a>
+              ))}
+            </div>
+          )}
+          {b.ctaHref && (
+            <a class="srv-cta" href={b.ctaHref}
+               target="_blank" rel="noopener noreferrer">
+              {b.ctaLabel || 'Add Your Review'}
+            </a>
+          )}
+        </div>
+      </section>
+    );
+  }
+
+  // ── pull-quote-row — Reviews Section 2 (#brxe-msqmva).
+  // Three colored quote cards in a row (yellow / light blue / gray) per
+  // live source. Each card: rounded-corner shape (40px top-left + bottom-
+  // right), padding 40px, box-shadow, Libre Baskerville italic bold 32px
+  // body color #1d1d1f. Source has 3 quotes; block supports N≥1.
+  if (b.type === 'pull-quote-row') {
+    const quotes = (b.quotes || []) as any[];
+    const colors = ['srv-card-yellow', 'srv-card-blue', 'srv-card-gray'];
+    return (
+      <section class="srv-pull-section" id={b.id}>
+        <div class="srv-pull-inner">
+          {quotes.map((q: any, i: number) => (
+            <div class={`srv-pull-card ${colors[i % colors.length]}`}>
+              <p class="srv-pull-quote">{decodeText(q.text || q)}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    );
+  }
+
+  // ── review-card-list — Reviews Section 3 (#brxe-cqjdpp).
+  // Long list of alternating image/text rows. When the review has a
+  // personal photo (image.file present), that photo renders in the image
+  // column. Otherwise the Amazon-review banner renders, wrapped in the
+  // same Amazon attribution link. imagePosition: 'left' | 'right' drives
+  // which side the photo sits on (matches live alternation pattern).
+  if (b.type === 'review-card-list') {
+    const reviews = (b.reviews || []) as any[];
+    const bannerFile = b.bannerImage?.file || 'how-to-get-amazon-reviews1-1.png';
+    const bannerAlt = b.bannerImage?.alt || 'Leave a review on Amazon';
+    return (
+      <section class="rev-list-section" id={b.id}>
+        <div class="rev-list-inner">
+          {reviews.map((r: any) => {
+            const personal = r.image?.file;
+            const imgFile = personal || bannerFile;
+            const imgAlt = personal ? (r.image?.alt || '') : bannerAlt;
+            const imgDims = (personal ? r.image?.dims : null) || { width: 512, height: 275 };
+            const isAmazon = !!r.sourceUrl && /amazon\.com/.test(r.sourceUrl);
+            const side = r.imagePosition === 'left' ? 'left' : 'right';
+            const ImgEl = (
+              <img class={personal ? 'rev-photo' : 'rev-banner'}
+                   src={srcW(imgFile, personal ? 800 : 600)}
+                   srcset={`${srcW(imgFile, 400)} 400w, ${srcW(imgFile, 800)} 800w`}
+                   sizes="(max-width: 1023px) 90vw, 480px"
+                   width={imgDims.width} height={imgDims.height}
+                   alt={imgAlt}
+                   loading="lazy" decoding="async" />
+            );
+            const imgCol = (
+              <div class="rev-img-col">
+                {r.sourceUrl
+                  ? <a href={r.sourceUrl} target="_blank" rel="noopener noreferrer" aria-label={imgAlt}>{ImgEl}</a>
+                  : ImgEl}
+              </div>
+            );
+            const bodyParas = Array.isArray(r.body) ? r.body : (r.body ? [r.body] : []);
+            const textCol = (
+              <div class="rev-text-col">
+                {r.title && <h3 class="rev-title" set:html={r.title}></h3>}
+                {bodyParas.map((para: string) => (
+                  <p class="rev-body" set:html={para}></p>
+                ))}
+                <p class="rev-attrib">
+                  {r.sourceUrl
+                    ? (
+                        <a href={r.sourceUrl} target="_blank" rel="noopener noreferrer">
+                          - {r.reviewer}{r.source ? <> (From <span class="rev-source">{r.source}</span>)</> : null}
+                        </a>
+                      )
+                    : <>- {r.reviewer}{r.source ? <> (From <span class="rev-source">{r.source}</span>)</> : null}</>}
+                </p>
+              </div>
+            );
+            return (
+              <div class={`rev-row rev-img-${side}`}>
+                {side === 'left' ? <>{imgCol}{textCol}</> : <>{textCol}{imgCol}</>}
+              </div>
+            );
+          })}
         </div>
       </section>
     );
@@ -4832,5 +4968,260 @@ function decodeText(s: string): string {
   }
   @media (min-width: 768px) {
     .tc-h1 { font-size: 60px; }
+  }
+
+  /* ── share-review-cta — Reviews Section 1.
+     Reuses tc-eyebrow / tc-eyebrow-divider styling from title-card. */
+  .srv-section {
+    background: #fff;
+    padding: 40px 0 60px;
+  }
+  @media (min-width: 768px) {
+    .srv-section { padding: 80px 0 40px; }
+  }
+  .srv-inner {
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding: 0 var(--section-padding-x-mobile);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    text-align: center;
+  }
+  @media (min-width: 768px) {
+    .srv-inner { padding: 0 var(--section-padding-x-desktop); }
+  }
+  .srv-h1 {
+    margin: 0;
+    width: 100%;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 55px;
+    line-height: 1;
+    letter-spacing: 0.01em;
+    color: #000;
+    text-align: center;
+    /* Preserve the leading space in source verbatim per Phase 3 — the
+       Bricks editor literally typed " Thanks for…". white-space:pre
+       keeps it from collapsing during render. */
+    white-space: pre;
+  }
+  @media (min-width: 768px) {
+    .srv-h1 { font-size: 60px; }
+  }
+  .srv-subtitle {
+    margin: 0;
+    color: var(--color-text);
+    font-family: var(--font-heading);
+    font-size: 1.125rem;
+    line-height: 1.5;
+    max-width: 720px;
+  }
+  .srv-logo-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    width: 100%;
+    max-width: 520px;
+    margin-top: 8px;
+    align-items: stretch;
+  }
+  .srv-logo-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 18px;
+    background: #fff;
+    border: 1px solid #dbdbdb;
+    border-radius: 10px;
+    box-shadow: 0 2px 2px 1px #cfcfcf;
+    transition: border-color 0.15s, transform 0.15s;
+  }
+  .srv-logo-link:hover {
+    border-color: var(--color-ink);
+    text-decoration: none;
+    transform: translateY(-1px);
+  }
+  .srv-logo-link img {
+    display: block;
+    width: 100%;
+    height: 60px;
+    max-width: 180px;
+    object-fit: contain;
+  }
+  .srv-cta {
+    display: inline-flex;
+    align-items: center;
+    background: var(--color-brand-yellow);
+    color: var(--color-ink);
+    font-family: 'Raleway', system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 1px solid #f5f5f5;
+    border-radius: 10px;
+    padding: 14px 32px;
+    text-decoration: none;
+    margin-top: 12px;
+    transition: background 0.15s, transform 0.15s;
+  }
+  .srv-cta:hover {
+    background: #e6bc00;
+    color: var(--color-ink);
+    text-decoration: none;
+    transform: translateY(-1px);
+  }
+
+  /* ── pull-quote-row — Reviews Section 2.
+     Three colored cards with rounded top-left + bottom-right corners.
+     Verified live #brxe-msqmva (2026-05-14): Libre Baskerville italic
+     bold 32px, color #1d1d1f / #212121 on Card 3, padding 40px desktop /
+     20px mobile, box-shadow 2px 4px 8px -3px #919191. */
+  .srv-pull-section {
+    background: #fff;
+    padding: 40px 0;
+  }
+  @media (min-width: 768px) {
+    .srv-pull-section { padding: 60px 0; }
+  }
+  .srv-pull-inner {
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding: 0 var(--section-padding-x-mobile);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    align-items: stretch;
+  }
+  @media (min-width: 768px) {
+    .srv-pull-inner {
+      padding: 0 var(--section-padding-x-desktop);
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+  }
+  .srv-pull-card {
+    border: 1px solid rgba(158, 158, 158, 0.29);
+    border-top-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+    padding: 20px;
+    box-shadow: 2px 4px 8px -3px #919191;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 160px;
+  }
+  @media (min-width: 768px) {
+    .srv-pull-card { padding: 40px; min-height: 220px; }
+  }
+  .srv-card-yellow { background: var(--color-brand-yellow); }
+  .srv-card-blue   { background: #03A9F4; } /* matches bricks-color-ebcfaa */
+  .srv-card-gray   { background: #f2f2f2; }
+  .srv-pull-quote {
+    margin: 0;
+    color: var(--color-ink);
+    font-family: 'Libre Baskerville', Georgia, serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 1.3;
+    text-align: left;
+  }
+  @media (min-width: 768px) {
+    .srv-pull-quote { font-size: 32px; }
+  }
+
+  /* ── review-card-list — Reviews Section 3.
+     Long list of alternating 2-col rows (image + text). On mobile each
+     row stacks (image first). Personal photos render where present;
+     otherwise the Amazon-review banner sits in the image column linked
+     to the same Amazon attribution URL. */
+  .rev-list-section {
+    background: var(--color-bg-section);
+    padding: 40px 0;
+  }
+  @media (min-width: 768px) {
+    .rev-list-section { padding: 60px 0; }
+  }
+  .rev-list-inner {
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding: 0 var(--section-padding-x-mobile);
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  @media (min-width: 768px) {
+    .rev-list-inner { padding: 0 var(--section-padding-x-desktop); gap: 48px; }
+  }
+  .rev-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    align-items: center;
+    background: #fff;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 6px -2px rgba(0, 0, 0, 0.1);
+  }
+  @media (min-width: 768px) {
+    .rev-row { grid-template-columns: 1fr 1fr; gap: 40px; padding: 32px 40px; }
+  }
+  .rev-img-col {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .rev-img-col a {
+    display: block;
+    width: 100%;
+    max-width: 480px;
+  }
+  .rev-photo {
+    width: 100%;
+    max-width: 360px;
+    height: auto;
+    border-radius: 8px;
+    display: block;
+    margin: 0 auto;
+  }
+  .rev-banner {
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+  .rev-title {
+    margin: 0 0 12px;
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 1.75rem;
+    line-height: 1.1;
+    letter-spacing: 0.01em;
+  }
+  .rev-body {
+    margin: 0 0 16px;
+    color: var(--color-text);
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+  .rev-attrib {
+    margin: 0;
+    color: var(--color-ink-muted);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1rem;
+  }
+  .rev-attrib a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .rev-attrib a:hover { text-decoration: underline; }
+  .rev-source {
+    color: var(--color-author-blue, #2774AE);
   }
 </style>
