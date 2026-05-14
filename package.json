@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "scripts": {
     "dev": "astro dev",
-    "build": "node scripts/sync-100club-registry.mjs && rm -rf public/studio && sanity build public/studio --yes && astro build && node scripts/critical-css.mjs",
+    "build": "node scripts/sync-100club-registry.mjs && rm -rf public/studio && sanity build public/studio --yes && astro build",
     "verify": "node scripts/100club-verify.mjs",
     "preview": "astro preview"
   },
@@ -24,7 +24,6 @@
     "tailwindcss": "^4.0.6"
   },
   "devDependencies": {
-    "beasties": "^0.4.2",
     "node-html-parser": "^7.1.0",
     "playwright-core": "^1.59.1"
   }
