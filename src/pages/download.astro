@@ -1,0 +1,31 @@
+---
+// Download — programmatic rebuild via typed blocks.
+// Source: https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/download/
+// Data:   src/data/pages/download.json (typed blocks)
+// Renderer: src/components/TypedPage.astro (download-hero + audio-section + centered-image)
+//
+// Section 1 (#brxe-0d4466): two-column hero — eyebrow + H1 + body + 3 stat
+//   columns on the left, 3D book cover on the right, with a white triangle
+//   shape-divider at the bottom of the section.
+// Section 2 (#brxe-goqykk): H2 + native <audio controls> + Download Now link.
+//   Replaces the WP h5ap-audioplayer / Plyr plugin (Phase 6 CAR: evaluate
+//   embedded PDF viewer if Kevin wants richer playback UI back).
+// Section 3 (#brxe-sqhwlr): static book cover + yellow Download E-Book button.
+//   Replaces the WP 3D Flip Book plugin (Phase 6 CAR: evaluate PDF.js viewer
+//   if Kevin wants in-browser reading back) — same tradeoff as Pyramid Success.
+//
+// Asset migration notes (2026-05-14):
+//   MP3 (~59MB) and PDF (~4.3MB) migrated from Cloudways WP to
+//   R2 bucket smp/the-pyramid-principle/, served via
+//   assets.spiritmediapublishing.com with audio/mpeg + application/pdf
+//   Content-Types and Cache-Control: public, max-age=31536000.
+import Layout from '../layouts/Layout.astro';
+import TypedPage from '../components/TypedPage.astro';
+import blocks from '../data/pages/download.json';
+
+const meta = (blocks as any[]).find(b => b.type === '_meta') || {};
+---
+<Layout title={meta.title || 'Download | The Pyramid Principle'}
+        description={meta.description || ''}>
+  <TypedPage blocks={blocks as any[]} />
+</Layout>

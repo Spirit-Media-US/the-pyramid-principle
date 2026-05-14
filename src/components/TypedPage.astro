@@ -22,6 +22,8 @@
 //   dedication-and-players — H2 + body + 2nd H2 + player profile cards
 //   media-contact-card   — H2 + H3 + contact text + bg image
 //   interview-questions  — H2 + numbered list + image collage
+//   download-hero        — 2-col hero for /download/ (eyebrow + H1 + body + stats + book img)
+//   audio-section        — H2 + native <audio controls> + Download Now link
 import { srcW, dims } from '../lib/img';
 
 interface Props { blocks: any[]; }
@@ -301,6 +303,7 @@ function decodeText(s: string): string {
     return (
       <section class="ci-section" id={b.id}>
         <div class="ci-inner">
+          {b.h2 && <h2 class="ci-h2">{decodeText(b.h2)}</h2>}
           <img class="ci-image"
                src={srcDesktop}
                srcset={`${srcMobile} 800w, ${srcDesktop} 1600w`}
@@ -316,6 +319,112 @@ function decodeText(s: string): string {
               {b.downloadLabel || 'Download PDF'}
             </a>
           )}
+          {b.meta && <p class="ci-meta">{decodeText(b.meta)}</p>}
+        </div>
+      </section>
+    );
+  }
+
+  // ── download-hero — two-column hero for /download/, modelled on the
+  // homepage hero (index.astro #pre-order-now) but simplified — no
+  // ribbon-badge, no retailer grid, no Limited-Time CTA, no pill row.
+  // Verified live #brxe-0d4466 (download page):
+  //   LEFT col: eyebrow row (divider + H6) + H1 + body + 3 stat columns.
+  //   RIGHT col: 3D book cover (same fd3d2aa3 Sanity asset as homepage).
+  //   White-triangle shape-divider at the bottom of the section.
+  // The H1 source casing "the pyramid Principle" (lowercase 't', lowercase
+  // 'p' on word #2) is preserved verbatim per Phase 3 — display CSS keeps
+  // it readable in Bebas Neue without uppercase transform.
+  if (b.type === 'download-hero') {
+    const imgFile = b.image?.file;
+    let imgMobile = '';
+    let imgDesktop = '';
+    let imgDims = { width: 886, height: 1024 };
+    if (imgFile) {
+      imgMobile = srcW(imgFile, 600);
+      imgDesktop = srcW(imgFile, 1000);
+      try { imgDims = dims(imgFile); } catch {}
+    }
+    const stats = (b.stats || []) as any[];
+    // Three icon path strings matched to the live source's icons-mind glyphs.
+    const ICON_PATHS: any = {
+      language: 'M4 2v20h2v-8h13l-2-4 2-4H6V2H4z',
+      ratings: 'M12 2l2.39 7.36H22l-6.18 4.49L18.21 22 12 17.27 5.79 22l2.39-8.15L2 9.36h7.61L12 2z',
+      pages: 'M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5zm0 6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2zm2 4a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2H5z',
+    };
+    return (
+      <section class="dl-hero" id={b.id}>
+        <div class="dl-hero-grid">
+          <div class="dl-hero-left">
+            <div class="dl-hero-eyebrow-row">
+              <span class="dl-hero-eyebrow-divider" aria-hidden="true"></span>
+              <h6 class="dl-hero-eyebrow">{decodeText(b.eyebrow)}</h6>
+            </div>
+            <h1 class="dl-hero-h1">{decodeText(b.h1)}</h1>
+            <p class="dl-hero-body">{decodeText(b.body)}</p>
+            {stats.length > 0 && (
+              <div class="dl-hero-stats">
+                {stats.map(s => (
+                  <div class="dl-hero-stat">
+                    <svg class="dl-hero-stat-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                      <path d={ICON_PATHS[s.icon || 'pages'] || ICON_PATHS.pages}></path>
+                    </svg>
+                    <div>
+                      <h3>{s.label}</h3>
+                      <h3>{s.value}</h3>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+          <div class="dl-hero-right">
+            {imgFile && (
+              <img
+                class="dl-hero-book-img"
+                src={imgDesktop}
+                srcset={`${imgMobile} 600w, ${imgDesktop} 1000w`}
+                sizes="(max-width: 1023px) 600px, 1000px"
+                width={imgDims.width}
+                height={imgDims.height}
+                alt={b.image?.alt || ''}
+                loading="eager"
+                decoding="async"
+              />
+            )}
+          </div>
+        </div>
+        {b.shapeDivider && (
+          <svg class="dl-hero-shape" xmlns="http://www.w3.org/2000/svg"
+               preserveAspectRatio="none" viewBox="0 0 1200 200"
+               aria-hidden="true">
+            <polygon fill-rule="evenodd" points="0 200 1200 0 1200 200"></polygon>
+          </svg>
+        )}
+      </section>
+    );
+  }
+
+  // ── audio-section — H2 + native HTML5 <audio controls> + Download Now link.
+  // Replaces the WP h5ap-audioplayer / Plyr-styled player from #brxe-goqykk
+  // (download page). Trait 5: <audio preload="none"> so the MP3 doesn't
+  // download until the user clicks play. Browser-native controls are
+  // accessible (keyboard, screen reader) and render consistently in
+  // Chrome / Firefox / Safari without the 50KB+ of plugin CSS.
+  if (b.type === 'audio-section') {
+    return (
+      <section class="dl-audio" id={b.id}>
+        <div class="dl-audio-inner">
+          {b.h2 && <h2 class="dl-audio-h2">{decodeText(b.h2)}</h2>}
+          <audio class="dl-audio-player" controls preload="none">
+            <source src={b.audioHref} type={b.audioMime || 'audio/mpeg'} />
+            Your browser does not support the audio element. <a href={b.audioHref}>Download the audio file</a>.
+          </audio>
+          <a class="dl-audio-download" href={b.audioHref}
+             target="_blank" rel="noopener noreferrer"
+             download={b.downloadFilename || true}>
+            <strong>{b.downloadLabel || 'Download Now'}</strong>
+          </a>
         </div>
       </section>
     );
@@ -3885,6 +3994,234 @@ function decodeText(s: string): string {
     color: #000;
     text-decoration: none;
     transform: translateY(-1px);
+  }
+  .ci-h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2.25rem, 5vw, 3.4375rem); /* 36px → 55px (Bricks h2) */
+    line-height: 1;
+    letter-spacing: 0.01em;
+    color: var(--color-ink);
+    margin: 0 0 8px;
+    text-align: center;
+    text-transform: none;
+  }
+  .ci-meta {
+    margin: 0;
+    color: var(--color-text);
+    font-family: var(--font-heading);
+    font-size: 0.9375rem; /* 15px */
+    text-align: center;
+  }
+
+  /* ── download-hero — /download/ Section 1. Two-column on desktop,
+     stacked column-reverse on mobile (mirrors live #brxe-04119c). White
+     bg with a triangle shape-divider at the bottom. */
+  .dl-hero {
+    position: relative;
+    background: #fff;
+    padding: 0 0 0;
+    overflow: hidden;
+  }
+  .dl-hero-grid {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding: 32px var(--section-padding-x-mobile) 64px;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 40px;
+    align-items: stretch;
+  }
+  @media (min-width: 768px) {
+    .dl-hero-grid {
+      padding: 80px var(--section-padding-x-desktop) 96px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .dl-hero-grid {
+      flex-direction: row;
+      gap: 48px;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+  }
+  .dl-hero-left {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  .dl-hero-right {
+    flex: 1 1 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  @media (min-width: 1024px) {
+    .dl-hero-right { justify-content: flex-end; }
+  }
+  .dl-hero-book-img {
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    display: block;
+  }
+  .dl-hero-eyebrow-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 24px;
+  }
+  .dl-hero-eyebrow-divider {
+    display: block;
+    width: 6%;
+    min-width: 24px;
+    height: 0;
+    border-top: 1px solid var(--color-text);
+  }
+  @media (min-width: 768px) {
+    .dl-hero-eyebrow-divider { width: 10%; }
+  }
+  .dl-hero-eyebrow {
+    margin: 0;
+    color: var(--color-text);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.9375rem; /* 15px desktop per live source */
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+  @media (max-width: 478px) {
+    .dl-hero-eyebrow { font-size: 0.625rem; /* 10px mobile */ }
+  }
+  .dl-hero-h1 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(3.125rem, 6.5vw, 3.75rem); /* 50px → 60px per live source */
+    line-height: 1;
+    letter-spacing: 0.01em;
+    color: var(--color-ink);
+    margin: 0 0 24px;
+    /* PRESERVE source casing — Phase 3 fidelity. Bricks h1 in source
+       is rendered without uppercase transform; the editor literally
+       typed "the pyramid Principle". */
+    text-transform: none;
+  }
+  .dl-hero-body {
+    margin: 0 0 32px;
+    color: var(--color-text);
+    font-size: 1rem;
+    line-height: 1.7;
+    max-width: 640px;
+  }
+  .dl-hero-stats {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin: 0;
+  }
+  @media (min-width: 480px) {
+    .dl-hero-stats { grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  }
+  .dl-hero-stat {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .dl-hero-stat-icon {
+    color: var(--color-brand-yellow);
+    flex-shrink: 0;
+  }
+  .dl-hero-stat h3 {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.9375rem; /* 15px per live source */
+    line-height: 1.3;
+    color: var(--color-ink);
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .dl-hero-stat h3:nth-child(2) {
+    font-family: 'Montserrat', var(--font-heading);
+    font-weight: 500;
+    color: #696969;
+  }
+  @media (max-width: 478px) {
+    .dl-hero-stat h3 { font-size: 0.75rem; }
+    .dl-hero-stat h3:nth-child(2) { font-size: 0.875rem; }
+  }
+  /* White-triangle shape-divider at the bottom of the hero section.
+     Same SVG shape as the existing jv-shape-divider but rendered
+     inside .dl-hero with the triangle flipped to point up so it
+     visually slices the next section. */
+  .dl-hero-shape {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    display: block;
+    fill: #fff;
+    pointer-events: none;
+  }
+  @media (min-width: 768px) {
+    .dl-hero-shape { height: 140px; }
+  }
+
+  /* ── audio-section — H2 + native <audio controls> + Download Now link.
+     Verified live #brxe-goqykk (download page). Replaces the WP
+     h5ap-audioplayer plugin with a single native <audio> element. */
+  .dl-audio {
+    background: #fff;
+    padding: 40px 0 32px;
+  }
+  @media (min-width: 768px) {
+    .dl-audio { padding: 60px 0 48px; }
+  }
+  .dl-audio-inner {
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding: 0 var(--section-padding-x-mobile);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    text-align: center;
+  }
+  @media (min-width: 768px) {
+    .dl-audio-inner { padding: 0 var(--section-padding-x-desktop); }
+  }
+  .dl-audio-h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2.5rem, 5.5vw, 3.4375rem); /* 40px → 55px (Bricks h2) */
+    line-height: 1;
+    letter-spacing: 0.01em;
+    color: var(--color-ink);
+    margin: 0;
+    text-transform: none;
+  }
+  .dl-audio-player {
+    width: 100%;
+    max-width: 640px;
+    height: 54px;
+    margin: 0;
+  }
+  .dl-audio-download {
+    display: inline-block;
+    color: var(--color-ink);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.125rem; /* 18px */
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    transition: color 0.15s;
+  }
+  .dl-audio-download:hover {
+    color: var(--color-author-blue);
+    text-decoration: underline;
   }
 
   /* ── donation-section — 2-col video + content card.
