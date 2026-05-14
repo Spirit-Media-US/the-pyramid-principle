@@ -1,0 +1,60 @@
+[
+  {
+    "type": "_meta",
+    "title": "Pediatric Cancer Research Foundation | The Pyramid Principle",
+    "description": "Help share hope with 400,000 families fighting cancer. A portion of every Pyramid Principle proceeds supports the Pediatric Cancer Research Foundation.",
+    "slug": "pediatric-cancer-research-foundation-copy"
+  },
+  {
+    "type": "victory-form-section",
+    "id": "brxe-rsrqon",
+    "h2": "Victory Over Cancer",
+    "body": "We have a big, bold, and audacious dream to share hope with 400,000 fighting cancer in the USA.",
+    "recipient": "kevin@spiritmediapublishing.com",
+    "subject": "Victory Over Cancer — message from The Pyramid Principle website"
+  },
+  {
+    "type": "pcrf-section",
+    "id": "brxe-855247",
+    "eyebrow": "Pediatric Cancer Research Foundation",
+    "heading": "A portion of the proceeds goes toward cancer research",
+    "bodyHtml": "<b>About Dribble for Victory Over Cancer:</b> <a href=\"https://pcrf-kids.org/dribble-for-the-cure/\" style=\"color: #caa949; text-decoration: underline;\">Dribble for Victory Over Cancer</a> combines the efforts of the Pediatric Cancer Research Foundation (PCRF) and the V. Foundation for Cancer Research to combat childhood cancer. This movement builds on the community engagement efforts introduced by the PCRF, UCLA, and St. John&#8217;s University. Ahead of the season, participating college basketball teams host events on campus early in the fall. Participants dribble through short on-campus routes to raise funds and awareness for pediatric cancer research. The events allow individuals, families, clubs, and teams to connect with the basketball community, all while contributing to a brighter future for kids and families battling cancer.",
+    "image": {
+      "file": "58e232679973e0ada741fbaf881dcad8-transformed-1024x537.jpeg",
+      "alt": "Rainbow for Erin",
+      "dims": { "width": 1024, "height": 537 }
+    },
+    "caption": "Rainbow for Erin"
+  },
+  {
+    "type": "join-movement",
+    "id": "brxe-4e248a",
+    "image": {
+      "file": "join-the-movement.png",
+      "alt": "Join The Movement — Erin Vallely's legacy of courage",
+      "dims": { "width": 1070, "height": 998 }
+    },
+    "headingHtml": "<span>Join</span> The Movement",
+    "bodyParagraphs": [
+      "Erin’s beautiful life, and courageous fight has created awareness and breakthroughs that continue to save lives today. With the commitment of The Pediatric Cancer Research Foundation and its funding to early stage work, Federal NIH funding has followed on. With optimism and hope, PCRF and it’s partners believe in a future where the increased funding will reduce the burdens of these afflicted children on its way to a cure.",
+      "After 30 years of living with the beautiful memory of our inspirational daughter, Erin, Karen and I have learned that every human is on earth for a reason. And for that reason, we celebrate all the partners that dream and pray for a cure for this disease.",
+      { "html": "<strong>Please join us as we seek to carry on Erin’s vision, mission, and please for a cure.</strong>" }
+    ]
+  },
+  {
+    "type": "pcrf-cta-section",
+    "id": "brxe-c7589c",
+    "h2": "<span style=\"color: #ffd100;\">Help us</span> share a copy of this book with",
+    "headings": [
+      "Every Cancer Hospital",
+      "Every Cancer Patient",
+      "Sharing Hope"
+    ],
+    "image": {
+      "file": "LogoNew-300x196-1.png",
+      "alt": "Pediatric Cancer Research Foundation logo",
+      "dims": { "width": 300, "height": 196 }
+    },
+    "donateHtml": "<p><b>Donate now at </b><a style=\"color: #ffd100; text-decoration: underline;\" href=\"https://pcrf-kids.org/\"><b>pcrf-kids.org</b></a></p>"
+  }
+]

@@ -1,4 +1,17 @@
 {
+  "LogoNew-300x196-1.png": {
+    "originalUrl": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/09/LogoNew-300x196-1.png",
+    "sanityAssetId": "image-b92b725506bd9c71c0b5faf65e088085511859c2-300x196-png",
+    "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/b92b725506bd9c71c0b5faf65e088085511859c2-300x196.png",
+    "alt": "Pediatric Cancer Research Foundation logo",
+    "size": 8502,
+    "dimensions": {
+      "_type": "sanity.imageDimensions",
+      "aspectRatio": 1.5306122448979591,
+      "height": 196,
+      "width": 300
+    }
+  },
   "Capture-tim-dekay.jpg": {
     "originalUrl": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/Capture.jpg",
     "sanityAssetId": "image-d243c73ed93ac8765c4dd39fdae8446441f0ec7d-930x976-jpg",

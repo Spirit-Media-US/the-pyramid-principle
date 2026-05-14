@@ -1,0 +1,57 @@
+---
+// Pediatric Cancer Research Foundation (Copy) — programmatic rebuild
+// via typed blocks (Phase 3 migration).
+// Source: https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/pediatric-cancer-research-foundation-copy/
+// Data:   src/data/pages/pediatric-cancer-research-foundation-copy.json
+// Renderer: src/components/TypedPage.astro
+//
+// Four sections, two new block types (+ two reused from /give-courage/):
+//
+// Section 1 (#brxe-rsrqon): victory-form-section — H2 "Victory Over Cancer"
+//   + body left, 3-field contact form right. Live source uses Bricks
+//   default form handler with no clear backend wired. This migration
+//   falls back to a mailto: link assembled on submit (recipient split
+//   across data-mu/data-md attributes — same anti-scraping pattern as
+//   src/components/MailtoLink.astro). Phase 6 CAR: wire to GHL widget.
+// Section 2 (#brxe-855247): pcrf-section (REUSED from /give-courage/
+//   Section 3) — eyebrow + H1 + body (with inline #caa949 link color
+//   preserved verbatim) + Rainbow-for-Erin image + caption. Variant:
+//   H1 has no color span (vs Give Courage's pink emphasis).
+// Section 3 (#brxe-4e248a): join-movement (REUSED from /give-courage/
+//   Section 6) — image left + H2 + 3 paragraphs right. Variant: no
+//   pink-bold final paragraph and no John & Karen Vallely attribution.
+// Section 4 (#brxe-c7589c): pcrf-cta-section — H2 + 3-up H3 grid +
+//   PCRF logo + donate link, all centered.
+//
+// Asset migration (2026-05-14):
+//   LogoNew-300x196-1.png migrated to Sanity asset
+//   b92b725506bd9c71c0b5faf65e088085511859c2-300x196. The other three
+//   images (Rainbow for Erin, join-the-movement, etc.) were already
+//   in sanity-images.json from prior migrations.
+//
+// CARs (carried forward to Phase 5/6):
+//   - Page slug "pediatric-cancer-research-foundation-copy" looks like
+//     an accidental WP "Duplicate page" artifact (the "-copy" suffix
+//     is what WP auto-appends on Duplicate). Flag for Kevin: should
+//     this page exist? Should it be renamed (/pcrf/, /victory-over-cancer/)?
+//     Should the content be merged into /give-courage/?
+//   - Contact form backend is mailto: fallback (kevin@spiritmediapublishing.com).
+//     Phase 6: wire to proper form handler — most likely a GHL widget
+//     per the rest of the site's CTAs (mail.spiritmediaone.com).
+//   - Variant content vs /give-courage/'s same-named sections (different
+//     H1 color, different closing paragraph). Verify with Kevin if
+//     these are intentional or if this page should mirror Give Courage.
+//   - "please" typo in Section 3 closing ("...mission, and please for
+//     a cure" — likely should be "plea"). Preserved verbatim per Phase 3.
+//   - Inline link color #caa949 on Section 2 link is a darker gold
+//     variant of brand yellow. Preserved verbatim per Phase 3.
+import Layout from '../layouts/Layout.astro';
+import TypedPage from '../components/TypedPage.astro';
+import blocks from '../data/pages/pediatric-cancer-research-foundation-copy.json';
+
+const meta = (blocks as any[]).find(b => b.type === '_meta') || {};
+---
+<Layout title={meta.title || 'Pediatric Cancer Research Foundation | The Pyramid Principle'}
+        description={meta.description || ''}>
+  <TypedPage blocks={blocks as any[]} />
+</Layout>
