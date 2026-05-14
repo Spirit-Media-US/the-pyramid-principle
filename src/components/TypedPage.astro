@@ -5705,7 +5705,18 @@ function decodeText(s: string): string {
     align-items: start;
   }
   @media (min-width: 1024px) {
-    .vfs-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+    /* Vertically center the H2/body left column against the form on the
+       right. The form col has padding-top:20px (matches live Bricks
+       #brxe-asarxp) so without centering the H2 sits at the very top
+       of the card while the form's first input sits 20px below —
+       visually disconnects the two columns. Centering aligns the
+       midpoint of the text column with the midpoint of the form
+       column so they read as one unit. */
+    .vfs-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
   }
   .vfs-text-col {
     /* Live source has padding-right: 40px on the text column to
