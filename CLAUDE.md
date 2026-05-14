@@ -247,6 +247,97 @@ After Kevin promoted the site to `https://thepyramidprinciple.com` on 2026-05-12
 - **CTA click tracking (GA4 conversion events)** — homepage and `/retailers/` Amazon retailer cards, `/give-courage/` Givebutter widget click, `/give-courage/` and homepage "Give Courage" CTAs, header "In The News" + "Reviews" pills, retailer-page international Amazon buttons. Wire `gtag('event','click', { event_category:'cta', event_label:<retailer-or-button> })` on each anchor. Bundle with the Phase 7 perf work since both touch JS already deferred behind first-interaction. **Not breaking anything today — log + ship in Phase 7.**
 - **100 Club pill** — kept in footer per Kevin's directive (hardcoded, bypasses the registry-gated `HundredClubBadge` component). Phase 7: evaluate switching to the registry component once TPP qualifies.
 
+### Phase 7 — Mobile perf push (attempted, fully reverted 2026-05-14)
+
+**Goal:** Cross mobile Lighthouse Perf 95+ from Phase 6's 88-90 median.
+**Hard requirement (per session brief):** No CLS regression. Desktop ≥99.
+No `media="print"` onload pattern. Mobile crossed 92 to count as progress.
+Time-box: 90 min.
+
+**Outcome: All three attempts reverted. Branch identical to f613be8
+(pre-Phase-7 last commit). Mobile remains at 87-90 median. CARs below.**
+
+| Attempt | Approach | PSI median (mobile / desktop) | CLS | Revert |
+|---|---|---|---|---|
+| Baseline | (none) | **90 / 100** | 0.001 / 0.000 | — |
+| 1 | `vite.build.cssCodeSplit: false` to concatenate per-page CSS into one bundle (-1 render-blocking RTT) | 90 / 99 | 0.001 / 0.000 | `c7ab7bb` |
+| 2 | Beasties critical-CSS extraction with `preload: 'js-lazy'` + `pruneSource: true` (no media=print pattern) | **99 / 100** | **0.000 / 0.000** | `b2f9198` |
+| 3 | Same Beasties config but `pruneSource: false` (preserve full deferred CSS) | 87 / 99 | 0.011 / 0.000 | `fb0d580` |
+
+**Attempt 2 result was almost perfect** — mobile Perf crossed 99 with CLS
+0.000 (better than baseline). But it tanked **A11y 100→96** and
+**Best-Practices 100→96** on both viewports. The two new failing audits
+were:
+  - `image-aspect-ratio` (BP) — image rendered dims didn't match HTML
+    width/height attrs because the `.hero-book-img` `height: auto`
+    rule (and similar layout-driving rules) were pruned from critical
+    extraction. The deferred CSS would arrive AFTER Lighthouse's
+    audit window, so the audit saw the page in its broken pre-deferred
+    state.
+  - `target-size` (A11y) — interactive elements rendered with default
+    padding (no min-target sizing rules in critical extraction).
+
+**Attempt 3** kept the deferred CSS as the full original sheet (not
+pruned) to restore the missing rules. A11y/BP came back to 100, but:
+  - Mobile Perf regressed to 87 (below baseline 90) because each page
+    HTML grew ~17KB from duplicate critical+deferred rules
+  - Mobile CLS spiked from 0.001 → 0.011 (10× regression — though
+    still well within "Good" range, the brief said "any CLS regression
+    = revert")
+
+**Why this is a hard problem on this specific site:**
+  1. The hero is split-column with the image on the right being a
+     significant chunk of mobile viewport. Layout-driving CSS for
+     that image (`.hero-book-img`, scoped via `data-astro-cid-*`) is
+     above-the-fold AND affects PSI's image-aspect-ratio audit. If
+     Beasties' DOM-walk extraction misses it, the audit fails. If
+     duplicated to keep it complete, bytes regress slow-4G mobile.
+  2. The site uses Astro scoped CSS heavily (each component compiles
+     to per-page selectors with `data-astro-cid` attribute selectors).
+     Beasties does match these correctly when extracting, but
+     selectors that only become "visible" via scroll, interaction,
+     or media-query state still get pruned and miss audit windows.
+  3. Per-page CSS bundles are ~24KB raw each (~4-6KB gzip). Inlining
+     all critical CSS (~21KB per page) AND keeping deferred CSS
+     external roughly doubles the wire bytes on first load.
+
+**What a dedicated Phase 7 session would need to try:**
+  1. **`forceInclude` for Beasties** — manually list selectors that
+     must always be inlined (`.hero-book-img`, all retailer-card
+     classes, all button/anchor with significant padding). Restore
+     A11y/BP completeness without breaking the prune. Beasties
+     option name: `additionalStylesheets` or per-instance hook.
+  2. **Manual critical CSS extraction** — write a `<style is:inline>`
+     block in `Layout.astro` head with hand-picked critical hero +
+     header + button styles. Disable Beasties. Defer the rest via
+     `<link rel="preload" as="style">` + JS-driven append on idle.
+     ~1-2 hours to identify the right rule set.
+  3. **CF zone Phase 0 settings** — `early_hints=on`, `mirage=off`,
+     `0rtt=on` on the production zone. Phase 6 notes say prod scores
+     typically run 4-6 points BELOW dev.pages.dev until Phase 0 is
+     applied. Could give +3 mobile for free without code changes.
+     Per cf-zone-settings.md, this is mandatory anyway for the
+     production zone.
+  4. **Reduce per-page CSS bundle size** — audit `index.yodYpjSp.css`
+     for unused rules (sections that don't appear on initial paint)
+     and split into a separate route-level lazy chunk.
+  5. **font-display: swap** with proper `size-adjust` per font —
+     Phase 6 tried `size-adjust`/`ascent-override` and reverted
+     because PSI Linux substitutes Liberation Sans with different
+     metrics than macOS Capsize values. A future attempt should
+     calibrate against the actual PSI runtime fonts (run a Lighthouse
+     CI job that captures the substituted font's metrics, then
+     compute size-adjust from those).
+
+**Commits on dev branch from Phase 7 (3 attempts + 3 reverts, all clean):**
+  - 93996e6 + c7ab7bb (attempt 1 + revert)
+  - c1772bf + b2f9198 (attempt 2 + revert)
+  - 72823f1 + fb0d580 (attempt 3 + revert)
+
+**State at end of session:** branch HEAD identical to f613be8 (pre-
+Phase-7 last commit). `npm ls beasties astro-critters` returns empty.
+No leftover scripts, no lockfile drift, no node_modules drift.
+
 ### Phases 7-9
 
 ## DNS Pattern
