@@ -639,7 +639,11 @@ function decodeText(s: string): string {
         ></video>
       );
     }
-    const mediaCol = <div class="prc-media-col">{mediaEl}</div>;
+    const mediaCol = (
+      <div class="prc-media-col">
+        <div class="prc-media-wrap">{mediaEl}</div>
+      </div>
+    );
     const textCol = (
       <div class="prc-text-col">
         {b.h2 && <h2 class="prc-h2">{decodeText(b.h2)}</h2>}
@@ -5429,12 +5433,51 @@ function decodeText(s: string): string {
     display: flex;
     justify-content: center;
   }
+  /* Media wrapper — holds the media element + the UCLA-blue offset
+     rectangle (::before pseudo) that sits behind and peeks out at the
+     top-left. Replicates the live Bricks layout where a sibling div
+     with width:80%, height:320px, background #2774AE was offset via
+     margin-top:-370px (desktop) / -200px (mobile) to sit behind the
+     iframe / video element. Implemented here as a positioned ::before
+     so we don't need to duplicate the media DOM. */
+  .prc-media-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 640px;
+  }
+  .prc-media-wrap::before {
+    content: '';
+    position: absolute;
+    /* Sit behind the media at upper-left so it peeks out 20px on
+       top and left edges. */
+    top: -20px;
+    left: -20px;
+    /* Width / height slightly smaller than the media so the media
+       still protrudes at the bottom-right — same "card with backing"
+       visual as the live source where blue covers ~80–90% of media. */
+    width: calc(100% - 60px);
+    height: calc(100% - 60px);
+    background: var(--color-author-blue, #2774AE);
+    z-index: 0;
+    pointer-events: none;
+  }
+  @media (max-width: 767px) {
+    /* Smaller offset on mobile — matches live source's reduced
+       margin-top from -370px to -200px (i.e. ~50% scale). */
+    .prc-media-wrap::before {
+      top: -10px;
+      left: -10px;
+      width: calc(100% - 30px);
+      height: calc(100% - 30px);
+    }
+  }
   /* YouTube facade box — 16:9 aspect, rounded, drops shadow. The
      .yt-facade button styles live in index.astro (page-scoped). To
      keep the Media Center fully self-contained the `.prc-yt-facade`
      class replicates the visual treatment scoped to TypedPage. */
   .prc-yt-facade {
     position: relative;
+    z-index: 1;
     display: block;
     width: 100%;
     max-width: 640px;
@@ -5471,8 +5514,12 @@ function decodeText(s: string): string {
     outline: 2px solid var(--color-brand-yellow);
     outline-offset: 2px;
   }
-  /* MP4 — autoplay, loop, muted. Same visual box as the YT facade. */
+  /* MP4 — autoplay, loop, muted. Same visual box as the YT facade.
+     position:relative + z-index:1 keeps it above the .prc-media-wrap::before
+     blue offset rectangle. */
   .prc-mp4 {
+    position: relative;
+    z-index: 1;
     display: block;
     width: 100%;
     max-width: 640px;
