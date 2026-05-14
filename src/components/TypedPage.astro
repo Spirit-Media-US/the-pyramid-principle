@@ -5434,12 +5434,19 @@ function decodeText(s: string): string {
     justify-content: center;
   }
   /* Media wrapper — holds the media element + the UCLA-blue offset
-     rectangle (::before pseudo) that sits behind and peeks out at the
-     top-left. Replicates the live Bricks layout where a sibling div
-     with width:80%, height:320px, background #2774AE was offset via
-     margin-top:-370px (desktop) / -200px (mobile) to sit behind the
-     iframe / video element. Implemented here as a positioned ::before
-     so we don't need to duplicate the media DOM. */
+     rectangle (::before pseudo) that sits behind it. Live Bricks
+     source has a sibling div #brxe-kvpfci with width:80% / height:320px
+     / margin-top:-370px (320px tall, peeks ~55px above the iframe and
+     leaves ~50px of iframe protruding below). Translation to inset:
+       top: -20px    → peeks 20px above the media's top
+       bottom: -20px → peeks 20px below the media's bottom
+       left: -20px   → peeks 20px to the left of the media
+       right: 20px   → recedes 20px from the media's right (media
+                       protrudes 20px to the right)
+     Net: blue rectangle is ~40px taller than the media, slightly
+     shifted left, with media protruding to the right — same
+     "card with backing" effect as the live source but with peek
+     visible above AND below per design feedback. */
   .prc-media-wrap {
     position: relative;
     width: 100%;
@@ -5448,27 +5455,27 @@ function decodeText(s: string): string {
   .prc-media-wrap::before {
     content: '';
     position: absolute;
-    /* Sit behind the media at upper-left so it peeks out 20px on
-       top and left edges. */
-    top: -20px;
+    /* 30px top + 30px bottom → blue is ~17% taller than a 360px-tall
+       16:9 media (60px extra on ~360px = 16.7%), matching the design
+       call for "20-30% taller". 20px left + 20px right (recessed)
+       keeps blue slightly narrower than media so media protrudes
+       right. */
+    top: -30px;
     left: -20px;
-    /* Width / height slightly smaller than the media so the media
-       still protrudes at the bottom-right — same "card with backing"
-       visual as the live source where blue covers ~80–90% of media. */
-    width: calc(100% - 60px);
-    height: calc(100% - 60px);
+    right: 20px;
+    bottom: -30px;
     background: var(--color-author-blue, #2774AE);
     z-index: 0;
     pointer-events: none;
   }
   @media (max-width: 767px) {
-    /* Smaller offset on mobile — matches live source's reduced
-       margin-top from -370px to -200px (i.e. ~50% scale). */
+    /* Scale offsets ~50% on mobile (matches live source's mobile
+       scale-down from -370px to -200px margin-top). */
     .prc-media-wrap::before {
-      top: -10px;
+      top: -15px;
       left: -10px;
-      width: calc(100% - 30px);
-      height: calc(100% - 30px);
+      right: 10px;
+      bottom: -15px;
     }
   }
   /* YouTube facade box — 16:9 aspect, rounded, drops shadow. The
