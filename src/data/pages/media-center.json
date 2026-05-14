@@ -1,254 +1,101 @@
-{
-  "slug": "media-center",
-  "path": "/tpp/media-center/",
-  "title": "Media Center (In the News) - thepyramidprinciple.org",
-  "description": "",
-  "h1": [
-    "IN THE NEWS"
-  ],
-  "blocks": [
-    {
-      "tag": "h3",
-      "text": "MEDIA CENTER"
-    },
-    {
-      "tag": "h1",
-      "text": "IN THE NEWS"
-    },
-    {
-      "tag": "h2",
-      "text": "Generosity Campaign Launched To Share a Gift of Courage with 400,000 Families Fighting Cancer"
-    },
-    {
-      "tag": "p",
-      "text": "RALEIGH, N.C., Dec. 2, 2024 /PRNewswire/ -- SpiritMedia.US, publisher of The Pyramid Principle joins with authors John Vallely and Paul Weissenstein, Pediatric Cancer Research Foundation, GiveButter, and other strategic partners to launch a nationwide generosity campaign to share gifts of courage with 400,000 families fighting cancer in the USA."
-    },
-    {
-      "tag": "cta",
-      "text": "Learn More",
-      "href": "https://www.prnewswire.com/news-releases/generosity-campaign-launched-to-share-a-gift-of-courage-with-400-000-families-fighting-cancer-302319839.html?tc=eml_cleartime"
-    },
-    {
-      "tag": "iframe",
-      "src": "https://www.youtube.com/embed/xuYxhPF-W_Y?wmode=opaque&rel=0&enablejsapi=1",
-      "title": ""
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/1-1024x726.png",
-      "alt": "",
-      "naturalWidth": 1024,
-      "naturalHeight": 726
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/2-1024x726.png",
-      "alt": "",
-      "naturalWidth": 1024,
-      "naturalHeight": 726
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/3-1024x726.png",
-      "alt": "",
-      "naturalWidth": 1024,
-      "naturalHeight": 726
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/4-1024x726.png",
-      "alt": "",
-      "naturalWidth": 1024,
-      "naturalHeight": 726
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/5-1024x726.png",
-      "alt": "",
-      "naturalWidth": 1024,
-      "naturalHeight": 726
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/7-1024x726.png",
-      "alt": "",
-      "naturalWidth": 1024,
-      "naturalHeight": 726
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/8-1024x726.png",
-      "alt": "",
-      "naturalWidth": 1024,
-      "naturalHeight": 726
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/6-1024x726.png",
-      "alt": "",
-      "naturalWidth": 1024,
-      "naturalHeight": 726
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/9-1024x726.png",
-      "alt": "",
-      "naturalWidth": 1024,
-      "naturalHeight": 726
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/10-1024x726.png",
-      "alt": "",
-      "naturalWidth": 1024,
-      "naturalHeight": 726
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/11-1024x726.png",
-      "alt": "",
-      "naturalWidth": 1024,
-      "naturalHeight": 726
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/12-1024x726.png",
-      "alt": "",
-      "naturalWidth": 1024,
-      "naturalHeight": 726
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/13-1024x726.png",
-      "alt": "",
-      "naturalWidth": 1024,
-      "naturalHeight": 726
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/14-1024x726.png",
-      "alt": "",
-      "naturalWidth": 1024,
-      "naturalHeight": 726
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/15-1024x726.png",
-      "alt": "",
-      "naturalWidth": 1024,
-      "naturalHeight": 726
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/16-1024x726.png",
-      "alt": "",
-      "naturalWidth": 1024,
-      "naturalHeight": 726
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/12/Yahoo_Finance_logo_2021-1024x375.png",
-      "alt": "",
-      "naturalWidth": 1024,
-      "naturalHeight": 375
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/12/KRON_4_Main_Logo.png",
-      "alt": "",
-      "naturalWidth": 700,
-      "naturalHeight": 245
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/12/65bb85f9f515120011c1be7e-NEWS_LOGO_03_0030_cropped.png",
-      "alt": "",
-      "naturalWidth": 800,
-      "naturalHeight": 280
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/12/WCBI_Fox_4_logo_2024-1024x350.webp",
-      "alt": "",
-      "naturalWidth": 1024,
-      "naturalHeight": 350
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/12/cropped-NBC4i.com-WEB.webp",
-      "alt": "",
-      "naturalWidth": 800,
-      "naturalHeight": 238
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/12/cropped-8News-900x340-for-web.webp",
-      "alt": "",
-      "naturalWidth": 900,
-      "naturalHeight": 190
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/12/KOIN_logo_2017-1024x308.webp",
-      "alt": "",
-      "naturalWidth": 1024,
-      "naturalHeight": 308
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/12/WOOD-TV_NBC_8_Grand_Rapids_Michigan_Logo.svg_-1024x415.png",
-      "alt": "",
-      "naturalWidth": 1024,
-      "naturalHeight": 415
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/12/WAVY_TV_Logo.png",
-      "alt": "",
-      "naturalWidth": 327,
-      "naturalHeight": 304
-    },
-    {
-      "tag": "img",
-      "src": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/12/WPIX.webp",
-      "alt": "",
-      "naturalWidth": 600,
-      "naturalHeight": 300
-    },
-    {
-      "tag": "iframe",
-      "src": "https://www.youtube.com/embed/Pk7Ox-0b_0Y?wmode=opaque&rel=0&enablejsapi=1",
-      "title": ""
-    },
-    {
-      "tag": "h2",
-      "text": "UCLA’s Coach Cori Close Applauds The Pyramid Principle by John Vallely"
-    },
-    {
-      "tag": "p",
-      "text": "\"John Vallely took his family's pain and turned it into great purpose to relieve it for someone else\" - Coach Cori Close"
-    },
-    {
-      "tag": "cta",
-      "text": "Learn More",
-      "href": "https://www.prnewswire.com/news-releases/coach-cori-close-applauds-the-pyramid-principle-by-john-vallely-302304309.html"
-    },
-    {
-      "tag": "p",
-      "text": "Your browser does not support the video tag."
-    },
-    {
-      "tag": "h2",
-      "text": "SpiritMedia.US to Publish The Pyramid Principle by UCLA Superstar and NBA Pro John Vallely"
-    },
-    {
-      "tag": "p",
-      "text": "Projected NY Times Bestseller Chronicles an Untold Story of Legendary Head Coach John Wooden."
-    },
-    {
-      "tag": "cta",
-      "text": "Learn More",
-      "href": "https://www.prnewswire.com/news-releases/spiritmediaus-to-publish-the-pyramid-principle-by-ucla-superstar-and-nba-pro-john-vallely-302223398.html"
-    }
-  ]
-}
+[
+  {
+    "type": "_meta",
+    "title": "In The News | The Pyramid Principle",
+    "description": "Press coverage of The Pyramid Principle by John Vallely with Paul Weissenstein — the Generosity Campaign launch, Coach Cori Close endorsement, and SpiritMedia.US publishing announcement.",
+    "slug": "media-center"
+  },
+  {
+    "type": "title-card",
+    "id": "brxe-vcpshv",
+    "eyebrow": "Media Center",
+    "h1": "IN THE NEWS"
+  },
+  {
+    "type": "pr-release-card",
+    "id": "brxe-isnmrj",
+    "h2": "Generosity Campaign Launched To Share a Gift of Courage with 400,000 Families Fighting Cancer",
+    "body": "<p>RALEIGH, N.C., Dec. 2, 2024 /PRNewswire/ -- SpiritMedia.US, publisher of The Pyramid Principle joins with authors John Vallely and Paul Weissenstein, Pediatric Cancer Research Foundation, GiveButter, and other strategic partners to launch a nationwide generosity campaign to share gifts of courage with 400,000 families fighting cancer in the USA.</p>",
+    "ctaLabel": "Learn More",
+    "ctaHref": "https://www.prnewswire.com/news-releases/generosity-campaign-launched-to-share-a-gift-of-courage-with-400-000-families-fighting-cancer-302319839.html",
+    "mediaType": "youtube",
+    "mediaSrc": "xuYxhPF-W_Y",
+    "imagePosition": "right"
+  },
+  {
+    "type": "press-logo-grid",
+    "id": "brxe-clphik",
+    "logos": [
+      { "image": { "file": "1-1024x726.png", "alt": "Press coverage on AP News" }, "href": "https://apnews.com/press-release/pr-newswire/medical-research-cancer-kevin-white-womens-college-basketball-children-8dca04c72a5db3df2b0d72c8a90256a7" },
+      { "image": { "file": "2-1024x726.png", "alt": "Press coverage on Benzinga" }, "href": "https://www.benzinga.com/pressreleases/24/12/n42271920/generosity-campaign-launched-to-share-a-gift-of-courage-with-400-000-families-fighting-cancer" },
+      { "image": { "file": "3-1024x726.png", "alt": "Press coverage on KTLA" }, "href": "https://ktla.com/business/press-releases/cision/20241202CL69484/generosity-campaign-launched-to-share-a-gift-of-courage-with-400-000-families-fighting-cancer/" },
+      { "image": { "file": "4-1024x726.png", "alt": "Press coverage on PR Newswire" }, "href": "https://www.prnewswire.com/news-releases/generosity-campaign-launched-to-share-a-gift-of-courage-with-400-000-families-fighting-cancer-302319839.html" },
+      { "image": { "file": "5-1024x726.png", "alt": "Press coverage on WFLA" }, "href": "https://www.wfla.com/business/press-releases/cision/20241202CL69484/generosity-campaign-launched-to-share-a-gift-of-courage-with-400-000-families-fighting-cancer/" },
+      { "image": { "file": "7-1024x726.png", "alt": "Press coverage on Morningstar" }, "href": "https://www.morningstar.com/news/pr-newswire/20241113cl55766/coach-cori-close-applauds-the-pyramid-principle-by-john-vallely" },
+      { "image": { "file": "8-1024x726.png", "alt": "Press coverage on My Fox 8" }, "href": "https://myfox8.com/business/press-releases/cision/20241202CL69484/generosity-campaign-launched-to-share-a-gift-of-courage-with-400-000-families-fighting-cancer/" },
+      { "image": { "file": "6-1024x726.png", "alt": "Press coverage on Seeking Alpha" }, "href": "https://seekingalpha.com/pr/19933263-generosity-campaign-launched-to-share-gift-of-courage-400000-families-fighting-cancer" },
+      { "image": { "file": "9-1024x726.png", "alt": "Press coverage on Fox 59" }, "href": "https://fox59.com/business/press-releases/cision/20241202CL69484/generosity-campaign-launched-to-share-a-gift-of-courage-with-400-000-families-fighting-cancer/" },
+      { "image": { "file": "10-1024x726.png", "alt": "Press coverage on KXAN" }, "href": "https://www.kxan.com/business/press-releases/cision/20241202CL69484/generosity-campaign-launched-to-share-a-gift-of-courage-with-400-000-families-fighting-cancer/" },
+      { "image": { "file": "11-1024x726.png", "alt": "Press coverage on Fox 2 Now" }, "href": "https://fox2now.com/business/press-releases/cision/20241202CL69484/generosity-campaign-launched-to-share-a-gift-of-courage-with-400-000-families-fighting-cancer/" },
+      { "image": { "file": "12-1024x726.png", "alt": "Press coverage on WGN TV" }, "href": "https://wgntv.com/business/press-releases/cision/20241202CL69484/generosity-campaign-launched-to-share-a-gift-of-courage-with-400-000-families-fighting-cancer/" },
+      { "image": { "file": "13-1024x726.png", "alt": "Press coverage on KDVR" }, "href": "https://kdvr.com/business/press-releases/cision/20241202CL69484/generosity-campaign-launched-to-share-a-gift-of-courage-with-400-000-families-fighting-cancer/" },
+      { "image": { "file": "14-1024x726.png", "alt": "Press coverage on KDVR" }, "href": "https://kdvr.com/business/press-releases/cision/20241113CL55766/coach-cori-close-applauds-the-pyramid-principle-by-john-vallely/" },
+      { "image": { "file": "15-1024x726.png", "alt": "Press coverage on WKRN" }, "href": "https://www.wkrn.com/business/press-releases/cision/20241202CL69484/generosity-campaign-launched-to-share-a-gift-of-courage-with-400-000-families-fighting-cancer/" },
+      { "image": { "file": "16-1024x726.png", "alt": "Press coverage on Fox 5 San Diego" }, "href": "https://fox5sandiego.com/business/press-releases/cision/20241202CL69484/generosity-campaign-launched-to-share-a-gift-of-courage-with-400-000-families-fighting-cancer/" },
+      { "image": { "file": "Yahoo_Finance_logo_2021-1024x375.png", "alt": "Press coverage on Yahoo Finance" }, "href": "https://finance.yahoo.com/news/generosity-campaign-launched-share-gift-171800075.html" },
+      { "image": { "file": "KRON_4_Main_Logo.png", "alt": "Press coverage on KRON 4" }, "href": "https://www.kron4.com/business/press-releases/cision/20241202CL69484/generosity-campaign-launched-to-share-a-gift-of-courage-with-400-000-families-fighting-cancer/" },
+      { "image": { "file": "65bb85f9f515120011c1be7e-NEWS_LOGO_03_0030_cropped.png", "alt": "Press coverage on WFMZ" }, "href": "https://www.wfmz.com/news/pr_newswire/pr_newswire_technology/generosity-campaign-launched-to-share-a-gift-of-courage-with-400-000-families-fighting-cancer/article_049664ca-8a06-5540-b653-e00039274c55.html" },
+      { "image": { "file": "WCBI_Fox_4_logo_2024-1024x350.webp", "alt": "Press coverage on Fox 4 KC" }, "href": "https://fox4kc.com/business/press-releases/cision/20241202CL69484/generosity-campaign-launched-to-share-a-gift-of-courage-with-400-000-families-fighting-cancer/" },
+      { "image": { "file": "cropped-NBC4i.com-WEB.webp", "alt": "Press coverage on NBC 4i" }, "href": "https://www.nbc4i.com/business/press-releases/cision/20241202CL69484/generosity-campaign-launched-to-share-a-gift-of-courage-with-400-000-families-fighting-cancer/" },
+      { "image": { "file": "cropped-8News-900x340-for-web.webp", "alt": "Press coverage on WRIC 8News" }, "href": "https://www.wric.com/business/press-releases/cision/20241202CL69484/generosity-campaign-launched-to-share-a-gift-of-courage-with-400-000-families-fighting-cancer/" },
+      { "image": { "file": "KOIN_logo_2017-1024x308.webp", "alt": "Press coverage on KOIN" }, "href": "https://www.koin.com/business/press-releases/cision/20241202CL69484/generosity-campaign-launched-to-share-a-gift-of-courage-with-400-000-families-fighting-cancer/" },
+      { "image": { "file": "WOOD-TV_NBC_8_Grand_Rapids_Michigan_Logo.svg_-1024x415.png", "alt": "Press coverage on WOOD TV NBC 8" }, "href": "https://www.woodtv.com/business/press-releases/cision/20241202CL69484/generosity-campaign-launched-to-share-a-gift-of-courage-with-400-000-families-fighting-cancer/" },
+      { "image": { "file": "WAVY_TV_Logo.png", "alt": "Press coverage on WAVY TV" }, "href": "https://www.wavy.com/business/press-releases/cision/20241202CL69484/generosity-campaign-launched-to-share-a-gift-of-courage-with-400-000-families-fighting-cancer/" },
+      { "image": { "file": "WPIX.webp", "alt": "Press coverage on WPIX 11" }, "href": "https://pix11.com/business/press-releases/cision/20241202CL69484/generosity-campaign-launched-to-share-a-gift-of-courage-with-400-000-families-fighting-cancer/" }
+    ]
+  },
+  {
+    "type": "pr-release-card",
+    "id": "brxe-rgtsli",
+    "h2": "UCLA’s Coach Cori Close Applauds The Pyramid Principle by John Vallely",
+    "body": "<p>“John Vallely took his family’s pain and turned it into great purpose to relieve it for someone else” - <i>Coach Cori Close</i></p>",
+    "ctaLabel": "Learn More",
+    "ctaHref": "https://www.prnewswire.com/news-releases/coach-cori-close-applauds-the-pyramid-principle-by-john-vallely-302304309.html",
+    "mediaType": "youtube",
+    "mediaSrc": "Pk7Ox-0b_0Y",
+    "imagePosition": "left"
+  },
+  {
+    "type": "press-logo-grid",
+    "id": "brxe-recpnz",
+    "logos": [
+      { "image": { "file": "1-1024x726.png", "alt": "Cori Close PR on AP News" }, "href": "https://apnews.com/press-release/pr-newswire/athlete-recruiting-medical-research-womens-college-basketball-college-sports-ucla-bruins-c6bc2d4a48bc85e8ecd0c3a310b3b950" },
+      { "image": { "file": "2-1024x726.png", "alt": "Cori Close PR on Benzinga" }, "href": "https://www.benzinga.com/pressreleases/24/11/n41943157/coach-cori-close-applauds-the-pyramid-principle-by-john-vallely" },
+      { "image": { "file": "3-1024x726.png", "alt": "Cori Close PR on KTLA" }, "href": "https://ktla.com/business/press-releases/cision/20241113CL55766/coach-cori-close-applauds-the-pyramid-principle-by-john-vallely/" },
+      { "image": { "file": "4-1024x726.png", "alt": "Cori Close PR on PR Newswire" }, "href": "https://www.prnewswire.com/news-releases/coach-cori-close-applauds-the-pyramid-principle-by-john-vallely-302304309.html" },
+      { "image": { "file": "5-1024x726.png", "alt": "Cori Close PR on WFLA" }, "href": "https://www.wfla.com/business/press-releases/cision/20241113CL55766/coach-cori-close-applauds-the-pyramid-principle-by-john-vallely/" },
+      { "image": { "file": "7-1024x726.png", "alt": "Cori Close PR on Morningstar" }, "href": "https://www.morningstar.com/news/pr-newswire/20241113cl55766/coach-cori-close-applauds-the-pyramid-principle-by-john-vallely" },
+      { "image": { "file": "8-1024x726.png", "alt": "Cori Close PR on Fox 8" }, "href": "https://fox8.com/business/press-releases/cision/20241113CL55766/coach-cori-close-applauds-the-pyramid-principle-by-john-vallely/" },
+      { "image": { "file": "6-1024x726.png", "alt": "Cori Close PR on Seeking Alpha" }, "href": "https://seekingalpha.com/pr/19915046-coach-cori-close-applauds-pyramid-principle-john-vallely" },
+      { "image": { "file": "9-1024x726.png", "alt": "Cori Close PR on Fox 59" }, "href": "https://fox59.com/business/press-releases/cision/20241113CL55766/coach-cori-close-applauds-the-pyramid-principle-by-john-vallely/" },
+      { "image": { "file": "10-1024x726.png", "alt": "Cori Close PR on KXAN" }, "href": "https://www.kxan.com/business/press-releases/cision/20241113CL55766/coach-cori-close-applauds-the-pyramid-principle-by-john-vallely/" },
+      { "image": { "file": "11-1024x726.png", "alt": "Cori Close PR on Fox 2 Now" }, "href": "https://fox2now.com/business/press-releases/cision/20241113CL55766/coach-cori-close-applauds-the-pyramid-principle-by-john-vallely/" },
+      { "image": { "file": "12-1024x726.png", "alt": "Cori Close PR on WGN TV" }, "href": "https://wgntv.com/business/press-releases/cision/20241113CL55766/coach-cori-close-applauds-the-pyramid-principle-by-john-vallely/" },
+      { "image": { "file": "13-1024x726.png", "alt": "Cori Close PR on KDVR" }, "href": "https://kdvr.com/business/press-releases/cision/20241113CL55766/coach-cori-close-applauds-the-pyramid-principle-by-john-vallely/" },
+      { "image": { "file": "14-1024x726.png", "alt": "Cori Close PR on KDVR" }, "href": "https://kdvr.com/business/press-releases/cision/20241113CL55766/coach-cori-close-applauds-the-pyramid-principle-by-john-vallely/" },
+      { "image": { "file": "15-1024x726.png", "alt": "Cori Close PR on WKRN" }, "href": "https://www.wkrn.com/business/press-releases/cision/20241113CL55766/coach-cori-close-applauds-the-pyramid-principle-by-john-vallely/" },
+      { "image": { "file": "16-1024x726.png", "alt": "Cori Close PR on Fox 5 San Diego" }, "href": "https://fox5sandiego.com/business/press-releases/cision/20241113CL55766/coach-cori-close-applauds-the-pyramid-principle-by-john-vallely/" }
+    ]
+  },
+  {
+    "type": "pr-release-card",
+    "id": "brxe-rtvxki",
+    "h2": "SpiritMedia.US to Publish The Pyramid Principle by UCLA Superstar and NBA Pro John Vallely",
+    "body": "<p>Projected NY Times Bestseller Chronicles an Untold Story of Legendary Head Coach<br>John Wooden.</p>",
+    "ctaLabel": "Learn More",
+    "ctaHref": "https://www.prnewswire.com/news-releases/spiritmediaus-to-publish-the-pyramid-principle-by-ucla-superstar-and-nba-pro-john-vallely-302223398.html",
+    "mediaType": "mp4",
+    "mediaSrc": "https://assets.spiritmediapublishing.com/the-pyramid-principle/media/tpp-3d.mp4",
+    "imagePosition": "left"
+  }
+]

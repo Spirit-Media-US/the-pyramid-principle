@@ -27,6 +27,8 @@
 //   share-review-cta     — Reviews page top: eyebrow + H1 + subtitle + 2 logos + CTA
 //   pull-quote-row       — Reviews page 3-up colored quote cards (Libre Baskerville italic)
 //   review-card-list     — Reviews page alternating image+text testimonial rows
+//   pr-release-card      — Media Center: 2-col PR card (H2 + body + CTA + YT facade / MP4 video)
+//   press-logo-grid      — Media Center: responsive grid of clickable press-logo cards
 import { srcW, dims } from '../lib/img';
 
 interface Props { blocks: any[]; }
@@ -585,6 +587,106 @@ function decodeText(s: string): string {
               <div class={`rev-row rev-img-${side}`}>
                 {side === 'left' ? <>{imgCol}{textCol}</> : <>{textCol}{imgCol}</>}
               </div>
+            );
+          })}
+        </div>
+      </section>
+    );
+  }
+
+  // ── pr-release-card — Media Center 2-column PR card.
+  // Live source has 3 instances (#brxe-isnmrj / #brxe-rgtsli / #brxe-rtvxki),
+  // each with: H2 + body text + yellow "Learn More" CTA + media (either a
+  // YouTube facade — click-to-load — or an autoplay/loop/muted MP4).
+  // imagePosition: 'left' | 'right' drives which side the media sits on
+  // (Section 2 = right; Sections 4 + 6 = left).
+  //
+  // The live source wraps the media in <a href="…pacdora.com…"> on all 3
+  // cards — Bricks editor leftover (the link is to a packaging-design
+  // template, not a real destination). Dropped per Phase 3 editorial.
+  if (b.type === 'pr-release-card') {
+    const side = b.imagePosition === 'left' ? 'left' : 'right';
+    let mediaEl: any = null;
+    if (b.mediaType === 'youtube' && b.mediaSrc) {
+      mediaEl = (
+        <button
+          type="button"
+          class="yt-facade prc-yt-facade"
+          data-yt-id={b.mediaSrc}
+          data-yt-title={b.h2 || 'YouTube video'}
+          aria-label={`Play video: ${b.h2 || 'YouTube video'}`}>
+          <img class="yt-facade-poster"
+               src={`https://i.ytimg.com/vi/${b.mediaSrc}/hqdefault.jpg`}
+               width="480" height="360"
+               alt={b.h2 || ''}
+               loading="lazy" decoding="async" />
+          <span class="yt-facade-play" aria-hidden="true">
+            <svg width="68" height="48" viewBox="0 0 68 48"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.41 6.19C.08 13.05 0 24 0 24s.08 10.95 1.49 16.26c.78 2.93 2.48 5.41 5.41 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.92 34.95 68 24 68 24s-.08-10.95-1.48-16.26z" fill="#f00"/><path d="M45 24 27 14v20" fill="#fff"/></svg>
+          </span>
+        </button>
+      );
+    } else if (b.mediaType === 'mp4' && b.mediaSrc) {
+      mediaEl = (
+        <video
+          class="prc-mp4"
+          src={b.mediaSrc}
+          autoplay
+          loop
+          muted
+          playsinline
+          preload="metadata"
+          aria-label={b.h2 || ''}
+        ></video>
+      );
+    }
+    const mediaCol = <div class="prc-media-col">{mediaEl}</div>;
+    const textCol = (
+      <div class="prc-text-col">
+        {b.h2 && <h2 class="prc-h2">{decodeText(b.h2)}</h2>}
+        {b.body && <div class="prc-body" set:html={b.body}></div>}
+        {b.ctaHref && (
+          <a class="prc-cta" href={b.ctaHref} target="_blank" rel="noopener noreferrer">
+            {b.ctaLabel || 'Learn More'}
+          </a>
+        )}
+      </div>
+    );
+    return (
+      <section class={`prc-section prc-media-${side}`} id={b.id}>
+        <div class="prc-inner">
+          {side === 'left' ? <>{mediaCol}{textCol}</> : <>{textCol}{mediaCol}</>}
+        </div>
+      </section>
+    );
+  }
+
+  // ── press-logo-grid — Media Center responsive grid of clickable
+  // press-logo cards. Live source has 2 instances (#brxe-clphik = 26 logos,
+  // Generosity Campaign placements; #brxe-recpnz = 16 logos, Cori Close
+  // placements). Each cell: link with logo image, hover lift. Images use
+  // object-fit: contain so the varied aspect-ratios center cleanly within
+  // a uniform card. CAR: items 1–16 are generic PR Newswire screenshots
+  // (recycled between the two grids) — flagged for proper outlet logos
+  // in Phase 6 polish.
+  if (b.type === 'press-logo-grid') {
+    const logos = (b.logos || []) as any[];
+    return (
+      <section class="plg-section" id={b.id}>
+        <div class="plg-grid">
+          {logos.map((l: any) => {
+            const file = l.image?.file;
+            if (!file || !l.href) return null;
+            const dimsX = l.image?.dims || { width: 1024, height: 726 };
+            return (
+              <a class="plg-card" href={l.href} target="_blank" rel="noopener noreferrer"
+                 aria-label={l.image?.alt || 'Press coverage'}>
+                <img src={srcW(file, 400)}
+                     srcset={`${srcW(file, 240)} 240w, ${srcW(file, 400)} 400w, ${srcW(file, 600)} 600w`}
+                     sizes="(max-width: 640px) 90vw, (max-width: 1023px) 45vw, 320px"
+                     width={dimsX.width} height={dimsX.height}
+                     alt={l.image?.alt || ''}
+                     loading="lazy" decoding="async" />
+              </a>
             );
           })}
         </div>
@@ -1735,6 +1837,29 @@ function decodeText(s: string): string {
   const evs = ['scroll', 'click', 'touchstart', 'keydown', 'mousemove'];
   for (const e of evs) window.addEventListener(e, initVideoModal, { once: true, passive: true });
   window.setTimeout(initVideoModal, 8000);
+
+  // YouTube facade — swap poster button for the real iframe on first
+  // click. Defers ~500ms of YouTube embed JS until the user opts in.
+  // Used by pr-release-card (Media Center) and any other block that
+  // emits a .yt-facade button.
+  document.querySelectorAll<HTMLButtonElement>('.yt-facade').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.ytId;
+      const title = btn.dataset.ytTitle || 'YouTube video';
+      if (!id) return;
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+      iframe.title = title;
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      iframe.allowFullscreen = true;
+      iframe.style.position = 'absolute';
+      iframe.style.inset = '0';
+      iframe.style.width = '100%';
+      iframe.style.height = '100%';
+      iframe.style.border = '0';
+      btn.replaceWith(iframe);
+    });
+  });
 </script>
 
 <script>
@@ -5223,5 +5348,192 @@ function decodeText(s: string): string {
   .rev-attrib a:hover { text-decoration: underline; }
   .rev-source {
     color: var(--color-author-blue, #2774AE);
+  }
+
+  /* ── pr-release-card — Media Center 2-column PR card.
+     Three instances per /media-center/ live source. Mobile: stacked
+     column-reverse (text first, media below). Desktop ≥1024px:
+     2-col with `prc-media-left` / `prc-media-right` driving order. */
+  .prc-section {
+    background: #fff;
+    padding: 40px 0;
+  }
+  @media (min-width: 768px) {
+    .prc-section { padding: 60px 0; }
+  }
+  .prc-section + .prc-section { border-top: 1px solid rgba(0,0,0,0.06); }
+  .prc-inner {
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding: 0 var(--section-padding-x-mobile);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    align-items: center;
+  }
+  @media (min-width: 768px) {
+    .prc-inner { padding: 0 var(--section-padding-x-desktop); }
+  }
+  @media (min-width: 1024px) {
+    .prc-inner { grid-template-columns: 1fr 1fr; gap: 48px; }
+  }
+  .prc-text-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  .prc-h2 {
+    margin: 0;
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2rem, 4.5vw, 3rem); /* 32px → 48px */
+    line-height: 1.05;
+    letter-spacing: 0.01em;
+    text-transform: none;
+  }
+  .prc-body {
+    margin: 0;
+    color: var(--color-text);
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+  .prc-body p { margin: 0 0 12px; }
+  .prc-body p:last-child { margin-bottom: 0; }
+  .prc-cta {
+    display: inline-flex;
+    align-items: center;
+    background: var(--color-brand-yellow);
+    color: var(--color-ink);
+    font-family: 'Raleway', system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 1px solid #f5f5f5;
+    border-radius: 10px;
+    padding: 14px 32px;
+    text-decoration: none;
+    margin-top: 8px;
+    transition: background 0.15s, transform 0.15s;
+  }
+  .prc-cta:hover {
+    background: #e6bc00;
+    color: var(--color-ink);
+    text-decoration: none;
+    transform: translateY(-1px);
+  }
+  .prc-media-col {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  /* YouTube facade box — 16:9 aspect, rounded, drops shadow. The
+     .yt-facade button styles live in index.astro (page-scoped). To
+     keep the Media Center fully self-contained the `.prc-yt-facade`
+     class replicates the visual treatment scoped to TypedPage. */
+  .prc-yt-facade {
+    position: relative;
+    display: block;
+    width: 100%;
+    max-width: 640px;
+    aspect-ratio: 16 / 9;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px -2px rgba(0,0,0,0.18);
+  }
+  .prc-yt-facade .yt-facade-poster {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .prc-yt-facade .yt-facade-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    transition: transform 0.15s;
+  }
+  .prc-yt-facade:hover .yt-facade-play,
+  .prc-yt-facade:focus-visible .yt-facade-play {
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+  .prc-yt-facade:focus-visible {
+    outline: 2px solid var(--color-brand-yellow);
+    outline-offset: 2px;
+  }
+  /* MP4 — autoplay, loop, muted. Same visual box as the YT facade. */
+  .prc-mp4 {
+    display: block;
+    width: 100%;
+    max-width: 640px;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px -2px rgba(0,0,0,0.18);
+    object-fit: cover;
+  }
+
+  /* ── press-logo-grid — responsive grid of clickable logo cards.
+     Mobile: 1 col; Tablet (≥640px): 2 cols; Desktop (≥1024px): 3 cols.
+     Each card has a fixed-height row so the varying-aspect logos
+     center cleanly via object-fit: contain. */
+  .plg-section {
+    background: var(--color-bg-section);
+    padding: 32px 0;
+  }
+  @media (min-width: 768px) {
+    .plg-section { padding: 48px 0; }
+  }
+  .plg-grid {
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding: 0 var(--section-padding-x-mobile);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  @media (min-width: 640px) {
+    .plg-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  }
+  @media (min-width: 768px) {
+    .plg-grid { padding: 0 var(--section-padding-x-desktop); }
+  }
+  @media (min-width: 1024px) {
+    .plg-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  .plg-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 16px;
+    height: 140px;
+    box-shadow: 0 1px 3px -1px rgba(0,0,0,0.08);
+    transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+  }
+  .plg-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px -4px rgba(0,0,0,0.18);
+    border-color: var(--color-ink);
+    text-decoration: none;
+  }
+  .plg-card img {
+    width: 100%;
+    height: 100%;
+    max-height: 100px;
+    object-fit: contain;
+    display: block;
   }
 </style>

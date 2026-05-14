@@ -1,20 +1,48 @@
 ---
+// Media Center — programmatic rebuild via typed blocks (Phase 3 migration).
+// Source: https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/media-center/
+// Data:   src/data/pages/media-center.json (typed blocks)
+// Renderer: src/components/TypedPage.astro
+//
+// Six sections, three reusable block types:
+//
+// Section 1 (#brxe-vcpshv): title-card — eyebrow "MEDIA CENTER" + H1 "IN THE NEWS".
+// Section 2 (#brxe-isnmrj): pr-release-card — Generosity Campaign launch
+//   announcement. Text-left / YouTube facade (xuYxhPF-W_Y) right.
+// Section 3 (#brxe-clphik): press-logo-grid — 26 Generosity-Campaign
+//   syndicated coverage logos (AP / KTLA / WFLA / Yahoo Finance / KRON 4 /…).
+// Section 4 (#brxe-rgtsli): pr-release-card — Cori Close endorsement.
+//   YouTube facade (Pk7Ox-0b_0Y) left / text right.
+// Section 5 (#brxe-recpnz): press-logo-grid — 16 Cori Close PR placements.
+// Section 6 (#brxe-rtvxki): pr-release-card — SpiritMedia.US announcement.
+//   Autoplay/loop MP4 left / text right.
+//
+// Asset migration (2026-05-14):
+//   TPP-3D.mp4 (~1MB) from WP root /wp-content/uploads/2024/09/ migrated to
+//   R2 at smp/the-pyramid-principle/media/tpp-3d.mp4. Served from
+//   assets.spiritmediapublishing.com with Content-Type: video/mp4 +
+//   Cache-Control: public, max-age=31536000.
+//   All 26 press-logo images already in src/data/sanity-images.json — no
+//   new uploads needed.
+//
+// CARs (carried forward to Phase 5/6):
+//   - Pacdora wrapper links (https://www.pacdora.com/share?filter_url=psifjboabe)
+//     appear 3× on the WP source wrapping each pr-release-card media element.
+//     Clearly Bricks editor leftover (packaging-design template, not a real
+//     destination). Dropped during migration.
+//   - Press logos #1–#16 are generic PR Newswire screenshots recycled
+//     between Sections 3 and 5. Phase 6 polish: replace with proper outlet
+//     logos for cleaner branding.
+//   - Section 3 has a few URL/image mismatches in source (e.g. logo "7"
+//     links to a Cori Close URL despite being in the Generosity grid).
+//     Preserved verbatim per Phase 3 fidelity.
 import Layout from '../layouts/Layout.astro';
-import StructuredPage from '../components/StructuredPage.astro';
-import { srcW } from '../lib/img';
-import data from '../data/pages/media-center.json';
+import TypedPage from '../components/TypedPage.astro';
+import blocks from '../data/pages/media-center.json';
 
-// LCP is the H2 text "Generosity Campaign Launched…"; no image LCP preload.
-// Still preload one logo to satisfy Trait 1 srcset pattern via below-fold use.
-const HERO = '1-1024x726.png';
-const heroMobile = srcW(HERO, 600);
-const heroDesktop = srcW(HERO, 1000);
+const meta = (blocks as any[]).find(b => b.type === '_meta') || {};
 ---
-<Layout title={data.title} description={data.description}>
-  <Fragment slot="head">
-    <link rel="preload" as="image" href={heroDesktop} imagesrcset={`${heroMobile} 600w, ${heroDesktop} 1000w`} imagesizes="(max-width: 640px) 600px, 1000px" fetchpriority="high" />
-  </Fragment>
-  <article class="page-body">
-    <StructuredPage blocks={data.blocks as any} heroFile={HERO} />
-  </article>
+<Layout title={meta.title || 'In The News | The Pyramid Principle'}
+        description={meta.description || ''}>
+  <TypedPage blocks={blocks as any[]} />
 </Layout>
