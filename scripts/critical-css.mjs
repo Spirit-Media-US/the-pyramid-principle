@@ -45,12 +45,7 @@ const beasties = new Beasties({
   preload: 'js-lazy',     // JS-appended <link rel=stylesheet> on idle. NO media=print.
   inlineFonts: false,
   keyframes: 'critical',  // Only inline keyframes used by critical selectors.
-  // pruneSource: true was tested first but caused A11y/BP regressions
-  // because Beasties' "non-critical" classification stripped CSS rules
-  // for visible elements (image-aspect-ratio, target-size audits dropped
-  // to 0). Keeping the deferred CSS as the FULL original sheet is safer:
-  // duplicate bytes are tolerable but missing rules aren't.
-  pruneSource: false,
+  pruneSource: true,      // Strip critical rules from external sheet.
   minimumExternalSize: 0, // Don't auto-inline pruned remainders.
   inlineThreshold: 0,
   logLevel: 'silent',
