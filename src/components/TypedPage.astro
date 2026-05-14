@@ -639,11 +639,7 @@ function decodeText(s: string): string {
         ></video>
       );
     }
-    const mediaCol = (
-      <div class="prc-media-col">
-        <div class="prc-media-wrap">{mediaEl}</div>
-      </div>
-    );
+    const mediaCol = <div class="prc-media-col">{mediaEl}</div>;
     const textCol = (
       <div class="prc-text-col">
         {b.h2 && <h2 class="prc-h2">{decodeText(b.h2)}</h2>}
@@ -5433,58 +5429,14 @@ function decodeText(s: string): string {
     display: flex;
     justify-content: center;
   }
-  /* Media wrapper — holds the media element + the UCLA-blue offset
-     rectangle (::before pseudo) that sits behind it. Live Bricks
-     source has a sibling div #brxe-kvpfci with width:80% / height:320px
-     / margin-top:-370px (320px tall, peeks ~55px above the iframe and
-     leaves ~50px of iframe protruding below). Translation to inset:
-       top: -20px    → peeks 20px above the media's top
-       bottom: -20px → peeks 20px below the media's bottom
-       left: -20px   → peeks 20px to the left of the media
-       right: 20px   → recedes 20px from the media's right (media
-                       protrudes 20px to the right)
-     Net: blue rectangle is ~40px taller than the media, slightly
-     shifted left, with media protruding to the right — same
-     "card with backing" effect as the live source but with peek
-     visible above AND below per design feedback. */
-  .prc-media-wrap {
-    position: relative;
-    width: 100%;
-    max-width: 640px;
-  }
-  .prc-media-wrap::before {
-    content: '';
-    position: absolute;
-    /* 30px top + 30px bottom → blue is ~17% taller than a 360px-tall
-       16:9 media (60px extra on ~360px = 16.7%), matching the design
-       call for "20-30% taller". 20px left + 20px right (recessed)
-       keeps blue slightly narrower than media so media protrudes
-       right. */
-    top: -30px;
-    left: -20px;
-    right: 20px;
-    bottom: -30px;
-    background: var(--color-author-blue, #2774AE);
-    z-index: 0;
-    pointer-events: none;
-  }
-  @media (max-width: 767px) {
-    /* Scale offsets ~50% on mobile (matches live source's mobile
-       scale-down from -370px to -200px margin-top). */
-    .prc-media-wrap::before {
-      top: -15px;
-      left: -10px;
-      right: 10px;
-      bottom: -15px;
-    }
-  }
   /* YouTube facade box — 16:9 aspect, rounded, drops shadow. The
      .yt-facade button styles live in index.astro (page-scoped). To
      keep the Media Center fully self-contained the `.prc-yt-facade`
-     class replicates the visual treatment scoped to TypedPage. */
+     class replicates the visual treatment scoped to TypedPage.
+     position: relative is required for the .yt-facade-play icon span
+     inside (which uses position: absolute to center over the poster). */
   .prc-yt-facade {
     position: relative;
-    z-index: 1;
     display: block;
     width: 100%;
     max-width: 640px;
@@ -5521,12 +5473,8 @@ function decodeText(s: string): string {
     outline: 2px solid var(--color-brand-yellow);
     outline-offset: 2px;
   }
-  /* MP4 — autoplay, loop, muted. Same visual box as the YT facade.
-     position:relative + z-index:1 keeps it above the .prc-media-wrap::before
-     blue offset rectangle. */
+  /* MP4 — autoplay, loop, muted. Same visual box as the YT facade. */
   .prc-mp4 {
-    position: relative;
-    z-index: 1;
     display: block;
     width: 100%;
     max-width: 640px;
