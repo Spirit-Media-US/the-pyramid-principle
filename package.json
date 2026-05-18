@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "scripts": {
     "dev": "astro dev",
-    "build": "node scripts/sync-100club-registry.mjs && rm -rf public/studio && sanity build public/studio --yes && astro build",
+    "build": "node scripts/sync-100club-registry.mjs && rm -rf public/studio && sanity build public/studio --yes && astro build && node scripts/async-css.mjs",
     "verify": "node scripts/100club-verify.mjs",
     "preview": "astro preview"
   },
