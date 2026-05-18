@@ -121,6 +121,27 @@ const { slides, ariaLabel = 'Logo carousel', altPattern = 'Logo', fullBleed = tr
 <script>
   // Deferred Splide load — Trait 5 pattern. Splide initializes on first user
   // interaction OR 8s fallback, so the hero paints before this fires.
+  // Splide CSS is loaded lazily via inline <link> injection (NOT
+  // `import '@splidejs/splide/css'`) because Vite hoists static CSS imports
+  // to a render-blocking <link rel="stylesheet"> on every page that mounts
+  // a script that references them — even though the script itself is
+  // dynamically imported. Loading the CSS bundle via a runtime-inserted
+  // <link> moves it off the critical path (saves ~158ms LCP per PSI).
+  function loadSplideCss(): Promise<void> {
+    return new Promise((resolve) => {
+      if ((window as any)._splideCssLoaded) return resolve();
+      (window as any)._splideCssLoaded = true;
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      // Self-hosted copy in /public/splide.min.css (Splide 4.1.4 dist).
+      // Kept off the critical path so it doesn't block initial render.
+      link.href = '/splide.min.css';
+      link.onload = () => resolve();
+      link.onerror = () => resolve();
+      document.head.appendChild(link);
+    });
+  }
+
   async function initSplide() {
     if ((window as any)._splideLoaded) return;
     (window as any)._splideLoaded = true;
@@ -128,7 +149,7 @@ const { slides, ariaLabel = 'Logo carousel', altPattern = 'Logo', fullBleed = tr
     if (carousels.length === 0) return;
     const [{ default: Splide }] = await Promise.all([
       import('@splidejs/splide'),
-      import('@splidejs/splide/css'),
+      loadSplideCss(),
     ]);
     for (const el of carousels) {
       new Splide(el, {
