@@ -21,10 +21,14 @@ export default defineConfig({
     }),
   ],
   build: {
-    // Trait 6: Astro inlines small stylesheets, externalizes larger ones.
-    // scripts/async-css.mjs converts the externalized bundles to async via the
-    // media="print" onload swap so they never block first paint.
-    inlineStylesheets: 'auto',
+    // Inline ALL stylesheets into the HTML to eliminate the 1-2 render-blocking
+    // CSS round-trips on slow-4G mobile. Phase 6 reverted this because the
+    // bundle was 25KB → 110KB (HTML), but that was before splide.css was
+    // moved off the critical path (commit 6846690) and before fallback fonts
+    // were calibrated (commit f50f5da). Current state: HTML 57KB + 50KB
+    // external CSS → 107KB inlined (12KB → 22KB gzipped). Eliminates 1 RTT
+    // (~300-450ms FCP on slow-4G), which is the dominant remaining bottleneck.
+    inlineStylesheets: 'always',
   },
   vite: {
     server: { allowedHosts: ['preview.spiritmediapublishing.com'] },
