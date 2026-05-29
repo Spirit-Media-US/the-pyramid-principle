@@ -219,10 +219,12 @@ const BLOG_CARDS = (_latestBlogPosts as any[]).map((p) => {
           <a class="pill-cta" href="/reviews/">Reviews</a>
         </div>
 
-        <!-- Mobile-only second H1 (display:none on desktop). Matches the live
-             source which emits two H1s for responsive variants. Both must
-             appear to satisfy the heading-parity contract. -->
-        <h1 class="hero-h1 hero-h1-mobile">"A Gift of Courage!"</h1>
+        <!-- Mobile-only hero display. Rendered as <p role="heading" aria-level="1">
+             so the HTML has a single literal <h1> (the desktop variant in the
+             left column) while screen-reader users on mobile still hear this
+             as a top-level heading. CSS swaps visibility between viewports —
+             visual is unchanged from the source. -->
+        <p class="hero-h1 hero-h1-mobile" role="heading" aria-level="1">"A Gift of Courage!"</p>
 
         <!-- LCP element. Trait 1 srcset (600w + 1000w, fm=webp); Trait 2 preload
              above in slot=head; Trait 8 explicit width/height. -->
@@ -602,26 +604,31 @@ const BLOG_CARDS = (_latestBlogPosts as any[]).map((p) => {
     .home-hero-grid { grid-template-columns: 1fr 1fr; gap: 48px; }
   }
 
-  /* ── Blue ribbon badge ── */
+  /* ── Blue ribbon badge ──
+     Royal blue flag with right-pointing chevron tail + brand-yellow
+     Bebas Neue text. WCAG: yellow #FFD100 on UCLA blue #2774AE is
+     ~3.74:1 — passes AA-Large (3:1) for the 18px-equivalent Bebas
+     Neue display text. Notch depth 18px reads as a crisp flag tail
+     at typical badge widths. */
   .ribbon-badge {
     position: relative;
-    background: var(--color-author-blue); /* rgb(39, 116, 174) per live DOM */
-    color: #fff;
-    padding: 8px 36px 8px 16px;
+    background: var(--color-author-blue); /* #2774AE */
+    color: var(--color-brand-yellow);
+    padding: 8px 40px 8px 18px;
     display: inline-block;
     margin: 0 0 20px;
-    /* Flag tail (notch on right edge) */
-    clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%);
+    /* Flag tail (chevron notch on right edge) */
+    clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 50%, calc(100% - 18px) 100%, 0 100%);
   }
   .ribbon-badge h2 {
     margin: 0;
-    font-family: var(--font-heading);
-    font-weight: 700;
-    font-size: 0.875rem;
+    font-family: var(--font-display); /* Bebas Neue */
+    font-weight: 400;
+    font-size: 1.25rem; /* 20px Bebas Neue ≈ visual weight of 14px DM Sans 700 */
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    color: #fff;
-    line-height: 1.4;
+    color: var(--color-brand-yellow);
+    line-height: 1.2;
   }
 
   /* ── Hero typography ── */

@@ -22,6 +22,15 @@
 //   dedication-and-players — H2 + body + 2nd H2 + player profile cards
 //   media-contact-card   — H2 + H3 + contact text + bg image
 //   interview-questions  — H2 + numbered list + image collage
+//   download-hero        — 2-col hero for /download/ (eyebrow + H1 + body + stats + book img)
+//   audio-section        — H2 + native <audio controls> + Download Now link
+//   share-review-cta     — Reviews page top: eyebrow + H1 + subtitle + 2 logos + CTA
+//   pull-quote-row       — Reviews page 3-up colored quote cards (Libre Baskerville italic)
+//   review-card-list     — Reviews page alternating image+text testimonial rows
+//   pr-release-card      — Media Center: 2-col PR card (H2 + body + CTA + YT facade / MP4 video)
+//   press-logo-grid      — Media Center: responsive grid of clickable press-logo cards
+//   victory-form-section — PCRF Copy: 2-col text + contact form (mailto: fallback)
+//   pcrf-cta-section     — PCRF Copy: 3-row stacked H2 + H3-grid + logo + donate link
 import { srcW, dims } from '../lib/img';
 
 interface Props { blocks: any[]; }
@@ -301,6 +310,7 @@ function decodeText(s: string): string {
     return (
       <section class="ci-section" id={b.id}>
         <div class="ci-inner">
+          {b.h2 && <h2 class="ci-h2">{decodeText(b.h2)}</h2>}
           <img class="ci-image"
                src={srcDesktop}
                srcset={`${srcMobile} 800w, ${srcDesktop} 1600w`}
@@ -316,6 +326,112 @@ function decodeText(s: string): string {
               {b.downloadLabel || 'Download PDF'}
             </a>
           )}
+          {b.meta && <p class="ci-meta">{decodeText(b.meta)}</p>}
+        </div>
+      </section>
+    );
+  }
+
+  // ── download-hero — two-column hero for /download/, modelled on the
+  // homepage hero (index.astro #pre-order-now) but simplified — no
+  // ribbon-badge, no retailer grid, no Limited-Time CTA, no pill row.
+  // Verified live #brxe-0d4466 (download page):
+  //   LEFT col: eyebrow row (divider + H6) + H1 + body + 3 stat columns.
+  //   RIGHT col: 3D book cover (same fd3d2aa3 Sanity asset as homepage).
+  //   White-triangle shape-divider at the bottom of the section.
+  // The H1 source casing "the pyramid Principle" (lowercase 't', lowercase
+  // 'p' on word #2) is preserved verbatim per Phase 3 — display CSS keeps
+  // it readable in Bebas Neue without uppercase transform.
+  if (b.type === 'download-hero') {
+    const imgFile = b.image?.file;
+    let imgMobile = '';
+    let imgDesktop = '';
+    let imgDims = { width: 886, height: 1024 };
+    if (imgFile) {
+      imgMobile = srcW(imgFile, 600);
+      imgDesktop = srcW(imgFile, 1000);
+      try { imgDims = dims(imgFile); } catch {}
+    }
+    const stats = (b.stats || []) as any[];
+    // Three icon path strings matched to the live source's icons-mind glyphs.
+    const ICON_PATHS: any = {
+      language: 'M4 2v20h2v-8h13l-2-4 2-4H6V2H4z',
+      ratings: 'M12 2l2.39 7.36H22l-6.18 4.49L18.21 22 12 17.27 5.79 22l2.39-8.15L2 9.36h7.61L12 2z',
+      pages: 'M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5zm0 6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2zm2 4a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2H5z',
+    };
+    return (
+      <section class="dl-hero" id={b.id}>
+        <div class="dl-hero-grid">
+          <div class="dl-hero-left">
+            <div class="dl-hero-eyebrow-row">
+              <span class="dl-hero-eyebrow-divider" aria-hidden="true"></span>
+              <h6 class="dl-hero-eyebrow">{decodeText(b.eyebrow)}</h6>
+            </div>
+            <h1 class="dl-hero-h1">{decodeText(b.h1)}</h1>
+            <p class="dl-hero-body">{decodeText(b.body)}</p>
+            {stats.length > 0 && (
+              <div class="dl-hero-stats">
+                {stats.map(s => (
+                  <div class="dl-hero-stat">
+                    <svg class="dl-hero-stat-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                      <path d={ICON_PATHS[s.icon || 'pages'] || ICON_PATHS.pages}></path>
+                    </svg>
+                    <div>
+                      <h3>{s.label}</h3>
+                      <h3>{s.value}</h3>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+          <div class="dl-hero-right">
+            {imgFile && (
+              <img
+                class="dl-hero-book-img"
+                src={imgDesktop}
+                srcset={`${imgMobile} 600w, ${imgDesktop} 1000w`}
+                sizes="(max-width: 1023px) 600px, 1000px"
+                width={imgDims.width}
+                height={imgDims.height}
+                alt={b.image?.alt || ''}
+                loading="eager"
+                decoding="async"
+              />
+            )}
+          </div>
+        </div>
+        {b.shapeDivider && (
+          <svg class="dl-hero-shape" xmlns="http://www.w3.org/2000/svg"
+               preserveAspectRatio="none" viewBox="0 0 1200 200"
+               aria-hidden="true">
+            <polygon fill-rule="evenodd" points="0 200 1200 0 1200 200"></polygon>
+          </svg>
+        )}
+      </section>
+    );
+  }
+
+  // ── audio-section — H2 + native HTML5 <audio controls> + Download Now link.
+  // Replaces the WP h5ap-audioplayer / Plyr-styled player from #brxe-goqykk
+  // (download page). Trait 5: <audio preload="none"> so the MP3 doesn't
+  // download until the user clicks play. Browser-native controls are
+  // accessible (keyboard, screen reader) and render consistently in
+  // Chrome / Firefox / Safari without the 50KB+ of plugin CSS.
+  if (b.type === 'audio-section') {
+    return (
+      <section class="dl-audio" id={b.id}>
+        <div class="dl-audio-inner">
+          {b.h2 && <h2 class="dl-audio-h2">{decodeText(b.h2)}</h2>}
+          <audio class="dl-audio-player" controls preload="none">
+            <source src={b.audioHref} type={b.audioMime || 'audio/mpeg'} />
+            Your browser does not support the audio element. <a href={b.audioHref}>Download the audio file</a>.
+          </audio>
+          <a class="dl-audio-download" href={b.audioHref}
+             target="_blank" rel="noopener noreferrer"
+             download={b.downloadFilename || true}>
+            <strong>{b.downloadLabel || 'Download Now'}</strong>
+          </a>
         </div>
       </section>
     );
@@ -342,6 +458,239 @@ function decodeText(s: string): string {
             <span class="tc-eyebrow-divider" aria-hidden="true"></span>
           </div>
           <h1 class="tc-h1">{b.h1}</h1>
+        </div>
+      </section>
+    );
+  }
+
+  // ── share-review-cta — Reviews Section 1 (#brxe-zuufjz).
+  // Eyebrow row (— THE PYRAMID PRINCIPLE —) + H1 + subtitle + 2-col logo
+  // row (Goodreads + Amazon) + yellow CTA pill below. Reuses title-card's
+  // eyebrow + H1 styling so the page-top brand block is consistent across
+  // /the-pyramid-success/, /free-resources/, and /reviews/.
+  if (b.type === 'share-review-cta') {
+    const logos = (b.logos || []) as any[];
+    return (
+      <section class="srv-section" id={b.id}>
+        <div class="srv-inner">
+          {b.eyebrow && (
+            <div class="tc-eyebrow-row">
+              <span class="tc-eyebrow-divider" aria-hidden="true"></span>
+              <h3 class="tc-eyebrow">{b.eyebrow}</h3>
+              <span class="tc-eyebrow-divider" aria-hidden="true"></span>
+            </div>
+          )}
+          {b.h1 && <h1 class="srv-h1">{b.h1}</h1>}
+          {b.subtitle && <p class="srv-subtitle">{decodeText(b.subtitle)}</p>}
+          {logos.length > 0 && (
+            <div class="srv-logo-row">
+              {logos.map((l: any) => (
+                <a class="srv-logo-link" href={l.href}
+                   target="_blank" rel="noopener noreferrer"
+                   aria-label={l.image?.alt || ''}>
+                  <img src={srcW(l.image.file, 400)}
+                       srcset={`${srcW(l.image.file, 240)} 240w, ${srcW(l.image.file, 400)} 400w, ${srcW(l.image.file, 600)} 600w`}
+                       sizes="(max-width: 768px) 45vw, 220px"
+                       width={l.image?.dims?.width || 800}
+                       height={l.image?.dims?.height || 353}
+                       alt={l.image?.alt || ''}
+                       loading="lazy" decoding="async" />
+                </a>
+              ))}
+            </div>
+          )}
+          {b.ctaHref && (
+            <a class="srv-cta" href={b.ctaHref}
+               target="_blank" rel="noopener noreferrer">
+              {b.ctaLabel || 'Add Your Review'}
+            </a>
+          )}
+        </div>
+      </section>
+    );
+  }
+
+  // ── pull-quote-row — Reviews Section 2 (#brxe-msqmva).
+  // Three colored quote cards in a row (yellow / light blue / gray) per
+  // live source. Each card: rounded-corner shape (40px top-left + bottom-
+  // right), padding 40px, box-shadow, Libre Baskerville italic bold 32px
+  // body color #1d1d1f. Source has 3 quotes; block supports N≥1.
+  if (b.type === 'pull-quote-row') {
+    const quotes = (b.quotes || []) as any[];
+    const colors = ['srv-card-yellow', 'srv-card-blue', 'srv-card-gray'];
+    return (
+      <section class="srv-pull-section" id={b.id}>
+        <div class="srv-pull-inner">
+          {quotes.map((q: any, i: number) => (
+            <div class={`srv-pull-card ${colors[i % colors.length]}`}>
+              <p class="srv-pull-quote">{decodeText(q.text || q)}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    );
+  }
+
+  // ── review-card-list — Reviews Section 3 (#brxe-cqjdpp).
+  // Long list of alternating image/text rows. When the review has a
+  // personal photo (image.file present), that photo renders in the image
+  // column. Otherwise the Amazon-review banner renders, wrapped in the
+  // same Amazon attribution link. imagePosition: 'left' | 'right' drives
+  // which side the photo sits on (matches live alternation pattern).
+  if (b.type === 'review-card-list') {
+    const reviews = (b.reviews || []) as any[];
+    const bannerFile = b.bannerImage?.file || 'how-to-get-amazon-reviews1-1.png';
+    const bannerAlt = b.bannerImage?.alt || 'Leave a review on Amazon';
+    return (
+      <section class="rev-list-section" id={b.id}>
+        <div class="rev-list-inner">
+          {reviews.map((r: any) => {
+            const personal = r.image?.file;
+            const imgFile = personal || bannerFile;
+            const imgAlt = personal ? (r.image?.alt || '') : bannerAlt;
+            const imgDims = (personal ? r.image?.dims : null) || { width: 512, height: 275 };
+            const isAmazon = !!r.sourceUrl && /amazon\.com/.test(r.sourceUrl);
+            const side = r.imagePosition === 'left' ? 'left' : 'right';
+            const ImgEl = (
+              <img class={personal ? 'rev-photo' : 'rev-banner'}
+                   src={srcW(imgFile, personal ? 800 : 600)}
+                   srcset={`${srcW(imgFile, 400)} 400w, ${srcW(imgFile, 800)} 800w`}
+                   sizes="(max-width: 1023px) 90vw, 480px"
+                   width={imgDims.width} height={imgDims.height}
+                   alt={imgAlt}
+                   loading="lazy" decoding="async" />
+            );
+            const imgCol = (
+              <div class="rev-img-col">
+                {r.sourceUrl
+                  ? <a href={r.sourceUrl} target="_blank" rel="noopener noreferrer" aria-label={imgAlt}>{ImgEl}</a>
+                  : ImgEl}
+              </div>
+            );
+            const bodyParas = Array.isArray(r.body) ? r.body : (r.body ? [r.body] : []);
+            const textCol = (
+              <div class="rev-text-col">
+                {r.title && <h3 class="rev-title" set:html={r.title}></h3>}
+                {bodyParas.map((para: string) => (
+                  <p class="rev-body" set:html={para}></p>
+                ))}
+                <p class="rev-attrib">
+                  {r.sourceUrl
+                    ? (
+                        <a href={r.sourceUrl} target="_blank" rel="noopener noreferrer">
+                          - {r.reviewer}{r.source ? <> (From <span class="rev-source">{r.source}</span>)</> : null}
+                        </a>
+                      )
+                    : <>- {r.reviewer}{r.source ? <> (From <span class="rev-source">{r.source}</span>)</> : null}</>}
+                </p>
+              </div>
+            );
+            return (
+              <div class={`rev-row rev-img-${side}`}>
+                {side === 'left' ? <>{imgCol}{textCol}</> : <>{textCol}{imgCol}</>}
+              </div>
+            );
+          })}
+        </div>
+      </section>
+    );
+  }
+
+  // ── pr-release-card — Media Center 2-column PR card.
+  // Live source has 3 instances (#brxe-isnmrj / #brxe-rgtsli / #brxe-rtvxki),
+  // each with: H2 + body text + yellow "Learn More" CTA + media (either a
+  // YouTube facade — click-to-load — or an autoplay/loop/muted MP4).
+  // imagePosition: 'left' | 'right' drives which side the media sits on
+  // (Section 2 = right; Sections 4 + 6 = left).
+  //
+  // The live source wraps the media in <a href="…pacdora.com…"> on all 3
+  // cards — Bricks editor leftover (the link is to a packaging-design
+  // template, not a real destination). Dropped per Phase 3 editorial.
+  if (b.type === 'pr-release-card') {
+    const side = b.imagePosition === 'left' ? 'left' : 'right';
+    let mediaEl: any = null;
+    if (b.mediaType === 'youtube' && b.mediaSrc) {
+      mediaEl = (
+        <button
+          type="button"
+          class="yt-facade prc-yt-facade"
+          data-yt-id={b.mediaSrc}
+          data-yt-title={b.h2 || 'YouTube video'}
+          aria-label={`Play video: ${b.h2 || 'YouTube video'}`}>
+          <img class="yt-facade-poster"
+               src={`https://i.ytimg.com/vi/${b.mediaSrc}/hqdefault.jpg`}
+               width="480" height="360"
+               alt={b.h2 || ''}
+               loading="lazy" decoding="async" />
+          <span class="yt-facade-play" aria-hidden="true">
+            <svg width="68" height="48" viewBox="0 0 68 48"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.41 6.19C.08 13.05 0 24 0 24s.08 10.95 1.49 16.26c.78 2.93 2.48 5.41 5.41 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.92 34.95 68 24 68 24s-.08-10.95-1.48-16.26z" fill="#f00"/><path d="M45 24 27 14v20" fill="#fff"/></svg>
+          </span>
+        </button>
+      );
+    } else if (b.mediaType === 'mp4' && b.mediaSrc) {
+      mediaEl = (
+        <video
+          class="prc-mp4"
+          src={b.mediaSrc}
+          autoplay
+          loop
+          muted
+          playsinline
+          preload="metadata"
+          aria-label={b.h2 || ''}
+        ></video>
+      );
+    }
+    const mediaCol = <div class="prc-media-col">{mediaEl}</div>;
+    const textCol = (
+      <div class="prc-text-col">
+        {b.h2 && <h2 class="prc-h2">{decodeText(b.h2)}</h2>}
+        {b.body && <div class="prc-body" set:html={b.body}></div>}
+        {b.ctaHref && (
+          <a class="prc-cta" href={b.ctaHref} target="_blank" rel="noopener noreferrer">
+            {b.ctaLabel || 'Learn More'}
+          </a>
+        )}
+      </div>
+    );
+    return (
+      <section class={`prc-section prc-media-${side}`} id={b.id}>
+        <div class="prc-inner">
+          {side === 'left' ? <>{mediaCol}{textCol}</> : <>{textCol}{mediaCol}</>}
+        </div>
+      </section>
+    );
+  }
+
+  // ── press-logo-grid — Media Center responsive grid of clickable
+  // press-logo cards. Live source has 2 instances (#brxe-clphik = 26 logos,
+  // Generosity Campaign placements; #brxe-recpnz = 16 logos, Cori Close
+  // placements). Each cell: link with logo image, hover lift. Images use
+  // object-fit: contain so the varied aspect-ratios center cleanly within
+  // a uniform card. CAR: items 1–16 are generic PR Newswire screenshots
+  // (recycled between the two grids) — flagged for proper outlet logos
+  // in Phase 6 polish.
+  if (b.type === 'press-logo-grid') {
+    const logos = (b.logos || []) as any[];
+    return (
+      <section class="plg-section" id={b.id}>
+        <div class="plg-grid">
+          {logos.map((l: any) => {
+            const file = l.image?.file;
+            if (!file || !l.href) return null;
+            const dimsX = l.image?.dims || { width: 1024, height: 726 };
+            return (
+              <a class="plg-card" href={l.href} target="_blank" rel="noopener noreferrer"
+                 aria-label={l.image?.alt || 'Press coverage'}>
+                <img src={srcW(file, 400)}
+                     srcset={`${srcW(file, 240)} 240w, ${srcW(file, 400)} 400w, ${srcW(file, 600)} 600w`}
+                     sizes="(max-width: 640px) 90vw, (max-width: 1023px) 45vw, 320px"
+                     width={dimsX.width} height={dimsX.height}
+                     alt={l.image?.alt || ''}
+                     loading="lazy" decoding="async" />
+              </a>
+            );
+          })}
         </div>
       </section>
     );
@@ -843,6 +1192,89 @@ function decodeText(s: string): string {
           </div>
           <div class="smg-col smg-col-3">
             <h3 class="smg-h3" set:html={b.heading3} />
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // ── victory-form-section — PCRF Copy Section 1 (#brxe-rsrqon).
+  // 2-column: H2 + body on the left, 3-field contact form (Name + Email
+  // + Message + Send) on the right. Live source uses Bricks default form
+  // handler with no clear backend wired; this migration falls back to a
+  // mailto: link assembled on submit (Phase 6 CAR: wire to GHL widget
+  // per the rest of the site's CTA pattern). The email address is
+  // split across data-mu / data-md attributes so the markup contains
+  // no harvestable `mailto:` literal — same anti-scraping pattern as
+  // src/components/MailtoLink.astro.
+  if (b.type === 'victory-form-section') {
+    const [mu, md] = (b.recipient || 'kevin@spiritmediapublishing.com').split('@');
+    return (
+      <section class="vfs-section" id={b.id}>
+        <div class="vfs-card">
+          <div class="vfs-grid">
+            <div class="vfs-text-col">
+              {b.h2 && <h2 class="vfs-h2">{decodeText(b.h2)}</h2>}
+              {b.body && <p class="vfs-body">{decodeText(b.body)}</p>}
+            </div>
+            <div class="vfs-form-col">
+              <form class="vfs-form" data-mu={mu} data-md={md} data-subject={b.subject || 'Victory Over Cancer — message from website visitor'} novalidate>
+                <div class="vfs-field">
+                  <label class="vfs-sr-only" for="vfs-name">Your name</label>
+                  <input id="vfs-name" name="name" type="text" placeholder="Your Name" autocomplete="name" />
+                </div>
+                <div class="vfs-field">
+                  <label class="vfs-sr-only" for="vfs-email">Your email</label>
+                  <input id="vfs-email" name="email" type="email" placeholder="Your Email" autocomplete="email" required />
+                </div>
+                <div class="vfs-field">
+                  <label class="vfs-sr-only" for="vfs-message">Your message</label>
+                  <textarea id="vfs-message" name="message" placeholder="Your Message" rows="5" required></textarea>
+                </div>
+                <div class="vfs-submit-row">
+                  <button type="submit" class="vfs-submit">Send</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // ── pcrf-cta-section — PCRF Copy Section 4 (#brxe-c7589c).
+  // 3 stacked rows, all centered:
+  //   Row 1: H2 with optional <span style="color:#ffd100"> on emphasized word
+  //   Row 2: 3-up grid of H3s (stacks 1-up on mobile)
+  //   Row 3: PCRF logo + donate link (body HTML with brand-yellow underline)
+  if (b.type === 'pcrf-cta-section') {
+    const headings = (b.headings || []) as any[];
+    const img = b.image || {};
+    return (
+      <section class="pcs-section" id={b.id}>
+        <div class="pcs-inner">
+          {b.h2 && <h2 class="pcs-h2" set:html={b.h2}></h2>}
+          {headings.length > 0 && (
+            <div class="pcs-h3-row">
+              {headings.map((h: any) => (
+                <h3 class="pcs-h3">{decodeText(h)}</h3>
+              ))}
+            </div>
+          )}
+          <div class="pcs-logo-row">
+            {img.file && (
+              <img class="pcs-logo"
+                   src={srcW(img.file, 600)}
+                   srcset={`${srcW(img.file, 300)} 300w, ${srcW(img.file, 600)} 600w`}
+                   sizes="(max-width: 640px) 240px, 300px"
+                   width={img.dims?.width || 300}
+                   height={img.dims?.height || 196}
+                   alt={img.alt || ''}
+                   loading="lazy" decoding="async" />
+            )}
+            {b.donateHtml && (
+              <div class="pcs-donate" set:html={b.donateHtml}></div>
+            )}
           </div>
         </div>
       </section>
@@ -1490,6 +1922,57 @@ function decodeText(s: string): string {
   const evs = ['scroll', 'click', 'touchstart', 'keydown', 'mousemove'];
   for (const e of evs) window.addEventListener(e, initVideoModal, { once: true, passive: true });
   window.setTimeout(initVideoModal, 8000);
+
+  // victory-form-section — assemble a mailto: link on submit so the
+  // recipient address isn't a harvestable literal in the markup
+  // (same data-mu/data-md split as MailtoLink.astro). Form is then
+  // handed off to the user's email client. Phase 6 CAR: replace with
+  // GHL widget post once Kevin has the form ID ready.
+  document.querySelectorAll<HTMLFormElement>('.vfs-form').forEach((form) => {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const u = form.dataset.mu;
+      const d = form.dataset.md;
+      if (!u || !d) return;
+      const name = (form.elements.namedItem('name') as HTMLInputElement | null)?.value?.trim() || '';
+      const email = (form.elements.namedItem('email') as HTMLInputElement | null)?.value?.trim() || '';
+      const message = (form.elements.namedItem('message') as HTMLTextAreaElement | null)?.value?.trim() || '';
+      if (!email || !message) {
+        form.reportValidity();
+        return;
+      }
+      const subject = encodeURIComponent(form.dataset.subject || 'Website inquiry');
+      const body = encodeURIComponent(
+        `Name: ${name || '(not provided)'}\n` +
+        `Email: ${email}\n\n` +
+        `Message:\n${message}`
+      );
+      window.location.href = `mailto:${u}@${d}?subject=${subject}&body=${body}`;
+    });
+  });
+
+  // YouTube facade — swap poster button for the real iframe on first
+  // click. Defers ~500ms of YouTube embed JS until the user opts in.
+  // Used by pr-release-card (Media Center) and any other block that
+  // emits a .yt-facade button.
+  document.querySelectorAll<HTMLButtonElement>('.yt-facade').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.ytId;
+      const title = btn.dataset.ytTitle || 'YouTube video';
+      if (!id) return;
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+      iframe.title = title;
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      iframe.allowFullscreen = true;
+      iframe.style.position = 'absolute';
+      iframe.style.inset = '0';
+      iframe.style.width = '100%';
+      iframe.style.height = '100%';
+      iframe.style.border = '0';
+      btn.replaceWith(iframe);
+    });
+  });
 </script>
 
 <script>
@@ -3886,6 +4369,234 @@ function decodeText(s: string): string {
     text-decoration: none;
     transform: translateY(-1px);
   }
+  .ci-h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2.25rem, 5vw, 3.4375rem); /* 36px → 55px (Bricks h2) */
+    line-height: 1;
+    letter-spacing: 0.01em;
+    color: var(--color-ink);
+    margin: 0 0 8px;
+    text-align: center;
+    text-transform: none;
+  }
+  .ci-meta {
+    margin: 0;
+    color: var(--color-text);
+    font-family: var(--font-heading);
+    font-size: 0.9375rem; /* 15px */
+    text-align: center;
+  }
+
+  /* ── download-hero — /download/ Section 1. Two-column on desktop,
+     stacked column-reverse on mobile (mirrors live #brxe-04119c). White
+     bg with a triangle shape-divider at the bottom. */
+  .dl-hero {
+    position: relative;
+    background: #fff;
+    padding: 0 0 0;
+    overflow: hidden;
+  }
+  .dl-hero-grid {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding: 32px var(--section-padding-x-mobile) 64px;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 40px;
+    align-items: stretch;
+  }
+  @media (min-width: 768px) {
+    .dl-hero-grid {
+      padding: 80px var(--section-padding-x-desktop) 96px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .dl-hero-grid {
+      flex-direction: row;
+      gap: 48px;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+  }
+  .dl-hero-left {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  .dl-hero-right {
+    flex: 1 1 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  @media (min-width: 1024px) {
+    .dl-hero-right { justify-content: flex-end; }
+  }
+  .dl-hero-book-img {
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    display: block;
+  }
+  .dl-hero-eyebrow-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 24px;
+  }
+  .dl-hero-eyebrow-divider {
+    display: block;
+    width: 6%;
+    min-width: 24px;
+    height: 0;
+    border-top: 1px solid var(--color-text);
+  }
+  @media (min-width: 768px) {
+    .dl-hero-eyebrow-divider { width: 10%; }
+  }
+  .dl-hero-eyebrow {
+    margin: 0;
+    color: var(--color-text);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.9375rem; /* 15px desktop per live source */
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+  @media (max-width: 478px) {
+    .dl-hero-eyebrow { font-size: 0.625rem; /* 10px mobile */ }
+  }
+  .dl-hero-h1 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(3.125rem, 6.5vw, 3.75rem); /* 50px → 60px per live source */
+    line-height: 1;
+    letter-spacing: 0.01em;
+    color: var(--color-ink);
+    margin: 0 0 24px;
+    /* PRESERVE source casing — Phase 3 fidelity. Bricks h1 in source
+       is rendered without uppercase transform; the editor literally
+       typed "the pyramid Principle". */
+    text-transform: none;
+  }
+  .dl-hero-body {
+    margin: 0 0 32px;
+    color: var(--color-text);
+    font-size: 1rem;
+    line-height: 1.7;
+    max-width: 640px;
+  }
+  .dl-hero-stats {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin: 0;
+  }
+  @media (min-width: 480px) {
+    .dl-hero-stats { grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  }
+  .dl-hero-stat {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .dl-hero-stat-icon {
+    color: var(--color-brand-yellow);
+    flex-shrink: 0;
+  }
+  .dl-hero-stat h3 {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.9375rem; /* 15px per live source */
+    line-height: 1.3;
+    color: var(--color-ink);
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .dl-hero-stat h3:nth-child(2) {
+    font-family: 'Montserrat', var(--font-heading);
+    font-weight: 500;
+    color: #696969;
+  }
+  @media (max-width: 478px) {
+    .dl-hero-stat h3 { font-size: 0.75rem; }
+    .dl-hero-stat h3:nth-child(2) { font-size: 0.875rem; }
+  }
+  /* White-triangle shape-divider at the bottom of the hero section.
+     Same SVG shape as the existing jv-shape-divider but rendered
+     inside .dl-hero with the triangle flipped to point up so it
+     visually slices the next section. */
+  .dl-hero-shape {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    display: block;
+    fill: #fff;
+    pointer-events: none;
+  }
+  @media (min-width: 768px) {
+    .dl-hero-shape { height: 140px; }
+  }
+
+  /* ── audio-section — H2 + native <audio controls> + Download Now link.
+     Verified live #brxe-goqykk (download page). Replaces the WP
+     h5ap-audioplayer plugin with a single native <audio> element. */
+  .dl-audio {
+    background: #fff;
+    padding: 40px 0 32px;
+  }
+  @media (min-width: 768px) {
+    .dl-audio { padding: 60px 0 48px; }
+  }
+  .dl-audio-inner {
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding: 0 var(--section-padding-x-mobile);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    text-align: center;
+  }
+  @media (min-width: 768px) {
+    .dl-audio-inner { padding: 0 var(--section-padding-x-desktop); }
+  }
+  .dl-audio-h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2.5rem, 5.5vw, 3.4375rem); /* 40px → 55px (Bricks h2) */
+    line-height: 1;
+    letter-spacing: 0.01em;
+    color: var(--color-ink);
+    margin: 0;
+    text-transform: none;
+  }
+  .dl-audio-player {
+    width: 100%;
+    max-width: 640px;
+    height: 54px;
+    margin: 0;
+  }
+  .dl-audio-download {
+    display: inline-block;
+    color: var(--color-ink);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.125rem; /* 18px */
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    transition: color 0.15s;
+  }
+  .dl-audio-download:hover {
+    color: var(--color-author-blue);
+    text-decoration: underline;
+  }
 
   /* ── donation-section — 2-col video + content card.
      Verified live #brxe-npnnxp / #brxe-fdblis / #brxe-adavwp / #brxe-ubarsx.
@@ -4496,4 +5207,711 @@ function decodeText(s: string): string {
   @media (min-width: 768px) {
     .tc-h1 { font-size: 60px; }
   }
+
+  /* ── share-review-cta — Reviews Section 1.
+     Reuses tc-eyebrow / tc-eyebrow-divider styling from title-card. */
+  .srv-section {
+    background: #fff;
+    padding: 40px 0 60px;
+  }
+  @media (min-width: 768px) {
+    .srv-section { padding: 80px 0 40px; }
+  }
+  .srv-inner {
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding: 0 var(--section-padding-x-mobile);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    text-align: center;
+  }
+  @media (min-width: 768px) {
+    .srv-inner { padding: 0 var(--section-padding-x-desktop); }
+  }
+  .srv-h1 {
+    margin: 0;
+    width: 100%;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 55px;
+    line-height: 1;
+    letter-spacing: 0.01em;
+    color: #000;
+    text-align: center;
+    /* Preserve the leading space in source verbatim per Phase 3 — the
+       Bricks editor literally typed " Thanks for…". white-space:pre
+       keeps it from collapsing during render. */
+    white-space: pre;
+  }
+  @media (min-width: 768px) {
+    .srv-h1 { font-size: 60px; }
+  }
+  .srv-subtitle {
+    margin: 0;
+    color: var(--color-text);
+    font-family: var(--font-heading);
+    font-size: 1.125rem;
+    line-height: 1.5;
+    max-width: 720px;
+  }
+  .srv-logo-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    width: 100%;
+    max-width: 520px;
+    margin-top: 8px;
+    align-items: stretch;
+  }
+  .srv-logo-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 18px;
+    background: #fff;
+    border: 1px solid #dbdbdb;
+    border-radius: 10px;
+    box-shadow: 0 2px 2px 1px #cfcfcf;
+    transition: border-color 0.15s, transform 0.15s;
+  }
+  .srv-logo-link:hover {
+    border-color: var(--color-ink);
+    text-decoration: none;
+    transform: translateY(-1px);
+  }
+  .srv-logo-link img {
+    display: block;
+    width: 100%;
+    height: 60px;
+    max-width: 180px;
+    object-fit: contain;
+  }
+  .srv-cta {
+    display: inline-flex;
+    align-items: center;
+    background: var(--color-brand-yellow);
+    color: var(--color-ink);
+    font-family: 'Raleway', system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 1px solid #f5f5f5;
+    border-radius: 10px;
+    padding: 14px 32px;
+    text-decoration: none;
+    margin-top: 12px;
+    transition: background 0.15s, transform 0.15s;
+  }
+  .srv-cta:hover {
+    background: #e6bc00;
+    color: var(--color-ink);
+    text-decoration: none;
+    transform: translateY(-1px);
+  }
+
+  /* ── pull-quote-row — Reviews Section 2.
+     Three colored cards with rounded top-left + bottom-right corners.
+     Verified live #brxe-msqmva (2026-05-14): Libre Baskerville italic
+     bold 32px, color #1d1d1f / #212121 on Card 3, padding 40px desktop /
+     20px mobile, box-shadow 2px 4px 8px -3px #919191. */
+  .srv-pull-section {
+    background: #fff;
+    padding: 40px 0;
+  }
+  @media (min-width: 768px) {
+    .srv-pull-section { padding: 60px 0; }
+  }
+  .srv-pull-inner {
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding: 0 var(--section-padding-x-mobile);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    align-items: stretch;
+  }
+  @media (min-width: 768px) {
+    .srv-pull-inner {
+      padding: 0 var(--section-padding-x-desktop);
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+  }
+  .srv-pull-card {
+    border: 1px solid rgba(158, 158, 158, 0.29);
+    border-top-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+    padding: 20px;
+    box-shadow: 2px 4px 8px -3px #919191;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 160px;
+  }
+  @media (min-width: 768px) {
+    .srv-pull-card { padding: 40px; min-height: 220px; }
+  }
+  .srv-card-yellow { background: var(--color-brand-yellow); }
+  .srv-card-blue   { background: #03A9F4; } /* matches bricks-color-ebcfaa */
+  .srv-card-gray   { background: #f2f2f2; }
+  .srv-pull-quote {
+    margin: 0;
+    color: var(--color-ink);
+    font-family: 'Libre Baskerville', Georgia, serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 1.3;
+    text-align: left;
+  }
+  @media (min-width: 768px) {
+    .srv-pull-quote { font-size: 32px; }
+  }
+
+  /* ── review-card-list — Reviews Section 3.
+     Long list of alternating 2-col rows (image + text). On mobile each
+     row stacks (image first). Personal photos render where present;
+     otherwise the Amazon-review banner sits in the image column linked
+     to the same Amazon attribution URL. */
+  .rev-list-section {
+    background: var(--color-bg-section);
+    padding: 40px 0;
+  }
+  @media (min-width: 768px) {
+    .rev-list-section { padding: 60px 0; }
+  }
+  .rev-list-inner {
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding: 0 var(--section-padding-x-mobile);
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  @media (min-width: 768px) {
+    .rev-list-inner { padding: 0 var(--section-padding-x-desktop); gap: 48px; }
+  }
+  .rev-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    align-items: center;
+    background: #fff;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 6px -2px rgba(0, 0, 0, 0.1);
+  }
+  @media (min-width: 768px) {
+    .rev-row { grid-template-columns: 1fr 1fr; gap: 40px; padding: 32px 40px; }
+  }
+  .rev-img-col {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .rev-img-col a {
+    display: block;
+    width: 100%;
+    max-width: 480px;
+  }
+  .rev-photo {
+    width: 100%;
+    max-width: 360px;
+    height: auto;
+    border-radius: 8px;
+    display: block;
+    margin: 0 auto;
+  }
+  .rev-banner {
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+  .rev-title {
+    margin: 0 0 12px;
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 1.75rem;
+    line-height: 1.1;
+    letter-spacing: 0.01em;
+  }
+  .rev-body {
+    margin: 0 0 16px;
+    color: var(--color-text);
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+  .rev-attrib {
+    margin: 0;
+    color: var(--color-ink-muted);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1rem;
+  }
+  .rev-attrib a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .rev-attrib a:hover { text-decoration: underline; }
+  .rev-source {
+    color: var(--color-author-blue, #2774AE);
+  }
+
+  /* ── pr-release-card — Media Center 2-column PR card.
+     Three instances per /media-center/ live source. Mobile: stacked
+     column-reverse (text first, media below). Desktop ≥1024px:
+     2-col with `prc-media-left` / `prc-media-right` driving order. */
+  .prc-section {
+    background: #fff;
+    padding: 40px 0;
+  }
+  @media (min-width: 768px) {
+    .prc-section { padding: 60px 0; }
+  }
+  .prc-section + .prc-section { border-top: 1px solid rgba(0,0,0,0.06); }
+  .prc-inner {
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding: 0 var(--section-padding-x-mobile);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    align-items: center;
+  }
+  @media (min-width: 768px) {
+    .prc-inner { padding: 0 var(--section-padding-x-desktop); }
+  }
+  @media (min-width: 1024px) {
+    .prc-inner { grid-template-columns: 1fr 1fr; gap: 48px; }
+  }
+  .prc-text-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  .prc-h2 {
+    margin: 0;
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2rem, 4.5vw, 3rem); /* 32px → 48px */
+    line-height: 1.05;
+    letter-spacing: 0.01em;
+    text-transform: none;
+  }
+  .prc-body {
+    margin: 0;
+    color: var(--color-text);
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+  .prc-body p { margin: 0 0 12px; }
+  .prc-body p:last-child { margin-bottom: 0; }
+  .prc-cta {
+    display: inline-flex;
+    align-items: center;
+    background: var(--color-brand-yellow);
+    color: var(--color-ink);
+    font-family: 'Raleway', system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 1px solid #f5f5f5;
+    border-radius: 10px;
+    padding: 14px 32px;
+    text-decoration: none;
+    margin-top: 8px;
+    transition: background 0.15s, transform 0.15s;
+  }
+  .prc-cta:hover {
+    background: #e6bc00;
+    color: var(--color-ink);
+    text-decoration: none;
+    transform: translateY(-1px);
+  }
+  .prc-media-col {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  /* YouTube facade box — 16:9 aspect, rounded, drops shadow. The
+     .yt-facade button styles live in index.astro (page-scoped). To
+     keep the Media Center fully self-contained the `.prc-yt-facade`
+     class replicates the visual treatment scoped to TypedPage.
+     position: relative is required for the .yt-facade-play icon span
+     inside (which uses position: absolute to center over the poster). */
+  .prc-yt-facade {
+    position: relative;
+    display: block;
+    width: 100%;
+    max-width: 640px;
+    aspect-ratio: 16 / 9;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px -2px rgba(0,0,0,0.18);
+  }
+  .prc-yt-facade .yt-facade-poster {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .prc-yt-facade .yt-facade-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    transition: transform 0.15s;
+  }
+  .prc-yt-facade:hover .yt-facade-play,
+  .prc-yt-facade:focus-visible .yt-facade-play {
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+  .prc-yt-facade:focus-visible {
+    outline: 2px solid var(--color-brand-yellow);
+    outline-offset: 2px;
+  }
+  /* MP4 — autoplay, loop, muted. Same visual box as the YT facade. */
+  .prc-mp4 {
+    display: block;
+    width: 100%;
+    max-width: 640px;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px -2px rgba(0,0,0,0.18);
+    object-fit: cover;
+  }
+
+  /* ── press-logo-grid — responsive grid of clickable logo cards.
+     Mobile: 1 col; Tablet (≥640px): 2 cols; Desktop (≥1024px): 3 cols.
+     Each card has a fixed-height row so the varying-aspect logos
+     center cleanly via object-fit: contain. */
+  .plg-section {
+    background: var(--color-bg-section);
+    padding: 32px 0;
+  }
+  @media (min-width: 768px) {
+    .plg-section { padding: 48px 0; }
+  }
+  .plg-grid {
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding: 0 var(--section-padding-x-mobile);
+    display: grid;
+    /* Breakpoint cascade:
+         <640px  → 1 col (very narrow phones)
+         ≥640px  → 2 cols (matches live's mobile 47%)
+         ≥768px  → 3 cols (smoother transition to desktop)
+         ≥1024px → 4 cols (matches live's desktop 23% × 4) */
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  @media (min-width: 640px) {
+    .plg-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  }
+  @media (min-width: 768px) {
+    .plg-grid {
+      padding: 0 var(--section-padding-x-desktop);
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .plg-grid { grid-template-columns: repeat(4, 1fr); gap: 30px; }
+  }
+  /* Card aspect-ratio matches the dominant logo image natural ratio
+     (1024 × 726 PR Newswire screenshots = ~1.41:1). Letting the card
+     adapt to column width via aspect-ratio keeps logos readable at
+     all breakpoints — at 4-col desktop (~260px wide), card is ~184px
+     tall; at 2-col tablet (~480px wide), card is ~340px tall. Live
+     source uses the same approach (no fixed height; card sized by
+     image). */
+  .plg-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 14px;
+    aspect-ratio: 1024 / 726;
+    box-shadow: 0 2px 6px -2px rgba(0,0,0,0.12);
+    transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+  }
+  .plg-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px -4px rgba(66, 66, 66, 0.28);
+    border-color: var(--color-ink);
+    text-decoration: none;
+  }
+  .plg-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  /* ── victory-form-section — PCRF Copy Section 1.
+     Live source has the entire Section 1 wrapped in a card
+     (#brxe-vnhmqt): bg #f7f7f7, 1px solid #c4c4c4 border,
+     border-radius 25px, padding 40px. Both the text column and
+     the form sit INSIDE this card. */
+  .vfs-section {
+    background: #fff;
+    padding: 32px 0 48px;
+  }
+  @media (min-width: 768px) {
+    .vfs-section { padding: 60px 0 80px; }
+  }
+  .vfs-card {
+    max-width: var(--container-max);
+    margin-inline: auto;
+    margin-top: 0;
+    /* Outer page padding (section-padding-x) sits OUTSIDE the card;
+       the card itself has its own internal padding matching the
+       live source. */
+    width: calc(100% - 2 * var(--section-padding-x-mobile));
+    background: #f7f7f7;
+    border: 1px solid #c4c4c4;
+    border-radius: 25px;
+    padding: 24px;
+  }
+  @media (min-width: 768px) {
+    .vfs-card {
+      width: calc(100% - 2 * var(--section-padding-x-desktop));
+      padding: 40px;
+    }
+  }
+  .vfs-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+  @media (min-width: 1024px) {
+    /* Vertically center the H2/body left column against the form on the
+       right. The form col has padding-top:20px (matches live Bricks
+       #brxe-asarxp) so without centering the H2 sits at the very top
+       of the card while the form's first input sits 20px below —
+       visually disconnects the two columns. Centering aligns the
+       midpoint of the text column with the midpoint of the form
+       column so they read as one unit. */
+    .vfs-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+  }
+  .vfs-text-col {
+    /* Live source has padding-right: 40px on the text column to
+       create breathing room between it and the form on desktop. */
+    padding-right: 0;
+  }
+  @media (min-width: 1024px) {
+    .vfs-text-col { padding-right: 40px; }
+  }
+  .vfs-h2 {
+    margin: 0 0 15px;
+    color: #000;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2.5rem, 5vw, 3.4375rem); /* 40px → 55px (Bricks h2) */
+    line-height: 1.05;
+    letter-spacing: 0.01em;
+  }
+  .vfs-body {
+    margin: 0;
+    color: var(--color-text);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    max-width: 540px;
+  }
+  .vfs-form {
+    /* Live #brxe-asarxp has padding-top: 20px. Match it so the
+       form's first field aligns visually with the H2 on desktop. */
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+    max-width: 520px;
+  }
+  .vfs-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  /* Live form-group spacing: 20px padding-bottom between fields. */
+  .vfs-field {
+    padding: 0 0 20px;
+    width: 100%;
+  }
+  /* Live Bricks input defaults: 1px solid currentcolor border, no
+     background, 40px line-height, 0 12px padding, full width. We
+     adopt the same dimensions but use --color-border and white bg
+     so the inputs visually pop against the #f7f7f7 card. */
+  .vfs-field input,
+  .vfs-field textarea {
+    width: 100%;
+    padding: 0 12px;
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    line-height: 40px;
+    color: var(--color-ink);
+    background: #fff;
+    border: 1px solid #c4c4c4;
+    border-radius: 0;
+    outline: none;
+    box-shadow: none;
+    transition: border-color 0.15s;
+  }
+  .vfs-field textarea {
+    line-height: 1.5;
+    padding: 10px 12px;
+    min-height: 120px;
+    resize: vertical;
+  }
+  .vfs-field input::placeholder,
+  .vfs-field textarea::placeholder {
+    color: #9e9e9e;
+  }
+  .vfs-field input:focus,
+  .vfs-field textarea:focus {
+    border-color: var(--color-author-blue, #2774AE);
+  }
+  .vfs-submit-row { display: flex; }
+  /* Live .bricks-button.bricks-background-primary:
+       bg #ffd100, color #000, font-family Raleway 700,
+       1px solid #f5f5f5 border, 10px radius, .5em 1em padding.
+     width: 100% so the button spans the full form column — matches
+     the inputs above it for a cleaner CTA-style submit. */
+  .vfs-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background: var(--color-brand-yellow);
+    color: #000;
+    font-family: 'Raleway', system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 1px solid #f5f5f5;
+    border-radius: 10px;
+    padding: 12px 32px;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.15s;
+  }
+  .vfs-submit:hover {
+    background: #e6bc00;
+    transform: translateY(-1px);
+  }
+  .vfs-submit:focus-visible {
+    outline: 2px solid var(--color-author-blue, #2774AE);
+    outline-offset: 2px;
+  }
+
+  /* ── pcrf-cta-section — PCRF Copy Section 4.
+     Three centered rows: H2 + 3-up H3 grid + logo + donate text. */
+  .pcs-section {
+    background: var(--color-bg-section);
+    padding: 48px 0;
+  }
+  @media (min-width: 768px) {
+    .pcs-section { padding: 80px 0; }
+  }
+  .pcs-inner {
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding: 0 var(--section-padding-x-mobile);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 32px;
+  }
+  @media (min-width: 768px) {
+    .pcs-inner { padding: 0 var(--section-padding-x-desktop); gap: 48px; }
+  }
+  .pcs-h2 {
+    margin: 0;
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2.25rem, 5vw, 3.4375rem); /* 36px → 55px */
+    line-height: 1.05;
+    letter-spacing: 0.01em;
+    max-width: 920px;
+  }
+  /* The H2 contains a <span style="color: #ffd100"> emphasis from the
+     live source — passed through via set:html, no extra CSS needed. */
+  .pcs-h3-row {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  @media (min-width: 768px) {
+    .pcs-h3-row { grid-template-columns: repeat(3, 1fr); gap: 40px; }
+  }
+  .pcs-h3 {
+    margin: 0;
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(1.875rem, 3.5vw, 2.5rem); /* 30px → 40px */
+    line-height: 1.1;
+    letter-spacing: 0.01em;
+  }
+  .pcs-logo-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .pcs-logo {
+    width: 240px;
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+  @media (min-width: 768px) {
+    .pcs-logo { width: 300px; }
+  }
+  .pcs-donate {
+    margin: 0;
+    color: var(--color-ink);
+    font-family: var(--font-heading);
+    font-size: 1.125rem;
+  }
+  .pcs-donate p { margin: 0; }
+  .pcs-donate a {
+    color: var(--color-brand-yellow);
+    text-decoration: underline;
+    font-weight: 700;
+  }
+  .pcs-donate a:hover { color: #e6bc00; }
 </style>

@@ -1,0 +1,59 @@
+[
+  {
+    "type": "_meta",
+    "title": "Free Resources | The Pyramid Principle",
+    "description": "Free downloadable resources from The Pyramid Principle — a 17-page sample, Coach Wooden's Pyramid of Success diagram, and the Book Club Discussion Guide.",
+    "slug": "free-resources"
+  },
+  {
+    "type": "title-card",
+    "id": "brxe-jwrojf",
+    "eyebrow": "The Pyramid Principle",
+    "h1": "Free resources"
+  },
+  {
+    "type": "centered-image",
+    "id": "brxe-0d3b0f",
+    "h2": "The Pyramid Principle – SAMPLE",
+    "image": {
+      "file": "3D-Book-1-886x1024.png",
+      "alt": "The Pyramid Principle — 3D book cover",
+      "dims": { "width": 886, "height": 1024 }
+    },
+    "maxWidth": 500,
+    "downloadHref": "https://assets.spiritmediapublishing.com/the-pyramid-principle/free-resources/the-pyramid-principle-sample.pdf",
+    "downloadLabel": "Download Sample",
+    "downloadFilename": "the-pyramid-principle-sample.pdf",
+    "meta": "17 pages • PDF • English"
+  },
+  {
+    "type": "centered-image",
+    "id": "brxe-vuffxd",
+    "h2": "Coach Wooden’s Pyramid of Success",
+    "image": {
+      "file": "pyramid-of-success.png",
+      "alt": "Coach John Wooden's Pyramid of Success diagram",
+      "dims": { "width": 2364, "height": 1704 }
+    },
+    "maxWidth": 720,
+    "downloadHref": "https://assets.spiritmediapublishing.com/the-pyramid-principle/pyramid-of-success.pdf",
+    "downloadLabel": "Download Poster",
+    "downloadFilename": "pyramid-of-success.pdf",
+    "meta": "1 page • PDF"
+  },
+  {
+    "type": "centered-image",
+    "id": "brxe-jgjdwt",
+    "h2": "Book Club Discussion Guide",
+    "image": {
+      "file": "TPP-Book-Club-Discussion-Guide-cover.png",
+      "alt": "The Pyramid Principle Book Club Discussion Guide — cover",
+      "dims": { "width": 1700, "height": 2200 }
+    },
+    "maxWidth": 500,
+    "downloadHref": "https://assets.spiritmediapublishing.com/the-pyramid-principle/free-resources/book-club-discussion-guide.pdf",
+    "downloadLabel": "Download Guide",
+    "downloadFilename": "book-club-discussion-guide.pdf",
+    "meta": "5 pages • PDF"
+  }
+]

@@ -62,103 +62,7 @@ Then run: `git checkout dev && git pull origin dev`
 
 ### Phase 4 — Wire Sanity CMS (pending)
 
-**Phase 4 to-dos accumulated during Phase 3 build:**
-
-- [ ] **Latest Blog grid (homepage section 9)** — currently hardcoded with 6 cards (blocks 71-89 of home.json). Swap for a GROQ query against the Sanity blog schema:
-      ```
-      *[_type == "blogPost"] | order(publishedAt desc) [0...6]
-      ```
-      All 6 "Read full article" `<a>` tags carry `data-pending-blog="true"` so they're auditable. The slugs they point to don't exist yet — they 404 on dev preview until the blog routes are created. Jufrey's list: 8 blogs total scope, 2 more beyond the 6 surfaced on the homepage.
-- [ ] **Sponsor Copies CTA** — homepage section 2 currently links to `/give-courage/` (rewritten from the source's `/victory-over-cancer/`). In Phase 8 cutover, preserve a 301 redirect `/victory-over-cancer/ → /give-courage/`.
-- [ ] **Carousel data** — `home.json` block 28 (`press-carousel`) carries 11 slides hardcoded with file + href. In Phase 4 a `pressCoverage` Sanity document type should drive this; replace the StructuredPage routing to query Sanity instead.
-- [ ] **All hand-rendered home sections** read directly from `home.json` indices in `index.astro`. Phase 4 should restructure each section into Sanity schema types (`homepageHero`, `homepageHeartGripping`, `homepageStory`, `homepageBasedOn`, etc.) so the client can edit copy/images via Studio.
-- [ ] **Editorial corrections logged for Phase 5 CAR**:
-  - `<a href=pacdora.com>` wrap dropped on (a) Free Resources YouTube, (b) Wooden quote image — both packaging-design tool URLs, almost certainly client miswires.
-  - `home.json` block 47 (Coach Cori Close attribution): source `<h2>` → reclassified to `<p>` + `<cite>` role.
-  - `home.json` block 69 (Wooden quote): source `<h2>` → reclassified to `<blockquote>`.
-  - `home.json` block 70 (Wooden attribution): source `<h2>` → reclassified to `<p>` + `<cite>` role.
-  - "John Valley" (sic) typo preserved on Highlights items 5+6 of col 2 (live source has it).
-  - Live source uses `Libre Baskerville` (quote) + `Abel` (cite) on the Wooden section. Both self-hosted from R2. Live H6 "A Heart-Gripping Story of Heroic Love and Legacy" uses Montserrat 20px 700.
-  - Bricks shape-divider above John Vallely hero section dropped in migration — visually weak in the original, looked like a rendering bug in the rebuild. Confirm with Kevin whether to add it back with proper sizing.
-  - `/paul-weissenstein/` hero body paragraph: source text ends without a period ("…into motion picture projects"). Preserved verbatim per Phase 3 fidelity. Confirm with client whether to add the period.
-  - `/paul-weissenstein/` Acknowledgements — all personal names preserved verbatim. Flag for client review: (a) "Grace Westlin" spelling, (b) all named individuals + book titles + Psalm 96:3 quotation, (c) source has a few visibly-odd mid-sentence single `<br>`s preserved verbatim — P12 between "leading Princeton to success." and "Thank you to the Day One's", P15 inside "double<br>rainbow", P18 inside "His<br>faithfulness", P20 between the quote and `~ Coach John Wooden.` attribution. Confirm whether these are intentional line breaks or transcription artefacts.
-  - Bricks `data-interactions` orphan references — on `/paul-weissenstein/` and `/coach-john-wooden/`, the OUTER container `data-interactions` `templateId`s for several video tiles point at popups from OTHER pages (e.g. Vallely's 1541/1545/1548 on Paul's outer tiles; 1661/1665/1678 on Wooden's outer tiles). The INNER `<i class="fa fa-circle-play">` `data-interactions` carries the correct page-local `templateId`. Used inner-icon IDs as authoritative. Not a migration bug — leftover Bricks editor state. Note for Kevin.
-  - `/coach-john-wooden/` About UCLA collage uses **USATSI_8741865.webp** (image 1, 1000x600). "USATSI" = USA Today Sports Images stock photo. Verify licensing for this stock image carries over to the new site domain — the Cloudways WP install may have had a license that does NOT transfer with the migration. If licensing is unclear, swap for a different UCLA action photo before launch.
-  - `/coach-john-wooden/` About UCLA collage staggered-image border color is **UCLA Blue `#0967B3`** in source (not white as on Vallely's interview-questions collage). The `image-collage-card` block exposes a `borderColor` field for this reason.
-  - `/retailers/` ISBN list — verify with Kevin that all 5 ISBNs are final/correct: Paperback 979-8-89307-115-3, Hardback 979-8-89307-116-0, Audiobook 979-8-89307-118-4, eBook 979-8-89307-117-7. If any format (hardback/eBook/audiobook) hasn't been issued yet, hide those rows until ready.
-  - `/retailers/` LCCN 2024918727 — verify with Kevin.
-  - `/retailers/` Spirit Media publisher URL — source lists `www.wordpress-1227270-4701771.cloudwaysapps.com` (Cloudways staging). Set to placeholder `https://spiritmediapublishing.com/` in the build. Confirm the canonical publisher URL with Kevin and update both the Retailers page and the footer Spirit Media link to match.
-  - `/retailers/` semantic re-shape — source uses double-H3 markup for ISBN label/value pairs (Bricks editor quirk) and H3-per-crumb for BISAC category breadcrumbs. The rebuild re-semanticizes these as `<dl>/<dt>/<dd>` (ISBN) and `<nav><ol>` with literal `›` separators (breadcrumbs) for accessibility. Phase 6 polish if Kevin wants to revert.
-  - `/retailers/` Amazon Global Marketplaces inner H2 — source reads "Amazon Global Marketplaces :" with an awkward space before the colon. Preserved verbatim per Phase 3 fidelity. Confirm with Kevin whether to tidy to "Amazon Global Marketplaces:" (no space).
-  - `/retailers/` Amazon "Netherland" button — source spelling is "Netherland" (singular). Preserved verbatim. Confirm with Kevin whether to correct to "Netherlands".
-  - `/retailers/` US Amazon URL — source had the full search-result tracking URL with `?_encoding=UTF8&dib_tag=se&dib=…&qid=…&sr=8-4` (the tracking params attribute the click to a specific in-app search). Stripped to the clean canonical `/dp/B0DGY1WNQG`.
-  - `/retailers/` Australia Amazon URL FIXED — source had `https://www.amazon.ca/dp/B0DGX5YWDC` (Canada URL) for the Australia button — a copy-paste error in the live build. Replaced with `https://www.amazon.com.au/dp/B0DGX5YWDC`. Confirm with Kevin that the book is actually listed on amazon.com.au under this ASIN; if not yet listed there, the button should either link to a fallback URL or be hidden until launch.
-  - `/retailers/` Other International Retailers H2 — source reads "Other International Retailers : " with an awkward space before the colon AND trailing space. Preserved verbatim. Cleanup with the "Amazon Global Marketplaces :" formatting quirk.
-  - `/retailers/` Sweden retailer URL — source had Google Shopping tracking params (`?srsltid=AfmBOoor…`); stripped to the canonical `https://www.akademibokhandeln.se/bok/the-pyramid-principle/9798893071160`.
-  - `/retailers/` France international button — links to `bol.com` Belgium (`/be/fr/` path), not an actual French retailer. Confirm with Kevin whether the label should be "Belgium" or the URL should be replaced with a real French retailer (Fnac, Cultura, etc.).
-  - `/retailers/` United Kingdom international button — links to `best-book-price.co.uk`, a price aggregator (not a primary retailer). Confirm with Kevin if there's a preferred direct UK retailer (Waterstones, Foyles, Blackwell's, Hive.co.uk).
-  - `/retailers/` Translation Editions section conflict — homepage Latest Blog has posts announcing the Chinese, Portuguese, and Spanish editions as published, but the Retailers page Translation grid is captioned "Other languages are coming soon …." (4-dot ellipsis). Two scenarios: (a) blog posts are premature and the translations aren't actually shipped yet, or (b) this Retailers caption is stale and the translations have already launched. Confirm with Kevin which is true and fix the inconsistent messaging.
-  - `/retailers/` Translation grid Spanish cover — source filename is `unnamed-683x1024.jpg` (generic auto-name). Confirm with Kevin whether this is the final Spanish edition cover or a placeholder needing replacement before launch.
-  - `/retailers/` Translation grid heading — source uses "Other languages are coming soon ...." (4-dot ellipsis, four periods). Preserved verbatim per Phase 3. Phase 6 polish: replace with proper `…` (U+2026) ellipsis character or 3-dot.
-  - `/retailers/` Translation grid Chinese label — source has two adjacent H3 elements ("CHINESE " with trailing space + "( Mandarin )" with internal spaces) treated as a single label split across two lines. Re-semanticized as one `<h3>` ("Chinese") + a smaller `<p>` sublabel ("(Mandarin)") for clearer document outline. Phase 6 polish if Kevin wants the source double-H3 markup back.
-  - `/retailers/` Heart-Gripping Story callout subtitle — source reads "Erin's Story of Courage Brings Hope, Healing, and Deliverance to Everyone fighting Cancer." with lowercase "fighting" and capital "Cancer". Same mid-sentence capitalisation quirk appears on the homepage footer Give-Courage block ("Families fighting CAncer…"). Phase 6 polish: pick one casing and apply consistently across both occurrences.
-  - `/retailers/` Heart-Gripping Story callout images — files are named `6-1.png` and `7-1.png` (generic auto-names from a campaign asset folder). Both are 1250x750 PNGs already in Sanity. Confirm with Kevin what these depict and add meaningful alt text before launch.
-  - `/retailers/` Global Interest stat callout — source uses an `<h3>` element for what is semantically a long-form stat paragraph ("American Basketball is a popular sport globally, with over 3.3 billion fans …"). Re-rendered as `<p>` with the same Libre Baskerville italic styling. Markup re-shape only; visual identical to source.
-  - `/retailers/` Global Interest stat callout copy — slightly awkward "American Basketball" capitalisation; reading flows better as "American basketball" or just "basketball". Flag for client polish. Also the 3.3 billion fans / 68→74% growth stats have no citation in source — add a source or remove.
-  - `/retailers/` Global Interest right-column images — filenames `sxLWowjDTE2A98z7JXVezg-1024x375.png` and `fyheb_01-1024x538.jpg` are random hashes; `Global-Leadership.jpg` is descriptive. All three already in Sanity. Confirm content with Kevin and add meaningful alt text before launch.
-  - **`/retailers/` image-licensing audit required before launch.** This page imports multiple third-party / stock-source images that may not have transferable licenses from the Cloudways WP install:
-    - `USATSI_8741865.webp` — USA Today Sports Images (already flagged on Wooden About-UCLA).
-    - `gettyimages-1245851899-612x612-transformed.jpeg` — Getty Images. NBA Stats Card 1 ("Younger audiences"). Confirm Getty subscription/license transfers to the new site domain, or swap.
-    - `SLIKA-4-1.webp` — "SLIKA" is Slovenian/Croatian for "image"; likely a translated/sourced stock photo. NBA Stats Card 2 ("International players"). Verify.
-    - `images.png` — literally `images.png` at 225×225 (Google Images default thumbnail dimensions). NBA Stats Card 3 ("Social media"). Almost certainly downloaded from a Google Images search result and not licensed — needs replacing before launch.
-    - `EVP-1693249197814.webp` — filename has a Unix timestamp (Aug 28 2023). NBA Stats Card 4 ("Global social responsibility"). Verify source/license.
-    Action: compile a single licensing-review batch for Kevin to clear before main-merge. Replace anything that can't be verified.
-  - `/retailers/` NBA Stats Grid copy — cites "200 countries", "50 languages", "26%", "2.3 billion" etc. with no source/citation in source content. Confirm with Kevin if these need attribution or are acceptable as marketing claims.
-  - `/retailers/` India section copy — cites "100 million unique viewers" for the NBA 2022-23 season in India with no citation. Confirm with Kevin or remove.
-  - `/retailers/` Populations list — source has the full list duplicated for responsive purposes (single-col mobile markup + 2-col desktop markup, with display:none toggling between them). Rebuilt as a single semantic 2-`<ul>` structure with CSS grid layout (1 col mobile, 2 cols desktop). Visual identical to source on both viewports without the markup duplication.
-  - `/retailers/` Populations list copy — cites 1.42B / 1.44B / 745M / etc. with no source citation. Confirm with Kevin if these need attribution.
-  - `/retailers/` Populations list logical issue — "Spanish (all) – 575M" includes Brazil as a sub-item (Brazil's primary language is Portuguese, not Spanish). Either the parent label should be "Latin America" / "Lusophone + Hispanophone" or Brazil should not be nested under "Spanish". Flag for Kevin to clarify intent.
-  - `/retailers/` Populations image (`ag-pic-PllbLCTilUo-unsplash.jpg`) — Unsplash source, permissive license, no clearance concern. Confirm with Kevin what the photo depicts for proper alt text (currently empty).
-  - `/retailers/` Top 20 Languages list item 1 "English 1.4B" — missing the em-dash that every other item has ("English **1.4B**" vs "Mandarin (Chinese) **– 1.3B**"). Source inconsistency, preserved verbatim. Phase 6 polish — add the em-dash.
-  - `/retailers/` Top 20 Languages list item 11 "Indonesians – 199M" — "Indonesians" is the people; the language is "Indonesian" (singular). Likely a typo. Preserved verbatim. Confirm with Kevin.
-  - `/retailers/` Top 20 Languages bold treatment — items 1-4 (English, Mandarin, Hindi, Spanish) and item 13 (Japanese) are bold; all others regular. The bolded set matches the book's current + planned translation editions (per homepage Latest Blog + Section 6 "Translation Editions Coming Soon"). Editorial signal is intentional — verified with Kevin.
-  - `/retailers/` Top 20 Languages population stats — no source citation. Same question as the Populations section.
-  - `/retailers/` Top 20 Languages image (`dan-gold-xy4zPgetBQg-unsplash.jpg`) — Unsplash source, photographer credit Dan Gold. Alt text set to "Photo by Dan Gold on Unsplash" per Unsplash's recommended (not required) attribution practice.
-  - `/the-pyramid-success/` Section 4 "Walt Hazzard, Gail Goodrich, Lucius Allen, and Keith Erickson" profile card — source has NO bio paragraph and NO "Learn More" link, only an H3 heading + 4 photos. Likely a content gap left unfinished by the client. Confirm with Kevin: (a) provide bio content for these 4 players; (b) provide Learn More link(s) — separate Wikipedia links per player, one combined link, or none. Phase 6 follow-up.
-  - `/give-courage/` Section 1 carousel — all 11 photos are stock-library cancer/illness imagery (filenames carry timestamp patterns like `2023-11-27-05-30-11-utc` typical of stock services). Image-licensing audit required before launch: verify each photo can transfer to the new site domain. Most are ~30KB ezgif-converted webps with generic descriptive filenames suggesting a single stock library was bulk-licensed for the WP install — confirm the license is still valid on the production domain.
-  - **Blog migration completed straight WP→Sanity per Kevin's directive — content NOT enhanced to meet SMP Gold-Level standard.** All 6 posts migrated as-is with original word count, structure, and copy. The Gold-Level standard (`/home/deploy/claude-config/rules/smp-gold-blog-standard.md`) requires 20 content-quality milestones (direct-answer first 200 words, FAQ JSON-LD, expert quote/stat citation, 1200-1800 words, listicle structure, internal/outbound links, inline mid-post CTA, bottom CTA to community, etc.) before main-merge. Migrated posts will fail most hard milestones. The site isn't in the global `smp-blog-gold-audit.sh` SITE_CONFIG yet — add it before merge with the appropriate authority-source domains. Phase 6 content-enhancement pass required: (a) add direct-answer paragraph + key-takeaway callout to each post, (b) add author credentials line + last-updated date, (c) add FAQ JSON-LD, (d) add expert quote/stat citations, (e) add internal links to other site pages + 2-4 outbound authority links per post, (f) add bottom CTA. Pre-publish 20-point checklist embedded in the blog editor template.
-  - Blog posts CAR: WordPress staging URLs (`wordpress-1227270-4701771.cloudwaysapps.com/tpp/...`) were stripped from link annotations during HTML→portable-text conversion and rewritten as relative paths. Verify each link still resolves correctly on the new domain — some internal references may point to pages that don't yet exist on the new site.
-  - Blog posts CAR: All `excerpt` fields populated from WordPress `og:description` meta. Review for SEO quality (target 150-160 char meta descriptions per Gold-Level standard).
-  - Blog posts CAR: `cardImage` and `heroImage` set to the same Sanity asset per post (reused WordPress `og:image`). If Kevin wants distinct card thumbnails vs hero crops, upload separately in Sanity Studio.
-  - Blog posts CAR: Chinese post title uses inverted curly quotes: `”The Pyramid Principle”` (closing curly quote at the start). Preserved verbatim from source `og:title`. Phase 6 polish: normalize to `"The Pyramid Principle"` to match the other translation posts.
-  - Site-wide footer copyright — legal owner is **"The Kohler Group, PLLC"** (hardcoded in Layout.astro, NOT `{SITE_NAME}`). User confirmed this on second-pass after I initially read it as a paste error and resolved via AskUserQuestion to "The Pyramid Principle". The book is published under the Kohler Group PLLC legal entity. Verify with Kevin if anything changes. If a different legal entity is required, edit the hardcoded string in Layout.astro footer-copy-line. Site CLAUDE.md global rule (`{SITE_NAME}`) explicitly overridden here per Kevin's direction.
-  - Site-wide footer "100 Club Member" pill — rendered as a plain `<span class="hundred-club-pill">` (decorative, no link) inline in footer-copy-line. Shared `HundredClubBadge.astro` component (which renders conditionally based on the 100club-sites.json registry and links to spiritmediapublishing.com/ai-websites) is no longer used on this site; component file kept in `src/components/` in case other sites still reference it or for future re-adoption.
-  - Site-wide footer address updated to "205 S Academy St #3251, Cary, NC 27519" + phone "1-888-800-3744" (was 8045 Arco Corporate Dr STE 130, Raleigh, NC 27617). tel: URI kept as `tel:+18888003744` (correct E.164 — country code +1 + 10-digit number).
-  - `/give-courage/` Section 6 Join The Movement body — first paragraph contains "PCRF and it's partners" — should be "**its** partners" (no apostrophe; possessive, not contraction). Preserved verbatim per Phase 3. Phase 6 copy edit needed.
-  - `/give-courage/` Section 6 attribution "– John & Karen Vallely" — Karen Vallely is John's wife and Erin's mother. Verify the attribution line is correct + that Karen has approved being co-signer on this public message before launch.
-  - `/give-courage/` Section 6 image (`join-the-movement.png`, 1070×998) — placeholder alt "Join The Movement — Erin Vallely's legacy of courage". Confirm with Kevin what the image depicts (likely artwork/symbolic, possibly Erin's portrait) and finalize alt text before launch.
-  - `/give-courage/` Section 6 mobile order — source uses `order: 1` on the image column putting it BELOW text on mobile. Rebuild keeps natural DOM order (image-on-top mobile) per user direction. Phase 3 deviation logged.
-  - `/give-courage/` Section 5 check photo (`check-2.jpg`) — placeholder alt text "The Pyramid Principle presenting $100,000 check to Pediatric Cancer Research Foundation". Confirm with Kevin: (a) photo contents, (b) was this a real ceremonial check presentation or marketing concept image, (c) final alt text including names of any people in the photo. Filename is descriptive ("check") but generic.
-  - `/give-courage/` Section 3 SMG banner — Tax ID "88-4352701" hard-coded in heading. Verify with Kevin that this is the correct Spirit Media 501(c)(3) Tax ID before launch.
-  - `/give-courage/` Section 3 PCRF section — links to `https://pcrf-kids.org/`. Verify URL still active and Kevin still wants the PCRF cross-link (some non-profits change URLs or partnership agreements).
-  - `/give-courage/` Section 3 PCRF "Rainbow for Erin" image (`58e232679973e0ada741fbaf881dcad8-transformed-1024x537.jpeg`) — filename is a content hash with no descriptive context. Confirm with Kevin what the image depicts and its significance to Erin Vallely (suspected: a rainbow photograph taken in memory of Erin, used as a visual symbol on the page). Add meaningful alt text once confirmed — current alt is "Rainbow for Erin" matching the caption.
-  - `/give-courage/` Section 2 YouTube video — embeds video ID `xuYxhPF-W_Y` from `youtube-nocookie.com`. Verify with Kevin that this is the correct video for the donation page (Erin Vallely's story).
-  - `/give-courage/` Section 2 Givebutter widget — embeds widget ID `gBVowg` from the SMP shared Givebutter account (`DE9wuakOnyCAZ7eO`). Verify with Kevin this is the production widget for the Pyramid Principle's Give Courage campaign — same widget shown on the live source. The Givebutter script also touches `widgets.givebutter.com` and `*.givebutter.com` (added to CSP).
-  - `/give-courage/` Section 2 donation impact tiers — `$25 = 1 family`, `$50 = 2`, `$100 = 4`, `$500 = 20`, `$1000 = 40`. Math doesn't quite scale linearly ($25/family base would put $500 = 20 OK, but $1000 = 40 = $25/family, while $100/4 = $25/family and $50/2 = $25/family — actually it's consistent at $25/family). Verify with Kevin that these tier breakpoints + impact numbers are still accurate for the campaign before launch.
-  - `/give-courage/` Section 2 Erin Vallely quote attribution — references "The Pyramid Principle (page 132-133)". Verify the page-number reference is accurate for the published edition of the book before launch.
-  - `/give-courage/` Section 2 Shelly testimonial — attributed to "Shelly of North Carolina". Verify with Kevin that this is a real donor / reader testimonial with permission to publish, and confirm the spelling/attribution is what Shelly approved.
-  - `/give-courage/` Section 1 tax-deductible note — source uses `<h3 id="brxe-onssmv">ALL GIFTS TAX DEDUCTIBLE</h3>`. Rebuild downgrades to `<p class="gcb-tax">` (small 12px gray Montserrat, center-aligned) per user direction — visually appropriate as a secondary note below the CTA, semantically more correct than an H3 outside a heading context. Phase 6 review.
-  - `/give-courage/` Section 1 banner copy — "Cancer" vs "cancer" capitalization is inconsistent across the site (some headings capitalize "Cancer" mid-sentence, others use lowercase). Source on this page renders "FIGHTING CANCER" all-caps via the H2's text-transform. Phase 6 polish: standardize capitalization rules sitewide for body copy. See related items on /retailers/ and homepage footer.
-  - `/the-pyramid-success/` Section 4 Lynn Shackelford card — spelling inconsistency between heading ("Shackelford") and image filenames ("Shackleford", no "e"). Heading matches Wikipedia and is correct. The 2 image filenames carry the misspelling but don't surface to readers — preserved verbatim per Phase 3. Flag for awareness; no action needed unless Kevin wants the alt text to read "Shackelford" with the canonical spelling.
-  - `/the-pyramid-success/` Section 4 Ron Von Hagen card hero image (`Screenshot-at-Oct-04-03-16-25.png`) — generic screenshot filename suggests an ad-hoc screen capture (date in filename matches Oct 4, 2024). Verify with Kevin what the screenshot depicts (likely a Von Hagen-related sports archive/wiki page or video frame) and confirm licensing — screenshots of copyrighted material may not transfer to the new domain. Already in the broader image-licensing audit batch but flagged separately here for the Von Hagen card.
-  - `/the-pyramid-success/` Section 4 Hazzard et al. card image 3 (`Walt_Frazier_and_Lucius_Allen.jpeg`) — filename references Walt **Frazier** (not Walt **Hazzard**, who heads this card). Walt Frazier has no UCLA connection (played at Southern Illinois, then NY Knicks). Either the filename is wrong and the photo actually depicts Hazzard, or the photo is genuinely of Frazier and was misplaced into the Hazzard et al card. Flag for Kevin to verify the photo's identity before launch — if Frazier, replace with a Hazzard photo; if mislabeled, update the alt text to clarify.
-  - `/the-pyramid-success/` Section 4 source HTML has Bricks-editor leftovers throughout — deeply nested `<b><b><b>` tags and empty `<a>` (Wikipedia link) wrappers without `href` inside paragraph text. Rebuild strips them and renders clean semantic markup (text inside `<p>` without redundant nesting). No visible regression — visual identical, accessibility improved.
-  - `/the-pyramid-success/` Section 4 Orange Coast College profile card — image `Orange-Coast-College-Science-Building-GRI-14-1024x827-1.jpg` is from the Julius Shulman photography archive (1936-1997). Filename hints at Getty Research Institute (GRI) source. Verify image licensing transfers to the new site domain before launch — Shulman estate licenses are typically per-publication. May need replacement.
-  - `/the-pyramid-success/` Section 4 profile-card images — many other filenames are random-hash auto-names or third-party stock similar to /retailers/ findings. Licensing audit needed before launch: `GettyImages-395004-1024x688-1.jpg` (Denny Crum — Getty Images), `s-l400.jpg`/`s-l1200.webp` (Denny Crum + Lynn Shackelford — eBay listing thumbnails), `images.jpeg` (Gary Cunningham — generic name, likely Google Images), `85fd5123…3f3d8.webp` (Denny Crum — random hash), `45536_f544bedd643a88d6_001.jpg` (Walt Hazzard et al — random hash). Verify each can transfer to the new domain or replace before main-merge.
-  - `/the-pyramid-success/` Section 4 profile-card images — all 34 photos have empty alt text in source; preserved in rebuild. Add meaningful alt text per image before launch (or before main-merge).
-  - `/the-pyramid-success/` Section 4 Greg Lee card image 2 (`308578103_3075608022585560_4295920655483154845_n.jpg`) — Facebook-uploaded image (filename pattern `<FB-photo-id>_<FB-fbid>_<FB-uploader-id>_n.jpg`). Re-hosted from the WP install. Verify licensing/permission with the original FB uploader before launch — Facebook photos are not public-domain by default. Same concern as the Coach Wetzel card's 3 photos.
-  - `/the-pyramid-success/` Section 4 Coach Wetzel card — all 3 photos are Facebook-uploaded images. Source filenames start with Facebook photo IDs `300997137_…`, `301011092_…`, `301137185_…` followed by Facebook fbid + uploader-id + naming-hash. These were grabbed from a Facebook profile/page and re-hosted on the WP install. Verify licensing/permission with the original uploader before launch — Facebook photos are not public-domain by default; permission to redistribute outside the platform should be confirmed.
-  - `/the-pyramid-success/` Section 1 hero (#brxe-7d2e09) eyebrow uses `<h3>` for the small "THE PYRAMID PRINCIPLE" caption. Source styles it 15px Montserrat (10px mobile) — visually a small eyebrow caption, not a section heading. Heading-level outline is unusual: this H3 outranks subsequent H3s elsewhere in the page (when later sections are added). Preserved verbatim per Phase 3 fidelity. Phase 6 review: downgrade to `<p class="tc-eyebrow">` or change tag without changing styling.
+**Phase 4 to-dos + Phase 3 CARs (97-item content/editorial/licensing list) — see [`content/phase-4-CARs.md`](content/phase-4-CARs.md).**
 
 ### Phase 5 — Performance / Lighthouse (partial, stopped 2026-05-12)
 
@@ -216,6 +120,127 @@ Goal was both mobile + desktop ≥ 95. Outcome: **desktop hit, mobile 7 points s
 - 1b6c949 — (revert of f048d6b layout-preload move)
 - d9e1a2d — content-visibility on below-fold sections
 - Plus reverts at 7184175, 29e8612, 0800a8a, ccdab4d cleaning up the experiments.
+
+### Phase 6 — Post-launch checklist sweep (2026-05-13)
+
+After Kevin promoted the site to `https://thepyramidprinciple.com` on 2026-05-12, a 58-point post-launch checklist sweep against the live origin surfaced gaps. Kevin authorized fixing everything we could ourselves; this session shipped 5 commits to dev:
+
+| Commit | Fix | What changed |
+|---|---|---|
+| 68b422e | `robots.txt` `SITE_DOMAIN` placeholder | `public/robots.txt` — sitemap line now `https://thepyramidprinciple.com/sitemap-index.xml` |
+| ca9b4b5 | Remove unverified 100 Club pill | `src/layouts/Layout.astro` — stripped `<span class="hundred-club-pill">` from footer + the matching CSS rule. **Reverted by `e0e9aba`** later the same session per Kevin's directive — pill stays in the footer. |
+| b8e1b3c | www → apex 301 redirect | Cloudflare Dynamic Redirect rule added on zone `4c373d6ae0a6b61132ee48e96b10ea2e` (ruleset `384673be663745f0acb3ac610e2da2e5`, rule id `13325f6cd48a4da3a6b93647b97569c3`). Preserves path + query. Empty commit — pure infra change. |
+| 69dda46 | Missing meta tags + apple-touch-icon | `src/layouts/Layout.astro` — added `<meta name="author">`, `<meta name="theme-color" content="#FFD100">`, `<meta name="twitter:image">`, `<meta property="og:image:width/height/alt">`, `<link rel="apple-touch-icon">`. Generated `public/apple-touch-icon.png` (180×180, brand-yellow ground, black pyramid path from `favicon.svg`) via sharp. Added precise `.gitignore` negation `!public/apple-touch-icon.png` so the icon ships (the global `*.png` media-block rule still holds for content media). |
+| 7fb2dd9 | Deduplicate homepage H1 | `src/pages/index.astro` — mobile hero changed from `<h1>` to `<p role="heading" aria-level="1">`. Page now has a single literal `<h1>` (desktop variant); screen-reader users on mobile still hear the visible mobile hero as a level-1 heading. Visual unchanged. |
+
+**TLS / certs — apex AND www are live**, both with Google Trust Services certs issued 2026-05-12 (valid through 2026-08-10). The earlier "TLS provisioning pending" note was already stale at the time of the sweep — flagged.
+
+**Verified clean on `https://dev.the-pyramid-principle.pages.dev/`** after `git pushd origin dev` (Wrangler deploy alias `9683d72c`):
+- robots.txt resolves with apex domain
+- 0 occurrences of "100 Club" / "hundred-club" in served HTML
+- All 6 new meta tags present
+- `/apple-touch-icon.png` → HTTP 200, content-type `image/png`
+- DOM contains exactly 1 `<h1>` (comment-strip count, not literal regex match)
+- www → apex 301 verified live on the prod zone with root, path, and query-string cases
+
+**Dev → main merge still requires Kevin's approval** per team-rules. Not coordinated in this session.
+
+### Post-launch CARs (deferred — not blocking, log here so Phase 7 picks them up)
+
+- **Google Search Console verification** — needs (a) GSC property access for `thepyramidprinciple.com` granted to whoever will paste the verification token, and (b) the verification HTML or DNS TXT value. Once we have either, drop `google<hex>.html` in `public/` or add the TXT to the CF DNS record. Then submit the sitemap inside GSC. **Blocker: need Kevin to grant GSC property + share the token.**
+- **CTA click tracking (GA4 conversion events)** — homepage and `/retailers/` Amazon retailer cards, `/give-courage/` Givebutter widget click, `/give-courage/` and homepage "Give Courage" CTAs, header "In The News" + "Reviews" pills, retailer-page international Amazon buttons. Wire `gtag('event','click', { event_category:'cta', event_label:<retailer-or-button> })` on each anchor. Bundle with the Phase 7 perf work since both touch JS already deferred behind first-interaction. **Not breaking anything today — log + ship in Phase 7.**
+- **100 Club pill** — kept in footer per Kevin's directive (hardcoded, bypasses the registry-gated `HundredClubBadge` component). Phase 7: evaluate switching to the registry component once TPP qualifies.
+
+### Phase 7 — Mobile perf push (attempted, fully reverted 2026-05-14)
+
+**Goal:** Cross mobile Lighthouse Perf 95+ from Phase 6's 88-90 median.
+**Hard requirement (per session brief):** No CLS regression. Desktop ≥99.
+No `media="print"` onload pattern. Mobile crossed 92 to count as progress.
+Time-box: 90 min.
+
+**Outcome: All three attempts reverted. Branch identical to f613be8
+(pre-Phase-7 last commit). Mobile remains at 87-90 median. CARs below.**
+
+| Attempt | Approach | PSI median (mobile / desktop) | CLS | Revert |
+|---|---|---|---|---|
+| Baseline | (none) | **90 / 100** | 0.001 / 0.000 | — |
+| 1 | `vite.build.cssCodeSplit: false` to concatenate per-page CSS into one bundle (-1 render-blocking RTT) | 90 / 99 | 0.001 / 0.000 | `c7ab7bb` |
+| 2 | Beasties critical-CSS extraction with `preload: 'js-lazy'` + `pruneSource: true` (no media=print pattern) | **99 / 100** | **0.000 / 0.000** | `b2f9198` |
+| 3 | Same Beasties config but `pruneSource: false` (preserve full deferred CSS) | 87 / 99 | 0.011 / 0.000 | `fb0d580` |
+
+**Attempt 2 result was almost perfect** — mobile Perf crossed 99 with CLS
+0.000 (better than baseline). But it tanked **A11y 100→96** and
+**Best-Practices 100→96** on both viewports. The two new failing audits
+were:
+  - `image-aspect-ratio` (BP) — image rendered dims didn't match HTML
+    width/height attrs because the `.hero-book-img` `height: auto`
+    rule (and similar layout-driving rules) were pruned from critical
+    extraction. The deferred CSS would arrive AFTER Lighthouse's
+    audit window, so the audit saw the page in its broken pre-deferred
+    state.
+  - `target-size` (A11y) — interactive elements rendered with default
+    padding (no min-target sizing rules in critical extraction).
+
+**Attempt 3** kept the deferred CSS as the full original sheet (not
+pruned) to restore the missing rules. A11y/BP came back to 100, but:
+  - Mobile Perf regressed to 87 (below baseline 90) because each page
+    HTML grew ~17KB from duplicate critical+deferred rules
+  - Mobile CLS spiked from 0.001 → 0.011 (10× regression — though
+    still well within "Good" range, the brief said "any CLS regression
+    = revert")
+
+**Why this is a hard problem on this specific site:**
+  1. The hero is split-column with the image on the right being a
+     significant chunk of mobile viewport. Layout-driving CSS for
+     that image (`.hero-book-img`, scoped via `data-astro-cid-*`) is
+     above-the-fold AND affects PSI's image-aspect-ratio audit. If
+     Beasties' DOM-walk extraction misses it, the audit fails. If
+     duplicated to keep it complete, bytes regress slow-4G mobile.
+  2. The site uses Astro scoped CSS heavily (each component compiles
+     to per-page selectors with `data-astro-cid` attribute selectors).
+     Beasties does match these correctly when extracting, but
+     selectors that only become "visible" via scroll, interaction,
+     or media-query state still get pruned and miss audit windows.
+  3. Per-page CSS bundles are ~24KB raw each (~4-6KB gzip). Inlining
+     all critical CSS (~21KB per page) AND keeping deferred CSS
+     external roughly doubles the wire bytes on first load.
+
+**What a dedicated Phase 7 session would need to try:**
+  1. **`forceInclude` for Beasties** — manually list selectors that
+     must always be inlined (`.hero-book-img`, all retailer-card
+     classes, all button/anchor with significant padding). Restore
+     A11y/BP completeness without breaking the prune. Beasties
+     option name: `additionalStylesheets` or per-instance hook.
+  2. **Manual critical CSS extraction** — write a `<style is:inline>`
+     block in `Layout.astro` head with hand-picked critical hero +
+     header + button styles. Disable Beasties. Defer the rest via
+     `<link rel="preload" as="style">` + JS-driven append on idle.
+     ~1-2 hours to identify the right rule set.
+  3. **CF zone Phase 0 settings** — `early_hints=on`, `mirage=off`,
+     `0rtt=on` on the production zone. Phase 6 notes say prod scores
+     typically run 4-6 points BELOW dev.pages.dev until Phase 0 is
+     applied. Could give +3 mobile for free without code changes.
+     Per cf-zone-settings.md, this is mandatory anyway for the
+     production zone.
+  4. **Reduce per-page CSS bundle size** — audit `index.yodYpjSp.css`
+     for unused rules (sections that don't appear on initial paint)
+     and split into a separate route-level lazy chunk.
+  5. **font-display: swap** with proper `size-adjust` per font —
+     Phase 6 tried `size-adjust`/`ascent-override` and reverted
+     because PSI Linux substitutes Liberation Sans with different
+     metrics than macOS Capsize values. A future attempt should
+     calibrate against the actual PSI runtime fonts (run a Lighthouse
+     CI job that captures the substituted font's metrics, then
+     compute size-adjust from those).
+
+**Commits on dev branch from Phase 7 (3 attempts + 3 reverts, all clean):**
+  - 93996e6 + c7ab7bb (attempt 1 + revert)
+  - c1772bf + b2f9198 (attempt 2 + revert)
+  - 72823f1 + fb0d580 (attempt 3 + revert)
+
+**State at end of session:** branch HEAD identical to f613be8 (pre-
+Phase-7 last commit). `npm ls beasties astro-critters` returns empty.
+No leftover scripts, no lockfile drift, no node_modules drift.
 
 ### Phases 7-9
 

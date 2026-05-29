@@ -2,51 +2,91 @@
 
 /* ─── @font-face — self-hosted from R2 (Trait 4) ──────────────
    Top-level @font-face per CSS spec (cannot live inside @layer).
+
+   Above-fold fonts use `font-display: swap` paired with calibrated fallback
+   metrics (below) so the LCP element paints at FCP with system fallback,
+   then swaps in the webfont invisibly. Replaces phase-6 `font-display: optional`
+   which caused a ~660ms FCP→LCP gap as Chrome waited for the optional window.
+
+   Calibration measured 2026-05-18 by /home/deploy/bin/font-fallback-calibrate.mjs
+   running on Playwright headless Chromium (same engine as PSI Lighthouse).
 ──────────────────────────────────────────────────────────────── */
+
+/* Above-fold webfonts — `swap` + calibrated fallback */
 @font-face {
   font-family: 'Bebas Neue';
   src: url('https://assets.spiritmediapublishing.com/fonts/bebas-neue/bebas-neue-400.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
-  font-display: optional;
+  font-display: swap;
 }
 @font-face {
   font-family: 'DM Sans';
   src: url('https://assets.spiritmediapublishing.com/fonts/dm-sans/dm-sans-400.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
-  font-display: optional;
+  font-display: swap;
 }
 @font-face {
   font-family: 'DM Sans';
   src: url('https://assets.spiritmediapublishing.com/fonts/dm-sans/dm-sans-700.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
-  font-display: optional;
+  font-display: swap;
 }
 @font-face {
   font-family: 'Open Sans';
   src: url('https://assets.spiritmediapublishing.com/fonts/open-sans/open-sans-400.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
-  font-display: optional;
+  font-display: swap;
 }
 @font-face {
   font-family: 'Open Sans';
   src: url('https://assets.spiritmediapublishing.com/fonts/open-sans/open-sans-600.woff2') format('woff2');
   font-weight: 600;
   font-style: normal;
-  font-display: optional;
+  font-display: swap;
 }
 @font-face {
   font-family: 'Open Sans';
   src: url('https://assets.spiritmediapublishing.com/fonts/open-sans/open-sans-700.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
-  font-display: optional;
+  font-display: swap;
 }
 
-/* Libre Baskerville italic — Coach Wooden pull-quote */
+/* Calibrated fallbacks — same visual metrics as the webfont above so
+   the swap is layout-invisible. Each was measured by rendering both
+   the webfont and Arial/Impact at 1000px in headless Chromium and
+   computing size-adjust / ascent-override / descent-override. */
+
+@font-face {
+  font-family: 'Bebas Neue Fallback';
+  src: local('Impact');
+  size-adjust: 70.83%;
+  ascent-override: 127.07%;
+  descent-override: 42.36%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'DM Sans Fallback';
+  src: local('Arial');
+  size-adjust: 99.30%;
+  ascent-override: 99.90%;
+  descent-override: 31.22%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Open Sans Fallback';
+  src: local('Arial');
+  size-adjust: 99.26%;
+  ascent-override: 107.70%;
+  descent-override: 29.52%;
+  line-gap-override: 0%;
+}
+
+/* Below-fold fonts — keep `optional` (no preload, no above-fold metric concern) */
 @font-face {
   font-family: 'Libre Baskerville';
   src: url('https://assets.spiritmediapublishing.com/fonts/libre-baskerville/libre-baskerville-400-italic.woff2') format('woff2');
@@ -54,8 +94,6 @@
   font-style: italic;
   font-display: optional;
 }
-
-/* Abel — pull-quote attribution (~ Coach John Wooden) */
 @font-face {
   font-family: 'Abel';
   src: url('https://assets.spiritmediapublishing.com/fonts/abel/abel-400.woff2') format('woff2');
@@ -82,9 +120,9 @@
   --color-bg-alt: #F7F7F7;
   --color-border: #E6E7E8;
 
-  --font-display: 'Bebas Neue', Impact, 'Arial Narrow', sans-serif;
-  --font-heading: 'DM Sans', system-ui, sans-serif;
-  --font-body: 'Open Sans', system-ui, sans-serif;
+  --font-display: 'Bebas Neue', 'Bebas Neue Fallback', Impact, 'Arial Narrow', sans-serif;
+  --font-heading: 'DM Sans', 'DM Sans Fallback', Arial, system-ui, sans-serif;
+  --font-body: 'Open Sans', 'Open Sans Fallback', Arial, system-ui, sans-serif;
 
   --container-max: 1200px;
   --section-padding-y-desktop: 60px;

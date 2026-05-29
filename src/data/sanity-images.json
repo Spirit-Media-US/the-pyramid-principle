@@ -1,4 +1,45 @@
 {
+  "LogoNew-300x196-1.png": {
+    "originalUrl": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/09/LogoNew-300x196-1.png",
+    "sanityAssetId": "image-b92b725506bd9c71c0b5faf65e088085511859c2-300x196-png",
+    "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/b92b725506bd9c71c0b5faf65e088085511859c2-300x196.png",
+    "alt": "Pediatric Cancer Research Foundation logo",
+    "size": 8502,
+    "dimensions": {
+      "_type": "sanity.imageDimensions",
+      "aspectRatio": 1.5306122448979591,
+      "height": 196,
+      "width": 300
+    }
+  },
+  "Capture-tim-dekay.jpg": {
+    "originalUrl": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/Capture.jpg",
+    "sanityAssetId": "image-d243c73ed93ac8765c4dd39fdae8446441f0ec7d-930x976-jpg",
+    "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/d243c73ed93ac8765c4dd39fdae8446441f0ec7d-930x976.jpg",
+    "alt": "Tim Dekay — actor (TV's 'White Collar', 'Oppenheimer')",
+    "size": 55365,
+    "dimensions": {
+      "_type": "sanity.imageDimensions",
+      "aspectRatio": 0.9528688524590164,
+      "height": 976,
+      "width": 930
+    },
+    "note": "Disambiguated from /2024/09/Capture.jpg (John Vallely sailboat photo at 611×936) which collides on filename. The /2024/11/ version is Tim Dekay's headshot used in /reviews/."
+  },
+  "TPP-Book-Club-Discussion-Guide-cover.png": {
+    "originalUrl": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/11/TPP-Book-Club-Discussion-Guide.pdf",
+    "sanityAssetId": "image-1088fcfa37102daa1fb2d4391a16abd054a4557b-1700x2200-png",
+    "sanityUrl": "https://cdn.sanity.io/images/uenxsjdw/production/1088fcfa37102daa1fb2d4391a16abd054a4557b-1700x2200.png",
+    "alt": "The Pyramid Principle Book Club Discussion Guide — cover",
+    "size": 711680,
+    "dimensions": {
+      "_type": "sanity.imageDimensions",
+      "aspectRatio": 0.7727272727272727,
+      "height": 2200,
+      "width": 1700
+    },
+    "note": "Rendered from TPP-Book-Club-Discussion-Guide.pdf page 1 at 200 DPI via pdftoppm 2026-05-14. Original PDF served from R2 for the Download button."
+  },
   "5.jpg": {
     "originalUrl": "https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/09/5.jpg",
     "sanityAssetId": "image-bcae2f23cf1df286547348120a316ac032e1a5ba-800x600-jpg",

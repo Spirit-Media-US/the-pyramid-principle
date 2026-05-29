@@ -1,0 +1,49 @@
+[
+  {
+    "type": "_meta",
+    "title": "Download | The Pyramid Principle",
+    "description": "Download the audiobook and e-book of The Pyramid Principle — the never before told story of Hall-of-Famer John Vallely and UCLA Coach John Wooden's Pyramid of Success.",
+    "slug": "download"
+  },
+  {
+    "type": "download-hero",
+    "id": "brxe-0d4466",
+    "eyebrow": "Greatest American Basketball Story of All Time!",
+    "h1": "the pyramid Principle",
+    "body": "The Pyramid Principle is based on the true and never before told story of Hall-of-Famer John Vallely. Filled with miraculous triumphs and hellacious heartbreaks, The Pyramid Principle masterfully depicts the impact of UCLA Coach John Wooden and his legendary “Pyramid of Success” he invested into all his players during his 29 year coaching career at UCLA. During Vallely’s daughter’s death from cancer and his own battle with cancer, Vallely would discover Coach Wooden’s true meaning of success.",
+    "stats": [
+      { "icon": "pages",    "label": "PAGES",    "value": "238 pages" },
+      { "icon": "language", "label": "LANGUAGE", "value": "English" },
+      { "icon": "ratings",  "label": "RATINGS",  "value": "5/5 ratings" }
+    ],
+    "image": {
+      "file": "3D-Book-1-886x1024.png",
+      "alt": "The Pyramid Principle — 3D book cover"
+    },
+    "shapeDivider": true
+  },
+  {
+    "type": "audio-section",
+    "id": "brxe-goqykk",
+    "h2": "Audio Book for The Pyramid Principle",
+    "audioHref": "https://assets.spiritmediapublishing.com/the-pyramid-principle/audiobook/the-pyramid-principle-audiobook.mp3",
+    "audioMime": "audio/mpeg",
+    "downloadLabel": "Download Now",
+    "downloadFilename": "the-pyramid-principle-audiobook.mp3"
+  },
+  {
+    "type": "centered-image",
+    "id": "brxe-sqhwlr",
+    "h2": "E-Book for The Pyramid Principle",
+    "image": {
+      "file": "3D-Book-1-886x1024.png",
+      "alt": "The Pyramid Principle — 3D book cover",
+      "dims": { "width": 886, "height": 1024 }
+    },
+    "maxWidth": 500,
+    "downloadHref": "https://assets.spiritmediapublishing.com/the-pyramid-principle/ebook/the-pyramid-principle.pdf",
+    "downloadLabel": "Download E-Book",
+    "downloadFilename": "the-pyramid-principle.pdf",
+    "meta": "238 pages • PDF • English"
+  }
+]

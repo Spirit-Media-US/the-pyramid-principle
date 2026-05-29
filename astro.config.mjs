@@ -22,8 +22,10 @@ export default defineConfig({
   ],
   build: {
     // Trait 6: Astro inlines small stylesheets, externalizes larger ones.
-    // scripts/async-css.mjs converts the externalized bundles to async via the
-    // media="print" onload swap so they never block first paint.
+    // 'always' was tried on 2026-05-18 (commit fcdb205) — same outcome as
+    // phase-6 attempt 3762434: HTML 57KB → 107KB regressed mobile LCP
+    // because the larger HTML download on slow-4G outweighs the saved
+    // CSS RTT. 'auto' stays the right setting.
     inlineStylesheets: 'auto',
   },
   vite: {

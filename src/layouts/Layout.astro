@@ -19,7 +19,7 @@ interface Props {
 const {
   title,
   description = 'The Pyramid Principle — a heart-gripping true story of championship resilience, based on the life of Hall-of-Famer John Vallely.',
-  ogImage = 'https://cdn.sanity.io/images/uenxsjdw/production/8a986bc4ecba2ae393ae209bd73681179fdb14f8-1024x502.png',
+  ogImage = 'https://thepyramidprinciple.com/og-image.jpg',
   noindex = false,
 } = Astro.props;
 
@@ -63,10 +63,15 @@ const SOCIAL = [
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    <meta name="author" content="John Vallely with Paul Weissenstein" />
+    <meta name="theme-color" content="#FFD100" />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     <title>{title}</title>
     <link rel="canonical" href={canonicalURL} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
     <link rel="preload" as="font" type="font/woff2" href="https://assets.spiritmediapublishing.com/fonts/bebas-neue/bebas-neue-400.woff2" crossorigin />
     <link rel="preload" as="font" type="font/woff2" href="https://assets.spiritmediapublishing.com/fonts/dm-sans/dm-sans-700.woff2" crossorigin />
@@ -76,9 +81,13 @@ const SOCIAL = [
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="The Pyramid Principle — A Battle Tested Hall-of-Famer and his Daughter Discover Coach Wooden's Meaning of Success" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImage} />
 
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",

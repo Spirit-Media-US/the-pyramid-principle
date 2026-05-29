@@ -1,0 +1,34 @@
+---
+// Free Resources — programmatic rebuild via typed blocks.
+// Source: https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/free-resources/
+// Data:   src/data/pages/free-resources.json (typed blocks)
+// Renderer: src/components/TypedPage.astro
+//
+// Section 1 (#brxe-jwrojf): title-card — eyebrow row (— THE PYRAMID PRINCIPLE —)
+//   + H1 "Free resources" (sentence case preserved per Phase 3).
+// Sections 2-4 (#brxe-0d3b0f / #brxe-vuffxd / #brxe-jgjdwt): centered-image
+//   blocks — each is H2 + cover image + yellow Download button + meta line.
+//   Replaces three WP 3D Flip Book plugin embeds with static covers +
+//   Download buttons (same tradeoff as Pyramid Success + Download pages).
+//
+// Asset locations (verified 2026-05-14):
+//   Sample PDF (17pp)  → R2 free-resources/the-pyramid-principle-sample.pdf
+//   Pyramid PDF (1pp)  → R2 pyramid-of-success.pdf (reused from /the-pyramid-success/)
+//   Book Club (5pp)    → R2 free-resources/book-club-discussion-guide.pdf
+//   Book Club cover    → Sanity asset 1088fcfa… (rendered from PDF page 1 at 200 DPI)
+//   Sample cover       → reuses 3D-Book-1 (same as /download/)
+//   Pyramid cover      → reuses pyramid-of-success.png (same as /the-pyramid-success/)
+//
+// Phase 6 CAR: if Kevin wants in-browser PDF reading back, evaluate
+// PDF.js embedded viewer across all 4 PDFs on the site (sample +
+// pyramid diagram + book club guide + full ebook from /download/).
+import Layout from '../layouts/Layout.astro';
+import TypedPage from '../components/TypedPage.astro';
+import blocks from '../data/pages/free-resources.json';
+
+const meta = (blocks as any[]).find(b => b.type === '_meta') || {};
+---
+<Layout title={meta.title || 'Free Resources | The Pyramid Principle'}
+        description={meta.description || ''}>
+  <TypedPage blocks={blocks as any[]} />
+</Layout>

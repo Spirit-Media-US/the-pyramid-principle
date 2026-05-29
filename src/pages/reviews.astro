@@ -1,20 +1,40 @@
 ---
+// Reviews — programmatic rebuild via typed blocks (Phase 3 migration).
+// Source: https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/reviews/
+// Data:   src/data/pages/reviews.json (typed blocks)
+// Renderer: src/components/TypedPage.astro
+//
+// Section 1 (#brxe-zuufjz): share-review-cta — eyebrow + H1
+//   " Thanks for Sharing Your Review!" (leading space preserved per Phase 3)
+//   + subtitle + 2-col logo row (Goodreads + Amazon) + yellow CTA pill.
+// Section 2 (#brxe-msqmva): pull-quote-row — 3 colored quote cards
+//   (yellow / blue / gray) in Libre Baskerville italic per live source.
+// Section 3 (#brxe-cqjdpp): review-card-list — 11 alternating image+text
+//   testimonial rows. Personal photos render when present; otherwise the
+//   Amazon-review banner sits in the image column linked to the same
+//   Amazon attribution URL.
+//
+// All 6 images already in src/data/sanity-images.json (goodreads-logo,
+// amazon-logo, Shelly photo, Tim Dekay photo, Gregory Craig photo,
+// Amazon-review banner) — no new asset migrations needed.
+//
+// CARs (carried forward to Phase 5):
+//   - Photo licensing: Shelly + Tim Dekay + Gregory Craig — verify usage
+//     rights (sourced from Facebook / WP uploads).
+//   - Generic "how-to-get-amazon-reviews1-1.png" banner used for 8 of 11
+//     reviews — flagged for cleaner replacement / removal.
+//   - Amazon attribution URLs preserve hyprod-20 affiliate / tracking
+//     params — confirm with Kevin whether to strip or keep.
+//   - ASIN mismatch: Section 1 Amazon CTA → B0DGX5YWDC; Section 3
+//     review attribution → B0DGY1WNQG. Both are real product pages
+//     in the Amazon catalogue. Preserved as-is.
 import Layout from '../layouts/Layout.astro';
-import StructuredPage from '../components/StructuredPage.astro';
-import { srcW } from '../lib/img';
-import data from '../data/pages/reviews.json';
+import TypedPage from '../components/TypedPage.astro';
+import blocks from '../data/pages/reviews.json';
 
-// H1 is text LCP; first content image is the Goodreads logo. Still preload one
-// for srcset pattern matching.
-const HERO = 'goodreads-logo-black-and-white-1-1024x221.png';
-const heroMobile = srcW(HERO, 600);
-const heroDesktop = srcW(HERO, 1000);
+const meta = (blocks as any[]).find(b => b.type === '_meta') || {};
 ---
-<Layout title={data.title} description={data.description}>
-  <Fragment slot="head">
-    <link rel="preload" as="image" href={heroDesktop} imagesrcset={`${heroMobile} 600w, ${heroDesktop} 1000w`} imagesizes="(max-width: 640px) 600px, 1000px" fetchpriority="high" />
-  </Fragment>
-  <article class="page-body">
-    <StructuredPage blocks={data.blocks as any} heroFile={HERO} />
-  </article>
+<Layout title={meta.title || 'Reviews | The Pyramid Principle'}
+        description={meta.description || ''}>
+  <TypedPage blocks={blocks as any[]} />
 </Layout>
