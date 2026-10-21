@@ -63,7 +63,7 @@
 
 > 2024 © by John Vallely with Paul Weissenstein All rights reserved. Published 2024.
 
-> www.wordpress-1227270-4701771.cloudwaysapps.com8045 Arco Corporate Dr STE 130Raleigh, NC 276171 (888) 800-3744
+> www.wordpress-1227270-4701771.cloudwaysapps.com205 S Academy Street, Unit 3251Cary, NC 275191 (888) 800-3744
 
 > Erin’s Story of Courage Brings Hope, Healing, and Deliverance to Everyone fighting Cancer.
 
@@ -83,7 +83,7 @@
 
 > Published Worldwide by:
 
-> <img decoding="async" class="" src="https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/10/image-2-2.png" width="182" height="28">8045 Arco Corporate Dr STE 130Raleigh, NC 276171 (888) 800-3744Contact Spirit Media
+> <img decoding="async" class="" src="https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/wp-content/uploads/sites/4/2024/10/image-2-2.png" width="182" height="28">205 S Academy Street, Unit 3251Cary, NC 275191 (888) 800-3744Contact Spirit Media
 
 
 ## CTAs / Buttons
