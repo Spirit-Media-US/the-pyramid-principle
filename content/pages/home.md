@@ -100,7 +100,6 @@
 | The Pyramid Principle Audiobook or eBook | https://mail.spiritmediaone.com/widget/form/yCx08A8Jx9uM9cnwJP2c |
 | In The News | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/media-center/ |
 | Reviews | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/reviews/ |
-| Request a Copy | https://mail.spiritmediaone.com/widget/form/7w74pwgesuoL89IGH8BM |
 | Sponsor Copies | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/victory-over-cancer/ |
 | Review the Book | https://docs.google.com/forms/d/e/1FAIpQLSdKQls4n_vob9RP2R9X787mAvLw0h5WCW_Q-O3Aeh-PHtkdeg/viewform |
 | PDF Sample | https://wordpress-1227270-4701771.cloudwaysapps.com/tpp/free-resources/ |
