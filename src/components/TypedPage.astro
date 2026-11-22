@@ -32,6 +32,7 @@
 //   victory-form-section — PCRF Copy: 2-col text + contact form (mailto: fallback)
 //   pcrf-cta-section     — PCRF Copy: 3-row stacked H2 + H3-grid + logo + donate link
 import { srcW, dims } from '../lib/img';
+import MailtoLink from './MailtoLink.astro';  // Kevin 2026-11-20 RULE: never print an address
 
 interface Props { blocks: any[]; }
 const { blocks } = Astro.props;
@@ -1657,7 +1658,7 @@ function decodeText(s: string): string {
                   <>
                     {i > 0 && <br />}
                     {i === emailIdx
-                      ? <a href={`mailto:${line.trim()}`}>{line}</a>
+                      ? <MailtoLink email={line.trim()}>Email the media contact</MailtoLink>
                       : line}
                   </>
                 ))}
