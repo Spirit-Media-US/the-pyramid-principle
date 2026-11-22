@@ -53,7 +53,12 @@ function renderChildren(children: any[], markDefs: any[]): string {
       if (m === 'strong') text = `<strong>${text}</strong>`;
       if (m === 'em') text = `<em>${text}</em>`;
     }
-    if (linkDef && linkDef.href) {
+    if (linkDef && linkDef.href && /^mailto:/i.test(linkDef.href)) {
+      // Kevin 2026-11-20 RULE: no address in page source. Same data-mu/data-md split as
+      // MailtoLink.astro; the script below writes the real mailto: href on load.
+      const [mu, md] = linkDef.href.replace(/^mailto:/i, '').split('?')[0].split('@');
+      text = `<a href="#" data-mu="${escHtml(mu || '')}" data-md="${escHtml(md || '')}">${text}</a>`;
+    } else if (linkDef && linkDef.href) {
       const href = escHtml(linkDef.href);
       text = `<a href="${href}" target="_blank" rel="noopener noreferrer">${text}</a>`;
     }
@@ -140,6 +145,13 @@ const ogImageUrl = post.heroImage
     </article>
   </div>
 </Layout>
+
+<script>
+  // Body mailto links ship split (see renderChildren); assemble the real href on load.
+  document.querySelectorAll<HTMLAnchorElement>('.blog-post-body a[data-mu][data-md]').forEach((el) => {
+    el.href = `mailto:${el.dataset.mu}@${el.dataset.md}`;
+  });
+</script>
 
 <style is:global>
   .blog-post { background: #fff; padding: 40px 20px 80px; }
